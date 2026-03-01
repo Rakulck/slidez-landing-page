@@ -1,0 +1,387 @@
+"use client";
+
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Star, Sparkles, Send, X } from "lucide-react";
+
+/* ── Typewriter prompts ───────────────────────────────────────── */
+const PROMPTS = [
+  "Style me for a date night...",
+  "Beach vacation look...",
+  "Business casual, but make it edgy...",
+  "Something for a job interview...",
+  "Cozy Sunday brunch outfit...",
+  "Black tie, keep it minimal...",
+];
+
+/* ── Pre-defined outfit results ──────────────────────────────── */
+const OUTFIT_SETS = [
+  {
+    tag: "Top Pick",
+    name: "Effortless Evening",
+    pieces: ["Black slip dress", "Strappy heeled mules", "Micro leather bag", "Gold hoop earrings"],
+    swatches: ["#1a1a1a", "#c0c0c0", "#e8d5b7"],
+  },
+  {
+    tag: "Alternative",
+    name: "Sharp & Chic",
+    pieces: ["Fitted blazer", "Silk cami", "Tailored trousers", "Pointed-toe flats"],
+    swatches: ["#2d2d2d", "#f0f0f0", "#808080"],
+  },
+  {
+    tag: "Bold Choice",
+    name: "Statement Look",
+    pieces: ["Wrap midi skirt", "Fitted turtleneck", "Block-heel boots", "Structured tote"],
+    swatches: ["#3a3a3a", "#d4d4d4", "#a0a0a0"],
+  },
+];
+
+/* ── Outfit card carousel (background) ───────────────────────── */
+const U = "https://images.unsplash.com/photo-";
+const CAROUSEL_CARDS = [
+  { label: "Casual",    rotate: -8, yOffset: 56, img: `${U}1539109136881-3be0616acf4b?w=600&q=85&fit=crop&crop=top` },
+  { label: "Work",      rotate: -4, yOffset: 28, img: `${U}1490481651871-ab68de25d43d?w=600&q=85&fit=crop&crop=top` },
+  { label: "Night Out", rotate: 0,  yOffset: 0,  img: `${U}1524504388940-b1c1722653e1?w=600&q=85&fit=crop&crop=top` },
+  { label: "Weekend",   rotate: 4,  yOffset: 28, img: `${U}1483985988355-763728e1935b?w=600&q=85&fit=crop&crop=top` },
+  { label: "Vacation",  rotate: 8,  yOffset: 56, img: `${U}1469334031218-e382a71b716b?w=600&q=85&fit=crop&crop=top` },
+];
+
+/* ── Typewriter hook ─────────────────────────────────────────── */
+function useTypewriter(active: boolean) {
+  const [displayed, setDisplayed] = useState("");
+  const promptIdx = useRef(0);
+  const charIdx = useRef(0);
+  const deleting = useRef(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const tick = useCallback(() => {
+    const current = PROMPTS[promptIdx.current];
+
+    if (!deleting.current) {
+      // Typing
+      charIdx.current += 1;
+      setDisplayed(current.slice(0, charIdx.current));
+      if (charIdx.current === current.length) {
+        // Pause then start deleting
+        deleting.current = true;
+        timer.current = setTimeout(tick, 2000);
+        return;
+      }
+      timer.current = setTimeout(tick, 60);
+    } else {
+      // Deleting
+      charIdx.current -= 1;
+      setDisplayed(current.slice(0, charIdx.current));
+      if (charIdx.current === 0) {
+        deleting.current = false;
+        promptIdx.current = (promptIdx.current + 1) % PROMPTS.length;
+        timer.current = setTimeout(tick, 400);
+        return;
+      }
+      timer.current = setTimeout(tick, 35);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!active) return;
+    timer.current = setTimeout(tick, 800);
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, [active, tick]);
+
+  return displayed;
+}
+
+/* ── Main component ──────────────────────────────────────────── */
+export default function Hero() {
+  const [inputValue, setInputValue] = useState("");
+  const [results, setResults] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const placeholder = useTypewriter(!inputValue && !results);
+
+  const handleSubmit = () => {
+    if (!inputValue.trim()) return;
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setResults(true);
+    }, 1200);
+  };
+
+  const handleReset = () => {
+    setInputValue("");
+    setResults(false);
+    setLoading(false);
+    inputRef.current?.focus();
+  };
+
+  return (
+    <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-0 overflow-hidden bg-[#080808]">
+      {/* Radial glow */}
+      <div
+        aria-hidden
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(ellipse at center, rgba(192,192,192,0.07) 0%, transparent 70%)" }}
+      />
+
+      {/* ── Content ─────────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 w-full max-w-3xl mx-auto"
+      >
+
+        {/* Spacer to preserve centering where badge was */}
+        <div className="mb-8" />
+
+        {/* Headline */}
+        <h1 className="text-[clamp(3rem,9vw,6rem)] font-bold leading-[1.02] tracking-tight mb-6">
+          <span className="text-white">Dress with</span>
+          <br />
+          <span className="gradient-silver-text">confidence.</span>
+        </h1>
+
+        {/* Sub */}
+        <p className="text-lg md:text-xl text-white/50 max-w-xl mx-auto mb-10 leading-relaxed">
+          Tell your AI stylist what you need. Get a full outfit instantly.
+        </p>
+
+        {/* ── Animated Input Box ──────────────────────────── */}
+        <div className="relative w-full max-w-xl mx-auto mb-8">
+          <div
+            className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 ${
+              results
+                ? "border-[rgba(192,192,192,0.3)] bg-[rgba(192,192,192,0.05)]"
+                : "border-[rgba(192,192,192,0.15)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.4)] focus-within:bg-[rgba(255,255,255,0.05)]"
+            }`}
+          >
+            {/* Sparkles icon */}
+            <Sparkles className="w-4 h-4 text-[#808080] shrink-0" />
+
+            {/* Input */}
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputValue}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                if (results) setResults(false);
+              }}
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+              placeholder={placeholder}
+              className="flex-1 bg-transparent text-white text-sm outline-none placeholder:text-white/25 min-w-0"
+            />
+
+            {/* Clear button */}
+            <AnimatePresence>
+              {(inputValue || results) && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  onClick={handleReset}
+                  className="text-white/25 hover:text-white/50 transition-colors shrink-0"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </motion.button>
+              )}
+            </AnimatePresence>
+
+            {/* Send button */}
+            <button
+              onClick={handleSubmit}
+              disabled={!inputValue.trim() || loading}
+              className="shrink-0 w-8 h-8 rounded-full gradient-silver flex items-center justify-center disabled:opacity-25 hover:opacity-85 transition-opacity"
+            >
+              {loading ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                  className="w-3.5 h-3.5 rounded-full border-2 border-black border-t-transparent"
+                />
+              ) : (
+                <Send className="w-3.5 h-3.5 text-black" />
+              )}
+            </button>
+          </div>
+
+          {/* Cursor blink on typewriter */}
+          {!inputValue && !results && (
+            <span
+              className="absolute left-[3.25rem] top-1/2 -translate-y-1/2 w-px h-4 bg-white/30 pointer-events-none"
+              style={{ marginLeft: `${placeholder.length * 7.2}px` }}
+            >
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
+                className="block w-full h-full bg-white/40"
+              />
+            </span>
+          )}
+        </div>
+
+        {/* ── Outfit Results ───────────────────────────────── */}
+        <AnimatePresence>
+          {results && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-8"
+            >
+              <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium">
+                Outfits for &ldquo;{inputValue}&rdquo;
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+                {OUTFIT_SETS.map((outfit, i) => (
+                  <motion.div
+                    key={outfit.name}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="p-4 rounded-xl border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(192,192,192,0.3)] transition-colors cursor-pointer group"
+                  >
+                    {/* Tag */}
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-[#c0c0c0] mb-2 block">
+                      {outfit.tag}
+                    </span>
+
+                    {/* Name */}
+                    <p className="text-white font-semibold text-sm mb-3">{outfit.name}</p>
+
+                    {/* Pieces */}
+                    <ul className="flex flex-col gap-1.5 mb-4">
+                      {outfit.pieces.map((piece) => (
+                        <li key={piece} className="text-xs text-white/45 flex items-center gap-1.5">
+                          <span className="w-1 h-1 rounded-full bg-[#c0c0c0] shrink-0" />
+                          {piece}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Swatches + Try On */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-1">
+                        {outfit.swatches.map((s) => (
+                          <div
+                            key={s}
+                            className="w-3.5 h-3.5 rounded-full border border-white/10"
+                            style={{ background: s }}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-[11px] text-[#c0c0c0] font-medium group-hover:text-white transition-colors">
+                        Try On →
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* CTAs */}
+        <AnimatePresence mode="wait">
+          {!results && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10"
+            >
+              <a
+                href="#"
+                className="flex items-center gap-2 px-7 py-3.5 bg-white text-black text-sm font-semibold rounded-full
+                  shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
+                  hover:shadow-[0_4px_24px_rgba(255,255,255,0.45),0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.95)]
+                  hover:scale-[1.05] hover:-translate-y-px
+                  active:scale-[0.97] active:shadow-[0_1px_6px_rgba(255,255,255,0.2)]
+                  transition-all duration-200 cursor-pointer"
+              >
+                Download App
+                <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="flex items-center gap-2 px-7 py-3.5 border border-white/15 text-white/70 text-sm font-medium rounded-full hover:border-white/30 hover:text-white
+                  hover:scale-[1.04] hover:-translate-y-px
+                  active:scale-[0.97]
+                  transition-all duration-200 cursor-pointer"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.4 0 2.7.39 3.82 1.06L9.18 13.6A4.97 4.97 0 017 9c0-2.76 2.24-5 5-5zm0 14c-1.84 0-3.47-.79-4.61-2.05l2.55-4.42A4.97 4.97 0 0012 14c.78 0 1.51-.18 2.17-.5L16.72 18A7.95 7.95 0 0112 19zm5.78-3.39L15.23 11h5.54A7.97 7.97 0 0121 12c0 1.38-.35 2.67-.97 3.8l-2.25-1.19z"/>
+                </svg>
+                Add to Chrome
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Social proof */}
+        <div className="flex items-center justify-center gap-5 text-sm text-white/35 mb-16">
+          <div className="flex items-center gap-1.5">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-3.5 h-3.5 fill-[#c0c0c0] text-[#c0c0c0]" />
+            ))}
+          </div>
+          <span>4.9 · 10,000+ shoppers already trying on</span>
+        </div>
+      </motion.div>
+
+      {/* ── Outfit card carousel ─────────────────────────────── */}
+      <div className="relative z-10 w-full pb-0">
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#080808] to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#080808] to-transparent z-10 pointer-events-none" />
+
+        <div className="flex items-end justify-center gap-3 overflow-visible px-4">
+          {CAROUSEL_CARDS.map((card, i) => {
+            const isCenter = i === 2;
+            const isAdjacent = Math.abs(i - 2) === 1;
+            return (
+            <motion.div
+              key={card.label}
+              initial={{ opacity: 0, y: 80 }}
+              animate={{ opacity: 1, y: card.yOffset }}
+              transition={{ duration: 0.9, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                rotate: card.rotate,
+                boxShadow: isCenter
+                  ? "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(192,192,192,0.2)"
+                  : "0 20px 50px rgba(0,0,0,0.5)",
+              }}
+              className={`relative shrink-0 overflow-hidden ${
+                isCenter
+                  ? "w-56 h-[460px] rounded-[40px] border-2 border-[rgba(192,192,192,0.25)]"
+                  : isAdjacent
+                  ? "w-44 h-[380px] rounded-[36px] border border-[rgba(192,192,192,0.18)]"
+                  : "w-36 h-[310px] rounded-[32px] border border-[rgba(192,192,192,0.12)]"
+              }`}
+            >
+              <img
+                src={card.img}
+                alt={card.label}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/25" />
+
+              {/* Label */}
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center z-10">
+                <span className={`px-3 py-1 rounded-full border border-white/20 bg-black/50 backdrop-blur-md font-medium text-white/90 ${isCenter ? "text-xs" : "text-[10px]"}`}>
+                  {card.label}
+                </span>
+              </div>
+
+              {/* Notch */}
+              <div className={`absolute top-0 left-1/2 -translate-x-1/2 bg-[#080808] rounded-b-2xl z-20 ${isCenter ? "w-16 h-5" : "w-12 h-4"}`} />
+            </motion.div>
+          )})}
+        </div>
+      </div>
+    </section>
+  );
+}
