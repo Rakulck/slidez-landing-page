@@ -304,7 +304,6 @@ export default function Features() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.1 }}
                 whileHover={{ y: -3, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }}
-                transition={{ duration: 0.55, delay: i * 0.1 }}
                 className={`${card.colSpan} relative rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[#0f0f0f] hover:border-[rgba(192,192,192,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-colors duration-300 cursor-pointer`}
               >
                 <GlowingEffect
