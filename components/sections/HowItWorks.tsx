@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Share2 } from "lucide-react";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 /* ─── Phone mockup sub-components ─────────────────────────────── */
 
@@ -206,15 +207,27 @@ export default function HowItWorks() {
     <section id="how-it-works" className="bg-[#0b0b0b]">
       {blocks.map((block, i) => {
         const PhoneComponent = block.phone;
+        const isSecond = i === 1;
         return (
           <div
             key={block.label}
-            className={`py-24 px-6 border-b ${
+            className={`relative py-24 px-6 border-b ${
               block.white
                 ? "bg-white border-black/[0.06]"
                 : "bg-[#080808] border-white/[0.05]"
             }`}
           >
+            {isSecond && (
+              <GlowingEffect
+                spread={50}
+                glow={true}
+                disabled={false}
+                proximity={80}
+                inactiveZone={0.01}
+                borderWidth={2}
+              />
+            )}
+
             <div className="max-w-6xl mx-auto">
               <div
                 className={`flex flex-col ${

@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Star, Sparkles, Send, X } from "lucide-react";
+import { ArrowRight, Star, Sparkles, Send, X, Smartphone, Puzzle } from "lucide-react";
+import { FloatingStyler } from "@/components/ui/floating-styler";
 
 /* ── Typewriter prompts ───────────────────────────────────────── */
 const PROMPTS = [
@@ -98,17 +99,23 @@ export default function Hero() {
   const [inputValue, setInputValue] = useState("");
   const [results, setResults] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showStyler, setShowStyler] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const placeholder = useTypewriter(!inputValue && !results);
 
   const handleSubmit = () => {
     if (!inputValue.trim()) return;
     setLoading(true);
+    setShowStyler(true);
+  };
+
+  const handleStylerComplete = useCallback(() => {
+    setShowStyler(false);
     setTimeout(() => {
       setLoading(false);
       setResults(true);
-    }, 1200);
-  };
+    }, 400);
+  }, []);
 
   const handleReset = () => {
     setInputValue("");
@@ -117,8 +124,10 @@ export default function Hero() {
     inputRef.current?.focus();
   };
 
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-0 overflow-hidden bg-[#080808]">
+    <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-0 overflow-visible bg-[#080808]">
       {/* Radial glow */}
       <div
         aria-hidden
@@ -152,10 +161,10 @@ export default function Hero() {
         {/* ── Animated Input Box ──────────────────────────── */}
         <div className="relative w-full max-w-xl mx-auto mb-8">
           <div
-            className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 ${
+            className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(192,192,192,0.06)] ${
               results
                 ? "border-[rgba(192,192,192,0.3)] bg-[rgba(192,192,192,0.05)]"
-                : "border-[rgba(192,192,192,0.15)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.4)] focus-within:bg-[rgba(255,255,255,0.05)]"
+                : "border-[rgba(192,192,192,0.15)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.4)] focus-within:bg-[rgba(255,255,255,0.05)] focus-within:shadow-[0_0_28px_rgba(192,192,192,0.08)]"
             }`}
           >
             {/* Sparkles icon */}
@@ -173,6 +182,7 @@ export default function Hero() {
               onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
               placeholder={placeholder}
               className="flex-1 bg-transparent text-white text-sm outline-none placeholder:text-white/25 min-w-0"
+              suppressHydrationWarning
             />
 
             {/* Clear button */}
@@ -303,8 +313,8 @@ export default function Hero() {
                   active:scale-[0.97] active:shadow-[0_1px_6px_rgba(255,255,255,0.2)]
                   transition-all duration-200 cursor-pointer"
               >
+                <Smartphone className="w-4 h-4" />
                 Download App
-                <ArrowRight className="w-4 h-4" />
               </a>
               <a
                 href="#"
@@ -313,9 +323,7 @@ export default function Hero() {
                   active:scale-[0.97]
                   transition-all duration-200 cursor-pointer"
               >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.4 0 2.7.39 3.82 1.06L9.18 13.6A4.97 4.97 0 017 9c0-2.76 2.24-5 5-5zm0 14c-1.84 0-3.47-.79-4.61-2.05l2.55-4.42A4.97 4.97 0 0012 14c.78 0 1.51-.18 2.17-.5L16.72 18A7.95 7.95 0 0112 19zm5.78-3.39L15.23 11h5.54A7.97 7.97 0 0121 12c0 1.38-.35 2.67-.97 3.8l-2.25-1.19z"/>
-                </svg>
+                <Puzzle className="w-4 h-4" />
                 Add to Chrome
               </a>
             </motion.div>
@@ -333,6 +341,9 @@ export default function Hero() {
         </div>
       </motion.div>
 
+      {/* ── Floating styler ──────────────────────────────────── */}
+      <FloatingStyler visible={showStyler} onComplete={handleStylerComplete} />
+
       {/* ── Outfit card carousel ─────────────────────────────── */}
       <div className="relative z-10 w-full pb-0">
         <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#080808] to-transparent z-10 pointer-events-none" />
@@ -342,15 +353,33 @@ export default function Hero() {
           {CAROUSEL_CARDS.map((card, i) => {
             const isCenter = i === 2;
             const isAdjacent = Math.abs(i - 2) === 1;
+            const isHovered = hoveredIdx === i;
+            const otherHovered = hoveredIdx !== null && !isHovered;
             return (
             <motion.div
               key={card.label}
               initial={{ opacity: 0, y: 80 }}
-              animate={{ opacity: 1, y: card.yOffset }}
-              transition={{ duration: 0.9, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              animate={{
+                opacity: 1,
+                y: isHovered ? card.yOffset - 16 : card.yOffset,
+                scale: isHovered ? 1.18 : otherHovered ? 0.92 : 1,
+              }}
+              transition={{
+                opacity: { duration: 0.9, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] },
+                y: hoveredIdx !== null
+                  ? { duration: 0.35, ease: [0.22, 1, 0.36, 1] }
+                  : { duration: 0.9, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] },
+                scale: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+              }}
+              onHoverStart={() => setHoveredIdx(i)}
+              onHoverEnd={() => setHoveredIdx(null)}
               style={{
                 rotate: card.rotate,
-                boxShadow: isCenter
+                zIndex: isHovered ? 20 : 1,
+                cursor: "pointer",
+                boxShadow: isHovered
+                  ? "0 48px 100px rgba(0,0,0,0.85), 0 0 0 1px rgba(192,192,192,0.35)"
+                  : isCenter
                   ? "0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(192,192,192,0.2)"
                   : "0 20px 50px rgba(0,0,0,0.5)",
               }}

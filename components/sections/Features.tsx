@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 /* ── Animated visuals ─────────────────────────────────────────── */
 
@@ -284,10 +285,7 @@ export default function Features() {
           transition={{ duration: 0.55 }}
           className="text-center mb-14"
         >
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#888] mb-5">
-            How Slidez Works
-          </p>
-          <h2 className="text-4xl md:text-5xl font-bold text-black tracking-tight mb-5">
+<h2 className="text-4xl md:text-5xl font-bold text-black tracking-tight mb-5">
             Everything in your pocket.
           </h2>
           <p className="text-black/50 text-lg max-w-md mx-auto">
@@ -298,13 +296,6 @@ export default function Features() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {bentoCards.map((card, i) => {
             const Visual = card.visual;
-            const cardColors = [
-              { bg: "bg-blue-50",   border: "border-blue-200/60",   hover: "hover:border-blue-300/80"   },
-              { bg: "bg-violet-50", border: "border-violet-200/60", hover: "hover:border-violet-300/80" },
-              { bg: "bg-rose-50",   border: "border-rose-200/60",   hover: "hover:border-rose-300/80"   },
-              { bg: "bg-amber-50",  border: "border-amber-200/60",  hover: "hover:border-amber-300/80"  },
-            ];
-            const c = cardColors[i];
             return (
               <motion.div
                 key={card.title}
@@ -312,17 +303,29 @@ export default function Features() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.1 }}
-                className={`${card.colSpan} ${c.bg} ${c.border} ${c.hover} flex flex-col rounded-2xl border transition-colors duration-300 overflow-hidden`}
+                whileHover={{ y: -3, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+                className={`${card.colSpan} relative rounded-2xl border border-[rgba(255,255,255,0.06)] bg-[#0f0f0f] hover:border-[rgba(192,192,192,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-colors duration-300 cursor-pointer`}
               >
-                <div className={`${card.visualHeight} bg-[#0c0c0c] border-b border-black/10`}>
-                  <Visual />
-                </div>
-                <div className="p-5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#888] mb-2">
-                    {card.label}
-                  </p>
-                  <h3 className="text-black font-semibold text-lg mb-1.5">{card.title}</h3>
-                  <p className="text-black/50 text-sm leading-relaxed">{card.description}</p>
+                <GlowingEffect
+                  spread={40}
+                  glow={true}
+                  disabled={false}
+                  proximity={64}
+                  inactiveZone={0.01}
+                  borderWidth={4}
+                />
+                <div className="flex flex-col rounded-2xl overflow-hidden">
+                  <div className={`${card.visualHeight} bg-[#0c0c0c] border-b border-[rgba(255,255,255,0.05)]`}>
+                    <Visual />
+                  </div>
+                  <div className="p-5">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#555] mb-2">
+                      {card.label}
+                    </p>
+                    <h3 className="text-white font-semibold text-lg mb-1.5">{card.title}</h3>
+                    <p className="text-white/40 text-sm leading-relaxed">{card.description}</p>
+                  </div>
                 </div>
               </motion.div>
             );

@@ -20,14 +20,15 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-[#080808]/90 backdrop-blur-xl border-b border-white/[0.06]"
-          : ""
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 h-[68px] flex items-center justify-between">
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center pt-4 px-4 pointer-events-none">
+      <div
+        className={`w-full max-w-4xl pointer-events-auto transition-all duration-500 rounded-2xl border ${
+          scrolled
+            ? "bg-white/[0.06] border-white/[0.1] shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-2xl"
+            : "bg-white/[0.04] border-white/[0.07] shadow-[0_4px_24px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-xl"
+        }`}
+      >
+      <div className="px-5 h-[60px] flex items-center justify-between">
         {/* Logo */}
         <a
           href="#"
@@ -85,7 +86,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-[#080808]/98 border-b border-white/[0.06] px-6 py-6 flex flex-col gap-5">
+        <div className="md:hidden border-t border-white/[0.07] px-5 py-5 flex flex-col gap-5">
           {navLinks.map((l) => (
             <a
               key={l.href}
@@ -111,6 +112,7 @@ export default function Navbar() {
           </div>
         </div>
       )}
+      </div>
     </header>
   );
 }

@@ -15,17 +15,6 @@ export default function CTA() {
   return (
     <section className="bg-white py-28 px-6 border-t border-black/[0.06]">
       <div className="max-w-3xl mx-auto text-center">
-        {/* Label */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#888] mb-6"
-        >
-          What&apos;s your goal?
-        </motion.p>
-
         {/* Headline */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -36,7 +25,7 @@ export default function CTA() {
         >
           Never be stressed
           <br />
-          <span className="gradient-silver-text">getting dressed again.</span>
+          <span className="bg-gradient-to-r from-black via-[#333] to-[#666] bg-clip-text text-transparent">getting dressed again.</span>
         </motion.h2>
 
         <motion.p
@@ -46,7 +35,7 @@ export default function CTA() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-black/50 text-lg mb-12"
         >
-          Join thousands already using Slidez. Try it free — no credit card needed.
+          The outfit that makes you walk different — one prompt away.
         </motion.p>
 
         {/* Style goal pills */}
