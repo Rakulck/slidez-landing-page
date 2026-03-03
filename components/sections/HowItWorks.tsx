@@ -242,12 +242,12 @@ export default function HowItWorks() {
                   transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                   className="flex-1 max-w-lg"
                 >
-                  <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] mb-5 ${block.white ? "text-[#888]" : "text-[#c0c0c0]"}`}>
+                  <h2 className={`text-[11px] font-semibold uppercase tracking-[0.2em] mb-5 ${block.white ? "text-[#888]" : "text-[#c0c0c0]"}`}>
                     {block.label}
-                  </p>
-                  <h2 className={`text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight ${block.white ? "text-black" : "text-white"}`}>
-                    {block.heading}
                   </h2>
+                  <h3 className={`text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight ${block.white ? "text-black" : "text-white"}`}>
+                    {block.heading}
+                  </h3>
                   <p className={`text-lg leading-relaxed mb-8 ${block.white ? "text-black/55" : "text-white/50"}`}>{block.body}</p>
                   <a
                     href="#"
