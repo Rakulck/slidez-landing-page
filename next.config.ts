@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const isProduction = process.env.VERCEL_ENV === "production";
+
 const nextConfig: NextConfig = {
   async headers() {
     return [
@@ -14,6 +16,9 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          ...(!isProduction
+            ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }]
+            : []),
         ],
       },
     ];

@@ -19,15 +19,15 @@ const DESCRIPTION =
   "Slidez is your AI stylist for virtual try-on. Upload your photo, explore outfits, and experience trying products before buying — just like a virtual trial room.";
 const OG_IMAGE = `${BASE_URL}/og-image.png`;
 
+const isProduction = process.env.VERCEL_ENV === "production";
+
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: TITLE,
   description: DESCRIPTION,
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true },
-  },
+  robots: isProduction
+    ? { index: true, follow: true, googleBot: { index: true, follow: true } }
+    : { index: false, follow: false },
   alternates: {
     canonical: BASE_URL,
   },
