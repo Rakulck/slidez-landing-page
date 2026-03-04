@@ -1,10 +1,13 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/sections/Navbar";
 import Hero from "@/components/sections/Hero";
-import Features from "@/components/sections/Features";
-import ChromeExtension from "@/components/sections/ChromeExtension";
-import HowItWorks from "@/components/sections/HowItWorks";
-import CTA from "@/components/sections/CTA";
-import Footer from "@/components/sections/Footer";
+
+const Features       = dynamic(() => import("@/components/sections/Features"));
+const HowItWorks     = dynamic(() => import("@/components/sections/HowItWorks"));
+const ChromeExtension = dynamic(() => import("@/components/sections/ChromeExtension"));
+const FAQ            = dynamic(() => import("@/components/sections/FAQ"));
+const CTA            = dynamic(() => import("@/components/sections/CTA"));
+const Footer         = dynamic(() => import("@/components/sections/Footer"));
 
 export default function Home() {
   return (
@@ -28,10 +31,14 @@ export default function Home() {
       </div>
 
       <div className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden">
+        <FAQ />
+      </div>
+
+      <div className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden">
         <CTA />
       </div>
 
-      <div className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden">
+      <div className="relative z-[65] -mt-10 rounded-t-[2.5rem] overflow-hidden">
         <Footer />
       </div>
     </main>

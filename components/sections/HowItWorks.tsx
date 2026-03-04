@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Share2 } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Sparkles, Share2, Plus, Minus } from "lucide-react";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 /* ─── Phone mockup sub-components ─────────────────────────────── */
@@ -170,10 +171,47 @@ function ImportPhone() {
   );
 }
 
+/* ─── Mini FAQ ─────────────────────────────────────────────────── */
+
+function MiniFAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-white/[0.07] last:border-b-0">
+      <button
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="w-full flex items-center justify-between gap-3 py-3 text-left group"
+      >
+        <span className="text-sm text-white/50 group-hover:text-white/70 transition-colors duration-200">
+          {q}
+        </span>
+        <span className="shrink-0 text-white/25 group-hover:text-white/45 transition-colors duration-200">
+          {open ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+        </span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="a"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <p className="pb-3 text-sm text-white/30 leading-relaxed">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 /* ─── Main section ────────────────────────────────────────────── */
 
 const blocks = [
   {
+    id: "virtual-try-on",
     label: "Virtual Try-On",
     heading: "Get the perfect look.",
     body: "Upload your photo once. Slidez builds your AI body model — precise to your shape and proportions. Browse any outfit and see it placed on your body, realistically. Lighting, fit, proportion — all accurate.",
@@ -181,8 +219,19 @@ const blocks = [
     phone: TryOnPhone,
     reverse: false,
     white: false,
+    faqs: [
+      {
+        q: "How accurate is virtual try-on?",
+        a: "Slidez uses AI image modeling to realistically preview how clothes look on your body before buying.",
+      },
+      {
+        q: "Can I try clothes from other websites?",
+        a: "With Slidez you can generate outfits inspired by styles from social media and online stores.",
+      },
+    ],
   },
   {
+    id: "ai-stylist",
     label: "AI Stylist",
     heading: "Your stylist, always on.",
     body: "Tell Slidez your plans. 'Style me for a job interview.' 'Black tie, but edgy.' Your AI Stylist assembles a complete look — head to toe — in seconds. Adjust until it's exactly right.",
@@ -190,8 +239,19 @@ const blocks = [
     phone: StylistPhone,
     reverse: true,
     white: false,
+    faqs: [
+      {
+        q: "Can AI generate outfits automatically?",
+        a: "Yes. Slidez AI Stylist can generate complete outfits based on your preferences, occasions, and trends.",
+      },
+      {
+        q: "Can AI style outfits for different occasions?",
+        a: "Yes. You can generate outfits for events like work, parties, travel, or casual everyday wear.",
+      },
+    ],
   },
   {
+    id: "import-outfits",
     label: "Import Outfits",
     heading: "Try it on from anywhere.",
     body: "See something you love on Instagram, Pinterest, or any shopping site. Share it to Slidez. See it on your body before you buy — from any brand, any store, anywhere on the web.",
@@ -204,13 +264,14 @@ const blocks = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-[#0b0b0b]">
+    <section id="how-it-works" aria-label="How Slidez Works" className="bg-[#0b0b0b]">
       {blocks.map((block, i) => {
         const PhoneComponent = block.phone;
         const isSecond = i === 1;
         return (
           <div
             key={block.label}
+            id={block.id}
             className={`relative py-24 px-6 border-b ${
               block.white
                 ? "bg-white border-black/[0.06]"
@@ -261,6 +322,14 @@ export default function HowItWorks() {
                     {block.cta}
                     <ArrowRight className="w-4 h-4" />
                   </a>
+
+                  {block.faqs && (
+                    <div className="mt-8 border-t border-white/[0.07] pt-2">
+                      {block.faqs.map((faq) => (
+                        <MiniFAQItem key={faq.q} q={faq.q} a={faq.a} />
+                      ))}
+                    </div>
+                  )}
                 </motion.div>
 
                 {/* Phone visual */}

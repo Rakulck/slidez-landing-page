@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { Sparkles, Menu, X } from "lucide-react";
+import { trackDownloadClick } from "@/lib/gtag";
 
 const navLinks = [
-  { label: "Features",   href: "#features"    },
-  { label: "Try On",     href: "#how-it-works" },
-  { label: "Extension",  href: "#extension"   },
+  { label: "Features",   href: "#features"     },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Extension",  href: "#extension"    },
+  { label: "FAQ",        href: "#faq"          },
 ];
 
 export default function Navbar() {
@@ -31,7 +33,7 @@ export default function Navbar() {
       <div className="px-5 h-[60px] flex items-center justify-between">
         {/* Logo */}
         <a
-          href="#"
+          href="/"
           className="flex items-center gap-2.5 font-bold text-lg tracking-tight text-white"
         >
           <span className="w-7 h-7 rounded-lg gradient-silver flex items-center justify-center shrink-0">
@@ -56,13 +58,8 @@ export default function Navbar() {
         {/* Desktop actions */}
         <div className="hidden md:flex items-center gap-5">
           <a
-            href="#"
-            className="text-sm text-white/45 hover:text-white transition-colors duration-200"
-          >
-            Log in
-          </a>
-          <a
-            href="#"
+            href="https://linkly.link/2FWYm"
+            onClick={trackDownloadClick}
             className="px-5 py-2.5 bg-white text-black text-sm font-semibold rounded-full
               shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
               hover:shadow-[0_4px_24px_rgba(255,255,255,0.45),0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.95)]
@@ -98,11 +95,8 @@ export default function Navbar() {
             </a>
           ))}
           <div className="flex flex-col gap-3 pt-2">
-            <a href="#" className="text-sm text-white/60 hover:text-white transition-colors text-center">
-              Log in
-            </a>
             <a
-              href="#"
+              href="https://linkly.link/2FWYm"
               className="px-5 py-2.5 bg-white text-black text-sm font-semibold rounded-full text-center
                 shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
                 active:scale-[0.97] transition-all duration-200"
