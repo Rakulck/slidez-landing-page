@@ -214,7 +214,7 @@ const blocks = [
     id: "virtual-try-on",
     label: "Virtual Try-On",
     heading: "Get the perfect look.",
-    body: "Upload your photo once. Slidez builds your AI body model — precise to your shape and proportions. Browse any outfit and see it placed on your body, realistically. Lighting, fit, proportion — all accurate.",
+    body: "Upload your photo once. Slidez builds your AI body model, precise to your shape and proportions. Browse any outfit and see it placed on your body, realistically. Lighting, fit, proportion: all accurate.",
     cta: "Try It Free",
     phone: TryOnPhone,
     reverse: false,
@@ -234,7 +234,7 @@ const blocks = [
     id: "ai-stylist",
     label: "AI Stylist",
     heading: "Your stylist, always on.",
-    body: "Tell Slidez your plans. 'Style me for a job interview.' 'Black tie, but edgy.' Your AI Stylist assembles a complete look — head to toe — in seconds. Adjust until it's exactly right.",
+    body: "Tell Slidez your plans. 'Style me for a job interview.' 'Black tie, but edgy.' Your AI Stylist assembles a complete look, head to toe, in seconds. Adjust until it's exactly right.",
     cta: "Meet Your Stylist",
     phone: StylistPhone,
     reverse: true,
@@ -253,12 +253,22 @@ const blocks = [
   {
     id: "import-outfits",
     label: "Import Outfits",
-    heading: "Try it on from anywhere.",
-    body: "See something you love on Instagram, Pinterest, or any shopping site. Share it to Slidez. See it on your body before you buy — from any brand, any store, anywhere on the web.",
+    heading: "Found it online? Try it on instantly.",
+    body: "See something you love on Instagram, Pinterest, or any shopping site. Share it to Slidez. See it on your body before you buy, from any brand, any store, anywhere on the web.",
     cta: "See How It Works",
     phone: ImportPhone,
     reverse: false,
     white: false,
+    faqs: [
+      {
+        q: "How does importing outfits work?",
+        a: "If you find an outfit on Instagram, Pinterest, or any shopping website, simply share it to Slidez or upload the image. Slidez will identify the clothing and let you try it on instantly using AI virtual try-on.",
+      },
+      {
+        q: "What websites or apps can I import outfits from?",
+        a: "You can import outfits from Instagram, Pinterest, and most online shopping websites. If you can share or upload the image, you can try it on with Slidez.",
+      },
+    ],
   },
 ];
 

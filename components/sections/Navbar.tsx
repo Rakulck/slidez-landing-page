@@ -56,7 +56,16 @@ export default function Navbar() {
         </nav>
 
         {/* Desktop actions */}
-        <div className="hidden md:flex items-center gap-5">
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href="#extension"
+            className="px-4 py-2.5 text-sm font-semibold rounded-full border border-white/20 text-white/80
+              hover:border-white/40 hover:text-white hover:bg-white/[0.06]
+              active:scale-[0.97]
+              transition-all duration-200 cursor-pointer"
+          >
+            Add to Chrome
+          </a>
           <a
             href="https://linkly.link/2FWYm"
             onClick={trackDownloadClick}
@@ -102,6 +111,14 @@ export default function Navbar() {
                 active:scale-[0.97] transition-all duration-200"
             >
               Download App
+            </a>
+            <a
+              href="#extension"
+              onClick={() => setOpen(false)}
+              className="px-5 py-2.5 border border-white/20 text-white/80 text-sm font-semibold rounded-full text-center
+                hover:border-white/40 hover:text-white active:scale-[0.97] transition-all duration-200"
+            >
+              Add to Chrome
             </a>
           </div>
         </div>

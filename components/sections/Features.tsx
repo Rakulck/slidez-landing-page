@@ -243,7 +243,7 @@ const bentoCards = [
   {
     label: "Virtual Try-On",
     title: "See it on you.",
-    description: "AI places any outfit on your body — realistic fit, proportions, and lighting.",
+    description: "AI places any outfit on your body, with realistic fit, proportions, and lighting.",
     visual: TryOnVisual,
     colSpan: "lg:col-span-2",
     visualHeight: "h-64",
@@ -251,23 +251,23 @@ const bentoCards = [
   {
     label: "AI Stylist",
     title: "Ask. Receive.",
-    description: "Prompt your look and get a full outfit built in seconds.",
+    description: "Tell your AI stylist the occasion and vibe. Get a complete outfit instantly.",
     visual: StylistVisual,
     colSpan: "lg:col-span-1",
     visualHeight: "h-64",
   },
   {
-    label: "Import Outfits",
+    label: "Import",
     title: "Try from anywhere.",
-    description: "Spot something on Instagram or any site — import it and try it on instantly.",
+    description: "Spot something on Instagram or any site. Import it and try it on instantly.",
     visual: ImportVisual,
     colSpan: "lg:col-span-1",
     visualHeight: "h-64",
   },
   {
-    label: "Buy with Confidence",
+    label: "Confidence",
     title: "No more guessing.",
-    description: "See it. Love it. Buy it. Zero uncertainty at checkout.",
+    description: "See it. Love it. Buy it, with confidence at checkout.",
     visual: BuyVisual,
     colSpan: "lg:col-span-2",
     visualHeight: "h-64",
@@ -289,7 +289,7 @@ export default function Features() {
             Everything in your pocket.
           </h2>
           <p className="text-black/50 text-lg max-w-md mx-auto">
-            From upload to checkout — the complete fitting room, on your phone.
+            From upload to checkout: the complete fitting room, on your phone.
           </p>
         </motion.div>
 

@@ -152,15 +152,15 @@ export default function Hero() {
         <div className="mb-8" />
 
         {/* Headline */}
-        <h1 className="text-[clamp(3rem,9vw,6rem)] font-bold leading-[1.02] tracking-tight mb-6">
-          <span className="text-white">Dress with</span>
+        <h1 className="text-[clamp(2.6rem,8vw,5.5rem)] font-bold leading-[1.05] tracking-tight mb-6">
+          <span className="text-white">Try products before buying</span>
           <br />
-          <span className="gradient-silver-text">confidence.</span>
+          <span className="gradient-silver-text">like a real store.</span>
         </h1>
 
         {/* Sub */}
         <p className="text-lg md:text-xl text-white/50 max-w-xl mx-auto mb-10 leading-relaxed">
-          Tell your AI stylist what you need. Get a full outfit instantly.
+          Slidez is your AI stylist + virtual fitting room. Upload once, then try clothes online and get a full outfit in seconds.
         </p>
 
         {/* ── Animated Input Box ──────────────────────────── */}
@@ -344,7 +344,7 @@ export default function Hero() {
               <Star key={i} className="w-3.5 h-3.5 fill-[#c0c0c0] text-[#c0c0c0]" />
             ))}
           </div>
-          <span>4.9 · 10,000+ shoppers already trying on</span>
+          <span>4.9★ · 10,000+ shoppers using Slidez to try before they buy</span>
         </div>
       </motion.div>
 
@@ -357,6 +357,9 @@ export default function Hero() {
 
       {/* ── Outfit card carousel ─────────────────────────────── */}
       <div className="relative z-10 w-full pb-0">
+        <p className="text-xs text-white/30 text-center mb-5 tracking-widest uppercase font-medium">
+          Tap a vibe. Get a full outfit.
+        </p>
         <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#080808] to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#080808] to-transparent z-10 pointer-events-none" />
 

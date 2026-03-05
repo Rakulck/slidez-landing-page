@@ -17,16 +17,6 @@ export const faqs = [
   },
 
   // Unique Features
-  {
-    question: "Can I try on outfits I find on Instagram or shopping sites?",
-    answer:
-      "Yes. Share outfits from Instagram, Pinterest, or any shopping site directly to Slidez and instantly try them on with AI. This lets you visualize how styles from anywhere on the internet will look on you before buying.",
-  },
-  {
-    question: "Does Slidez work on shopping websites?",
-    answer:
-      "Yes. Slidez offers a Chrome extension that lets you try clothes directly from shopping websites. When you find a product online, you can instantly preview how it looks on you using Slidez AI virtual try-on technology.",
-  },
 
   // High-Intent / SEO
   {

@@ -1,7 +1,40 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { trackExtensionClick } from "@/lib/gtag";
+import { ArrowRight, Plus, Minus } from "lucide-react";
+
+function MiniFAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-white/[0.07] last:border-b-0">
+      <button
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="w-full flex items-center justify-between gap-3 py-3 text-left group"
+      >
+        <span className="text-sm text-white/50 group-hover:text-white/70 transition-colors duration-200">{q}</span>
+        <span className="shrink-0 text-white/25 group-hover:text-white/45 transition-colors duration-200">
+          {open ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+        </span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <p className="pb-3 text-sm text-white/35 leading-relaxed">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 const sites = ["Instagram", "Pinterest", "ASOS", "Zara", "H&M", "Shein"];
 
@@ -139,7 +172,7 @@ export default function ChromeExtension() {
               Any website.
             </h2>
             <p className="text-white/50 text-lg leading-relaxed mb-8">
-              See an outfit you love while browsing online? Hit the Slidez extension and try it on yourself — without leaving the page.
+              See an outfit you love while browsing online? Hit the Slidez extension and try it on yourself, without leaving the page.
             </p>
 
             {/* Works on */}
@@ -158,7 +191,10 @@ export default function ChromeExtension() {
             </div>
 
             <a
-              href="#"
+              href="https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak?utm_source=item-share-cb"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={trackExtensionClick}
               className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-semibold rounded-full
                 shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
                 hover:shadow-[0_4px_24px_rgba(255,255,255,0.45),0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.95)]
@@ -166,9 +202,20 @@ export default function ChromeExtension() {
                 active:scale-[0.97] active:shadow-[0_1px_6px_rgba(255,255,255,0.2)]
                 transition-all duration-200 cursor-pointer"
             >
-              Add to Chrome — it&apos;s free
+              Add to Chrome, it&apos;s free
               <ArrowRight className="w-4 h-4" />
             </a>
+
+            <div className="mt-8 border-t border-white/[0.07] pt-2">
+              <MiniFAQItem
+                q="How does the Slidez Chrome extension work?"
+                a="Install the Slidez Chrome extension and open any shopping website. When you find a product you like, Slidez lets you instantly preview how it looks on you using AI virtual try-on."
+              />
+              <MiniFAQItem
+                q="Can I try clothes directly from shopping websites?"
+                a="Yes. With the Slidez Chrome extension you can try clothes directly from most shopping websites and see how they look on you before buying."
+              />
+            </div>
           </motion.div>
 
           {/* Browser mockup */}

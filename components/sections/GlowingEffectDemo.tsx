@@ -23,7 +23,7 @@ export function GlowingEffectDemo() {
             area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
             icon={<Sparkles className="h-4 w-4" />}
             title="AI Stylist, always on"
-            description="Describe your vibe and get a full outfit in seconds — no scrolling, no guessing."
+            description="Describe your vibe and get a full outfit in seconds. No scrolling, no guessing."
           />
           <GridItem
             area="md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]"
@@ -35,13 +35,13 @@ export function GlowingEffectDemo() {
             area="md:[grid-area:2/1/3/7] xl:[grid-area:1/5/3/8]"
             icon={<Zap className="h-4 w-4" />}
             title="One prompt. Full look."
-            description="From shoes to accessories — Slidez builds complete outfits around your wardrobe and budget."
+            description="From shoes to accessories: Slidez builds complete outfits around your wardrobe and budget."
           />
           <GridItem
             area="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]"
             icon={<ShoppingBag className="h-4 w-4" />}
             title="Shop without leaving"
-            description="The Chrome extension works on any store — Zara, ASOS, H&M. Try on as you browse."
+            description="The Chrome extension works on any store: Zara, ASOS, H&M. Try on as you browse."
           />
           <GridItem
             area="md:[grid-area:3/1/4/13] xl:[grid-area:2/8/3/13]"
