@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sparkles, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { trackDownloadClick } from "@/lib/gtag";
 
 const navLinks = [
@@ -36,9 +36,6 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-2.5 font-bold text-lg tracking-tight text-white"
         >
-          <span className="w-7 h-7 rounded-lg gradient-silver flex items-center justify-center shrink-0">
-            <Sparkles className="w-3.5 h-3.5 text-black" />
-          </span>
           Slidez
         </a>
 

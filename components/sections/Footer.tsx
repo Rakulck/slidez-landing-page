@@ -1,9 +1,28 @@
-import { Sparkles } from "lucide-react";
 
 const links = [
-  { group: "Product", items: ["Virtual Try-On", "AI Stylist", "Chrome Extension", "Import Outfits"] },
-  { group: "Company", items: ["About", "Blog", "Careers", "Press"] },
-  { group: "Legal", items: ["Privacy Policy", "Terms of Service", "Cookies"] },
+  {
+    group: "Product",
+    items: [
+      { label: "Virtual Try-On",    href: "/virtual-try-on"    },
+      { label: "AI Stylist",        href: "/ai-stylist"        },
+      { label: "Chrome Extension",  href: "https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak?utm_source=item-share-cb" },
+      { label: "FAQ",               href: "/faq"               },
+    ],
+  },
+  {
+    group: "Company",
+    items: [
+      { label: "About",    href: "/about"    },
+      { label: "Blog",     href: "/blog"     },
+    ],
+  },
+  {
+    group: "Legal",
+    items: [
+      { label: "Privacy Policy",    href: "/privacy"  },
+      { label: "Terms of Service",  href: "/terms"    },
+    ],
+  },
 ];
 
 export default function Footer() {
@@ -13,10 +32,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <a href="#" className="flex items-center gap-2.5 font-bold text-lg text-white mb-4">
-              <span className="w-7 h-7 rounded-lg gradient-silver flex items-center justify-center shrink-0">
-                <Sparkles className="w-3.5 h-3.5 text-black" />
-              </span>
+            <a href="/" className="flex items-center gap-2.5 font-bold text-lg text-white mb-4">
               Slidez
             </a>
             <p className="text-white/30 text-sm leading-relaxed max-w-[180px]">
@@ -32,12 +48,12 @@ export default function Footer() {
               </p>
               <ul className="flex flex-col gap-3.5">
                 {items.map((item) => (
-                  <li key={item}>
+                  <li key={item.label}>
                     <a
-                      href="#"
+                      href={item.href}
                       className="text-white/35 text-sm hover:text-white transition-colors duration-200"
                     >
-                      {item}
+                      {item.label}
                     </a>
                   </li>
                 ))}
@@ -52,13 +68,19 @@ export default function Footer() {
             © {new Date().getFullYear()} Slidez, Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            {["Instagram", "TikTok", "Twitter"].map((s) => (
+            {[
+              { label: "Instagram", href: "https://www.instagram.com/slidez_ai_shopping/" },
+              { label: "TikTok",    href: "https://www.tiktok.com/@slidez._"              },
+              { label: "X",         href: "https://x.com/slidez_social"                   },
+            ].map((s) => (
               <a
-                key={s}
-                href="#"
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white/25 text-sm hover:text-white transition-colors duration-200"
               >
-                {s}
+                {s.label}
               </a>
             ))}
           </div>
