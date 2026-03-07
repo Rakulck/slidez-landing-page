@@ -15,6 +15,11 @@ const BASE_URL = "https://slidez-landing-page.vercel.app";
 const TITLE = "Slidez – AI Stylist & Virtual Try-On App";
 const DESCRIPTION =
   "Slidez is an AI stylist that lets you generate outfits and try clothes virtually before buying. Discover your style and see how outfits look on you instantly.";
+const OG_TITLE = "Slidez: AI Stylist & Try-On"; // 27 chars — OG optimal 25–35
+const OG_DESCRIPTION =
+  "Generate outfits & try clothes virtually with Slidez AI."; // 56 chars — OG optimal 55–65
+const TWITTER_TITLE =
+  "Slidez: AI Outfit Stylist & Virtual Fitting Room App"; // 52 chars — Twitter optimal 50–70
 const OG_IMAGE = `${BASE_URL}/og-image.png`;
 
 const isProduction = process.env.VERCEL_ENV === "production";
@@ -23,27 +28,42 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: TITLE,
   description: DESCRIPTION,
+  keywords: [
+    "AI stylist",
+    "virtual try-on",
+    "outfit generator",
+    "AI fashion app",
+    "virtual fitting room",
+    "outfit ideas",
+    "try clothes online",
+    "Slidez",
+  ],
+  authors: [{ name: "Slidez", url: BASE_URL }],
+  formatDetection: { telephone: false },
   robots: isProduction
     ? { index: true, follow: true, googleBot: { index: true, follow: true } }
     : { index: false, follow: false },
   alternates: {
     canonical: BASE_URL,
+    languages: { "en": BASE_URL },
   },
   verification: {
     google: "5a493f6e28990868",
   },
   openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
     type: "website",
     url: BASE_URL,
     siteName: "Slidez",
-    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: TITLE }],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: OG_TITLE }],
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: TWITTER_TITLE,
+    description: OG_DESCRIPTION,
+    site: "@slidez_social",
+    creator: "@slidez_social",
     images: [OG_IMAGE],
   },
 };
