@@ -160,7 +160,7 @@ export default function Hero() {
 
         {/* Sub */}
         <p className="text-lg md:text-xl text-white/50 max-w-xl mx-auto mb-10 leading-relaxed">
-          Slidez is your AI stylist + virtual fitting room. Upload once, then try clothes online and get a full outfit in seconds.
+          AI stylist & virtual try-on. Style yourself in seconds.
         </p>
 
         {/* ── Animated Input Box ──────────────────────────── */}
