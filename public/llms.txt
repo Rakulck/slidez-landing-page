@@ -1,0 +1,26 @@
+# Slidez
+
+> Slidez is an AI stylist and virtual try-on shopping app that lets people upload their photo, preview outfits on themselves, and shop confidently using AI-powered recommendations.
+
+Slidez helps shoppers and creators try clothes, makeup, sunglasses, jewelry, and footwear virtually before buying.
+
+## Core pages
+
+- [Homepage](https://slidez-landing-page.vercel.app/)
+
+## Future pages
+
+- [Features](https://www.slidez.social/features)
+- [Download](https://www.slidez.social/download)
+- [How it works](https://www.slidez.social/how-it-works)
+- [For creators](https://www.slidez.social/for-creators)
+
+## Help and support
+
+- [FAQ](https://www.slidez.social/faq)
+- [Support](https://www.slidez.social/support)
+
+## Policies
+
+- [Privacy Policy](https://www.slidez.social/privacy)
+- [Terms of Service](https://www.slidez.social/terms)
