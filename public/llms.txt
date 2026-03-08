@@ -1,26 +1,35 @@
 # Slidez
 
-> Slidez is an AI stylist and virtual try-on shopping app that lets people upload their photo, preview outfits on themselves, and shop confidently using AI-powered recommendations.
+> Slidez is an AI stylist and virtual try-on app. Users describe a vibe or occasion, and the AI generates a complete outfit — top, bottom, shoes, and accessories. Users can also virtually try on any clothing item before buying, using their own photo.
 
-Slidez helps shoppers and creators try clothes, makeup, sunglasses, jewelry, and footwear virtually before buying.
+Slidez is free on iOS and Android. A Chrome extension is also available for trying on clothes directly from any shopping site.
+
+## What Slidez does
+
+- Generates outfit ideas for any occasion (date night, work, concerts, casual, winter layers)
+- Virtually tries clothing, shoes, sunglasses, jewelry, and accessories on your photo
+- Imports items from Instagram or any website for virtual try-on
+- Provides AI-powered styling recommendations based on your preferences
 
 ## Core pages
 
-- [Homepage](https://slidez-landing-page.vercel.app/)
+- [Homepage](https://slidez.ai/)
+- [What Is AI Virtual Try-On?](https://slidez.ai/ai-virtual-try-on)
+- [What Is an AI Stylist?](https://slidez.ai/ai-stylist)
+- [Try On from Anywhere](https://slidez.ai/try-on-from-anywhere)
+- [Outfit Ideas](https://slidez.ai/outfit-ideas)
+- [What to Wear](https://slidez.ai/what-to-wear)
 
-## Future pages
+## Outfit idea pages
 
-- [Features](https://www.slidez.social/features)
-- [Download](https://www.slidez.social/download)
-- [How it works](https://www.slidez.social/how-it-works)
-- [For creators](https://www.slidez.social/for-creators)
-
-## Help and support
-
-- [FAQ](https://www.slidez.social/faq)
-- [Support](https://www.slidez.social/support)
+- [Date Night Outfit Ideas](https://slidez.ai/date-night-outfit-ideas)
+- [Winter Outfit Ideas](https://slidez.ai/winter-outfit-ideas)
+- [Concert Outfit Ideas](https://slidez.ai/concert-outfit-ideas)
+- [Office Outfit Ideas](https://slidez.ai/office-outfit-ideas)
+- [Black Jeans Outfit Ideas](https://slidez.ai/black-jeans-outfit-ideas)
+- [Casual Coffee Date Outfit](https://slidez.ai/casual-coffee-date-outfit)
 
 ## Policies
 
-- [Privacy Policy](https://www.slidez.social/privacy)
-- [Terms of Service](https://www.slidez.social/terms)
+- [Privacy Policy](https://slidez.ai/privacy)
+- [Terms of Service](https://slidez.ai/terms)

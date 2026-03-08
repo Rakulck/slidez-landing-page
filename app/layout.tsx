@@ -14,7 +14,7 @@ const BASE_URL = "https://slidez-landing-page.vercel.app";
 
 const TITLE = "Slidez – AI Stylist & Virtual Try-On App";
 const DESCRIPTION =
-  "Slidez is an AI stylist that lets you generate outfits and try clothes virtually before buying. Discover your style and see how outfits look on you instantly.";
+  "Slidez is an AI stylist that generates outfits and lets you virtually try on clothes before buying. Discover your style — free on iOS & Android.";
 const OG_TITLE = "Slidez: AI Stylist & Try-On"; // 27 chars — OG optimal 25–35
 const OG_DESCRIPTION =
   "Generate outfits & try clothes virtually with Slidez AI."; // 56 chars — OG optimal 55–65
@@ -115,6 +115,31 @@ const jsonLd = {
   ],
 };
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: BASE_URL,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Privacy Policy",
+      item: `${BASE_URL}/privacy`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Terms of Service",
+      item: `${BASE_URL}/terms`,
+    },
+  ],
+};
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -144,6 +169,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
         />
       </head>
       <body

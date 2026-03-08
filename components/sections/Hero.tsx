@@ -166,10 +166,10 @@ export default function Hero() {
         {/* ── Animated Input Box ──────────────────────────── */}
         <div className="relative w-full max-w-xl mx-auto mb-8">
           <div
-            className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(192,192,192,0.06)] ${
+            className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.05)] hover:input-glow-hover ${
               results
                 ? "border-[rgba(192,192,192,0.3)] bg-[rgba(192,192,192,0.05)]"
-                : "border-[rgba(192,192,192,0.15)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.4)] focus-within:bg-[rgba(255,255,255,0.05)] focus-within:shadow-[0_0_28px_rgba(192,192,192,0.08)]"
+                : "border-[rgba(192,192,192,0.15)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.4)] focus-within:bg-[rgba(255,255,255,0.05)] focus-within:input-glow-focus"
             }`}
           >
             {/* Sparkles icon */}

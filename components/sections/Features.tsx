@@ -255,6 +255,7 @@ const bentoCards = [
     visual: StylistVisual,
     colSpan: "lg:col-span-1",
     visualHeight: "h-64",
+    link: { href: "https://slidez.ai/outfit-ideas", label: "Explore Outfit Ideas" },
   },
   {
     label: "Import",
@@ -285,9 +286,12 @@ export default function Features() {
           transition={{ duration: 0.55 }}
           className="text-center mb-14"
         >
-<h2 className="text-4xl md:text-5xl font-bold text-black tracking-tight mb-5">
+<h2 className="text-4xl md:text-5xl font-bold text-black tracking-tight mb-3">
             Everything in your pocket.
           </h2>
+          <p className="text-black/70 text-base font-medium mb-3">
+            AI stylist. Virtual try-on. One app.
+          </p>
           <p className="text-black/50 text-lg max-w-md mx-auto">
             From upload to checkout: the complete fitting room, on your phone.
           </p>
@@ -324,6 +328,14 @@ export default function Features() {
                     </p>
                     <h3 className="text-white font-semibold text-lg mb-1.5">{card.title}</h3>
                     <p className="text-white/40 text-sm leading-relaxed">{card.description}</p>
+                    {"link" in card && card.link && (
+                      <a
+                        href={card.link.href}
+                        className="inline-flex items-center gap-1.5 mt-4 px-4 py-2 rounded-full border border-white/15 text-xs font-medium text-white/60 hover:border-white/35 hover:text-white transition-all duration-200"
+                      >
+                        {card.link.label} →
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>

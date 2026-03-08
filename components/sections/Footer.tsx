@@ -3,17 +3,9 @@ const links = [
   {
     group: "Product",
     items: [
-      { label: "Virtual Try-On",    href: "/virtual-try-on"    },
-      { label: "AI Stylist",        href: "/ai-stylist"        },
+      { label: "Outfit Ideas",      href: "/outfit-ideas"      },
+      { label: "What to Wear",      href: "/what-to-wear"      },
       { label: "Chrome Extension",  href: "https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak?utm_source=item-share-cb" },
-      { label: "FAQ",               href: "/faq"               },
-    ],
-  },
-  {
-    group: "Company",
-    items: [
-      { label: "About",    href: "/about"    },
-      { label: "Blog",     href: "/blog"     },
     ],
   },
   {

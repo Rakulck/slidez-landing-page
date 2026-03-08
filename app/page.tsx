@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import Navbar from "@/components/sections/Navbar";
 import Hero from "@/components/sections/Hero";
+import AIStylistLinks from "@/components/sections/AIStylistLinks";
 
 const Features       = dynamic(() => import("@/components/sections/Features"));
 const HowItWorks     = dynamic(() => import("@/components/sections/HowItWorks"));
@@ -22,7 +23,11 @@ export default function Home() {
         <Features />
       </div>
 
-      <div className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden">
+      <div className="relative z-[25] -mt-0">
+        <AIStylistLinks />
+      </div>
+
+      <div className="relative z-30 -mt-0 rounded-t-[2.5rem] overflow-hidden">
         <HowItWorks />
       </div>
 

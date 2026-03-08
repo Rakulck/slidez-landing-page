@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "AI Stylist – Slidez",
-  robots: { index: false, follow: false },
-};
+
+export const metadata: Metadata = { title: "Coming Soon – Slidez" };
+
 export default function Page() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-[#080808]">

@@ -216,6 +216,7 @@ const blocks = [
     heading: "Get the perfect look.",
     body: "Upload your photo once. Slidez builds your AI body model, precise to your shape and proportions. Browse any outfit and see it placed on your body, realistically. Lighting, fit, proportion: all accurate.",
     cta: "Try It Free",
+    learnMore: "/ai-virtual-try-on",
     phone: TryOnPhone,
     reverse: false,
     white: false,
@@ -236,6 +237,7 @@ const blocks = [
     heading: "Your stylist, always on.",
     body: "Tell Slidez your plans. 'Style me for a job interview.' 'Black tie, but edgy.' Your AI Stylist assembles a complete look, head to toe, in seconds. Adjust until it's exactly right.",
     cta: "Meet Your Stylist",
+    learnMore: "/ai-stylist",
     phone: StylistPhone,
     reverse: true,
     white: false,
@@ -256,6 +258,7 @@ const blocks = [
     heading: "Found it online? Try it on instantly.",
     body: "See something you love on Instagram, Pinterest, or any shopping site. Share it to Slidez. See it on your body before you buy, from any brand, any store, anywhere on the web.",
     cta: "See How It Works",
+    learnMore: "/try-on-from-anywhere",
     phone: ImportPhone,
     reverse: false,
     white: false,
@@ -320,18 +323,32 @@ export default function HowItWorks() {
                     {block.heading}
                   </h3>
                   <p className={`text-lg leading-relaxed mb-8 ${block.white ? "text-black/55" : "text-white/50"}`}>{block.body}</p>
-                  <a
-                    href="#"
-                    className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full
-                      hover:scale-[1.05] hover:-translate-y-px active:scale-[0.97] transition-all duration-200 cursor-pointer ${
-                      block.white
-                        ? "bg-black text-white hover:bg-[#111] shadow-[0_2px_16px_rgba(0,0,0,0.2),0_1px_4px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.28)]"
-                        : "bg-white text-black hover:bg-[#f0f0f0] shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_4px_24px_rgba(255,255,255,0.45),0_2px_8px_rgba(0,0,0,0.2)]"
-                    }`}
-                  >
-                    {block.cta}
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href="#"
+                      className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full
+                        hover:scale-[1.05] hover:-translate-y-px active:scale-[0.97] transition-all duration-200 cursor-pointer ${
+                        block.white
+                          ? "bg-black text-white hover:bg-[#111] shadow-[0_2px_16px_rgba(0,0,0,0.2),0_1px_4px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.28)]"
+                          : "bg-white text-black hover:bg-[#f0f0f0] shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-[0_4px_24px_rgba(255,255,255,0.45),0_2px_8px_rgba(0,0,0,0.2)]"
+                      }`}
+                    >
+                      {block.cta}
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                    {"learnMore" in block && block.learnMore && (
+                      <a
+                        href={block.learnMore}
+                        className={`inline-flex items-center gap-1.5 px-5 py-3 text-sm font-medium rounded-full border transition-all duration-200 hover:scale-[1.04] hover:-translate-y-px ${
+                          block.white
+                            ? "border-black/15 text-black/50 hover:border-black/30 hover:text-black"
+                            : "border-white/15 text-white/45 hover:border-white/30 hover:text-white"
+                        }`}
+                      >
+                        Learn more
+                      </a>
+                    )}
+                  </div>
 
                   {block.faqs && (
                     <div className="mt-8 border-t border-white/[0.07] pt-2">
