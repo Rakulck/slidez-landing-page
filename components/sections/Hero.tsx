@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Star, Sparkles, Send, X, Puzzle } from "lucide-react";
 import { trackDownloadClick, trackExtensionClick, trackStylistDemoSubmit } from "@/lib/gtag";
+import BrandsStrip from "@/components/sections/BrandsStrip";
 
 const FloatingStyler = lazy(() =>
   import("@/components/ui/floating-styler").then((m) => ({ default: m.FloatingStyler }))
@@ -307,7 +308,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10"
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4"
             >
               <a
                 href="https://linkly.link/2FWYm"
@@ -339,14 +340,9 @@ export default function Hero() {
           )}
         </AnimatePresence>
 
-        {/* Social proof */}
-        <div className="flex items-center justify-center gap-5 text-sm text-white/35 mb-16">
-          <div className="flex items-center gap-1.5">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-3.5 h-3.5 fill-[#c0c0c0] text-[#c0c0c0]" />
-            ))}
-          </div>
-          <span>4.9★ · 10,000+ shoppers using Slidez to try before they buy</span>
+        {/* Brands strip — replaces social proof */}
+        <div className="mb-6">
+          <BrandsStrip theme="dark" variant="full" />
         </div>
       </motion.div>
 

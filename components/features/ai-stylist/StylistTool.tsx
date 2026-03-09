@@ -243,7 +243,17 @@ function OutfitRow({ label, value }: { label: string; value: string }) {
 
 /* ── Main component ───────────────────────────────────────────── */
 
-export default function StylistTool() {
+type StylistToolProps = {
+  /** Text to inject from a parent (e.g. card click). */
+  externalPrompt?: string;
+  /** Increment each time you want to inject a new prompt. */
+  externalPromptKey?: number;
+};
+
+export default function StylistTool({
+  externalPrompt,
+  externalPromptKey,
+}: StylistToolProps = {}) {
   const [input, setInput] = useState("");
   const [results, setResults] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -252,6 +262,17 @@ export default function StylistTool() {
   const [activeChip, setActiveChip] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const placeholder = useTypewriter(!input && !results && !chipResults);
+
+  // Inject external prompt whenever the key increments
+  useEffect(() => {
+    if (!externalPrompt) return;
+    setInput(externalPrompt);
+    setResults(false);
+    setChipResults(null);
+    setActiveChip(null);
+    setTimeout(() => inputRef.current?.focus(), 50);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalPromptKey]);
 
   const handleChip = (chip: string) => {
     setInput(chip);
