@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide-react";
 
 const LINKS = [
   { label: "Outfit Ideas",            href: "/outfit-ideas"            },
@@ -40,14 +39,6 @@ export default function AIStylistLinks() {
           ))}
         </div>
 
-        {/* Explore all */}
-        <a
-          href="/outfit-ideas"
-          className="sm:ml-auto shrink-0 inline-flex items-center gap-1 text-sm text-black/35 hover:text-black transition-colors duration-200"
-        >
-          Explore all
-          <ArrowRight className="w-3.5 h-3.5" />
-        </a>
 
       </div>
     </section>

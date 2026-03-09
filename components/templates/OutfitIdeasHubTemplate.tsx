@@ -195,10 +195,6 @@ export default function OutfitIdeasHubTemplate() {
         <GlowOrb />
 
         <div className="relative z-10 w-full max-w-3xl mx-auto" ref={heroRef}>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/25 mb-7">
-            AI Outfit Generator
-          </p>
-
           <h1 style={{ fontSize: '4rem', lineHeight: '1.05', letterSpacing: '-0.02em' }} className="font-bold mb-5">
             <span className="gradient-silver-text">Outfit Ideas for Any Occasion</span>
           </h1>
