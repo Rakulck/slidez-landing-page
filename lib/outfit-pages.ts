@@ -89,7 +89,7 @@ export function generateOutfitPageMetadata(config: OutfitPageConfig): Metadata {
       siteName: "Slidez",
       images: [
         {
-          url: `${ASSETS_BASE_URL}/og-image.png`,
+          url: `${ASSETS_BASE_URL}/opengraph-image`,
           width: 1200,
           height: 630,
           alt: config.ogTitle,
@@ -102,7 +102,7 @@ export function generateOutfitPageMetadata(config: OutfitPageConfig): Metadata {
       description: config.ogDescription,
       site: "@slidez_social",
       creator: "@slidez_social",
-      images: [`${ASSETS_BASE_URL}/og-image.png`],
+      images: [`${ASSETS_BASE_URL}/opengraph-image`],
     },
   };
 }

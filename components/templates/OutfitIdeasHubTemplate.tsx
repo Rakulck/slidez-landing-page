@@ -200,7 +200,7 @@ export default function OutfitIdeasHubTemplate() {
           </p>
 
           <h1 style={{ fontSize: '4rem', lineHeight: '1.05', letterSpacing: '-0.02em' }} className="font-bold mb-5">
-            <span className="gradient-silver-text">Your Next Outfit Starts Here</span>
+            <span className="gradient-silver-text">Outfit Ideas for Any Occasion</span>
           </h1>
 
           <p className="text-lg text-white/45 max-w-md mx-auto mb-12 leading-relaxed">

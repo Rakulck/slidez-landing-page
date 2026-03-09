@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
-import { faqs } from "@/lib/faq-data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,12 +14,12 @@ const BASE_URL = "https://slidez-landing-page.vercel.app";
 const TITLE = "Slidez – AI Stylist & Virtual Try-On App";
 const DESCRIPTION =
   "Slidez is an AI stylist that generates outfits and lets you virtually try on clothes before buying. Discover your style — free on iOS & Android.";
-const OG_TITLE = "Slidez: AI Stylist & Try-On"; // 27 chars — OG optimal 25–35
+const OG_TITLE = "Slidez: AI Stylist & Try-On";
 const OG_DESCRIPTION =
-  "Generate outfits & try clothes virtually with Slidez AI."; // 56 chars — OG optimal 55–65
+  "Generate outfits & try clothes virtually with Slidez AI.";
 const TWITTER_TITLE =
-  "Slidez: AI Outfit Stylist & Virtual Fitting Room App"; // 52 chars — Twitter optimal 50–70
-const OG_IMAGE = `${BASE_URL}/og-image.png`;
+  "Slidez: AI Outfit Stylist & Virtual Fitting Room App";
+const OG_IMAGE = `${BASE_URL}/opengraph-image`;
 
 const isProduction = process.env.VERCEL_ENV === "production";
 
@@ -115,44 +114,6 @@ const jsonLd = {
   ],
 };
 
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: BASE_URL,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Privacy Policy",
-      item: `${BASE_URL}/privacy`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Terms of Service",
-      item: `${BASE_URL}/terms`,
-    },
-  ],
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -166,20 +127,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-        />
       </head>
       <body
         className={`${geistSans.variable} antialiased`}
         suppressHydrationWarning
       >
-          {children}
+        {children}
         <Analytics />
       </body>
     </html>

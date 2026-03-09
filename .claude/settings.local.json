@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.altadaily.com)",
+      "WebFetch(domain:www.fittedcloset.com)",
+      "WebSearch",
+      "WebFetch(domain:unsplash.com)",
+      "WebFetch(domain:images.unsplash.com)",
+      "Bash(git commit:*)",
+      "Bash(git:*)",
+      "Bash(npm run:*)",
+      "Bash(grep:*)",
+      "Bash(ls C:\\\\Users\\\\Asus\\\\OneDrive\\\\Desktop\\\\Claude code\\\\slidez-landingpage\\\\app\\\\\\(placeholder\\):*)",
+      "Bash(netstat -ano)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(xargs -I{} taskkill /PID {} /F)",
+      "Bash(npx skills:*)"
+    ]
+  }
+}
