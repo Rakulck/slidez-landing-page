@@ -187,7 +187,7 @@ export default function Hero() {
               }}
               onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
               placeholder={placeholder}
-              className="flex-1 bg-transparent text-white text-sm outline-none placeholder:text-white/25 min-w-0"
+              className="flex-1 bg-transparent text-white text-base outline-none placeholder:text-white/25 min-w-0"
               suppressHydrationWarning
             />
 
@@ -406,7 +406,7 @@ export default function Hero() {
               <img
                 src={card.img}
                 alt={card.alt}
-                loading={isCenter ? undefined : "lazy"}
+                loading={isCenter ? "eager" : "lazy"}
                 fetchPriority={isCenter ? "high" : "low"}
                 decoding={isCenter ? "sync" : "async"}
                 className="absolute inset-0 w-full h-full object-cover"

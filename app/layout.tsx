@@ -86,6 +86,7 @@ const jsonLd = {
         "https://www.instagram.com/slidez_ai_shopping/",
         "https://www.tiktok.com/@slidez._",
         "https://x.com/slidez_social",
+        "https://www.linkedin.com/company/slidez-social/",
       ],
     },
     {
