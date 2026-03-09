@@ -64,6 +64,7 @@ export default function Footer() {
               { label: "Instagram", href: "https://www.instagram.com/slidez_ai_shopping/" },
               { label: "TikTok",    href: "https://www.tiktok.com/@slidez._"              },
               { label: "X",         href: "https://x.com/slidez_social"                   },
+              { label: "LinkedIn",  href: "https://www.linkedin.com/company/slidez-social/" },
             ].map((s) => (
               <a
                 key={s.label}
