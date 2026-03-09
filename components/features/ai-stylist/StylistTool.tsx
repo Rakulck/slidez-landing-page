@@ -68,7 +68,8 @@ type ChipOutfit = {
   accessories: string;
 };
 
-const CHIP_OUTFITS: Record<string, ChipOutfit[]> = {
+/* ── Women's chip outfits ─────────────────────────────────────── */
+const CHIP_OUTFITS_WOMEN: Record<string, ChipOutfit[]> = {
   Casual: [
     {
       name: "Effortless Everyday",
@@ -232,19 +233,184 @@ const CHIP_OUTFITS: Record<string, ChipOutfit[]> = {
   ],
 };
 
-// Emoji map for chips
-const CHIP_EMOJI: Record<string, string> = {
-  Casual:      "👟",
-  Office:      "💼",
-  "Date Night": "🌙",
-  Winter:      "❄️",
-  Party:       "🎉",
-  Vacation:    "🌴",
-  Beach:       "🏖️",
+/* ── Men's chip outfits ───────────────────────────────────────── */
+const CHIP_OUTFITS_MEN: Record<string, ChipOutfit[]> = {
+  Casual: [
+    {
+      name: "Clean & Easy",
+      top: "White fitted crew-neck tee",
+      bottom: "Slim straight dark jeans",
+      shoes: "White leather sneakers",
+      accessories: "Minimal watch, simple bracelet",
+    },
+    {
+      name: "Relaxed Streetwear",
+      top: "Oversized graphic hoodie",
+      bottom: "Tapered cargo joggers",
+      shoes: "Chunky low-top sneakers",
+      accessories: "Cap, small crossbody bag",
+    },
+    {
+      name: "Weekend Layered",
+      top: "Grey crewneck sweatshirt over white tee",
+      bottom: "Relaxed chinos",
+      shoes: "Canvas low-tops",
+      accessories: "Tortoiseshell sunglasses",
+    },
+  ],
+  Office: [
+    {
+      name: "Sharp Professional",
+      top: "Fitted white Oxford shirt",
+      bottom: "Tailored navy trousers",
+      shoes: "Leather derby shoes",
+      accessories: "Leather belt, minimal watch",
+    },
+    {
+      name: "Modern Business Casual",
+      top: "Merino polo",
+      bottom: "Slim chinos",
+      shoes: "Suede loafers",
+      accessories: "Minimalist watch, leather card holder",
+    },
+    {
+      name: "Blazer Look",
+      top: "Unstructured blazer over crew-neck tee",
+      bottom: "Tailored slim trousers",
+      shoes: "Chelsea boots",
+      accessories: "Pocket square, simple ring",
+    },
+  ],
+  "Date Night": [
+    {
+      name: "Effortlessly Sharp",
+      top: "Black fitted turtleneck",
+      bottom: "Tailored dark trousers",
+      shoes: "Leather Chelsea boots",
+      accessories: "Minimal watch, subtle cologne",
+    },
+    {
+      name: "Smart Casual",
+      top: "Open-collar linen shirt",
+      bottom: "Slim dark jeans",
+      shoes: "Suede loafers",
+      accessories: "Leather bracelet, watch",
+    },
+    {
+      name: "Elevated Look",
+      top: "Fitted blazer over white tee",
+      bottom: "Black slim trousers",
+      shoes: "Pointed-toe leather shoes",
+      accessories: "Silver ring, minimal clutch bag",
+    },
+  ],
+  Winter: [
+    {
+      name: "Cosy Classic",
+      top: "Chunky cable-knit sweater over collared shirt",
+      bottom: "Dark straight jeans",
+      shoes: "Leather lace-up boots",
+      accessories: "Wool scarf, leather gloves",
+    },
+    {
+      name: "Layered Sharp",
+      top: "Wool overcoat over turtleneck",
+      bottom: "Slim tailored trousers",
+      shoes: "Suede Chelsea boots",
+      accessories: "Beanie, minimal watch",
+    },
+    {
+      name: "Textured Warmth",
+      top: "Shearling bomber jacket over henley",
+      bottom: "Relaxed cargo trousers",
+      shoes: "Lug-sole boots",
+      accessories: "Knit beanie, simple ring",
+    },
+  ],
+  Party: [
+    {
+      name: "Night Out Edge",
+      top: "Satin shirt (partially unbuttoned)",
+      bottom: "Black slim trousers",
+      shoes: "Leather Chelsea boots",
+      accessories: "Chain necklace, minimal ring",
+    },
+    {
+      name: "Bold Statement",
+      top: "Graphic oversized shirt (tucked)",
+      bottom: "Wide-leg tailored pants",
+      shoes: "Platform leather boots",
+      accessories: "Layered chains, leather band watch",
+    },
+    {
+      name: "Sharp & Minimal",
+      top: "Black fitted blazer over black tee",
+      bottom: "Black slim trousers",
+      shoes: "Pointed leather shoes",
+      accessories: "Silver watch, subtle ring",
+    },
+  ],
+  Vacation: [
+    {
+      name: "Resort Easy",
+      top: "Linen short-sleeve shirt (open)",
+      bottom: "Linen drawstring trousers",
+      shoes: "Leather sandals",
+      accessories: "Straw hat, woven bracelet",
+    },
+    {
+      name: "Tropical Casual",
+      top: "Printed camp collar shirt",
+      bottom: "Tailored swim shorts",
+      shoes: "Slip-on sneakers",
+      accessories: "Aviator sunglasses, canvas tote",
+    },
+    {
+      name: "Clean & Light",
+      top: "White crew-neck tee",
+      bottom: "Relaxed linen shorts",
+      shoes: "White leather sandals",
+      accessories: "Bucket hat, minimal watch",
+    },
+  ],
+  Beach: [
+    {
+      name: "Shore Ready",
+      top: "Linen shirt (open) over bare chest",
+      bottom: "Tailored swim shorts",
+      shoes: "Leather flip flops",
+      accessories: "Woven hat, shell bracelet",
+    },
+    {
+      name: "Casual Cool",
+      top: "Relaxed terry cloth polo",
+      bottom: "Board shorts",
+      shoes: "Suede slide sandals",
+      accessories: "Aviator sunglasses, canvas bag",
+    },
+    {
+      name: "Beach Chic",
+      top: "Striped oversized linen tee",
+      bottom: "Linen drawstring shorts",
+      shoes: "Leather sandals",
+      accessories: "Straw hat, woven bracelet",
+    },
+  ],
 };
 
-// Generic submit results (used when user types a custom query)
-const OUTFIT_RESULTS = [
+/* ── Emoji map for chips ──────────────────────────────────────── */
+const CHIP_EMOJI: Record<string, string> = {
+  Casual:       "👟",
+  Office:       "💼",
+  "Date Night": "🌙",
+  Winter:       "❄️",
+  Party:        "🎉",
+  Vacation:     "🌴",
+  Beach:        "🏖️",
+};
+
+/* ── Custom query results ─────────────────────────────────────── */
+const OUTFIT_RESULTS_WOMEN = [
   {
     tag: "Top Pick",
     name: "Effortless Evening",
@@ -265,8 +431,28 @@ const OUTFIT_RESULTS = [
   },
 ];
 
-/* ── Outfit field row ─────────────────────────────────────────── */
+const OUTFIT_RESULTS_MEN = [
+  {
+    tag: "Top Pick",
+    name: "Clean & Considered",
+    pieces: ["Black fitted turtleneck", "Tailored dark trousers", "Leather Chelsea boots", "Minimal watch"],
+    swatches: ["#1a1a1a", "#3a3a3a", "#808080"],
+  },
+  {
+    tag: "Alternative",
+    name: "Smart Casual",
+    pieces: ["Linen shirt", "Slim chinos", "Suede loafers", "Leather card holder"],
+    swatches: ["#d4c4a8", "#4a3f35", "#c0c0c0"],
+  },
+  {
+    tag: "Bold Choice",
+    name: "Statement Look",
+    pieces: ["Oversized blazer", "White crew-neck tee", "Wide-leg trousers", "Platform sneakers"],
+    swatches: ["#2d2d2d", "#f0f0f0", "#6a6a6a"],
+  },
+];
 
+/* ── Outfit field row ─────────────────────────────────────────── */
 function OutfitRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-3 text-sm">
@@ -277,6 +463,8 @@ function OutfitRow({ label, value }: { label: string; value: string }) {
 }
 
 /* ── Main component ───────────────────────────────────────────── */
+
+type Gender = "Women" | "Men";
 
 type StylistToolProps = {
   /** Text to inject from a parent (e.g. card click). */
@@ -298,6 +486,7 @@ export default function StylistTool({
   chips = DEFAULT_CHIPS,
   prompts = DEFAULT_PROMPTS,
 }: StylistToolProps = {}) {
+  const [gender, setGender] = useState<Gender>("Women");
   const [input, setInput] = useState("");
   const [results, setResults] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -306,6 +495,9 @@ export default function StylistTool({
   const [activeChip, setActiveChip] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const placeholder = useTypewriter(!input && !results && !chipResults, prompts);
+
+  const chipOutfits = gender === "Women" ? CHIP_OUTFITS_WOMEN : CHIP_OUTFITS_MEN;
+  const outfitResults = gender === "Women" ? OUTFIT_RESULTS_WOMEN : OUTFIT_RESULTS_MEN;
 
   // Inject external prompt whenever the key increments
   useEffect(() => {
@@ -318,10 +510,11 @@ export default function StylistTool({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalPromptKey]);
 
+
   const handleChip = (chip: string) => {
     setInput(chip);
     setActiveChip(chip);
-    setChipResults(CHIP_OUTFITS[chip]);
+    setChipResults(null);
     if (results) setResults(false);
     inputRef.current?.focus();
   };
@@ -352,7 +545,8 @@ export default function StylistTool({
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      {/* Input box */}
+
+      {/* ── Input box ────────────────────────────────────────────── */}
       <div
         className={`rounded-2xl border transition-all duration-300 ${
           hasAnyResults
@@ -370,7 +564,6 @@ export default function StylistTool({
             onChange={(e) => {
               setInput(e.target.value);
               if (results) setResults(false);
-              // Don't clear chipResults on edit — let them stay visible
             }}
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
             placeholder={placeholder}
@@ -408,9 +601,25 @@ export default function StylistTool({
 
         {/* Bottom bar */}
         <div className="px-5 pb-4 flex items-center justify-between gap-3">
-          <span className="text-xs text-white/20 hidden sm:block">
-            Press Enter or click to generate
-          </span>
+          {/* Style selector */}
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="text-xs text-white/30 font-medium tracking-wide hidden sm:block">Style for</span>
+            <div className="flex items-center gap-0.5 p-0.5 rounded-full border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.03)]">
+              {(["Women", "Men"] as Gender[]).map((g) => (
+                <button
+                  key={g}
+                  onClick={() => setGender(g)}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 ${
+                    gender === g
+                      ? "bg-[rgba(255,255,255,0.11)] text-white"
+                      : "text-white/30 hover:text-white/55"
+                  }`}
+                >
+                  {g}
+                </button>
+              ))}
+            </div>
+          </div>
           <button
             onClick={handleSubmit}
             disabled={!input.trim() || loading}
@@ -440,7 +649,7 @@ export default function StylistTool({
         </div>
       </div>
 
-      {/* Suggestion chips */}
+      {/* ── Suggestion chips ─────────────────────────────────────── */}
       <div className="flex flex-wrap justify-center gap-2 mt-4">
         {chips.map((chip) => (
           <button
@@ -460,11 +669,11 @@ export default function StylistTool({
         ))}
       </div>
 
-      {/* ── Chip-specific outfit suggestions ────────────────────── */}
+      {/* ── Chip-specific outfit suggestions ─────────────────────── */}
       <AnimatePresence mode="wait">
         {chipResults && !results && (
           <motion.div
-            key={activeChip}
+            key={`${activeChip}-${gender}`}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
@@ -472,7 +681,7 @@ export default function StylistTool({
             className="mt-8"
           >
             <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium">
-              Outfit suggestions · {activeChip}
+              {gender}&rsquo;s outfit ideas · {activeChip}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -485,20 +694,15 @@ export default function StylistTool({
                   className="p-4 rounded-xl border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.04)]
                     hover:border-[rgba(192,192,192,0.28)] transition-colors group"
                 >
-                  {/* Card header */}
                   <p className="text-white font-semibold text-sm mb-4 pb-3 border-b border-[rgba(192,192,192,0.1)]">
                     {outfit.name}
                   </p>
-
-                  {/* Labeled outfit fields */}
                   <div className="flex flex-col gap-2.5 mb-4">
                     <OutfitRow label="Top" value={outfit.top} />
                     <OutfitRow label="Bottom" value={outfit.bottom} />
                     <OutfitRow label="Shoes" value={outfit.shoes} />
                     <OutfitRow label="Accessories" value={outfit.accessories} />
                   </div>
-
-                  {/* Try On CTA */}
                   <a
                     href="https://linkly.link/2FWYm"
                     className="text-[11px] text-[#c0c0c0] font-medium group-hover:text-white transition-colors"
@@ -509,7 +713,6 @@ export default function StylistTool({
               ))}
             </div>
 
-            {/* App nudge */}
             <div className="mt-5 p-5 rounded-xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.03)] text-center">
               <p className="text-white/40 text-sm mb-3">
                 Try these looks on yourself with Slidez virtual try-on
@@ -528,7 +731,7 @@ export default function StylistTool({
         )}
       </AnimatePresence>
 
-      {/* ── Custom query submit results ──────────────────────────── */}
+      {/* ── Custom query results ──────────────────────────────────── */}
       <AnimatePresence>
         {results && (
           <motion.div
@@ -539,11 +742,11 @@ export default function StylistTool({
             className="mt-8"
           >
             <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium">
-              Outfit ideas for &ldquo;{query}&rdquo;
+              {gender}&rsquo;s outfit ideas for &ldquo;{query}&rdquo;
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {OUTFIT_RESULTS.map((outfit, i) => (
+              {outfitResults.map((outfit, i) => (
                 <motion.div
                   key={outfit.name}
                   initial={{ opacity: 0, y: 16 }}
@@ -585,7 +788,6 @@ export default function StylistTool({
               ))}
             </div>
 
-            {/* App nudge after results */}
             <div className="mt-5 p-5 rounded-xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.03)] text-center">
               <p className="text-white/40 text-sm mb-3">
                 Try these looks on yourself with Slidez virtual try-on
