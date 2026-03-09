@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
 
-const PROMPTS = [
+const DEFAULT_PROMPTS = [
   "Black dress for dinner date...",
   "Casual office look for Friday...",
   "Beach vacation, keep it chic...",
@@ -15,7 +15,7 @@ const PROMPTS = [
   "Date night, effortlessly minimal...",
 ];
 
-function useTypewriter(active: boolean) {
+function useTypewriter(active: boolean, prompts: string[]) {
   const [displayed, setDisplayed] = useState("");
   const promptIdx = useRef(0);
   const charIdx = useRef(0);
@@ -23,7 +23,7 @@ function useTypewriter(active: boolean) {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const tick = useCallback(() => {
-    const current = PROMPTS[promptIdx.current];
+    const current = prompts[promptIdx.current % prompts.length];
     if (!deleting.current) {
       charIdx.current += 1;
       setDisplayed(current.slice(0, charIdx.current));
@@ -38,13 +38,14 @@ function useTypewriter(active: boolean) {
       setDisplayed(current.slice(0, charIdx.current));
       if (charIdx.current === 0) {
         deleting.current = false;
-        promptIdx.current = (promptIdx.current + 1) % PROMPTS.length;
+        promptIdx.current = (promptIdx.current + 1) % prompts.length;
         timer.current = setTimeout(tick, 400);
         return;
       }
       timer.current = setTimeout(tick, 35);
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prompts]);
 
   useEffect(() => {
     if (!active) return;
@@ -57,7 +58,7 @@ function useTypewriter(active: boolean) {
 
 /* ── Data ─────────────────────────────────────────────────────── */
 
-const CHIPS = ["Casual", "Office", "Date Night", "Winter", "Party", "Vacation"];
+const DEFAULT_CHIPS = ["Casual", "Office", "Date Night", "Winter", "Party", "Vacation"];
 
 type ChipOutfit = {
   name: string;
@@ -206,6 +207,40 @@ const CHIP_OUTFITS: Record<string, ChipOutfit[]> = {
       accessories: "Woven bucket hat, oversized sunglasses",
     },
   ],
+  Beach: [
+    {
+      name: "Sun & Sand",
+      top: "Breezy linen shirt (open)",
+      bottom: "High-waist bikini bottoms",
+      shoes: "Leather slide sandals",
+      accessories: "Straw hat, shell necklace",
+    },
+    {
+      name: "Resort Easy",
+      top: "Crochet cover-up top",
+      bottom: "Flowy wrap skirt",
+      shoes: "Flat raffia sandals",
+      accessories: "Oversized sunglasses, canvas tote",
+    },
+    {
+      name: "Beach Chic",
+      top: "Striped linen crop top",
+      bottom: "Wide-leg linen trousers",
+      shoes: "Espadrille wedges",
+      accessories: "Gold anklet, woven clutch",
+    },
+  ],
+};
+
+// Emoji map for chips
+const CHIP_EMOJI: Record<string, string> = {
+  Casual:      "👟",
+  Office:      "💼",
+  "Date Night": "🌙",
+  Winter:      "❄️",
+  Party:       "🎉",
+  Vacation:    "🌴",
+  Beach:       "🏖️",
 };
 
 // Generic submit results (used when user types a custom query)
@@ -248,11 +283,20 @@ type StylistToolProps = {
   externalPrompt?: string;
   /** Increment each time you want to inject a new prompt. */
   externalPromptKey?: number;
+  /** Override the submit button label. Defaults to "Generate Outfit Ideas". */
+  submitLabel?: string;
+  /** Override the chip set. Defaults to DEFAULT_CHIPS. */
+  chips?: string[];
+  /** Override typewriter placeholder prompts. Defaults to DEFAULT_PROMPTS. */
+  prompts?: string[];
 };
 
 export default function StylistTool({
   externalPrompt,
   externalPromptKey,
+  submitLabel = "Generate Outfit Ideas",
+  chips = DEFAULT_CHIPS,
+  prompts = DEFAULT_PROMPTS,
 }: StylistToolProps = {}) {
   const [input, setInput] = useState("");
   const [results, setResults] = useState(false);
@@ -261,7 +305,7 @@ export default function StylistTool({
   const [chipResults, setChipResults] = useState<ChipOutfit[] | null>(null);
   const [activeChip, setActiveChip] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const placeholder = useTypewriter(!input && !results && !chipResults);
+  const placeholder = useTypewriter(!input && !results && !chipResults, prompts);
 
   // Inject external prompt whenever the key increments
   useEffect(() => {
@@ -384,12 +428,12 @@ export default function StylistTool({
                   transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
                   className="w-3.5 h-3.5 rounded-full border-2 border-black border-t-transparent"
                 />
-                Generating...
+                Finding...
               </>
             ) : (
               <>
                 <Sparkles className="w-3.5 h-3.5" />
-                Generate Outfit Ideas
+                {submitLabel}
               </>
             )}
           </button>
@@ -398,16 +442,19 @@ export default function StylistTool({
 
       {/* Suggestion chips */}
       <div className="flex flex-wrap justify-center gap-2 mt-4">
-        {CHIPS.map((chip) => (
+        {chips.map((chip) => (
           <button
             key={chip}
             onClick={() => handleChip(chip)}
-            className={`px-4 py-2 rounded-full border text-sm transition-all duration-200 ${
+            className={`px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 ${
               activeChip === chip
                 ? "border-[rgba(192,192,192,0.5)] bg-[rgba(192,192,192,0.12)] text-white"
                 : "border-[rgba(192,192,192,0.15)] text-white/40 hover:border-[rgba(192,192,192,0.3)] hover:text-white/70"
             }`}
           >
+            {CHIP_EMOJI[chip] && (
+              <span className="text-base leading-none">{CHIP_EMOJI[chip]}</span>
+            )}
             {chip}
           </button>
         ))}

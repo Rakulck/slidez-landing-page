@@ -226,13 +226,13 @@ export default function OutfitIdeasHubTemplate() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-4">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/30 mb-4">
-              Example Results
+              Style Inspirations
             </p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-black">
-              See What AI Generates
+              Outfit Ideas You Can Try
             </h2>
             <p className="mt-3 text-black/40 text-base max-w-sm mx-auto">
-              Here&rsquo;s what Slidez AI produces for a single prompt.
+              Get inspired and create a look that fits your style.
             </p>
           </div>
 
@@ -359,7 +359,7 @@ export default function OutfitIdeasHubTemplate() {
             AI Stylist
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight mb-4">
-            Create Your Own Outfit With AI
+            Create Your Own Style With AI
           </h2>
           <p className="text-base text-white/40 max-w-sm mx-auto mb-10 leading-relaxed">
             Type anything — occasion, vibe, or a single item you want to build around.
@@ -426,13 +426,13 @@ export default function OutfitIdeasHubTemplate() {
             Open Slidez AI Stylist
           </h2>
 
-          <ul className="flex flex-col items-center gap-3.5 mb-10">
+          <ul className="flex flex-col items-center gap-3.5 mb-10 text-center">
             {[
               "Upload your photo",
               "Generate outfits with AI Stylist",
               "Try clothes before buying",
             ].map((point) => (
-              <li key={point} className="flex items-center gap-3 text-white/50 text-base">
+              <li key={point} className="flex items-center justify-center gap-3 text-white/50 text-base">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#c0c0c0] shrink-0" />
                 {point}
               </li>
