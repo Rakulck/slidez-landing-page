@@ -185,7 +185,7 @@ function MiniFAQItem({ q, a }: { q: string; a: string }) {
         <span className="text-sm text-white/50 group-hover:text-white/70 transition-colors duration-200">
           {q}
         </span>
-        <span className="shrink-0 text-white/25 group-hover:text-white/45 transition-colors duration-200">
+        <span className="shrink-0 w-6 h-6 rounded-full border border-white/[0.12] flex items-center justify-center text-white/30 group-hover:border-white/25 group-hover:text-white/55 transition-all duration-200">
           {open ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
         </span>
       </button>

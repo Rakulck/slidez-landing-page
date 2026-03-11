@@ -117,10 +117,10 @@
     box-shadow: 0 0 30px rgba(192, 192, 192, 0.12), 0 0 60px rgba(192, 192, 192, 0.06);
   }
   .input-glow-hover {
-    box-shadow: 0 0 20px rgba(66, 133, 244, 0.12), 0 0 25px rgba(145, 119, 199, 0.1);
+    box-shadow: 0 0 20px rgba(192, 192, 192, 0.1), 0 0 40px rgba(192, 192, 192, 0.05);
   }
   .input-glow-focus {
-    box-shadow: 0 0 20px rgba(66, 133, 244, 0.25), 0 0 25px rgba(145, 119, 199, 0.2);
+    box-shadow: 0 0 24px rgba(192, 192, 192, 0.18), 0 0 48px rgba(192, 192, 192, 0.08);
   }
 }
 

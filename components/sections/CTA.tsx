@@ -14,8 +14,14 @@ const goals = [
 
 export default function CTA() {
   return (
-    <section className="bg-white py-28 px-6 border-t border-black/[0.06]">
-      <div className="max-w-3xl mx-auto text-center">
+    <section className="relative bg-[#f5f4f2] py-28 px-6 border-t border-black/[0.06] overflow-hidden">
+      {/* Decorative background rings */}
+      <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[600px] h-[600px] rounded-full border border-black/[0.04]" />
+        <div className="absolute w-[400px] h-[400px] rounded-full border border-black/[0.05]" />
+        <div className="absolute w-[200px] h-[200px] rounded-full border border-black/[0.06]" />
+      </div>
+      <div className="max-w-3xl mx-auto text-center relative z-10">
         {/* Headline */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -99,3 +105,4 @@ export default function CTA() {
     </section>
   );
 }
+

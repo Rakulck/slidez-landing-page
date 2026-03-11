@@ -149,9 +149,6 @@ export default function Hero() {
         className="relative z-10 w-full max-w-3xl mx-auto"
       >
 
-        {/* Spacer to preserve centering where badge was */}
-        <div className="mb-8" />
-
         {/* Headline */}
         <h1 className="text-[clamp(2.6rem,8vw,5.5rem)] font-bold leading-[1.05] tracking-tight mb-6">
           <span className="text-white">The Ultimate</span>

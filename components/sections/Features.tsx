@@ -277,7 +277,7 @@ const bentoCards = [
 
 export default function Features() {
   return (
-    <section id="features" className="bg-white py-28 px-6">
+    <section id="features" className="bg-[#f5f4f2] py-28 px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -289,10 +289,10 @@ export default function Features() {
 <h2 className="text-4xl md:text-5xl font-bold text-black tracking-tight mb-3">
             Everything in your pocket.
           </h2>
-          <p className="text-black/70 text-base font-medium mb-3">
+          <p className="text-black/60 text-base font-medium mb-3">
             AI stylist. Virtual try-on. One app.
           </p>
-          <p className="text-black/50 text-lg max-w-md mx-auto">
+          <p className="text-black/45 text-lg max-w-md mx-auto">
             From upload to checkout: the complete fitting room, on your phone.
           </p>
         </motion.div>

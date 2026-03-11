@@ -69,7 +69,7 @@ export default function FAQ() {
     <section
       id="faq"
       aria-label="AI Stylist and Virtual Try-On FAQs"
-      className="bg-white py-24 px-6 border-t border-black/[0.06]"
+      className="bg-[#f5f4f2] py-24 px-6 border-t border-black/[0.06]"
     >
       <div className="max-w-2xl mx-auto">
         {/* Header */}
