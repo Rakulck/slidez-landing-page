@@ -14,7 +14,7 @@ const BASE_URL = "https://slidez-landing-page.vercel.app";
 
 const TITLE = "Slidez – AI Stylist & Virtual Try-On App";
 const DESCRIPTION =
-  "Slidez is an AI stylist that generates outfits and lets you virtually try on clothes before buying. Discover your style — free on iOS & Android.";
+  "Meet your AI Stylist. Slidez generates outfit ideas, visualizes looks on you, and helps you shop smarter. Free on iOS & Android.";
 const OG_TITLE = "Slidez: AI Stylist & Try-On";
 const OG_DESCRIPTION =
   "Generate outfits & try clothes virtually with Slidez AI.";
