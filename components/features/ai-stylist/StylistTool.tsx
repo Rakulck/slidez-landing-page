@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Sparkles, ArrowRight, X } from "lucide-react";
+import { Sparkles, ArrowRight, X, Upload } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -501,6 +501,7 @@ export default function StylistTool({
   const [showIconTooltip, setShowIconTooltip] = useState(false);
   const outfitFileRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const photoFileRef = useRef<HTMLInputElement>(null);
 
   // Auto-show tooltip on mount, dismiss after 4s
   useEffect(() => {
@@ -561,6 +562,21 @@ export default function StylistTool({
     setShowModelPicker(false);
     if (pendingChip) {
       const outfits = (g === "Women" ? CHIP_OUTFITS_WOMEN : CHIP_OUTFITS_MEN)[pendingChip];
+      if (outfits) setChipResults(outfits);
+    } else {
+      setResults(true);
+    }
+    setPendingChip(null);
+  };
+
+  const handlePhotoUpload = () => {
+    photoFileRef.current?.click();
+  };
+
+  const handlePhotoFileChange = () => {
+    setShowModelPicker(false);
+    if (pendingChip) {
+      const outfits = (gender === "Women" ? CHIP_OUTFITS_WOMEN : CHIP_OUTFITS_MEN)[pendingChip];
       if (outfits) setChipResults(outfits);
     } else {
       setResults(true);
@@ -809,6 +825,13 @@ export default function StylistTool({
             <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium text-center">
               Choose your model
             </p>
+            <input
+              ref={photoFileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handlePhotoFileChange}
+            />
             <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
               {([
                 { g: "Women" as Gender, src: "/model-woman.jpg", label: "Female Model" },
@@ -839,6 +862,29 @@ export default function StylistTool({
                   </div>
                 </motion.button>
               ))}
+            </div>
+            {/* Upload your photo option */}
+            <div className="max-w-sm mx-auto mt-3">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex-1 h-px bg-[rgba(192,192,192,0.08)]" />
+                <span className="text-[9px] text-white/20 uppercase tracking-widest">or</span>
+                <div className="flex-1 h-px bg-[rgba(192,192,192,0.08)]" />
+              </div>
+              <motion.button
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.14 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={handlePhotoUpload}
+                className="group flex items-center justify-center gap-3 w-full rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.02)] hover:border-[rgba(192,192,192,0.4)] hover:bg-[rgba(255,255,255,0.04)] px-4 py-3 transition-all duration-200 cursor-pointer"
+              >
+                <Upload className="w-4 h-4 text-[#c0c0c0]" />
+                <div className="text-left">
+                  <p className="text-[12px] font-semibold text-white leading-tight">Upload Your Photo</p>
+                  <p className="text-[10px] text-white/30">Personalised fit</p>
+                </div>
+              </motion.button>
             </div>
           </motion.div>
         )}

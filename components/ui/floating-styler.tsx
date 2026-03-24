@@ -11,8 +11,8 @@ interface FloatingStylerProps {
   onComplete: () => void;
 }
 
-const STEP1_TIME = 10;
-const STEP2_TIME = 6;
+const STEP1_TIME = 59;
+const STEP2_TIME = 59;
 
 /* ── Countdown ring ──────────────────────────────────────────── */
 function CountdownRing({ seconds, total }: { seconds: number; total: number }) {
