@@ -50,7 +50,7 @@ export default function Navbar() {
             : "bg-white/[0.04] border-white/[0.07] shadow-[0_4px_24px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-xl"
         }`}
       >
-        <div className="px-5 h-[60px] flex items-center justify-between">
+        <div className="px-5 h-[60px] flex items-center justify-between" suppressHydrationWarning>
           {/* Logo */}
           <a
             href="/"
@@ -127,14 +127,25 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="md:hidden text-white/60 hover:text-white transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-            aria-label="Toggle menu"
-          >
-            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* Mobile: Download App + hamburger */}
+          <div className="md:hidden flex items-center gap-2">
+            <a
+              href="https://linkly.link/2FWYm"
+              onClick={trackDownloadClick}
+              className="px-4 py-2 bg-white text-black text-xs font-semibold rounded-full
+                shadow-[0_2px_12px_rgba(255,255,255,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
+                active:scale-[0.97] transition-all duration-200"
+            >
+              Download
+            </a>
+            <button
+              onClick={() => setOpen(!open)}
+              className="text-white/60 hover:text-white transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+              aria-label="Toggle menu"
+            >
+              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu */}

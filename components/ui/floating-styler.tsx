@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minus, Upload, User } from "lucide-react";
+import { Minus, Upload } from "lucide-react";
+import Image from "next/image";
 
 interface FloatingStylerProps {
   visible: boolean;
@@ -42,7 +43,7 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
   const [step, setStep] = useState<1 | 2>(1);
   const [seconds, setSeconds] = useState(STEP1_TIME);
   const [minimized, setMinimized] = useState(false);
-  const [chosenAvatar, setChosenAvatar] = useState<"default" | "upload" | null>(null);
+  const [chosenAvatar, setChosenAvatar] = useState<"model-man" | "model-woman" | "upload" | null>(null);
   const [chosenGender, setChosenGender] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -87,20 +88,20 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
       return;
     }
     startTimer(STEP1_TIME, () => {
-      // Auto-default avatar, move to gender step
-      setChosenAvatar("default");
-      goToStep2();
+      // Auto-select male model, skip gender step
+      setChosenAvatar("model-man");
+      setTimeout(() => onComplete(), 300);
     });
   }, [visible]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handlePickAvatar = (type: "default" | "upload") => {
+  const handlePickAvatar = (type: "model-man" | "model-woman" | "upload") => {
     if (type === "upload") {
       fileRef.current?.click();
       return;
     }
     clearTimer();
-    setChosenAvatar("default");
-    goToStep2();
+    setChosenAvatar(type);
+    setTimeout(() => onComplete(), 500);
   };
 
   const handleFileChange = () => {
@@ -188,7 +189,7 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-white leading-tight">
-                        {step === 1 ? "How should we style you?" : "What's your gender?"}
+                        {step === 1 ? "Choose your model" : "What's your gender?"}
                       </p>
                       <p className="text-[10px] text-white/35 mt-0.5">{headerSub}</p>
                     </div>
@@ -207,44 +208,67 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
                 {/* Step content */}
                 <AnimatePresence mode="wait">
                   {step === 1 ? (
-                    /* ── Step 1: Avatar or Upload ── */
+                    /* ── Step 1: Model presets or Upload ── */
                     <motion.div
                       key="step1"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                      className="grid grid-cols-2 gap-2.5 p-4"
+                      className="flex flex-col gap-2.5 p-4"
                     >
-                      {/* Default avatar */}
-                      <motion.button
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => handlePickAvatar("default")}
-                        className="flex flex-col items-center gap-2.5 rounded-xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.02)] hover:border-[rgba(192,192,192,0.25)] hover:bg-[rgba(255,255,255,0.04)] p-4 transition-all duration-200 cursor-pointer"
-                      >
-                        <div className="w-10 h-10 rounded-full bg-[rgba(192,192,192,0.1)] border border-[rgba(192,192,192,0.15)] flex items-center justify-center">
-                          <User className="w-5 h-5 text-[#c0c0c0]" />
-                        </div>
-                        <div className="text-center">
-                          <p className="text-[11px] font-semibold text-white leading-tight">Default</p>
-                          <p className="text-[9px] text-white/30 mt-0.5">Try instantly</p>
-                        </div>
-                      </motion.button>
+                      {/* Label */}
+                      <p className="text-[10px] text-white/30 font-medium uppercase tracking-widest mb-0.5">Pick a model</p>
 
-                      {/* Upload photo */}
+                      {/* Model image cards */}
+                      <div className="grid grid-cols-2 gap-2.5">
+                        {[
+                          { type: "model-man" as const, src: "/model-man.jpg", label: "Male Model" },
+                          { type: "model-woman" as const, src: "/model-woman.jpg", label: "Female Model" },
+                        ].map(({ type, src, label }) => (
+                          <motion.button
+                            key={type}
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
+                            onClick={() => handlePickAvatar(type)}
+                            className="group relative flex flex-col rounded-xl overflow-hidden border border-[rgba(192,192,192,0.1)] hover:border-[rgba(192,192,192,0.35)] transition-all duration-200 cursor-pointer"
+                          >
+                            <div className="relative w-full h-[110px] bg-[rgba(255,255,255,0.03)]">
+                              <Image
+                                src={src}
+                                alt={label}
+                                fill
+                                className="object-cover object-top"
+                                sizes="120px"
+                              />
+                              {/* subtle dark overlay on hover */}
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" />
+                            </div>
+                            <div className="px-2 py-1.5 bg-[rgba(255,255,255,0.03)]">
+                              <p className="text-[10px] font-semibold text-white/70 group-hover:text-white transition-colors leading-tight text-center">{label}</p>
+                            </div>
+                          </motion.button>
+                        ))}
+                      </div>
+
+                      {/* Divider */}
+                      <div className="flex items-center gap-2 my-0.5">
+                        <div className="flex-1 h-px bg-[rgba(192,192,192,0.08)]" />
+                        <span className="text-[9px] text-white/20 uppercase tracking-widest">or</span>
+                        <div className="flex-1 h-px bg-[rgba(192,192,192,0.08)]" />
+                      </div>
+
+                      {/* Upload your photo */}
                       <motion.button
-                        whileHover={{ scale: 1.03 }}
+                        whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.97 }}
                         onClick={() => handlePickAvatar("upload")}
-                        className="flex flex-col items-center gap-2.5 rounded-xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.02)] hover:border-[rgba(192,192,192,0.25)] hover:bg-[rgba(255,255,255,0.04)] p-4 transition-all duration-200 cursor-pointer"
+                        className="flex items-center justify-center gap-2.5 w-full rounded-xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.02)] hover:border-[rgba(192,192,192,0.25)] hover:bg-[rgba(255,255,255,0.04)] px-4 py-2.5 transition-all duration-200 cursor-pointer"
                       >
-                        <div className="w-10 h-10 rounded-full bg-[rgba(192,192,192,0.1)] border border-[rgba(192,192,192,0.15)] flex items-center justify-center">
-                          <Upload className="w-4 h-4 text-[#c0c0c0]" />
-                        </div>
-                        <div className="text-center">
-                          <p className="text-[11px] font-semibold text-white leading-tight">Your Photo</p>
-                          <p className="text-[9px] text-white/30 mt-0.5">Personalised fit</p>
+                        <Upload className="w-3.5 h-3.5 text-[#c0c0c0]" />
+                        <div className="text-left">
+                          <p className="text-[11px] font-semibold text-white leading-tight">Upload Your Photo</p>
+                          <p className="text-[9px] text-white/30">Personalised fit</p>
                         </div>
                       </motion.button>
                     </motion.div>

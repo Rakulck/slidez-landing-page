@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Sparkles, ArrowRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
 
@@ -493,8 +494,21 @@ export default function StylistTool({
   const [query, setQuery] = useState("");
   const [chipResults, setChipResults] = useState<ChipOutfit[] | null>(null);
   const [activeChip, setActiveChip] = useState<string | null>(null);
+  const [showModelPicker, setShowModelPicker] = useState(false);
+  const [pendingChip, setPendingChip] = useState<string | null>(null);
+  const [showOutfitDialog, setShowOutfitDialog] = useState(false);
+  const [outfitLink, setOutfitLink] = useState("");
+  const [showIconTooltip, setShowIconTooltip] = useState(false);
+  const outfitFileRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const placeholder = useTypewriter(!input && !results && !chipResults, prompts);
+
+  // Auto-show tooltip on mount, dismiss after 4s
+  useEffect(() => {
+    const show = setTimeout(() => setShowIconTooltip(true), 1200);
+    const hide = setTimeout(() => setShowIconTooltip(false), 5000);
+    return () => { clearTimeout(show); clearTimeout(hide); };
+  }, []);
+  const placeholder = useTypewriter(!input && !results && !chipResults && !showModelPicker, prompts);
 
   const chipOutfits = gender === "Women" ? CHIP_OUTFITS_WOMEN : CHIP_OUTFITS_MEN;
   const outfitResults = gender === "Women" ? OUTFIT_RESULTS_WOMEN : OUTFIT_RESULTS_MEN;
@@ -515,8 +529,16 @@ export default function StylistTool({
     setInput(chip);
     setActiveChip(chip);
     setChipResults(null);
-    if (results) setResults(false);
-    inputRef.current?.focus();
+    setResults(false);
+    setShowModelPicker(false);
+    setPendingChip(chip);
+    // auto-submit chip
+    setQuery(chip);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setShowModelPicker(true);
+    }, 600);
   };
 
   const handleSubmit = () => {
@@ -524,11 +546,26 @@ export default function StylistTool({
     setQuery(input.trim());
     setChipResults(null);
     setActiveChip(null);
+    setResults(false);
+    setShowModelPicker(false);
+    setPendingChip(null);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setResults(true);
+      setShowModelPicker(true);
     }, 900);
+  };
+
+  const handleModelPick = (g: Gender) => {
+    setGender(g);
+    setShowModelPicker(false);
+    if (pendingChip) {
+      const outfits = (g === "Women" ? CHIP_OUTFITS_WOMEN : CHIP_OUTFITS_MEN)[pendingChip];
+      if (outfits) setChipResults(outfits);
+    } else {
+      setResults(true);
+    }
+    setPendingChip(null);
   };
 
   const handleReset = () => {
@@ -538,25 +575,52 @@ export default function StylistTool({
     setQuery("");
     setChipResults(null);
     setActiveChip(null);
+    setShowModelPicker(false);
+    setPendingChip(null);
     inputRef.current?.focus();
   };
 
-  const hasAnyResults = results || chipResults !== null;
+  const hasAnyResults = results || chipResults !== null || showModelPicker;
 
   return (
     <div className="w-full max-w-2xl mx-auto">
 
-      {/* ── Input box ────────────────────────────────────────────── */}
-      <div
-        className={`rounded-2xl border transition-all duration-300 ${
-          hasAnyResults
-            ? "border-[rgba(192,192,192,0.3)] bg-[rgba(255,255,255,0.05)]"
-            : "border-[rgba(192,192,192,0.18)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.42)] focus-within:bg-[rgba(255,255,255,0.05)]"
-        }`}
-      >
-        {/* Text input row */}
-        <div className="relative flex items-center gap-3 px-5 pt-5 pb-3">
-          <Sparkles className="w-5 h-5 text-[#808080] shrink-0" />
+      {/* ── Input box (single line pill) ─────────────────────────── */}
+      <div className="relative" style={{ isolation: "isolate" }}>
+        <div
+          className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 ${
+            hasAnyResults
+              ? "border-[rgba(192,192,192,0.3)] bg-[rgba(255,255,255,0.05)]"
+              : "border-[rgba(192,192,192,0.18)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.42)] focus-within:bg-[rgba(255,255,255,0.05)]"
+          }`}
+        >
+          <div className="relative shrink-0">
+            <button
+              onClick={() => { setShowOutfitDialog(true); setShowIconTooltip(false); }}
+              className="hover:opacity-100 opacity-50 transition-opacity"
+            >
+              <Image src="/tshirt.svg" alt="outfit" width={18} height={18} />
+            </button>
+
+            {/* Onboarding tooltip */}
+            <AnimatePresence>
+              {showIconTooltip && (
+                <motion.div
+                  initial={{ opacity: 0, y: 4, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 z-[60] whitespace-nowrap pointer-events-none"
+                >
+                  <div className="relative px-3 py-1.5 rounded-lg bg-[#0f0f0f] border border-[rgba(192,192,192,0.18)] text-white text-[11px] font-semibold shadow-[0_4px_20px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)]">
+                    Style with your outfit ✨
+                    {/* Caret */}
+                    <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 rotate-45 bg-[#0f0f0f] border-r border-b border-[rgba(192,192,192,0.18)]" />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           <input
             ref={inputRef}
             type="text"
@@ -567,22 +631,9 @@ export default function StylistTool({
             }}
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
             placeholder={placeholder}
-            className="flex-1 bg-transparent text-white text-base md:text-lg outline-none placeholder:text-white/25 min-w-0"
+            className="flex-1 bg-transparent text-white text-base outline-none placeholder:text-white/25 min-w-0"
             suppressHydrationWarning
           />
-          {/* Blinking cursor on typewriter */}
-          {!input && !results && !chipResults && (
-            <span
-              className="absolute left-[3.4rem] top-1/2 -translate-y-1/2 w-px h-[1.1em] pointer-events-none"
-              style={{ marginLeft: `${placeholder.length * 8.1}px` }}
-            >
-              <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-                className="block w-full h-full bg-white/35"
-              />
-            </span>
-          )}
           <AnimatePresence>
             {(input || hasAnyResults) && (
               <motion.button
@@ -593,60 +644,136 @@ export default function StylistTool({
                 className="text-white/25 hover:text-white/50 transition-colors shrink-0"
                 aria-label="Clear input"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </motion.button>
             )}
           </AnimatePresence>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="px-5 pb-4 flex items-center justify-between gap-3">
-          {/* Style selector */}
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs text-white/30 font-medium tracking-wide hidden sm:block">Style for</span>
-            <div className="flex items-center gap-0.5 p-0.5 rounded-full border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.03)]">
-              {(["Women", "Men"] as Gender[]).map((g) => (
-                <button
-                  key={g}
-                  onClick={() => setGender(g)}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 ${
-                    gender === g
-                      ? "bg-[rgba(255,255,255,0.11)] text-white"
-                      : "text-white/30 hover:text-white/55"
-                  }`}
-                >
-                  {g}
-                </button>
-              ))}
-            </div>
-          </div>
           <button
             onClick={handleSubmit}
             disabled={!input.trim() || loading}
-            className="flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-semibold rounded-full
-              shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
-              hover:shadow-[0_4px_24px_rgba(255,255,255,0.45)] hover:scale-[1.04] hover:-translate-y-px
-              active:scale-[0.97] disabled:opacity-30 disabled:cursor-not-allowed
-              disabled:hover:scale-100 disabled:hover:translate-y-0 disabled:shadow-none
-              transition-all duration-200 ml-auto"
+            className="shrink-0 w-8 h-8 rounded-full gradient-silver flex items-center justify-center disabled:opacity-25 hover:opacity-85 transition-opacity"
           >
             {loading ? (
-              <>
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                  className="w-3.5 h-3.5 rounded-full border-2 border-black border-t-transparent"
-                />
-                Finding...
-              </>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                className="w-3.5 h-3.5 rounded-full border-2 border-black border-t-transparent"
+              />
             ) : (
-              <>
-                <Sparkles className="w-3.5 h-3.5" />
-                {submitLabel}
-              </>
+              <Sparkles className="w-3.5 h-3.5 text-black" />
             )}
           </button>
         </div>
+        {/* Blinking cursor on typewriter */}
+        {!input && !results && !chipResults && (
+          <span
+            className="absolute left-[3.25rem] top-1/2 -translate-y-1/2 w-px h-4 pointer-events-none"
+            style={{ marginLeft: `${placeholder.length * 7.2}px` }}
+          >
+            <motion.span
+              animate={{ opacity: [1, 0] }}
+              transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
+              className="block w-full h-full bg-white/30"
+            />
+          </span>
+        )}
+
+        {/* ── Outfit upload popover (above input box) ──────────────── */}
+        <AnimatePresence>
+          {showOutfitDialog && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="fixed inset-0 z-[40]"
+                onClick={() => { setShowOutfitDialog(false); setOutfitLink(""); }}
+              />
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute bottom-[calc(100%+12px)] left-0 z-[50] w-1/5 min-w-[200px]"
+              >
+                <div className="relative rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[rgba(14,14,14,0.97)] backdrop-blur-2xl shadow-[0_32px_64px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.04),inset_0_1px_0_rgba(255,255,255,0.08)]">
+
+                  {/* Subtle gradient top edge */}
+                  <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[rgba(192,192,192,0.2)] to-transparent" />
+
+                  {/* Header */}
+                  <div className="flex items-center justify-between px-3.5 pt-3.5 pb-2.5">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-5 h-5 rounded-md bg-[rgba(192,192,192,0.08)] flex items-center justify-center">
+                        <Image src="/tshirt.svg" alt="outfit" width={11} height={11} className="opacity-70" />
+                      </div>
+                      <p className="text-[11px] font-semibold text-white/75 tracking-tight">Style with outfit</p>
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => { setShowOutfitDialog(false); setOutfitLink(""); }}
+                      className="w-5 h-5 rounded-md flex items-center justify-center text-white/20 hover:text-white/50 hover:bg-white/[0.06] transition-all"
+                    >
+                      <X className="w-3 h-3" />
+                    </motion.button>
+                  </div>
+
+                  <div className="h-px bg-[rgba(255,255,255,0.05)] mx-3.5" />
+
+                  <div className="p-3.5 flex flex-col gap-2.5">
+                    {/* URL input */}
+                    <div className="relative">
+                      <input
+                        type="url"
+                        value={outfitLink}
+                        onChange={(e) => setOutfitLink(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === "Enter" && outfitLink.trim()) setShowOutfitDialog(false); }}
+                        placeholder="Paste link..."
+                        autoFocus
+                        className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.07)] rounded-xl px-3 py-2 pr-14 text-xs text-white placeholder:text-white/18 outline-none focus:border-[rgba(192,192,192,0.3)] focus:bg-[rgba(255,255,255,0.06)] transition-all duration-200"
+                      />
+                      <button
+                        onClick={() => { if (outfitLink.trim()) setShowOutfitDialog(false); }}
+                        disabled={!outfitLink.trim()}
+                        className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-white text-black text-[10px] font-bold rounded-lg disabled:opacity-20 hover:opacity-90 active:scale-95 transition-all"
+                      >
+                        Add
+                      </button>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 h-px bg-[rgba(255,255,255,0.05)]" />
+                      <span className="text-[9px] text-white/15 uppercase tracking-widest">or</span>
+                      <div className="flex-1 h-px bg-[rgba(255,255,255,0.05)]" />
+                    </div>
+
+                    {/* Upload zone */}
+                    <input ref={outfitFileRef} type="file" accept="image/*" className="hidden" onChange={() => setShowOutfitDialog(false)} />
+                    <motion.button
+                      whileHover={{ scale: 1.01, borderColor: "rgba(192,192,192,0.3)" }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => outfitFileRef.current?.click()}
+                      className="flex flex-col items-center gap-1.5 w-full rounded-xl border border-dashed border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)] px-3 py-3 transition-colors duration-200"
+                    >
+                      <div className="w-6 h-6 rounded-lg bg-[rgba(192,192,192,0.07)] flex items-center justify-center">
+                        <svg className="w-3 h-3 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                      </div>
+                      <span className="text-[10px] text-white/35 font-medium leading-tight text-center">Upload from<br/>computer</span>
+                    </motion.button>
+                  </div>
+
+                  {/* Caret */}
+                  <div className="absolute -bottom-[5px] left-5 w-2.5 h-2.5 rotate-45 border-r border-b border-[rgba(255,255,255,0.08)] bg-[#0e0e0e]" />
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* ── Suggestion chips ─────────────────────────────────────── */}
@@ -668,6 +795,54 @@ export default function StylistTool({
           </button>
         ))}
       </div>
+
+      {/* ── Model picker (shown after submit, before results) ────── */}
+      <AnimatePresence>
+        {showModelPicker && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-6"
+          >
+            <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium text-center">
+              Choose your model
+            </p>
+            <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+              {([
+                { g: "Women" as Gender, src: "/model-woman.jpg", label: "Female Model" },
+                { g: "Men" as Gender, src: "/model-man.jpg", label: "Male Model" },
+              ]).map(({ g, src, label }, i) => (
+                <motion.button
+                  key={g}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.07 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => handleModelPick(g)}
+                  className="group relative flex flex-col rounded-xl overflow-hidden border border-[rgba(192,192,192,0.12)] hover:border-[rgba(192,192,192,0.4)] transition-all duration-200 cursor-pointer"
+                >
+                  <div className="relative w-full h-[140px]">
+                    <Image
+                      src={src}
+                      alt={label}
+                      fill
+                      className="object-cover object-top"
+                      sizes="200px"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" />
+                  </div>
+                  <div className="px-3 py-2 bg-[rgba(255,255,255,0.03)] text-center">
+                    <p className="text-[11px] font-semibold text-white/60 group-hover:text-white transition-colors">{label}</p>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Chip-specific outfit suggestions ─────────────────────── */}
       <AnimatePresence mode="wait">
@@ -811,6 +986,7 @@ export default function StylistTool({
           Powered by Slidez AI &middot; Free to use
         </p>
       )}
+
     </div>
   );
 }
