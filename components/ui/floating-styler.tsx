@@ -8,8 +8,14 @@ import Image from "next/image";
 
 interface FloatingStylerProps {
   visible: boolean;
-  onComplete: () => void;
+  onComplete: (payload: FloatingStylerOnCompletePayload) => void;
 }
+
+export type FloatingStylerOnCompletePayload = {
+  avatar: "model-man" | "model-woman" | "upload";
+  chosenGender?: "Men" | "Women";
+  uploadedFile?: File | null;
+};
 
 const STEP1_TIME = 59;
 const STEP2_TIME = 59;
@@ -47,6 +53,7 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
   const [chosenGender, setChosenGender] = useState<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const uploadedFileRef = useRef<File | null>(null);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -72,9 +79,18 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
   const goToStep2 = useCallback(() => {
     setStep(2);
     startTimer(STEP2_TIME, () => {
-      setTimeout(() => onComplete(), 300);
+      setTimeout(() => {
+        const g = chosenGender === "Male" ? "Men" : chosenGender === "Female" ? "Women" : undefined;
+        if (chosenAvatar) {
+          onComplete({
+            avatar: chosenAvatar,
+            chosenGender: g,
+            uploadedFile: uploadedFileRef.current,
+          });
+        }
+      }, 300);
     });
-  }, [startTimer, onComplete]);
+  }, [startTimer, onComplete, chosenAvatar, chosenGender]);
 
   /* Reset + start on visible */
   useEffect(() => {
@@ -90,31 +106,57 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
     startTimer(STEP1_TIME, () => {
       // Auto-select male model, skip gender step
       setChosenAvatar("model-man");
-      setTimeout(() => onComplete(), 300);
+      setChosenGender("Men");
+      setTimeout(() => {
+        onComplete({ avatar: "model-man", chosenGender: "Men", uploadedFile: null });
+      }, 300);
     });
   }, [visible]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handlePickAvatar = (type: "model-man" | "model-woman" | "upload") => {
     if (type === "upload") {
+      uploadedFileRef.current = null;
       fileRef.current?.click();
       return;
     }
     clearTimer();
     setChosenAvatar(type);
-    setTimeout(() => onComplete(), 500);
+    setChosenGender(type === "model-man" ? "Men" : "Women");
+    setTimeout(() => {
+      onComplete({
+        avatar: type,
+        chosenGender: type === "model-man" ? "Men" : "Women",
+        uploadedFile: null,
+      });
+    }, 500);
   };
 
   const handleFileChange = () => {
-    // Photo uploaded → infer gender → skip step 2
+    const file = fileRef.current?.files?.[0] ?? null;
+    if (!file) return;
     clearTimer();
     setChosenAvatar("upload");
-    setTimeout(() => onComplete(), 700);
+    uploadedFileRef.current = file;
+    setChosenGender(null);
+    // Pass the file immediately — gender is auto-detected by the caller
+    setTimeout(() => {
+      onComplete({ avatar: "upload", uploadedFile: file });
+    }, 300);
   };
 
   const handlePickGender = (gender: string) => {
     clearTimer();
     setChosenGender(gender);
-    setTimeout(() => onComplete(), 500);
+    setTimeout(() => {
+      const mapped: "Men" | "Women" | undefined =
+        gender === "Male" ? "Men" : gender === "Female" ? "Women" : undefined;
+      if (!chosenAvatar) return;
+      onComplete({
+        avatar: chosenAvatar,
+        chosenGender: mapped,
+        uploadedFile: uploadedFileRef.current,
+      });
+    }, 500);
   };
 
   const totalForRing = step === 1 ? STEP1_TIME : STEP2_TIME;

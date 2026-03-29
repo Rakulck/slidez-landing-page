@@ -5,6 +5,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Star, Sparkles, Send, X, Puzzle } from "lucide-react";
 import { trackDownloadClick, trackExtensionClick, trackStylistDemoSubmit } from "@/lib/gtag";
 import BrandsStrip from "@/components/sections/BrandsStrip";
+import StylistTool from "@/components/features/ai-stylist/StylistTool";
+import type { FloatingStylerOnCompletePayload } from "@/components/ui/floating-styler";
+import {
+  analyzeOutfitIntentCallable,
+  detectPersonGenderCallable,
+  ensureAnonymousUserId,
+  executeMultiItemTryOnCallable,
+  fetchOutfitProductsCallable,
+  fetchImageBase64,
+  setupPersonPhoto,
+} from "@/lib/slidezCallableFunctions";
 
 const FloatingStyler = lazy(() =>
   import("@/components/ui/floating-styler").then((m) => ({ default: m.FloatingStyler }))
@@ -19,6 +30,10 @@ const PROMPTS = [
   "Cozy Sunday brunch outfit...",
   "Black tie, keep it minimal...",
 ];
+
+// Keep the original landing-page UX flow (floating picker + result cards).
+// API calls will be wired into this same flow below.
+const USE_REAL_STYLIST_TOOL = false;
 
 /* ── Pre-defined outfit results ──────────────────────────────── */
 const OUTFIT_SETS = [
@@ -60,7 +75,7 @@ function useTypewriter(active: boolean) {
   const deleting = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const tick = useCallback(() => {
+  const tick = useCallback(function tick() {
     const current = PROMPTS[promptIdx.current];
 
     if (!deleting.current) {
@@ -102,31 +117,127 @@ function useTypewriter(active: boolean) {
 /* ── Main component ──────────────────────────────────────────── */
 export default function Hero() {
   const [inputValue, setInputValue] = useState("");
+  const [activePrompt, setActivePrompt] = useState("");
   const [results, setResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showStyler, setShowStyler] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const tryOnRunSeqRef = useRef(0);
+  const [tryOnCards, setTryOnCards] = useState<Array<{ tag: string; name: string; imageUrl: string }>>([]);
+  const [tryOnError, setTryOnError] = useState<string | null>(null);
+  const [tryOnLoading, setTryOnLoading] = useState(false);
   const placeholder = useTypewriter(!inputValue && !results);
 
   const handleSubmit = () => {
     if (!inputValue.trim()) return;
     trackStylistDemoSubmit();
     setLoading(true);
+    setActivePrompt(inputValue.trim());
+    setTryOnCards([]);
+    setTryOnError(null);
     setShowStyler(true);
   };
 
-  const handleStylerComplete = useCallback(() => {
-    setShowStyler(false);
-    setTimeout(() => {
-      setLoading(false);
-      setResults(true);
-    }, 400);
-  }, []);
+  const handleStylerComplete = useCallback(
+    async (payload: FloatingStylerOnCompletePayload) => {
+      const runSeq = ++tryOnRunSeqRef.current;
+      setShowStyler(false);
+      setTryOnLoading(true);
+
+      void (async () => {
+        try {
+          const userId = await ensureAnonymousUserId();
+          const prompt = activePrompt.trim();
+          if (!prompt) throw new Error("Missing prompt. Please try again.");
+
+          // ── 1. Resolve person image + gender ──────────────────────
+          let selectedGender: "Men" | "Women" | null =
+            payload.chosenGender ?? (payload.avatar === "model-man" ? "Men" : payload.avatar === "model-woman" ? "Women" : null);
+
+          let personImageBase64: string;
+          let personMimeType: string;
+
+          if (payload.avatar === "upload") {
+            if (!payload.uploadedFile) throw new Error("Please upload a photo to continue.");
+            const dataUrl = await new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(String(reader.result));
+              reader.onerror = () => reject(new Error("Failed to read uploaded image."));
+              reader.readAsDataURL(payload.uploadedFile!);
+            });
+            const commaIdx = dataUrl.indexOf(",");
+            personImageBase64 = commaIdx >= 0 ? dataUrl.slice(commaIdx + 1) : dataUrl;
+            personMimeType = payload.uploadedFile.type || "image/jpeg";
+
+            // Auto-detect gender from the uploaded photo
+            const detected = await detectPersonGenderCallable({ imageBase64: personImageBase64, mimeType: personMimeType });
+            selectedGender = detected === "male" ? "Men" : detected === "female" ? "Women" : null;
+            if (!selectedGender) throw new Error("Could not detect gender from your photo. Please try a clearer photo or use a preset model.");
+          } else {
+            // Preset model images from the public folder
+            const src = payload.avatar === "model-man" ? "/model-man.jpg" : "/model-woman.jpg";
+            ({ imageBase64: personImageBase64, mimeType: personMimeType } = await fetchImageBase64(src));
+          }
+
+          if (!selectedGender) throw new Error("Please select a model.");
+
+          // ── 2. Upload person image → Firebase Storage → Firestore ──
+          await setupPersonPhoto(userId, personImageBase64, personMimeType);
+
+          // ── 3. Analyze outfit intent ───────────────────────────────
+          const intent = await analyzeOutfitIntentCallable({ prompt, gender: selectedGender });
+
+          // ── 4. Fetch matching products ─────────────────────────────
+          const products = (await fetchOutfitProductsCallable({ intent, productsPerCategory: 3, userId })) as { recommendations?: unknown[] };
+          const recommendations = Array.isArray(products.recommendations) ? products.recommendations : [];
+
+          // ── 5. Run virtual try-on ──────────────────────────────────
+          const tryOn = (await executeMultiItemTryOnCallable({ recommendations, userId })) as { itemResults?: unknown[]; finalImageUrl?: string };
+          const itemResults = Array.isArray(tryOn.itemResults) ? tryOn.itemResults : [];
+
+          const cards = itemResults
+            .filter((it) => typeof (it as Record<string, unknown>)?.resultImageUrl === "string")
+            .slice(0, 3)
+            .map((it, i) => {
+              const itObj = it as Record<string, unknown>;
+              return {
+                tag: i === 0 ? "Top Pick" : i === 1 ? "Alternative" : "Bold Choice",
+                name: typeof itObj.category === "string" ? itObj.category.replace(/_/g, " ") : "Outfit",
+                imageUrl: itObj.resultImageUrl as string,
+              };
+            });
+
+          if (runSeq !== tryOnRunSeqRef.current) return;
+          setTryOnCards(cards);
+          if (cards.length === 0) setTryOnError("No try-on results were generated. Please try again.");
+        } catch (e) {
+          const message = e instanceof Error ? e.message : "Failed to generate your try-on. Please try again.";
+          if (runSeq !== tryOnRunSeqRef.current) return;
+          setTryOnError(message);
+          setTryOnCards([]);
+        } finally {
+          if (runSeq === tryOnRunSeqRef.current) setTryOnLoading(false);
+        }
+      })();
+
+      // Show the results section immediately while the pipeline runs in the background.
+      setTimeout(() => {
+        setLoading(false);
+        setResults(true);
+      }, 400);
+    },
+    [activePrompt]
+  );
 
   const handleReset = () => {
     setInputValue("");
+    setActivePrompt("");
     setResults(false);
     setLoading(false);
+    setTryOnCards([]);
+    setTryOnError(null);
+    setTryOnLoading(false);
+    tryOnRunSeqRef.current++;
     inputRef.current?.focus();
   };
 
@@ -161,8 +272,10 @@ export default function Hero() {
           AI stylist & virtual try-on. Style yourself in seconds.
         </p>
 
-        {/* ── Animated Input Box ──────────────────────────── */}
-        <div className="relative w-full max-w-xl mx-auto mb-8">
+        {!USE_REAL_STYLIST_TOOL && (
+          <>
+            {/* ── Animated Input Box ──────────────────────────── */}
+            <div className="relative w-full max-w-xl mx-auto mb-8">
           <div
             className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.05)] hover:input-glow-hover ${
               results
@@ -236,9 +349,9 @@ export default function Hero() {
           )}
         </div>
 
-        {/* ── Outfit Results ───────────────────────────────── */}
-        <AnimatePresence>
-          {results && (
+          {/* ── Outfit Results ───────────────────────────────── */}
+          <AnimatePresence>
+            {results && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -246,57 +359,82 @@ export default function Hero() {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="mb-8"
             >
-              <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium">
-                Outfits for &ldquo;{inputValue}&rdquo;
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
-                {OUTFIT_SETS.map((outfit, i) => (
-                  <motion.div
-                    key={outfit.name}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className="p-4 rounded-xl border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(192,192,192,0.3)] transition-colors cursor-pointer group"
-                  >
-                    {/* Tag */}
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-xs text-white/35 uppercase tracking-widest font-medium">
+                  Outfits for &ldquo;{inputValue}&rdquo;
+                </p>
+                {tryOnLoading && (
+                  <span className="flex items-center gap-1.5 text-[10px] text-[#c0c0c0]/60">
+                    <motion.span
+                      animate={{ opacity: [0.4, 1, 0.4] }}
+                      transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                      className="block w-1.5 h-1.5 rounded-full bg-[#c0c0c0]"
+                    />
+                    Generating try-on…
+                  </span>
+                )}
+              </div>
+              {tryOnError && (
+                <p className="text-center text-[11px] text-red-400/90 mb-4">
+                  {tryOnError}
+                </p>
+              )}
+
+              {/* Single result card */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="p-4 rounded-xl border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(192,192,192,0.3)] transition-colors cursor-pointer group text-left"
+              >
+                {tryOnCards[0]?.imageUrl ? (
+                  /* Real try-on result */
+                  <>
                     <span className="text-[10px] font-semibold uppercase tracking-widest text-[#c0c0c0] mb-2 block">
-                      {outfit.tag}
+                      Top Pick
                     </span>
-
-                    {/* Name */}
-                    <p className="text-white font-semibold text-sm mb-3">{outfit.name}</p>
-
-                    {/* Pieces */}
-                    <ul className="flex flex-col gap-1.5 mb-4">
-                      {outfit.pieces.map((piece) => (
-                        <li key={piece} className="text-xs text-white/45 flex items-center gap-1.5">
-                          <span className="w-1 h-1 rounded-full bg-[#c0c0c0] shrink-0" />
-                          {piece}
-                        </li>
-                      ))}
-                    </ul>
-
-                    {/* Swatches + Try On */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-1">
-                        {outfit.swatches.map((s) => (
-                          <div
-                            key={s}
-                            className="w-3.5 h-3.5 rounded-full border border-white/10"
-                            style={{ background: s }}
-                          />
-                        ))}
-                      </div>
+                    <img
+                      src={tryOnCards[0].imageUrl}
+                      alt={tryOnCards[0].name}
+                      className="w-full h-[280px] object-cover object-top rounded-lg mb-4"
+                      loading="lazy"
+                    />
+                    <p className="text-white font-semibold text-sm mb-2">
+                      {tryOnCards[0].name}
+                    </p>
+                    <div className="flex items-center justify-end">
                       <span className="text-[11px] text-[#c0c0c0] font-medium group-hover:text-white transition-colors">
                         Try On →
                       </span>
                     </div>
-                  </motion.div>
-                ))}
-              </div>
+                  </>
+                ) : (
+                  /* Skeleton while loading */
+                  <>
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-[#c0c0c0] mb-2 block">
+                      Top Pick
+                    </span>
+                    <motion.div
+                      animate={{ opacity: [0.35, 0.65, 0.35] }}
+                      transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                      className="w-full h-[280px] rounded-lg mb-4 bg-[rgba(192,192,192,0.08)]"
+                    />
+                    <div className="h-3 w-2/3 rounded bg-[rgba(192,192,192,0.08)] mb-3 animate-pulse" />
+                    <div className="h-2.5 w-full rounded bg-[rgba(192,192,192,0.06)] mb-2 animate-pulse" />
+                  </>
+                )}
+              </motion.div>
             </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>
+          </>
+        )}
+
+        {USE_REAL_STYLIST_TOOL && (
+          <div className="relative z-10 w-full max-w-2xl mx-auto mb-8">
+            <StylistTool prompts={PROMPTS} submitLabel="Generate Outfit Ideas" />
+          </div>
+        )}
 
         {/* CTAs */}
         <AnimatePresence mode="wait">
@@ -343,11 +481,13 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      {/* ── Floating styler ──────────────────────────────────── */}
-      {showStyler && (
-        <Suspense fallback={null}>
-          <FloatingStyler visible={showStyler} onComplete={handleStylerComplete} />
-        </Suspense>
+      {!USE_REAL_STYLIST_TOOL && (
+        /* ── Floating styler ──────────────────────────────────── */
+        showStyler && (
+          <Suspense fallback={null}>
+            <FloatingStyler visible={showStyler} onComplete={handleStylerComplete} />
+          </Suspense>
+        )
       )}
 
       {/* ── Outfit card carousel ─────────────────────────────── */}

@@ -4,6 +4,16 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Sparkles, ArrowRight, X, Upload } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import {
+  analyzeClothingImageCallable,
+  analyzeOutfitIntentCallable,
+  detectPersonGenderCallable,
+  ensureAnonymousUserId,
+  executeMultiItemTryOnCallable,
+  fetchOutfitProductsCallable,
+  fetchImageBase64,
+  setupPersonPhoto,
+} from "@/lib/slidezCallableFunctions";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
 
@@ -23,7 +33,7 @@ function useTypewriter(active: boolean, prompts: string[]) {
   const deleting = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const tick = useCallback(() => {
+  const tick = useCallback(function tick() {
     const current = prompts[promptIdx.current % prompts.length];
     if (!deleting.current) {
       charIdx.current += 1;
@@ -45,7 +55,6 @@ function useTypewriter(active: boolean, prompts: string[]) {
       }
       timer.current = setTimeout(tick, 35);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prompts]);
 
   useEffect(() => {
@@ -410,48 +419,17 @@ const CHIP_EMOJI: Record<string, string> = {
   Beach:        "🏖️",
 };
 
-/* ── Custom query results ─────────────────────────────────────── */
-const OUTFIT_RESULTS_WOMEN = [
-  {
-    tag: "Top Pick",
-    name: "Effortless Evening",
-    pieces: ["Black slip dress", "Strappy heeled mules", "Micro leather bag", "Gold hoop earrings"],
-    swatches: ["#1a1a1a", "#c0c0c0", "#e8d5b7"],
-  },
-  {
-    tag: "Alternative",
-    name: "Sharp & Chic",
-    pieces: ["Fitted blazer", "Silk cami", "Tailored trousers", "Pointed-toe flats"],
-    swatches: ["#2d2d2d", "#f0f0f0", "#808080"],
-  },
-  {
-    tag: "Bold Choice",
-    name: "Statement Look",
-    pieces: ["Wrap midi skirt", "Fitted turtleneck", "Block-heel boots", "Structured tote"],
-    swatches: ["#3a3a3a", "#d4d4d4", "#a0a0a0"],
-  },
-];
+/* ── Readymade prompts for chips ──────────────────────────────── */
+const CHIP_PROMPTS: Record<string, string> = {
+  Casual:       "Going out for a casual day with friends",
+  Office:       "Going to the office, business casual look",
+  "Date Night": "Going on a date night, make it stylish and special",
+  Winter:       "Winter outfit, cosy and warm but still stylish",
+  Party:        "Going to a party, make it fun and bold",
+  Vacation:     "Going on a vacation, resort chic and relaxed",
+  Beach:        "Going to the beach, light and breezy",
+};
 
-const OUTFIT_RESULTS_MEN = [
-  {
-    tag: "Top Pick",
-    name: "Clean & Considered",
-    pieces: ["Black fitted turtleneck", "Tailored dark trousers", "Leather Chelsea boots", "Minimal watch"],
-    swatches: ["#1a1a1a", "#3a3a3a", "#808080"],
-  },
-  {
-    tag: "Alternative",
-    name: "Smart Casual",
-    pieces: ["Linen shirt", "Slim chinos", "Suede loafers", "Leather card holder"],
-    swatches: ["#d4c4a8", "#4a3f35", "#c0c0c0"],
-  },
-  {
-    tag: "Bold Choice",
-    name: "Statement Look",
-    pieces: ["Oversized blazer", "White crew-neck tee", "Wide-leg trousers", "Platform sneakers"],
-    swatches: ["#2d2d2d", "#f0f0f0", "#6a6a6a"],
-  },
-];
 
 /* ── Outfit field row ─────────────────────────────────────────── */
 function OutfitRow({ label, value }: { label: string; value: string }) {
@@ -466,6 +444,11 @@ function OutfitRow({ label, value }: { label: string; value: string }) {
 /* ── Main component ───────────────────────────────────────────── */
 
 type Gender = "Women" | "Men";
+
+type TryOnCard = {
+  category: string;
+  resultImageUrl: string;
+};
 
 type StylistToolProps = {
   /** Text to inject from a parent (e.g. card click). */
@@ -495,13 +478,19 @@ export default function StylistTool({
   const [chipResults, setChipResults] = useState<ChipOutfit[] | null>(null);
   const [activeChip, setActiveChip] = useState<string | null>(null);
   const [showModelPicker, setShowModelPicker] = useState(false);
-  const [pendingChip, setPendingChip] = useState<string | null>(null);
   const [showOutfitDialog, setShowOutfitDialog] = useState(false);
-  const [outfitLink, setOutfitLink] = useState("");
+  const [outfitImagePreview, setOutfitImagePreview] = useState<string | null>(null);
+  const [outfitImageBase64, setOutfitImageBase64] = useState<string | null>(null);
+  const [outfitImageMimeType, setOutfitImageMimeType] = useState<string>("image/jpeg");
   const [showIconTooltip, setShowIconTooltip] = useState(false);
+  const [tryOnItems, setTryOnItems] = useState<TryOnCard[]>([]);
+  const [tryOnFinalImageUrl, setTryOnFinalImageUrl] = useState<string | null>(null);
+  const [tryOnStage, setTryOnStage] = useState<string | null>(null);
+  const [tryOnError, setTryOnError] = useState<string | null>(null);
   const outfitFileRef = useRef<HTMLInputElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
   const photoFileRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const tryOnRunSeqRef = useRef(0);
 
   // Auto-show tooltip on mount, dismiss after 4s
   useEffect(() => {
@@ -509,10 +498,8 @@ export default function StylistTool({
     const hide = setTimeout(() => setShowIconTooltip(false), 5000);
     return () => { clearTimeout(show); clearTimeout(hide); };
   }, []);
-  const placeholder = useTypewriter(!input && !results && !chipResults && !showModelPicker, prompts);
+  const placeholder = useTypewriter(!input && !results && tryOnItems.length === 0 && !showModelPicker, prompts);
 
-  const chipOutfits = gender === "Women" ? CHIP_OUTFITS_WOMEN : CHIP_OUTFITS_MEN;
-  const outfitResults = gender === "Women" ? OUTFIT_RESULTS_WOMEN : OUTFIT_RESULTS_MEN;
 
   // Inject external prompt whenever the key increments
   useEffect(() => {
@@ -527,19 +514,22 @@ export default function StylistTool({
 
 
   const handleChip = (chip: string) => {
-    setInput(chip);
+    const prompt = CHIP_PROMPTS[chip] ?? chip;
+    setInput(prompt);
     setActiveChip(chip);
     setChipResults(null);
     setResults(false);
     setShowModelPicker(false);
-    setPendingChip(chip);
-    // auto-submit chip
-    setQuery(chip);
+    setQuery(prompt);
+    setTryOnItems([]);
+    setTryOnFinalImageUrl(null);
+    setTryOnError(null);
+    setTryOnStage(null);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setShowModelPicker(true);
-    }, 600);
+    }, 250);
   };
 
   const handleSubmit = () => {
@@ -549,39 +539,194 @@ export default function StylistTool({
     setActiveChip(null);
     setResults(false);
     setShowModelPicker(false);
-    setPendingChip(null);
+    setTryOnItems([]);
+    setTryOnFinalImageUrl(null);
+    setTryOnError(null);
+    setTryOnStage(null);
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setShowModelPicker(true);
-    }, 900);
+    setTimeout(() => { setLoading(false); setShowModelPicker(true); }, 250);
   };
 
-  const handleModelPick = (g: Gender) => {
+  async function generateTryOn(args: { prompt: string; selectedGender: Gender; userProvidedItems?: Array<{ category: string; imageBase64: string; mimeType?: string }> }) {
+    const runSeq = ++tryOnRunSeqRef.current;
+    setResults(false);
+    setTryOnItems([]);
+    setTryOnFinalImageUrl(null);
+    setTryOnError(null);
+
+    if (!args.prompt.trim()) {
+      setTryOnError("Please enter an occasion prompt first.");
+      setResults(true);
+      return;
+    }
+
+    setLoading(true);
+    setTryOnStage("Analyzing your style...");
+
+    try {
+      const userId = await ensureAnonymousUserId();
+
+      // If user attached an outfit image, analyze it now as part of the flow
+      let analyzedImages: Array<{ category: string; color?: string; style?: string }> | undefined;
+      if (outfitImageBase64) {
+        try {
+          setTryOnStage("Analyzing your outfit image...");
+          const result = await analyzeClothingImageCallable({ imageBase64: outfitImageBase64, mimeType: outfitImageMimeType, analyzeAll: true });
+          if (Array.isArray(result) && result.length > 0) {
+            analyzedImages = result as typeof analyzedImages;
+          } else if (result && typeof result === "object" && "items" in result && Array.isArray((result as { items: unknown[] }).items)) {
+            analyzedImages = (result as { items: typeof analyzedImages }).items;
+          }
+        } catch {
+          // Analysis failed — continue without outfit context
+        }
+        if (runSeq !== tryOnRunSeqRef.current) return;
+        setTryOnStage("Analyzing your style...");
+      }
+
+      const intent = await analyzeOutfitIntentCallable({
+        prompt: args.prompt,
+        gender: args.selectedGender,
+        analyzedImages,
+      });
+
+      if (runSeq !== tryOnRunSeqRef.current) return;
+
+      setTryOnStage("Finding matching outfits...");
+      const products = (await fetchOutfitProductsCallable({
+        intent,
+        productsPerCategory: 3,
+        userId,
+      })) as { recommendations?: unknown[] };
+
+      const recommendations = Array.isArray(products.recommendations) ? products.recommendations : [];
+
+      if (runSeq !== tryOnRunSeqRef.current) return;
+
+      setTryOnStage("Generating your try-on images...");
+      const tryOn = (await executeMultiItemTryOnCallable({
+        recommendations,
+        userId,
+        userProvidedItems: args.userProvidedItems,
+      })) as { finalImageUrl?: unknown; itemResults?: unknown[] };
+
+      if (runSeq !== tryOnRunSeqRef.current) return;
+
+      const finalImageUrl = typeof tryOn.finalImageUrl === "string" ? tryOn.finalImageUrl : null;
+
+      const itemResults: unknown[] = Array.isArray(tryOn.itemResults) ? tryOn.itemResults : [];
+
+      const cards: TryOnCard[] = itemResults
+        .map((it) => {
+          const itObj = it as Record<string, unknown>;
+          const resultImageUrl =
+            typeof itObj?.resultImageUrl === "string" ? itObj.resultImageUrl : null;
+          if (!resultImageUrl) return null;
+          return {
+            category: typeof itObj?.category === "string" ? itObj.category : "Outfit",
+            resultImageUrl,
+          } satisfies TryOnCard;
+        })
+        .filter(Boolean) as TryOnCard[];
+
+      setTryOnFinalImageUrl(finalImageUrl);
+      setTryOnItems(cards);
+      setTryOnStage(null);
+      setResults(true);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to generate your try-on. Please try again.";
+      setTryOnError(message);
+      setTryOnStage(null);
+      setTryOnItems([]);
+      setResults(true); // Show fallback UI if the pipeline fails.
+    } finally {
+      if (runSeq === tryOnRunSeqRef.current) setLoading(false);
+    }
+  }
+
+  const handleModelPick = async (g: Gender) => {
     setGender(g);
     setShowModelPicker(false);
-    if (pendingChip) {
-      const outfits = (g === "Women" ? CHIP_OUTFITS_WOMEN : CHIP_OUTFITS_MEN)[pendingChip];
-      if (outfits) setChipResults(outfits);
-    } else {
-      setResults(true);
+    const prompt = (query || input).trim();
+    setLoading(true);
+    setTryOnStage("Setting up model...");
+    try {
+      const src = g === "Men" ? "/model-man.jpg" : "/model-woman.jpg";
+      const { imageBase64, mimeType } = await fetchImageBase64(src);
+      const userId = await ensureAnonymousUserId();
+      await setupPersonPhoto(userId, imageBase64, mimeType);
+    } catch {
+      // If setup fails, continue anyway — backend may still have a photo
     }
-    setPendingChip(null);
+    await generateTryOn({ prompt, selectedGender: g });
   };
 
   const handlePhotoUpload = () => {
     photoFileRef.current?.click();
   };
 
-  const handlePhotoFileChange = () => {
+  const handlePhotoFileChange = async () => {
+    const file_ = photoFileRef.current?.files?.[0] ?? null;
+    if (!file_) return;
+
     setShowModelPicker(false);
-    if (pendingChip) {
-      const outfits = (gender === "Women" ? CHIP_OUTFITS_WOMEN : CHIP_OUTFITS_MEN)[pendingChip];
-      if (outfits) setChipResults(outfits);
-    } else {
+    setTryOnItems([]);
+    setTryOnFinalImageUrl(null);
+    setTryOnStage(null);
+    setTryOnError(null);
+
+    const prompt = (query || input).trim();
+    setLoading(true);
+    setTryOnStage("Detecting gender from photo...");
+
+    try {
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result));
+        reader.onerror = () => reject(new Error("Failed to read image."));
+        reader.readAsDataURL(file_);
+      });
+      const commaIdx = dataUrl.indexOf(",");
+      const imageBase64 = commaIdx >= 0 ? dataUrl.slice(commaIdx + 1) : dataUrl;
+      const mimeType = file_.type || "image/jpeg";
+
+      const detected = await detectPersonGenderCallable({ imageBase64, mimeType });
+      const mappedGender: Gender | null = detected === "male" ? "Men" : detected === "female" ? "Women" : null;
+      if (!mappedGender) throw new Error("Could not detect gender from your photo. Please try a clearer photo.");
+
+      setGender(mappedGender);
+      setTryOnStage("Uploading your photo...");
+
+      const userId = await ensureAnonymousUserId();
+      await setupPersonPhoto(userId, imageBase64, mimeType);
+
+      await generateTryOn({ prompt, selectedGender: mappedGender });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to process your photo. Please try again.";
+      setTryOnError(message);
+      setTryOnStage(null);
       setResults(true);
+    } finally {
+      setLoading(false);
     }
-    setPendingChip(null);
+  };
+
+  const handleOutfitFileChange = async () => {
+    const file = outfitFileRef.current?.files?.[0] ?? null;
+    if (!file) return;
+    const dataUrl = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error("Failed to read image."));
+      reader.readAsDataURL(file);
+    });
+    const commaIdx = dataUrl.indexOf(",");
+    const imageBase64 = commaIdx >= 0 ? dataUrl.slice(commaIdx + 1) : dataUrl;
+    const mimeType = file.type || "image/jpeg";
+    setOutfitImageBase64(imageBase64);
+    setOutfitImageMimeType(mimeType);
+    setOutfitImagePreview(URL.createObjectURL(file));
+    setShowOutfitDialog(false);
   };
 
   const handleReset = () => {
@@ -592,11 +737,17 @@ export default function StylistTool({
     setChipResults(null);
     setActiveChip(null);
     setShowModelPicker(false);
-    setPendingChip(null);
+    setTryOnItems([]);
+    setTryOnFinalImageUrl(null);
+    setTryOnStage(null);
+    setTryOnError(null);
+    setOutfitImageBase64(null);
+    setOutfitImageMimeType("image/jpeg");
+    setOutfitImagePreview(null);
     inputRef.current?.focus();
   };
 
-  const hasAnyResults = results || chipResults !== null || showModelPicker;
+  const hasAnyResults = results || tryOnItems.length > 0 || chipResults !== null || showModelPicker;
 
   return (
     <div className="w-full max-w-2xl mx-auto">
@@ -613,10 +764,13 @@ export default function StylistTool({
           <div className="relative shrink-0">
             <button
               onClick={() => { setShowOutfitDialog(true); setShowIconTooltip(false); }}
-              className="hover:opacity-100 opacity-50 transition-opacity"
+              className={`transition-opacity ${outfitImagePreview ? "opacity-100" : "hover:opacity-100 opacity-50"}`}
             >
               <Image src="/tshirt.svg" alt="outfit" width={18} height={18} />
             </button>
+            {outfitImagePreview && (
+              <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 pointer-events-none" />
+            )}
 
             {/* Onboarding tooltip */}
             <AnimatePresence>
@@ -667,6 +821,7 @@ export default function StylistTool({
           <button
             onClick={handleSubmit}
             disabled={!input.trim() || loading}
+            aria-label={submitLabel}
             className="shrink-0 w-8 h-8 rounded-full gradient-silver flex items-center justify-center disabled:opacity-25 hover:opacity-85 transition-opacity"
           >
             {loading ? (
@@ -704,7 +859,7 @@ export default function StylistTool({
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
                 className="fixed inset-0 z-[40]"
-                onClick={() => { setShowOutfitDialog(false); setOutfitLink(""); }}
+                onClick={() => setShowOutfitDialog(false)}
               />
               <motion.div
                 initial={{ opacity: 0, y: 8, scale: 0.96 }}
@@ -714,11 +869,7 @@ export default function StylistTool({
                 className="absolute bottom-[calc(100%+12px)] left-0 z-[50] w-1/5 min-w-[200px]"
               >
                 <div className="relative rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[rgba(14,14,14,0.97)] backdrop-blur-2xl shadow-[0_32px_64px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.04),inset_0_1px_0_rgba(255,255,255,0.08)]">
-
-                  {/* Subtle gradient top edge */}
                   <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[rgba(192,192,192,0.2)] to-transparent" />
-
-                  {/* Header */}
                   <div className="flex items-center justify-between px-3.5 pt-3.5 pb-2.5">
                     <div className="flex items-center gap-1.5">
                       <div className="w-5 h-5 rounded-md bg-[rgba(192,192,192,0.08)] flex items-center justify-center">
@@ -729,45 +880,37 @@ export default function StylistTool({
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      onClick={() => { setShowOutfitDialog(false); setOutfitLink(""); }}
+                      onClick={() => setShowOutfitDialog(false)}
                       className="w-5 h-5 rounded-md flex items-center justify-center text-white/20 hover:text-white/50 hover:bg-white/[0.06] transition-all"
                     >
                       <X className="w-3 h-3" />
                     </motion.button>
                   </div>
-
                   <div className="h-px bg-[rgba(255,255,255,0.05)] mx-3.5" />
 
-                  <div className="p-3.5 flex flex-col gap-2.5">
-                    {/* URL input */}
-                    <div className="relative">
-                      <input
-                        type="url"
-                        value={outfitLink}
-                        onChange={(e) => setOutfitLink(e.target.value)}
-                        onKeyDown={(e) => { if (e.key === "Enter" && outfitLink.trim()) setShowOutfitDialog(false); }}
-                        placeholder="Paste link..."
-                        autoFocus
-                        className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.07)] rounded-xl px-3 py-2 pr-14 text-xs text-white placeholder:text-white/18 outline-none focus:border-[rgba(192,192,192,0.3)] focus:bg-[rgba(255,255,255,0.06)] transition-all duration-200"
+                  {/* Attached preview */}
+                  {outfitImagePreview && (
+                    <div className="mx-3.5 mt-3 mb-1 flex items-center gap-2 p-2 rounded-xl border border-emerald-400/20 bg-emerald-400/[0.04]">
+                      <img
+                        src={outfitImagePreview}
+                        alt="Outfit reference"
+                        className="w-10 h-10 rounded-lg object-cover border border-white/10 shrink-0"
                       />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[10px] font-semibold text-emerald-400 leading-tight">Outfit attached</p>
+                        <p className="text-[9px] text-white/30 mt-0.5">AI will style around this</p>
+                      </div>
                       <button
-                        onClick={() => { if (outfitLink.trim()) setShowOutfitDialog(false); }}
-                        disabled={!outfitLink.trim()}
-                        className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-white text-black text-[10px] font-bold rounded-lg disabled:opacity-20 hover:opacity-90 active:scale-95 transition-all"
+                        onClick={() => { setOutfitImageBase64(null); setOutfitImagePreview(null); }}
+                        className="shrink-0 text-white/20 hover:text-white/50 transition-colors"
                       >
-                        Add
+                        <X className="w-3 h-3" />
                       </button>
                     </div>
+                  )}
 
-                    {/* Divider */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 h-px bg-[rgba(255,255,255,0.05)]" />
-                      <span className="text-[9px] text-white/15 uppercase tracking-widest">or</span>
-                      <div className="flex-1 h-px bg-[rgba(255,255,255,0.05)]" />
-                    </div>
-
-                    {/* Upload zone */}
-                    <input ref={outfitFileRef} type="file" accept="image/*" className="hidden" onChange={() => setShowOutfitDialog(false)} />
+                  <div className="p-3.5">
+                    <input ref={outfitFileRef} type="file" accept="image/*" className="hidden" onChange={handleOutfitFileChange} />
                     <motion.button
                       whileHover={{ scale: 1.01, borderColor: "rgba(192,192,192,0.3)" }}
                       whileTap={{ scale: 0.98 }}
@@ -779,11 +922,12 @@ export default function StylistTool({
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                         </svg>
                       </div>
-                      <span className="text-[10px] text-white/35 font-medium leading-tight text-center">Upload from<br/>computer</span>
+                      <span className="text-[10px] text-white/35 font-medium leading-tight text-center">
+                        {outfitImagePreview ? "Replace image" : "Upload from computer"}
+                      </span>
                     </motion.button>
                   </div>
 
-                  {/* Caret */}
                   <div className="absolute -bottom-[5px] left-5 w-2.5 h-2.5 rotate-45 border-r border-b border-[rgba(255,255,255,0.08)] bg-[#0e0e0e]" />
                 </div>
               </motion.div>
@@ -822,9 +966,6 @@ export default function StylistTool({
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="mt-6"
           >
-            <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium text-center">
-              Choose your model
-            </p>
             <input
               ref={photoFileRef}
               type="file"
@@ -832,6 +973,10 @@ export default function StylistTool({
               className="hidden"
               onChange={handlePhotoFileChange}
             />
+
+            <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium text-center">
+              Choose your model
+            </p>
             <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
               {([
                 { g: "Women" as Gender, src: "/model-woman.jpg", label: "Female Model" },
@@ -863,7 +1008,6 @@ export default function StylistTool({
                 </motion.button>
               ))}
             </div>
-            {/* Upload your photo option */}
             <div className="max-w-sm mx-auto mt-3">
               <div className="flex items-center gap-2 mb-3">
                 <div className="flex-1 h-px bg-[rgba(192,192,192,0.08)]" />
@@ -882,13 +1026,19 @@ export default function StylistTool({
                 <Upload className="w-4 h-4 text-[#c0c0c0]" />
                 <div className="text-left">
                   <p className="text-[12px] font-semibold text-white leading-tight">Upload Your Photo</p>
-                  <p className="text-[10px] text-white/30">Personalised fit</p>
+                  <p className="text-[10px] text-white/30">Auto-detects gender</p>
                 </div>
               </motion.button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {loading && !showModelPicker && !results && (
+        <div className="mt-6 text-center text-white/35 text-xs uppercase tracking-widest">
+          {tryOnStage ?? "Generating..."}
+        </div>
+      )}
 
       {/* ── Chip-specific outfit suggestions ─────────────────────── */}
       <AnimatePresence mode="wait">
@@ -966,48 +1116,25 @@ export default function StylistTool({
               {gender}&rsquo;s outfit ideas for &ldquo;{query}&rdquo;
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {outfitResults.map((outfit, i) => (
-                <motion.div
-                  key={outfit.name}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.08 }}
-                  className="p-4 rounded-xl border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.04)]
-                    hover:border-[rgba(192,192,192,0.3)] transition-colors cursor-pointer group"
-                >
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-[#c0c0c0] mb-2 block">
-                    {outfit.tag}
-                  </span>
-                  <p className="text-white font-semibold text-sm mb-3">{outfit.name}</p>
-                  <ul className="flex flex-col gap-1.5 mb-4">
-                    {outfit.pieces.map((piece) => (
-                      <li key={piece} className="text-xs text-white/45 flex items-center gap-1.5">
-                        <span className="w-1 h-1 rounded-full bg-[#c0c0c0] shrink-0" />
-                        {piece}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex items-center justify-between">
-                    <div className="flex gap-1">
-                      {outfit.swatches.map((s) => (
-                        <div
-                          key={s}
-                          className="w-3.5 h-3.5 rounded-full border border-white/10"
-                          style={{ background: s }}
-                        />
-                      ))}
-                    </div>
-                    <a
-                      href="https://linkly.link/2FWYm"
-                      className="text-[11px] text-[#c0c0c0] font-medium group-hover:text-white transition-colors"
-                    >
-                      Try On →
-                    </a>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            {tryOnFinalImageUrl && (
+              <div className="mb-6 flex justify-center">
+                <div className="w-full max-w-[340px] rounded-2xl overflow-hidden border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.04)]">
+                  <img
+                    src={tryOnFinalImageUrl}
+                    alt="Generated try-on preview"
+                    className="w-full h-auto block"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            )}
+
+            {tryOnError && (
+              <p className="text-center text-[11px] text-red-400/90 mb-4">
+                {tryOnError}
+              </p>
+            )}
+
 
             <div className="mt-5 p-5 rounded-xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.03)] text-center">
               <p className="text-white/40 text-sm mb-3">
