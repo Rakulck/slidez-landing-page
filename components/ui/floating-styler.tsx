@@ -55,7 +55,10 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
   const fileRef = useRef<HTMLInputElement>(null);
   const uploadedFileRef = useRef<File | null>(null);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   const clearTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -96,6 +99,7 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
   useEffect(() => {
     if (!visible) {
       clearTimer();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStep(1);
       setSeconds(STEP1_TIME);
       setMinimized(false);

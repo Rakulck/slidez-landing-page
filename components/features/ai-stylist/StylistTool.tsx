@@ -761,36 +761,7 @@ export default function StylistTool({
               : "border-[rgba(192,192,192,0.18)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.42)] focus-within:bg-[rgba(255,255,255,0.05)]"
           }`}
         >
-          <div className="relative shrink-0">
-            <button
-              onClick={() => { setShowOutfitDialog(true); setShowIconTooltip(false); }}
-              className={`transition-opacity ${outfitImagePreview ? "opacity-100" : "hover:opacity-100 opacity-50"}`}
-            >
-              <Image src="/tshirt.svg" alt="outfit" width={18} height={18} />
-            </button>
-            {outfitImagePreview && (
-              <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 pointer-events-none" />
-            )}
 
-            {/* Onboarding tooltip */}
-            <AnimatePresence>
-              {showIconTooltip && (
-                <motion.div
-                  initial={{ opacity: 0, y: 4, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 4, scale: 0.95 }}
-                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute bottom-[calc(100%+10px)] left-1/2 -translate-x-1/2 z-[60] whitespace-nowrap pointer-events-none"
-                >
-                  <div className="relative px-3 py-1.5 rounded-lg bg-[#0f0f0f] border border-[rgba(192,192,192,0.18)] text-white text-[11px] font-semibold shadow-[0_4px_20px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)]">
-                    Style with your outfit ✨
-                    {/* Caret */}
-                    <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 rotate-45 bg-[#0f0f0f] border-r border-b border-[rgba(192,192,192,0.18)]" />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
           <input
             ref={inputRef}
             type="text"
@@ -1117,16 +1088,56 @@ export default function StylistTool({
             </p>
 
             {tryOnFinalImageUrl && (
-              <div className="mb-6 flex justify-center">
-                <div className="w-full max-w-[340px] rounded-2xl overflow-hidden border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.04)]">
-                  <img
-                    src={tryOnFinalImageUrl}
-                    alt="Generated try-on preview"
-                    className="w-full h-auto block"
-                    loading="lazy"
-                  />
+              <motion.div
+                className="mb-8 flex justify-center"
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="relative w-full max-w-[300px] group cursor-pointer">
+                  {/* Ambient glow behind card */}
+                  <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-white/8 via-[rgba(180,180,255,0.06)] to-transparent blur-2xl pointer-events-none transition-opacity duration-500 group-hover:opacity-150" />
+                  {/* Animated shimmer border */}
+                  <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-white/20 via-white/5 to-white/12 pointer-events-none" />
+
+                  {/* Glass card */}
+                  <div
+                    className="relative rounded-3xl overflow-hidden border border-white/10 bg-[rgba(255,255,255,0.03)]"
+                    style={{ boxShadow: "0 12px 48px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.07), inset 0 1px 0 rgba(255,255,255,0.08)" }}
+                  >
+                    {/* Top badge */}
+                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/50 border border-white/10"
+                      style={{ backdropFilter: "blur(12px)" }}>
+                      <Sparkles className="w-2.5 h-2.5 text-white/60" />
+                      <span className="text-[9px] font-semibold text-white/60 tracking-[0.15em] uppercase">Your Look</span>
+                    </div>
+
+                    {/* Image */}
+                    <img
+                      src={tryOnFinalImageUrl}
+                      alt="Generated try-on preview"
+                      className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
+                      loading="lazy"
+                    />
+
+                    {/* Bottom glass overlay */}
+                    <div className="absolute bottom-0 inset-x-0 px-4 pt-10 pb-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent flex items-end justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-[9px] text-white/40 uppercase tracking-[0.14em] mb-0.5">AI Try-On</p>
+                        <p className="text-[11px] font-medium text-white/80 truncate">{query}</p>
+                      </div>
+                      <a
+                        href="https://linkly.link/2FWYm"
+                        className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/15 text-white/75 text-[10px] font-semibold tracking-wide hover:bg-white/10 hover:text-white hover:border-white/25 active:scale-95 transition-all duration-200"
+                        style={{ backdropFilter: "blur(8px)", background: "rgba(255,255,255,0.06)" }}
+                      >
+                        Try on you
+                        <ArrowRight className="w-3 h-3" />
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {tryOnError && (

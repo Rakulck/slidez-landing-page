@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/sections/Navbar";
 
 export const metadata: Metadata = {
@@ -226,7 +227,7 @@ export default function TermsPage() {
 
           {/* Back link */}
           <div className="mt-16 pt-8 border-t border-white/[0.07]">
-            <a
+            <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-white/35 hover:text-white transition-colors duration-200"
             >
@@ -234,7 +235,7 @@ export default function TermsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
               Back to Slidez
-            </a>
+            </Link>
           </div>
 
         </div>

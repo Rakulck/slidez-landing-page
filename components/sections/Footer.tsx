@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 const links = [
   {
@@ -24,9 +25,9 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <a href="/" className="flex items-center gap-2.5 font-bold text-lg text-white mb-4">
+            <Link href="/" className="flex items-center gap-2.5 font-bold text-lg text-white mb-4">
               Slidez
-            </a>
+            </Link>
             <p className="text-white/30 text-sm leading-relaxed max-w-[180px]">
               The AI virtual fitting room. Try on anything before you buy.
             </p>

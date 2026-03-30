@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { trackDownloadClick } from "@/lib/gtag";
 
@@ -52,12 +53,12 @@ export default function Navbar() {
       >
         <div className="px-5 h-[60px] flex items-center justify-between" suppressHydrationWarning>
           {/* Logo */}
-          <a
+          <Link
             href="/"
             className="flex items-center gap-2.5 font-bold text-lg tracking-tight text-white"
           >
             Slidez
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-7">

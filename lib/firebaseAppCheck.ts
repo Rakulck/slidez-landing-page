@@ -1,7 +1,7 @@
 import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from "firebase/app-check";
 import { firebaseApp } from "@/lib/firebaseClient";
 
-let appCheckInit: Promise<AppCheck> | null = null;
+const g = globalThis as typeof globalThis & { __slidezAppCheckInit?: Promise<AppCheck> };
 
 function isLocalDev() {
   if (typeof window === "undefined") return false;
@@ -12,9 +12,9 @@ function isLocalDev() {
 // Initializes Firebase App Check so callable functions are able to obtain a token.
 // Without App Check, HTTPS callable requests can be rejected before a network call is made.
 export async function initFirebaseAppCheck(): Promise<AppCheck> {
-  if (appCheckInit) return appCheckInit;
+  if (g.__slidezAppCheckInit) return g.__slidezAppCheckInit;
 
-  appCheckInit = (async () => {
+  g.__slidezAppCheckInit = (async () => {
     const debugMode = isLocalDev();
 
     // In local dev, enable debug token mode so App Check can work without real attestation.
@@ -37,6 +37,6 @@ export async function initFirebaseAppCheck(): Promise<AppCheck> {
     });
   })();
 
-  return appCheckInit;
+  return g.__slidezAppCheckInit;
 }
 

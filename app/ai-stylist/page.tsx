@@ -178,7 +178,7 @@ export default function Page() {
         <section className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
           <div className="max-w-2xl mx-auto text-center space-y-5 text-black/55 text-lg leading-relaxed">
             <p>
-              Traditional styling advice costs money and time. A personal stylist charges hundreds per session and isn't available when you're standing in front of your wardrobe at 7am wondering what to wear. An AI stylist removes that friction entirely.
+              Traditional styling advice costs money and time. A personal stylist charges hundreds per session and isn&apos;t available when you&apos;re standing in front of your wardrobe at 7am wondering what to wear. An AI stylist removes that friction entirely.
             </p>
             <p>
               You describe your occasion — a dinner date, a job interview, a weekend brunch — and the AI generates a complete outfit: top, bottom, shoes, and accessories, all matched in style, colour, and proportion. No browsing required.
