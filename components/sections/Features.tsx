@@ -323,11 +323,11 @@ export default function Features() {
                     <Visual />
                   </div>
                   <div className="p-5">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#555] mb-2">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#888] mb-2">
                       {card.label}
                     </p>
                     <h3 className="text-white font-semibold text-lg mb-1.5">{card.title}</h3>
-                    <p className="text-white/40 text-sm leading-relaxed">{card.description}</p>
+                    <p className="text-white/55 text-sm leading-relaxed">{card.description}</p>
                     {"link" in card && card.link && (
                       <a
                         href={card.link.href}

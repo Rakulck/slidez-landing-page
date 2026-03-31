@@ -16,13 +16,19 @@ const links = [
       { label: "Terms of Service",  href: "/terms"    },
     ],
   },
+  {
+    group: "Contact",
+    items: [
+      { label: "info@slide.social", href: "mailto:info@slide.social" },
+    ],
+  },
 ];
 
 export default function Footer() {
   return (
     <footer className="bg-[#080808] border-t border-white/[0.06] px-6 pt-16 pb-10">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-14">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 font-bold text-lg text-white mb-4">

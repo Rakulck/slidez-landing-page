@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Star, Sparkles, Send, X, Puzzle } from "lucide-react";
 import { trackDownloadClick, trackExtensionClick, trackStylistDemoSubmit } from "@/lib/gtag";
 import BrandsStrip from "@/components/sections/BrandsStrip";
-import StylistTool from "@/components/features/ai-stylist/StylistTool";
 import type { FloatingStylerOnCompletePayload } from "@/components/ui/floating-styler";
 import {
   analyzeOutfitIntentCallable,
@@ -244,7 +243,7 @@ export default function Hero() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-0 overflow-visible bg-[#080808]">
+    <section aria-label="Slidez AI Stylist hero" className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-0 overflow-visible bg-[#080808]">
       {/* Radial glow */}
       <div
         aria-hidden
@@ -309,6 +308,7 @@ export default function Hero() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   onClick={handleReset}
+                  aria-label="Clear input"
                   className="text-white/25 hover:text-white/50 transition-colors shrink-0"
                 >
                   <X className="w-3.5 h-3.5" />
@@ -320,6 +320,7 @@ export default function Hero() {
             <button
               onClick={handleSubmit}
               disabled={!inputValue.trim() || loading}
+              aria-label="Generate outfit"
               className="shrink-0 w-8 h-8 rounded-full gradient-silver flex items-center justify-center disabled:opacity-25 hover:opacity-85 transition-opacity"
             >
               {loading ? (
@@ -430,11 +431,6 @@ export default function Hero() {
           </>
         )}
 
-        {USE_REAL_STYLIST_TOOL && (
-          <div className="relative z-10 w-full max-w-2xl mx-auto mb-8">
-            <StylistTool prompts={PROMPTS} submitLabel="Generate Outfit Ideas" />
-          </div>
-        )}
 
         {/* CTAs */}
         <AnimatePresence mode="wait">
@@ -491,7 +487,7 @@ export default function Hero() {
       )}
 
       {/* ── Outfit card carousel ─────────────────────────────── */}
-      <div className="relative z-10 w-full pb-0">
+      <div aria-hidden="true" className="relative z-10 w-full pb-0">
         <p className="text-xs text-white/30 text-center mb-5 tracking-widest uppercase font-medium">
           Tap a vibe. Get a full outfit.
         </p>

@@ -31,6 +31,7 @@ export default function BrandsStrip({
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let pos         = 0;
     let singleWidth = 0;
@@ -76,6 +77,7 @@ export default function BrandsStrip({
 
       {/* Scrolling strip */}
       <div
+        aria-hidden="true"
         className="overflow-hidden"
         style={{
           maskImage:
