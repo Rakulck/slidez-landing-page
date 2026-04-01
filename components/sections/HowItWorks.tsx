@@ -29,15 +29,11 @@ function TryOnPhone() {
 
 function StylistPhone() {
   return (
-    <div className="relative mx-auto w-56 h-[440px] rounded-[38px] border border-[rgba(192,192,192,0.25)] bg-[#0f0f0f] shadow-[0_32px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(192,192,192,0.1)] overflow-hidden">
-      <img
-        src="/screenshots/ai-stylist-demo.png"
-        alt="Slidez AI Stylist — outfit planner in action"
-        className="absolute inset-0 w-full h-full object-cover object-top"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10 pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-[#0f0f0f] rounded-b-2xl z-10" />
-    </div>
+    <img
+      src="/screenshots/ai-stylist-mockup.png"
+      alt="Slidez AI Stylist — outfit planner in action"
+      className="mx-auto w-72 drop-shadow-2xl"
+    />
   );
 }
 
