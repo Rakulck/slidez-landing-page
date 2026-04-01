@@ -478,6 +478,8 @@ export default function StylistTool({
   const [chipResults, setChipResults] = useState<ChipOutfit[] | null>(null);
   const [activeChip, setActiveChip] = useState<string | null>(null);
   const [showModelPicker, setShowModelPicker] = useState(false);
+  const [pickerStep,      setPickerStep]      = useState<"gender" | "models">("gender");
+  const [pickerGender,    setPickerGender]    = useState<Gender | null>(null);
   const [showOutfitDialog, setShowOutfitDialog] = useState(false);
   const [outfitImagePreview, setOutfitImagePreview] = useState<string | null>(null);
   const [outfitImageBase64, setOutfitImageBase64] = useState<string | null>(null);
@@ -645,16 +647,17 @@ export default function StylistTool({
     }
   }
 
-  const handleModelPick = async (g: Gender) => {
+  const handleModelPick = async (g: Gender, modelSrc: string) => {
     setGender(g);
     setShowModelPicker(false);
+    setPickerStep("gender");
+    setPickerGender(null);
     const prompt = (query || input).trim();
     setLoading(true);
     setTryOnStage("Setting up model...");
     try {
-      const src = g === "Men" ? "/model-man.jpg" : "/model-woman.jpg";
-      setSelectedModelSrc(src);
-      const { imageBase64, mimeType } = await fetchImageBase64(src);
+      setSelectedModelSrc(modelSrc);
+      const { imageBase64, mimeType } = await fetchImageBase64(modelSrc);
       const userId = await ensureAnonymousUserId();
       await setupPersonPhoto(userId, imageBase64, mimeType);
     } catch {
@@ -939,72 +942,130 @@ export default function StylistTool({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6"
+            className="mt-6 max-w-sm mx-auto"
           >
-            <input
-              ref={photoFileRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handlePhotoFileChange}
-            />
+            <input ref={photoFileRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoFileChange} />
 
-            <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium text-center">
-              Choose your model
-            </p>
-            <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
-              {([
-                { g: "Women" as Gender, src: "/model-woman.jpg", label: "Female Model" },
-                { g: "Men" as Gender, src: "/model-man.jpg", label: "Male Model" },
-              ]).map(({ g, src, label }, i) => (
-                <motion.button
-                  key={g}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.07 }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => handleModelPick(g)}
-                  className="group relative flex flex-col rounded-xl overflow-hidden border border-[rgba(192,192,192,0.12)] hover:border-[rgba(192,192,192,0.4)] transition-all duration-200 cursor-pointer"
+            <AnimatePresence mode="wait">
+              {pickerStep === "gender" ? (
+
+                /* ── Step 1: Gender ── */
+                <motion.div
+                  key="picker-gender"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex flex-col gap-3"
                 >
-                  <div className="relative w-full h-[140px]">
-                    <Image
-                      src={src}
-                      alt={label}
-                      fill
-                      className="object-cover object-top"
-                      sizes="200px"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" />
+                  <p className="text-xs text-white/35 uppercase tracking-widest mb-1 font-medium text-center">
+                    Who&apos;s wearing it?
+                  </p>
+                  {(["Women", "Men"] as const).map((g) => (
+                    <motion.button
+                      key={g}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => { setPickerGender(g); setPickerStep("models"); }}
+                      className="group flex items-center justify-between w-full px-5 py-4 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.4)] hover:bg-[rgba(255,255,255,0.06)] transition-all duration-200 cursor-pointer"
+                    >
+                      <span className="text-[15px] font-semibold text-white/80 group-hover:text-white transition-colors">{g}</span>
+                      <svg className="w-4 h-4 text-white/25 group-hover:text-white/60 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </motion.button>
+                  ))}
+                  <div className="flex items-center gap-2 mt-1">
+                    <div className="flex-1 h-px bg-[rgba(192,192,192,0.08)]" />
+                    <span className="text-[9px] text-white/20 uppercase tracking-widest">or use your photo</span>
+                    <div className="flex-1 h-px bg-[rgba(192,192,192,0.08)]" />
                   </div>
-                  <div className="px-3 py-2 bg-[rgba(255,255,255,0.03)] text-center">
-                    <p className="text-[11px] font-semibold text-white/60 group-hover:text-white transition-colors">{label}</p>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                    onClick={handlePhotoUpload}
+                    className="group flex items-center gap-3 w-full rounded-xl border border-dashed border-[rgba(192,192,192,0.3)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.6)] hover:bg-[rgba(255,255,255,0.07)] px-4 py-3 transition-all duration-200 cursor-pointer"
+                  >
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(255,255,255,0.07)] group-hover:bg-[rgba(255,255,255,0.12)] transition-colors flex-shrink-0">
+                      <Upload className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-[13px] font-semibold text-white leading-tight">Upload Your Photo</p>
+                      <p className="text-[10px] text-white/45 mt-0.5">Auto-detects gender</p>
+                    </div>
+                  </motion.button>
+                </motion.div>
+
+              ) : (
+
+                /* ── Step 2: 2 model cards ── */
+                <motion.div
+                  key={`picker-models-${pickerGender}`}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex flex-col gap-3"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <button
+                      onClick={() => setPickerStep("gender")}
+                      className="flex items-center gap-1 text-white/40 hover:text-white/80 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                      </svg>
+                      <span className="text-[11px] font-medium">Back</span>
+                    </button>
+                    <p className="text-xs text-white/35 uppercase tracking-widest font-medium ml-auto">
+                      Pick a model
+                    </p>
                   </div>
-                </motion.button>
-              ))}
-            </div>
-            <div className="max-w-sm mx-auto mt-3">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="flex-1 h-px bg-[rgba(192,192,192,0.08)]" />
-                <span className="text-[9px] text-white/20 uppercase tracking-widest">or</span>
-                <div className="flex-1 h-px bg-[rgba(192,192,192,0.08)]" />
-              </div>
-              <motion.button
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.14 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={handlePhotoUpload}
-                className="group flex items-center justify-center gap-3 w-full rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.02)] hover:border-[rgba(192,192,192,0.4)] hover:bg-[rgba(255,255,255,0.04)] px-4 py-3 transition-all duration-200 cursor-pointer"
-              >
-                <Upload className="w-4 h-4 text-[#c0c0c0]" />
-                <div className="text-left">
-                  <p className="text-[12px] font-semibold text-white leading-tight">Upload Your Photo</p>
-                  <p className="text-[10px] text-white/30">Auto-detects gender</p>
-                </div>
-              </motion.button>
-            </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    {({
+                      Women: [
+                        { id: "blonde-woman",   src: "/models/blonde-woman.png"   },
+                        { id: "brunette-woman", src: "/models/brunette-woman.png" },
+                      ],
+                      Men: [
+                        { id: "blonde-white-man", src: "/models/blonde-white-man.png" },
+                        { id: "black-man",        src: "/models/black-man.png"        },
+                      ],
+                    }[pickerGender ?? "Men"]).map((model, i) => (
+                      <motion.button
+                        key={model.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2, delay: i * 0.07 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.96 }}
+                        onClick={() => handleModelPick(pickerGender ?? "Men", model.src)}
+                        className="group relative rounded-xl overflow-hidden border border-[rgba(192,192,192,0.12)] hover:border-[rgba(192,192,192,0.45)] transition-all duration-200 cursor-pointer"
+                      >
+                        <div className="relative w-full h-[160px]">
+                          <Image src={model.src} alt="model" fill className="object-cover object-top" sizes="160px" />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" />
+                        </div>
+                      </motion.button>
+                    ))}
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                    onClick={handlePhotoUpload}
+                    className="group flex items-center gap-3 w-full rounded-xl border border-dashed border-[rgba(192,192,192,0.3)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.6)] hover:bg-[rgba(255,255,255,0.07)] px-4 py-3 transition-all duration-200 cursor-pointer"
+                  >
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(255,255,255,0.07)] group-hover:bg-[rgba(255,255,255,0.12)] transition-colors flex-shrink-0">
+                      <Upload className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-[13px] font-semibold text-white leading-tight">Upload Your Photo</p>
+                      <p className="text-[10px] text-white/45 mt-0.5">Auto-detects gender</p>
+                    </div>
+                  </motion.button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>
