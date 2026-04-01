@@ -9,50 +9,19 @@ import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 function TryOnPhone() {
   return (
-    <div className="relative mx-auto w-56 h-[440px] rounded-[38px] border border-[rgba(192,192,192,0.16)] bg-[#0f0f0f] shadow-2xl overflow-hidden">
-      <div className="absolute inset-0 flex flex-col p-5 gap-3">
-        {/* Top bar */}
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] text-white/40 font-medium">Virtual Try-On</span>
-          <div className="w-5 h-5 rounded-full gradient-silver" />
-        </div>
-
-        {/* Try-on preview */}
-        <div className="flex-1 rounded-2xl bg-[rgba(192,192,192,0.05)] border border-[rgba(192,192,192,0.1)] flex flex-col items-center justify-center relative overflow-hidden">
-          <div className="absolute inset-0" style={{background:"radial-gradient(ellipse at top, rgba(192,192,192,0.06) 0%, transparent 70%)"}} />
-          {/* Figure */}
-          <div className="flex flex-col items-center gap-1 relative z-10">
-            <div className="w-8 h-8 rounded-full bg-[rgba(192,192,192,0.25)]" />
-            <div className="w-14 h-20 rounded-xl bg-[rgba(192,192,192,0.15)] border border-[rgba(192,192,192,0.2)] flex items-center justify-center">
-              <div className="w-8 h-12 rounded-lg gradient-silver opacity-60" />
-            </div>
-            <div className="flex gap-1.5">
-              <div className="w-5 h-10 rounded-b-lg bg-[rgba(192,192,192,0.12)]" />
-              <div className="w-5 h-10 rounded-b-lg bg-[rgba(192,192,192,0.12)]" />
-            </div>
-          </div>
-          {/* AI badge */}
-          <div className="absolute bottom-3 right-3 px-2 py-1 rounded-full bg-[rgba(192,192,192,0.12)] border border-[rgba(192,192,192,0.2)] text-[9px] text-[#c0c0c0] font-medium">
-            AI Fit
-          </div>
-        </div>
-
-        {/* Outfit selector */}
-        <div className="flex gap-2">
-          {[0.22, 0.12, 0.08].map((op, i) => (
-            <div
-              key={i}
-              className="flex-1 h-12 rounded-xl border"
-              style={{ background: `rgba(192,192,192,${op})`, borderColor: `rgba(192,192,192,${i === 0 ? 0.4 : 0.1})` }}
-            />
-          ))}
-        </div>
-
-        {/* Button */}
-        <div className="h-10 rounded-2xl gradient-silver flex items-center justify-center">
-          <span className="text-black text-xs font-semibold">Try On</span>
-        </div>
-      </div>
+    <div className="relative mx-auto w-56 h-[440px] rounded-[38px] border border-[rgba(192,192,192,0.25)] bg-[#0f0f0f] shadow-[0_32px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(192,192,192,0.1)] overflow-hidden">
+      {/* Video fills the entire phone */}
+      <video
+        src="/videos/try-on-demo.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {/* Subtle gradient overlay at top/bottom for depth */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/20 pointer-events-none" />
+      {/* Notch */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-[#0f0f0f] rounded-b-2xl z-10" />
     </div>
   );
