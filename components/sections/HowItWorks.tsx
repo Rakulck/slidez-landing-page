@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles, Share2, Plus, Minus } from "lucide-react";
+import { ArrowRight, Share2, Plus, Minus } from "lucide-react";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 /* ─── Phone mockup sub-components ─────────────────────────────── */
@@ -28,59 +28,14 @@ function TryOnPhone() {
 }
 
 function StylistPhone() {
-  const prompts = ["Style me for a date night 💃", "Business casual, but edgy ✨", "Beach vacation look 🌊"];
   return (
-    <div className="relative mx-auto w-56 h-[440px] rounded-[38px] border border-[rgba(192,192,192,0.16)] bg-[#0f0f0f] shadow-2xl overflow-hidden">
-      <div className="absolute inset-0 flex flex-col p-5 gap-3">
-        {/* Top */}
-        <div className="flex items-center gap-2">
-          <div className="w-5 h-5 rounded-full gradient-silver flex items-center justify-center">
-            <Sparkles className="w-2.5 h-2.5 text-black" />
-          </div>
-          <span className="text-[11px] text-white/40 font-medium">AI Stylist</span>
-        </div>
-
-        {/* Prompt bubbles */}
-        <div className="flex flex-col gap-2">
-          {prompts.map((p, i) => (
-            <motion.div
-              key={p}
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15, duration: 0.4 }}
-              className={`px-3 py-2 rounded-2xl text-[10px] leading-snug font-medium ${
-                i === 0
-                  ? "bg-white text-black self-end"
-                  : "bg-[rgba(192,192,192,0.1)] text-white/60 self-start"
-              }`}
-            >
-              {p}
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Outfit result cards */}
-        <div className="flex-1 grid grid-cols-2 gap-2 mt-1">
-          {["Top", "Bottom", "Shoes", "Bag"].map((piece, i) => (
-            <div
-              key={piece}
-              className="rounded-xl bg-[rgba(192,192,192,0.07)] border border-[rgba(192,192,192,0.1)] flex flex-col items-center justify-center gap-1 p-2"
-            >
-              <div
-                className="w-7 h-7 rounded-lg"
-                style={{ background: `rgba(192,192,192,${0.1 + i * 0.04})` }}
-              />
-              <span className="text-[9px] text-white/30">{piece}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Input */}
-        <div className="h-9 rounded-2xl border border-[rgba(192,192,192,0.15)] bg-[rgba(192,192,192,0.05)] flex items-center px-3">
-          <span className="text-[10px] text-white/25">Ask your stylist…</span>
-        </div>
-      </div>
+    <div className="relative mx-auto w-56 h-[440px] rounded-[38px] border border-[rgba(192,192,192,0.25)] bg-[#0f0f0f] shadow-[0_32px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(192,192,192,0.1)] overflow-hidden">
+      <img
+        src="/screenshots/ai-stylist-demo.png"
+        alt="Slidez AI Stylist — outfit planner in action"
+        className="absolute inset-0 w-full h-full object-cover object-top"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10 pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-[#0f0f0f] rounded-b-2xl z-10" />
     </div>
   );
