@@ -87,47 +87,12 @@ function TryOnVisual() {
 
 function StylistVisual() {
   return (
-    <div className="flex flex-col justify-center gap-3 px-4 h-full">
-      <div className="self-end max-w-[85%] px-3 py-2 rounded-2xl rounded-br-sm bg-white text-black text-[11px] font-medium leading-snug">
-        <motion.span
-          animate={{ opacity: [0, 1] }}
-          transition={{ duration: 0.4, repeat: Infinity, repeatDelay: 3 }}
-        >
-          Style me for a date night ✨
-        </motion.span>
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        {["Black slip dress", "Strappy heels", "Gold hoops"].map((piece, i) => (
-          <motion.div
-            key={piece}
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              delay: 0.5 + i * 0.2,
-              duration: 0.4,
-              repeat: Infinity,
-              repeatDelay: 3.5,
-              repeatType: "loop",
-            }}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[rgba(192,192,192,0.07)] border border-[rgba(192,192,192,0.12)]"
-          >
-            <div className="w-5 h-5 rounded-md gradient-silver shrink-0" />
-            <span className="text-[11px] text-white/60">{piece}</span>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="self-start flex items-center gap-1.5 px-3 py-2 rounded-2xl rounded-bl-sm bg-[rgba(192,192,192,0.06)] border border-[rgba(192,192,192,0.1)]">
-        {[0, 1, 2].map((d) => (
-          <motion.div
-            key={d}
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 1, delay: d * 0.2, repeat: Infinity }}
-            className="w-1.5 h-1.5 rounded-full bg-[#c0c0c0]"
-          />
-        ))}
-      </div>
+    <div className="flex items-end justify-center h-full overflow-hidden pt-4">
+      <img
+        src="/screenshots/ai-stylist-mockup.png"
+        alt="Slidez AI Stylist app"
+        className="h-full w-auto object-contain object-bottom"
+      />
     </div>
   );
 }
