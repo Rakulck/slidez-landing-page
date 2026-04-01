@@ -487,6 +487,7 @@ export default function StylistTool({
   const [tryOnFinalImageUrl, setTryOnFinalImageUrl] = useState<string | null>(null);
   const [tryOnStage, setTryOnStage] = useState<string | null>(null);
   const [tryOnError, setTryOnError] = useState<string | null>(null);
+  const [selectedModelSrc, setSelectedModelSrc] = useState<string | null>(null);
   const outfitFileRef = useRef<HTMLInputElement>(null);
   const photoFileRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -652,6 +653,7 @@ export default function StylistTool({
     setTryOnStage("Setting up model...");
     try {
       const src = g === "Men" ? "/model-man.jpg" : "/model-woman.jpg";
+      setSelectedModelSrc(src);
       const { imageBase64, mimeType } = await fetchImageBase64(src);
       const userId = await ensureAnonymousUserId();
       await setupPersonPhoto(userId, imageBase64, mimeType);
@@ -689,6 +691,7 @@ export default function StylistTool({
       const commaIdx = dataUrl.indexOf(",");
       const imageBase64 = commaIdx >= 0 ? dataUrl.slice(commaIdx + 1) : dataUrl;
       const mimeType = file_.type || "image/jpeg";
+      setSelectedModelSrc(dataUrl);
 
       const detected = await detectPersonGenderCallable({ imageBase64, mimeType });
       const mappedGender: Gender | null = detected === "male" ? "Men" : detected === "female" ? "Women" : null;
@@ -741,6 +744,7 @@ export default function StylistTool({
     setTryOnFinalImageUrl(null);
     setTryOnStage(null);
     setTryOnError(null);
+    setSelectedModelSrc(null);
     setOutfitImageBase64(null);
     setOutfitImageMimeType("image/jpeg");
     setOutfitImagePreview(null);
@@ -1006,8 +1010,45 @@ export default function StylistTool({
       </AnimatePresence>
 
       {loading && !showModelPicker && !results && (
-        <div className="mt-6 text-center text-white/35 text-xs uppercase tracking-widest">
-          {tryOnStage ?? "Generating..."}
+        <div className="mt-6">
+          {selectedModelSrc ? (
+            <div className="relative max-w-[280px] mx-auto rounded-2xl overflow-hidden border border-[rgba(192,192,192,0.15)]">
+              <motion.img
+                src={selectedModelSrc}
+                alt="Selected model"
+                className="w-full h-auto block"
+                animate={{
+                  filter: [
+                    "blur(6px) brightness(0.75)",
+                    "blur(2px) brightness(1.08)",
+                    "blur(6px) brightness(0.75)",
+                  ],
+                  scale: [1.05, 1.07, 1.05],
+                }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+              />
+              {/* Loading pill overlay at the top of the image */}
+              <div className="absolute inset-x-0 top-0 flex justify-center pt-4 z-10">
+                <div
+                  className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10"
+                  style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(10px)" }}
+                >
+                  <motion.span
+                    animate={{ opacity: [0.35, 1, 0.35] }}
+                    transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                    className="block w-1.5 h-1.5 rounded-full bg-[#c0c0c0] shrink-0"
+                  />
+                  <span className="text-[11px] text-white/70 font-medium whitespace-nowrap">
+                    {tryOnStage ?? "Generating try-on…"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center text-white/35 text-xs uppercase tracking-widest">
+              {tryOnStage ?? "Generating..."}
+            </div>
+          )}
         </div>
       )}
 
@@ -1055,18 +1096,24 @@ export default function StylistTool({
               ))}
             </div>
 
-            <div className="mt-5 p-5 rounded-xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.03)] text-center">
-              <p className="text-white/40 text-sm mb-3">
-                Try these looks on yourself with Slidez virtual try-on
+                    <div className="mt-8 text-center">
+              <p className="text-white/55 text-sm mb-1 leading-snug">
+                See it on you — not a hanger
+              </p>
+              <p className="text-white/30 text-xs mb-6 leading-relaxed">
+                Upload your photo and try any outfit instantly.
               </p>
               <a
                 href="https://linkly.link/2FWYm"
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-black text-sm font-semibold rounded-full
-                  shadow-[0_2px_16px_rgba(255,255,255,0.2)] hover:shadow-[0_4px_24px_rgba(255,255,255,0.35)]
-                  hover:scale-[1.04] hover:-translate-y-px active:scale-[0.97] transition-all duration-200"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black text-sm font-semibold rounded-full
+                  shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
+                  hover:shadow-[0_4px_24px_rgba(255,255,255,0.45)] hover:scale-[1.05] hover:-translate-y-px
+                  active:scale-[0.97] transition-all duration-200"
               >
-                Download Slidez – Free
-                <ArrowRight className="w-4 h-4" />
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                </svg>
+                Download App Free
               </a>
             </div>
           </motion.div>
@@ -1121,19 +1168,9 @@ export default function StylistTool({
                     />
 
                     {/* Bottom glass overlay */}
-                    <div className="absolute bottom-0 inset-x-0 px-4 pt-10 pb-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent flex items-end justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="text-[9px] text-white/40 uppercase tracking-[0.14em] mb-0.5">AI Try-On</p>
-                        <p className="text-[11px] font-medium text-white/80 truncate">{query}</p>
-                      </div>
-                      <a
-                        href="https://linkly.link/2FWYm"
-                        className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/15 text-white/75 text-[10px] font-semibold tracking-wide hover:bg-white/10 hover:text-white hover:border-white/25 active:scale-95 transition-all duration-200"
-                        style={{ backdropFilter: "blur(8px)", background: "rgba(255,255,255,0.06)" }}
-                      >
-                        Try on you
-                        <ArrowRight className="w-3 h-3" />
-                      </a>
+                    <div className="absolute bottom-0 inset-x-0 px-4 pt-10 pb-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
+                      <p className="text-[9px] text-white/40 uppercase tracking-[0.14em] mb-0.5">AI Try-On</p>
+                      <p className="text-[11px] font-medium text-white/80 truncate">{query}</p>
                     </div>
                   </div>
                 </div>
@@ -1147,18 +1184,24 @@ export default function StylistTool({
             )}
 
 
-            <div className="mt-5 p-5 rounded-xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.03)] text-center">
-              <p className="text-white/40 text-sm mb-3">
-                Try these looks on yourself with Slidez virtual try-on
+                    <div className="mt-8 text-center">
+              <p className="text-white/55 text-sm mb-1 leading-snug">
+                See it on you — not a hanger
+              </p>
+              <p className="text-white/30 text-xs mb-6 leading-relaxed">
+                Upload your photo and try any outfit instantly.
               </p>
               <a
                 href="https://linkly.link/2FWYm"
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-black text-sm font-semibold rounded-full
-                  shadow-[0_2px_16px_rgba(255,255,255,0.2)] hover:shadow-[0_4px_24px_rgba(255,255,255,0.35)]
-                  hover:scale-[1.04] hover:-translate-y-px active:scale-[0.97] transition-all duration-200"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black text-sm font-semibold rounded-full
+                  shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
+                  hover:shadow-[0_4px_24px_rgba(255,255,255,0.45)] hover:scale-[1.05] hover:-translate-y-px
+                  active:scale-[0.97] transition-all duration-200"
               >
-                Download Slidez – Free
-                <ArrowRight className="w-4 h-4" />
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                </svg>
+                Download App Free
               </a>
             </div>
           </motion.div>
