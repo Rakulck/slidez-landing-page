@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Share2, Plus, Minus } from "lucide-react";
+import { ArrowRight, Plus, Minus } from "lucide-react";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 /* ─── Phone mockup sub-components ─────────────────────────────── */
@@ -39,55 +39,11 @@ function StylistPhone() {
 
 function ImportPhone() {
   return (
-    <div className="relative mx-auto w-56 h-[440px] rounded-[38px] border border-[rgba(192,192,192,0.16)] bg-[#0f0f0f] shadow-2xl overflow-hidden">
-      <div className="absolute inset-0 flex flex-col p-5 gap-3">
-        {/* Top */}
-        <div className="flex items-center gap-2">
-          <Share2 className="w-4 h-4 text-[#c0c0c0]" />
-          <span className="text-[11px] text-white/40 font-medium">Import Outfit</span>
-        </div>
-
-        {/* Source card */}
-        <div className="rounded-2xl border border-[rgba(192,192,192,0.12)] bg-[rgba(192,192,192,0.05)] p-3 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[rgba(192,192,192,0.15)] flex items-center justify-center shrink-0">
-            <span className="text-[10px] text-[#c0c0c0] font-bold">IG</span>
-          </div>
-          <div className="flex flex-col gap-1 flex-1 min-w-0">
-            <div className="h-2 bg-[rgba(192,192,192,0.25)] rounded w-3/4" />
-            <div className="h-1.5 bg-[rgba(192,192,192,0.1)] rounded w-1/2" />
-          </div>
-        </div>
-
-        {/* Arrow */}
-        <div className="flex items-center justify-center">
-          <div className="flex flex-col items-center gap-1">
-            <div className="h-5 w-px bg-[rgba(192,192,192,0.2)]" />
-            <div className="w-5 h-5 rounded-full gradient-silver flex items-center justify-center">
-              <ArrowRight className="w-3 h-3 text-black rotate-90" />
-            </div>
-            <div className="h-5 w-px bg-[rgba(192,192,192,0.2)]" />
-          </div>
-        </div>
-
-        {/* Try-on result */}
-        <div className="flex-1 rounded-2xl bg-[rgba(192,192,192,0.05)] border border-[rgba(192,192,192,0.1)] flex flex-col items-center justify-center relative overflow-hidden">
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-7 h-7 rounded-full bg-[rgba(192,192,192,0.2)]" />
-            <div className="w-12 h-16 rounded-xl bg-[rgba(192,192,192,0.12)] border border-[rgba(192,192,192,0.18)]" />
-            <div className="flex gap-1">
-              <div className="w-4.5 h-8 rounded-b-lg bg-[rgba(192,192,192,0.1)]" />
-              <div className="w-4.5 h-8 rounded-b-lg bg-[rgba(192,192,192,0.1)]" />
-            </div>
-          </div>
-          <div className="absolute bottom-2 inset-x-3">
-            <div className="h-7 rounded-xl gradient-silver flex items-center justify-center">
-              <span className="text-black text-[10px] font-semibold">Import & Try On</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-[#0f0f0f] rounded-b-2xl z-10" />
-    </div>
+    <img
+      src="/screenshots/import-outfit-mockup.png"
+      alt="Slidez Import Outfits — try on from anywhere"
+      className="mx-auto w-72 drop-shadow-2xl"
+    />
   );
 }
 
@@ -239,10 +195,11 @@ export default function HowItWorks() {
                   <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] mb-5 ${block.white ? "text-[#888]" : "text-[#c0c0c0]"}`}>
                     {block.label}
                   </p>
-                  <h2 className={`text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight ${block.white ? "text-black" : "text-white"}`}>
+                  <h2 className={`text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight whitespace-pre-line ${block.white ? "text-black" : "text-white"}`}>
                     {block.heading}
                   </h2>
                   <p className={`text-lg leading-relaxed mb-8 ${block.white ? "text-black/55" : "text-white/50"}`}>{block.body}</p>
+
                   <div className="flex items-center gap-3">
                     <a
                       href="#"
