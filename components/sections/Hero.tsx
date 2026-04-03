@@ -6,6 +6,7 @@ import { ArrowRight, Star, Sparkles, Send, X, Puzzle } from "lucide-react";
 import { trackDownloadClick, trackExtensionClick, trackStylistDemoSubmit } from "@/lib/gtag";
 import BrandsStrip from "@/components/sections/BrandsStrip";
 import type { FloatingStylerOnCompletePayload } from "@/components/ui/floating-styler";
+import StylistTool from "@/components/features/ai-stylist/StylistTool";
 import {
   analyzeOutfitIntentCallable,
   detectPersonGenderCallable,
@@ -32,7 +33,7 @@ const PROMPTS = [
 
 // Keep the original landing-page UX flow (floating picker + result cards).
 // API calls will be wired into this same flow below.
-const USE_REAL_STYLIST_TOOL = false;
+const USE_REAL_STYLIST_TOOL = true;
 
 /* ── Pre-defined outfit results ──────────────────────────────── */
 const OUTFIT_SETS = [
@@ -141,11 +142,12 @@ export default function Hero() {
     trackStylistDemoSubmit();
     setInputValue(prompt);
     setActivePrompt(prompt);
+    tryOnRunSeqRef.current++;
     setResults(false);
     setLoading(true);
     setTryOnCards([]);
     setTryOnError(null);
-    setShowStyler(true);
+    // setShowStyler(true); // handled by StylistTool now
   };
 
   const handleStylerComplete = useCallback(
@@ -290,181 +292,20 @@ export default function Hero() {
           AI stylist & virtual try-on. Style yourself in seconds.
         </p>
 
-        {!USE_REAL_STYLIST_TOOL && (
-          <>
-            {/* ── Animated Input Box ──────────────────────────── */}
-            <div className="relative w-full max-w-xl mx-auto mb-8">
-          <div
-            className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.05)] hover:input-glow-hover ${
-              results
-                ? "border-[rgba(192,192,192,0.3)] bg-[rgba(192,192,192,0.05)]"
-                : "border-[rgba(192,192,192,0.15)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.4)] focus-within:bg-[rgba(255,255,255,0.05)] focus-within:input-glow-focus"
-            }`}
-          >
-            {/* Sparkles icon */}
-            <Sparkles className="w-4 h-4 text-[#808080] shrink-0" />
-
-            {/* Input */}
-            <input
-              ref={inputRef}
-              type="text"
-              value={inputValue}
-              onChange={(e) => {
-                setInputValue(e.target.value);
-                if (results) setResults(false);
-              }}
-              onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-              placeholder={placeholder}
-              className="flex-1 bg-transparent text-white text-base outline-none placeholder:text-white/25 min-w-0"
-              suppressHydrationWarning
-            />
-
-            {/* Clear button */}
-            <AnimatePresence>
-              {(inputValue || results) && (
-                <motion.button
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  onClick={handleReset}
-                  aria-label="Clear input"
-                  className="text-white/25 hover:text-white/50 transition-colors shrink-0"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </motion.button>
-              )}
-            </AnimatePresence>
-
-            {/* Send button */}
-            <button
-              onClick={handleSubmit}
-              disabled={!inputValue.trim() || loading}
-              aria-label="Generate outfit"
-              className="shrink-0 w-8 h-8 rounded-full gradient-silver flex items-center justify-center disabled:opacity-25 hover:opacity-85 transition-opacity"
-            >
-              {loading ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                  className="w-3.5 h-3.5 rounded-full border-2 border-black border-t-transparent"
-                />
-              ) : (
-                <Send className="w-3.5 h-3.5 text-black" />
-              )}
-            </button>
-          </div>
-
-          {/* Cursor blink on typewriter */}
-          {!inputValue && !results && (
-            <span
-              className="absolute left-[3.25rem] top-1/2 -translate-y-1/2 w-px h-4 bg-white/30 pointer-events-none"
-              style={{ marginLeft: `${placeholder.length * 7.2}px` }}
-            >
-              <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-                className="block w-full h-full bg-white/40"
-              />
-            </span>
-          )}
-        </div>
-
-          {/* ── Outfit Results ───────────────────────────────── */}
-          <AnimatePresence>
-            {results && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-8"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <p className="text-xs text-white/35 uppercase tracking-widest font-medium">
-                  Outfits for &ldquo;{inputValue}&rdquo;
-                </p>
-              </div>
-              {tryOnError && (
-                <p className="text-center text-[11px] text-red-400/90 mb-4">
-                  {tryOnError}
-                </p>
-              )}
-
-              {/* Single result card */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="p-4 rounded-xl border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(192,192,192,0.3)] transition-colors cursor-pointer group text-left"
-              >
-                {tryOnCards[0]?.imageUrl ? (
-                  /* Real try-on result */
-                  <>
-                    <span className="text-[10px] font-semibold uppercase tracking-widest text-[#c0c0c0] mb-2 block">
-                      Top Pick
-                    </span>
-                    <img
-                      src={tryOnCards[0].imageUrl}
-                      alt={tryOnCards[0].name}
-                      className="w-full h-[280px] object-cover object-top rounded-lg mb-4"
-                      loading="lazy"
-                    />
-                    <p className="text-white font-semibold text-sm mb-2">
-                      {tryOnCards[0].name}
-                    </p>
-                    <div className="flex items-center justify-end">
-                      <span className="text-[11px] text-[#c0c0c0] font-medium group-hover:text-white transition-colors">
-                        Try On →
-                      </span>
-                    </div>
-                  </>
-                ) : (
-                  /* Model image with loading overlay while try-on generates */
-                  <>
-                    <span className="text-[10px] font-semibold uppercase tracking-widest text-[#c0c0c0] mb-2 block">
-                      Top Pick
-                    </span>
-                    <div className="relative w-full h-[280px] rounded-lg mb-4 overflow-hidden bg-[rgba(192,192,192,0.08)]">
-                      {selectedModelSrc && (
-                        <motion.img
-                          src={selectedModelSrc}
-                          alt="Your selected model"
-                          className="absolute inset-0 w-full h-full object-cover object-top"
-                          animate={{
-                            filter: [
-                              "blur(6px) brightness(0.75)",
-                              "blur(2px) brightness(1.08)",
-                              "blur(6px) brightness(0.75)",
-                            ],
-                            scale: [1.05, 1.07, 1.05],
-                          }}
-                          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-                        />
-                      )}
-                      {/* Loading pill at top of image */}
-                      <div className="absolute inset-x-0 top-0 flex justify-center pt-4 z-10">
-                        <div
-                          className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10"
-                          style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(10px)" }}
-                        >
-                          <motion.span
-                            animate={{ opacity: [0.35, 1, 0.35] }}
-                            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                            className="block w-1.5 h-1.5 rounded-full bg-[#c0c0c0] shrink-0"
-                          />
-                          <span className="text-[10px] text-white/70 font-medium">Generating try-on…</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="h-3 w-2/3 rounded bg-[rgba(192,192,192,0.08)] mb-3 animate-pulse" />
-                    <div className="h-2.5 w-full rounded bg-[rgba(192,192,192,0.06)] mb-2 animate-pulse" />
-                  </>
-                )}
-              </motion.div>
-            </motion.div>
-            )}
-          </AnimatePresence>
-          </>
+        {USE_REAL_STYLIST_TOOL ? (
+          <StylistTool 
+            externalPrompt={activePrompt} 
+            externalPromptKey={tryOnRunSeqRef.current}
+            autoSubmit={!!activePrompt}
+            hideCta={true}
+          />
+        ) : (
+          <StylistTool 
+            externalPrompt={activePrompt} 
+            externalPromptKey={tryOnRunSeqRef.current}
+            autoSubmit={!!activePrompt}
+            hideCta={true}
+          />
         )}
 
 

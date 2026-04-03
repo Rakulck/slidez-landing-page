@@ -14,6 +14,8 @@ import {
   fetchImageBase64,
   setupPersonPhoto,
 } from "@/lib/slidezCallableFunctions";
+import { collection, query as firestoreQuery, where, getDocs } from "firebase/firestore";
+import { firestoreDb } from "@/lib/firebaseClient";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
 
@@ -410,24 +412,24 @@ const CHIP_OUTFITS_MEN: Record<string, ChipOutfit[]> = {
 
 /* ── Emoji map for chips ──────────────────────────────────────── */
 const CHIP_EMOJI: Record<string, string> = {
-  Casual:       "👟",
-  Office:       "💼",
+  Casual: "👟",
+  Office: "💼",
   "Date Night": "🌙",
-  Winter:       "❄️",
-  Party:        "🎉",
-  Vacation:     "🌴",
-  Beach:        "🏖️",
+  Winter: "❄️",
+  Party: "🎉",
+  Vacation: "🌴",
+  Beach: "🏖️",
 };
 
 /* ── Readymade prompts for chips ──────────────────────────────── */
 const CHIP_PROMPTS: Record<string, string> = {
-  Casual:       "Going out for a casual day with friends",
-  Office:       "Going to the office, business casual look",
+  Casual: "Going out for a casual day with friends",
+  Office: "Going to the office, business casual look",
   "Date Night": "Going on a date night, make it stylish and special",
-  Winter:       "Winter outfit, cosy and warm but still stylish",
-  Party:        "Going to a party, make it fun and bold",
-  Vacation:     "Going on a vacation, resort chic and relaxed",
-  Beach:        "Going to the beach, light and breezy",
+  Winter: "Winter outfit, cosy and warm but still stylish",
+  Party: "Going to a party, make it fun and bold",
+  Vacation: "Going on a vacation, resort chic and relaxed",
+  Beach: "Going to the beach, light and breezy",
 };
 
 
@@ -448,6 +450,11 @@ type Gender = "Women" | "Men";
 type TryOnCard = {
   category: string;
   resultImageUrl: string;
+  productName?: string;
+  productBrand?: string;
+  productPrice?: string | number;
+  productShopUrl?: string;
+  productImageUrl?: string;
 };
 
 type StylistToolProps = {
@@ -455,6 +462,10 @@ type StylistToolProps = {
   externalPrompt?: string;
   /** Increment each time you want to inject a new prompt. */
   externalPromptKey?: number;
+  /** Automatically submit when external prompt changes */
+  autoSubmit?: boolean;
+  /** Hide the internal CTA block at the bottom of results */
+  hideCta?: boolean;
   /** Override the submit button label. Defaults to "Generate Outfit Ideas". */
   submitLabel?: string;
   /** Override the chip set. Defaults to DEFAULT_CHIPS. */
@@ -466,6 +477,8 @@ type StylistToolProps = {
 export default function StylistTool({
   externalPrompt,
   externalPromptKey,
+  autoSubmit,
+  hideCta,
   submitLabel = "Generate Outfit Ideas",
   chips = DEFAULT_CHIPS,
   prompts = DEFAULT_PROMPTS,
@@ -478,8 +491,8 @@ export default function StylistTool({
   const [chipResults, setChipResults] = useState<ChipOutfit[] | null>(null);
   const [activeChip, setActiveChip] = useState<string | null>(null);
   const [showModelPicker, setShowModelPicker] = useState(false);
-  const [pickerStep,      setPickerStep]      = useState<"gender" | "models">("gender");
-  const [pickerGender,    setPickerGender]    = useState<Gender | null>(null);
+  const [pickerStep, setPickerStep] = useState<"gender" | "models">("gender");
+  const [pickerGender, setPickerGender] = useState<Gender | null>(null);
   const [showOutfitDialog, setShowOutfitDialog] = useState(false);
   const [outfitImagePreview, setOutfitImagePreview] = useState<string | null>(null);
   const [outfitImageBase64, setOutfitImageBase64] = useState<string | null>(null);
@@ -511,9 +524,15 @@ export default function StylistTool({
     setResults(false);
     setChipResults(null);
     setActiveChip(null);
-    setTimeout(() => inputRef.current?.focus(), 50);
+    if (autoSubmit) {
+      setQuery(externalPrompt);
+      setLoading(true);
+      setTimeout(() => { setLoading(false); setShowModelPicker(true); }, 250);
+    } else {
+      setTimeout(() => inputRef.current?.focus(), 50);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [externalPromptKey]);
+  }, [externalPromptKey, externalPrompt, autoSubmit]);
 
 
   const handleChip = (chip: string) => {
@@ -604,6 +623,17 @@ export default function StylistTool({
 
       const recommendations = Array.isArray(products.recommendations) ? products.recommendations : [];
 
+      // Build a lookup: category → first product's data (for displaying product info on cards)
+      const productLookup: Record<string, Record<string, unknown>> = {};
+      recommendations.forEach((rec) => {
+        const r = rec as { category?: string; products?: unknown[] };
+        if (r.category && Array.isArray(r.products) && r.products.length > 0) {
+          productLookup[r.category] = r.products[0] as Record<string, unknown>;
+        }
+      });
+      // Log for debugging product field names from Firestore
+      console.log("[Slidez] recommendations:", recommendations);
+
       if (runSeq !== tryOnRunSeqRef.current) return;
 
       setTryOnStage("Generating your try-on images...");
@@ -619,15 +649,127 @@ export default function StylistTool({
 
       const itemResults: unknown[] = Array.isArray(tryOn.itemResults) ? tryOn.itemResults : [];
 
+      // Fetch missing product URLs directly from Firestore
+      const productIdsToFetch: string[] = [];
+      const itemToProductMap: Record<string, string> = {};
+
+      itemResults.forEach((it) => {
+        const itObj = it as Record<string, unknown>;
+        const category = typeof itObj?.category === "string" ? itObj.category : "Outfit";
+        const prod = productLookup[category] ?? {};
+        // The backend might bind the ID differently, cover all typical keys
+        const pId = (prod.id ?? prod.productId ?? prod.docId ?? itObj.garmentId ?? itObj.productId ?? itObj.id) as string | undefined;
+        if (pId) {
+          itemToProductMap[category] = pId;
+          if (!productIdsToFetch.includes(pId)) {
+            productIdsToFetch.push(pId);
+          }
+        }
+      });
+
+      const fetchedUrls: Record<string, string> = {};
+
+      console.log("[Slidez] Gathering product IDs for Firebase hook...", productIdsToFetch, itemToProductMap);
+
+      if (productIdsToFetch.length > 0) {
+        try {
+          // Firestore "in" queries are limited to 10 max items, safely batch them
+          for (let i = 0; i < productIdsToFetch.length; i += 10) {
+            const batch = productIdsToFetch.slice(i, i + 10);
+            
+            // Try standard "products" collection
+            let q = firestoreQuery(
+              collection(firestoreDb, "products"),
+              where("__name__", "in", batch)
+            );
+            let querySnapshot = await getDocs(q);
+
+            // Fallback 1: Try "brand_products" collection if user mistyped the collection name
+            if (querySnapshot.docs.length === 0) {
+              console.log(`[Slidez] 0 docs found in 'products' by __name__. Falling back to 'brand_products' collection...`);
+              q = firestoreQuery(
+                collection(firestoreDb, "brand_products"),
+                where("__name__", "in", batch)
+              );
+              querySnapshot = await getDocs(q);
+            }
+            
+            // Fallback 2: Try querying by "id" field instead of __name__ if document ID is different
+            if (querySnapshot.docs.length === 0) {
+              console.log(`[Slidez] 0 docs found by __name__. Falling back to checking 'id' field in 'products'...`);
+              q = firestoreQuery(
+                collection(firestoreDb, "products"),
+                where("id", "in", batch)
+              );
+              querySnapshot = await getDocs(q);
+            }
+
+            console.log(`[Slidez] Final Query for batch ${batch} returned ${querySnapshot.docs.length} docs`);
+            querySnapshot.forEach((docSnap) => {
+              const data = docSnap.data() as Record<string, any>;
+              console.log("[Slidez] Fetched product doc data:", docSnap.id, data);
+              // Look through product schema and variants array for the sourceUrl
+              let sourceUrl = data.sourceUrl ?? data.shopUrl ?? data.product_url ?? data.url;
+              if (!sourceUrl && Array.isArray(data.variants) && data.variants.length > 0) {
+                sourceUrl = data.variants[0].sourceUrl ?? data.variants[0].shopUrl;
+              }
+              if (!sourceUrl && Array.isArray(data.productVariants) && data.productVariants.length > 0) {
+                sourceUrl = data.productVariants[0].sourceUrl ?? data.productVariants[0].shopUrl;
+              }
+              if (sourceUrl) {
+                fetchedUrls[docSnap.id] = sourceUrl;
+                // Also map any internal 'id' field to catch Fallback 2
+                if (data.id && typeof data.id === 'string') fetchedUrls[data.id] = sourceUrl;
+              } else {
+                console.log(`[Slidez] Warning: Doc ${docSnap.id} found but has no URL fields!`);
+              }
+            });
+          }
+        } catch (e) {
+          console.error("[Slidez] Failed to fetch source urls from Firestore", e);
+        }
+      }
+
       const cards: TryOnCard[] = itemResults
         .map((it) => {
           const itObj = it as Record<string, unknown>;
           const resultImageUrl =
             typeof itObj?.resultImageUrl === "string" ? itObj.resultImageUrl : null;
           if (!resultImageUrl) return null;
+          const category = typeof itObj?.category === "string" ? itObj.category : "Outfit";
+          const prod = productLookup[category] ?? {};
+          // Firestore product fields (schema v1.6) — adjust if field names differ
+          const productName = (prod.name ?? prod.title ?? prod.productName) as string | undefined;
+          const productBrand = (prod.brand ?? prod.brandName) as string | undefined;
+
+          let rawPrice = prod.price ?? prod.salePrice ?? prod.originalPrice;
+          let productPrice: string | number | undefined = undefined;
+          if (rawPrice && typeof rawPrice === 'object') {
+            const rp = rawPrice as any;
+            if (rp.amount !== undefined) {
+              const currency = rp.currency === 'USD' || !rp.currency ? '$' : rp.currency;
+              productPrice = `${currency}${rp.amount}`;
+            }
+          } else if (typeof rawPrice === 'string' || typeof rawPrice === 'number') {
+            productPrice = rawPrice;
+          }
+
+          let productShopUrl = (prod.shopUrl ?? prod.productUrl ?? prod.product_url ?? prod.url ?? prod.link) as string | undefined;
+          const pId = itemToProductMap[category];
+          if (pId && fetchedUrls[pId]) {
+            productShopUrl = fetchedUrls[pId];
+          }
+
+          const imgs = prod.imageUrls ?? prod.images ?? prod.imageUrl;
+          const productImageUrl = (Array.isArray(imgs) ? imgs[0] : imgs) as string | undefined;
           return {
-            category: typeof itObj?.category === "string" ? itObj.category : "Outfit",
+            category,
             resultImageUrl,
+            productName,
+            productBrand,
+            productPrice,
+            productShopUrl,
+            productImageUrl,
           } satisfies TryOnCard;
         })
         .filter(Boolean) as TryOnCard[];
@@ -762,11 +904,10 @@ export default function StylistTool({
       {/* ── Input box (single line pill) ─────────────────────────── */}
       <div className="relative" style={{ isolation: "isolate" }}>
         <div
-          className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 ${
-            hasAnyResults
+          className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 ${hasAnyResults
               ? "border-[rgba(192,192,192,0.3)] bg-[rgba(255,255,255,0.05)]"
               : "border-[rgba(192,192,192,0.18)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.42)] focus-within:bg-[rgba(255,255,255,0.05)]"
-          }`}
+            }`}
         >
 
           <input
@@ -920,11 +1061,10 @@ export default function StylistTool({
           <button
             key={chip}
             onClick={() => handleChip(chip)}
-            className={`px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 ${
-              activeChip === chip
+            className={`px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 ${activeChip === chip
                 ? "border-[rgba(192,192,192,0.5)] bg-[rgba(192,192,192,0.12)] text-white"
                 : "border-[rgba(192,192,192,0.15)] text-white/40 hover:border-[rgba(192,192,192,0.3)] hover:text-white/70"
-            }`}
+              }`}
           >
             {CHIP_EMOJI[chip] && (
               <span className="text-base leading-none">{CHIP_EMOJI[chip]}</span>
@@ -1024,12 +1164,12 @@ export default function StylistTool({
                   <div className="grid grid-cols-2 gap-3">
                     {({
                       Women: [
-                        { id: "blonde-woman",   src: "/models/blonde-woman.png"   },
+                        { id: "blonde-woman", src: "/models/blonde-woman.png" },
                         { id: "brunette-woman", src: "/models/brunette-woman.png" },
                       ],
                       Men: [
                         { id: "blonde-white-man", src: "/models/blonde-white-man.png" },
-                        { id: "black-man",        src: "/models/black-man.png"        },
+                        { id: "black-man", src: "/models/black-man.png" },
                       ],
                     }[pickerGender ?? "Men"]).map((model, i) => (
                       <motion.button
@@ -1157,7 +1297,7 @@ export default function StylistTool({
               ))}
             </div>
 
-                    <div className="mt-8 text-center">
+            <div className="mt-8 text-center">
               <p className="text-white/55 text-sm mb-1 leading-snug">
                 See it on you — not a hanger
               </p>
@@ -1195,48 +1335,112 @@ export default function StylistTool({
               {gender}&rsquo;s outfit ideas for &ldquo;{query}&rdquo;
             </p>
 
-            {tryOnFinalImageUrl && (
-              <motion.div
-                className="mb-8 flex justify-center"
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <div className="relative w-full max-w-[300px] group cursor-pointer">
-                  {/* Ambient glow behind card */}
-                  <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-white/8 via-[rgba(180,180,255,0.06)] to-transparent blur-2xl pointer-events-none transition-opacity duration-500 group-hover:opacity-150" />
-                  {/* Animated shimmer border */}
-                  <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-white/20 via-white/5 to-white/12 pointer-events-none" />
+            <div className="flex flex-col md:flex-row gap-8 items-start mb-8 w-full max-w-6xl mx-auto">
+              {tryOnFinalImageUrl && (
+                <motion.div
+                  className="w-full md:w-7/12 flex justify-center md:sticky md:top-24"
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <div className="relative w-full max-w-[800px] group cursor-pointer">
+                    {/* Ambient glow behind card */}
+                    <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-white/8 via-[rgba(180,180,255,0.06)] to-transparent blur-2xl pointer-events-none transition-opacity duration-500 group-hover:opacity-150" />
+                    {/* Animated shimmer border */}
+                    <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-white/20 via-white/5 to-white/12 pointer-events-none" />
 
-                  {/* Glass card */}
-                  <div
-                    className="relative rounded-3xl overflow-hidden border border-white/10 bg-[rgba(255,255,255,0.03)]"
-                    style={{ boxShadow: "0 12px 48px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.07), inset 0 1px 0 rgba(255,255,255,0.08)" }}
-                  >
-                    {/* Top badge */}
-                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/50 border border-white/10"
-                      style={{ backdropFilter: "blur(12px)" }}>
-                      <Sparkles className="w-2.5 h-2.5 text-white/60" />
-                      <span className="text-[9px] font-semibold text-white/60 tracking-[0.15em] uppercase">Your Look</span>
-                    </div>
+                    {/* Glass card */}
+                    <div
+                      className="relative rounded-3xl overflow-hidden border border-white/10 bg-[rgba(255,255,255,0.03)]"
+                      style={{ boxShadow: "0 12px 48px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.07), inset 0 1px 0 rgba(255,255,255,0.08)" }}
+                    >
+                      {/* Top badge */}
+                      <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/50 border border-white/10"
+                        style={{ backdropFilter: "blur(12px)" }}>
+                        <Sparkles className="w-3 h-3 text-white/60" />
+                        <span className="text-[10px] font-semibold text-white/60 tracking-[0.15em] uppercase">Your Look</span>
+                      </div>
 
-                    {/* Image */}
-                    <img
-                      src={tryOnFinalImageUrl}
-                      alt="Generated try-on preview"
-                      className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
-                      loading="lazy"
-                    />
+                      {/* Image */}
+                      <img
+                        src={tryOnFinalImageUrl}
+                        alt="Generated try-on preview"
+                        className="w-full h-[420px] object-cover block transition-transform duration-700 group-hover:scale-[1.02]"
+                        loading="lazy"
+                      />
 
-                    {/* Bottom glass overlay */}
-                    <div className="absolute bottom-0 inset-x-0 px-4 pt-10 pb-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
-                      <p className="text-[9px] text-white/40 uppercase tracking-[0.14em] mb-0.5">AI Try-On</p>
-                      <p className="text-[11px] font-medium text-white/80 truncate">{query}</p>
+                      {/* Bottom glass overlay */}
+                      <div className="absolute bottom-0 inset-x-0 px-6 pt-16 pb-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
+                        <p className="text-[12px] text-white/40 uppercase tracking-[0.14em] mb-1">AI Try-On</p>
+                        <p className="text-[16px] font-medium text-white/90 line-clamp-2">{query}</p>
+                      </div>
                     </div>
                   </div>
+                </motion.div>
+              )}
+
+              {tryOnItems.length > 0 && (
+                <div className="w-full md:w-5/12 flex flex-col gap-3">
+                  {tryOnItems.map((card, i) => {
+                    return (
+                      <motion.div
+                        key={`${card.category}-${i}`}
+                        onClick={() => {
+                          if (card.productShopUrl) {
+                            window.open(card.productShopUrl, "_blank");
+                          } else {
+                            console.log("[Slidez] Missing URL for card:", card);
+                            alert(`Missing purchase link for ${card.productName || card.category}. Check console.`);
+                          }
+                        }}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.35, delay: i * 0.08 }}
+                        className={`flex flex-row items-center p-2 rounded-xl border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.3)] hover:bg-[rgba(255,255,255,0.05)] transition-all duration-300 group gap-3 shadow-sm max-w-[400px] ${card.productShopUrl ? "cursor-pointer" : ""}`}
+                      >
+                        <div className="relative w-14 h-16 sm:w-16 sm:h-20 shrink-0 rounded-lg overflow-hidden bg-black/20 border border-white/5">
+                          <img
+                            src={card.productImageUrl || card.resultImageUrl}
+                            alt={card.productName ?? card.category}
+                            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.05]"
+                            loading="lazy"
+                          />
+                        </div>
+
+                        <div className="flex flex-col flex-1 min-w-0 pr-1 py-0.5 justify-center h-full">
+                          <div className="mb-auto leading-tight">
+                            <span className="inline-block px-1.5 py-0.5 mb-1 rounded bg-black/40 border border-white/10 text-[7px] font-bold text-white/70 uppercase tracking-widest shadow-sm">
+                              {card.category}
+                            </span>
+                            {card.productBrand && (
+                              <p className="text-[8px] text-white/40 uppercase tracking-widest mb-0.5 truncate font-medium">{card.productBrand}</p>
+                            )}
+                            {card.productName ? (
+                              <p className="text-[11px] font-medium text-white/90 leading-tight line-clamp-2">{card.productName}</p>
+                            ) : (
+                              <p className="text-[11px] font-medium text-white/90 leading-tight truncate">Generated {card.category}</p>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-between mt-1.5 pt-1.5 border-t border-[rgba(192,192,192,0.08)]">
+                            {card.productPrice !== undefined && (
+                              <span className="text-[10px] font-semibold text-white/70">{card.productPrice}</span>
+                            )}
+                            {card.productShopUrl && (
+                              <span
+                                className="text-[9px] text-[#e0e0e0] group-hover:text-white transition-colors font-semibold ml-auto flex items-center gap-1 bg-white/5 group-hover:bg-white/10 px-2 py-1 rounded-full border border-white/10"
+                              >
+                                Shop <ArrowRight className="w-2.5 h-2.5" />
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
-              </motion.div>
-            )}
+              )}
+            </div>
 
             {tryOnError && (
               <p className="text-center text-[11px] text-red-400/90 mb-4">
@@ -1244,33 +1448,34 @@ export default function StylistTool({
               </p>
             )}
 
-
-                    <div className="mt-8 text-center">
-              <p className="text-white/55 text-sm mb-1 leading-snug">
-                See it on you — not a hanger
-              </p>
-              <p className="text-white/30 text-xs mb-6 leading-relaxed">
-                Upload your photo and try any outfit instantly.
-              </p>
-              <a
-                href="https://linkly.link/2FWYm"
-                className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black text-sm font-semibold rounded-full
-                  shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
-                  hover:shadow-[0_4px_24px_rgba(255,255,255,0.45)] hover:scale-[1.05] hover:-translate-y-px
-                  active:scale-[0.97] transition-all duration-200"
-              >
-                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                </svg>
-                Download App Free
-              </a>
-            </div>
+            {!hideCta && (
+              <div className="mt-8 text-center">
+                <p className="text-white/55 text-sm mb-1 leading-snug">
+                  See it on you — not a hanger
+                </p>
+                <p className="text-white/30 text-xs mb-6 leading-relaxed">
+                  Upload your photo and try any outfit instantly.
+                </p>
+                <a
+                  href="https://linkly.link/2FWYm"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black text-sm font-semibold rounded-full
+                    shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
+                    hover:shadow-[0_4px_24px_rgba(255,255,255,0.45)] hover:scale-[1.05] hover:-translate-y-px
+                    active:scale-[0.97] transition-all duration-200"
+                >
+                  <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                  </svg>
+                  Download App Free
+                </a>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
 
       {!hasAnyResults && !loading && (
-        <p className="text-center text-white/20 text-xs mt-5">
+        <p className="text-center text-white/30 text-[11px] py-12 tracking-wide font-medium">
           Powered by Slidez AI &middot; Free to use
         </p>
       )}

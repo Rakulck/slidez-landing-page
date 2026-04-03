@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Slidez Hero — Mockup v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #ece8f4; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px; }
+
+  .frame {
+    width: 100%; max-width: 1280px;
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(60,30,100,0.15);
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 56px; height: 68px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #1a1025; letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: #666; text-decoration: none; }
+  .nav-cta {
+    font-size: 13px; font-weight: 600; color: #fff;
+    background: #1a1025; padding: 9px 22px; border-radius: 100px;
+    text-decoration: none; letter-spacing: -0.1px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 680px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* breathing lavender */
+  .breathe {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60%;
+    background: linear-gradient(to top, #CEC2EB 0%, transparent 100%);
+    animation: breathe 5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes breathe {
+    0%,100% { opacity: 0.18; }
+    50%      { opacity: 0.48; }
+  }
+
+  /* subtle radial center-left */
+  .glow {
+    position: absolute;
+    top: 30%; left: 30%; transform: translate(-50%,-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(206,194,235,0.25) 0%, transparent 68%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── LEFT ── */
+  .left {
+    padding: 72px 48px 72px 64px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 10;
+  }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #7c5cbf;
+    background: rgba(206,194,235,0.3);
+    border: 1px solid rgba(150,100,210,0.22);
+    padding: 5px 13px; border-radius: 100px;
+    margin-bottom: 28px; width: fit-content;
+  }
+
+  /* THE BIG H1 — Playfair Display 900 */
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.4rem, 5.5vw, 5.2rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: #1a1025;
+    margin-bottom: 24px;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 700;
+    background: linear-gradient(135deg, #3d2b6e 0%, #7c5cbf 55%, #b09cdb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+  }
+
+  .sub {
+    font-size: 16px; font-weight: 400; line-height: 1.7;
+    color: rgba(61,43,110,0.6);
+    max-width: 380px;
+    margin-bottom: 36px;
+  }
+
+  /* Input */
+  .input-wrap {
+    display: flex; align-items: center; gap: 10px;
+    border: 1.5px solid rgba(150,100,210,0.22);
+    border-radius: 100px;
+    padding: 10px 10px 10px 20px;
+    max-width: 400px;
+    margin-bottom: 20px;
+    background: white;
+    box-shadow: 0 2px 20px rgba(150,100,210,0.08);
+  }
+  .input-icon { color: #9b7fd0; font-size: 14px; margin-right: 2px; }
+  .input-text { flex: 1; font-size: 14px; color: rgba(26,16,37,0.32); font-family: 'Inter',sans-serif; }
+  .send {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #1a1025; color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+
+  /* CTAs */
+  .ctas { display: flex; gap: 10px; align-items: center; margin-bottom: 40px; flex-wrap: wrap; }
+  .btn-dl {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #1a1025; color: white;
+    font-size: 13px; font-weight: 600; font-family: 'Inter',sans-serif;
+    padding: 13px 24px; border-radius: 100px;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(26,16,37,0.2);
+    letter-spacing: -0.1px;
+  }
+  .btn-ext {
+    display: inline-flex; align-items: center; gap: 7px;
+    border: 1.5px solid rgba(26,16,37,0.14); color: rgba(26,16,37,0.6);
+    font-size: 13px; font-weight: 500; font-family: 'Inter',sans-serif;
+    padding: 12px 22px; border-radius: 100px;
+    text-decoration: none;
+  }
+
+  /* social proof */
+  .proof { display: flex; align-items: center; gap: 12px; }
+  .stars { color: #f59e0b; font-size: 13px; letter-spacing: 1px; }
+  .proof-txt { font-size: 12px; color: rgba(26,16,37,0.45); }
+  .proof-txt strong { color: rgba(26,16,37,0.72); font-weight: 600; }
+
+  /* ── RIGHT ── */
+  .right {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    padding: 48px 40px 0 16px;
+    overflow: visible;
+  }
+
+  /* Fan of cards */
+  .fan { position: relative; width: 320px; height: 560px; }
+
+  .card {
+    position: absolute;
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1.5px solid rgba(150,100,210,0.22);
+  }
+  .card img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,16,37,0.65) 0%, transparent 52%); }
+  .chip {
+    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(255,255,255,0.92); white-space: nowrap;
+    background: rgba(26,16,37,0.52); backdrop-filter: blur(10px);
+    padding: 5px 14px; border-radius: 100px;
+    border: 1px solid rgba(206,194,235,0.28);
+  }
+  .notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 54px; height: 16px;
+    background: white; border-radius: 0 0 12px 12px; z-index: 2;
+  }
+
+  .c1 { width: 170px; height: 300px; left: 0; top: 120px; transform: rotate(-11deg); z-index: 1; box-shadow: 0 16px 48px rgba(60,30,100,0.13); }
+  .c2 { width: 200px; height: 360px; left: 60px; top: 60px; transform: rotate(-4deg); z-index: 2; box-shadow: 0 24px 60px rgba(60,30,100,0.16); }
+  .c3 { width: 200px; height: 400px; left: 130px; top: 10px; transform: rotate(5deg); z-index: 3; box-shadow: 0 32px 80px rgba(60,30,100,0.22); }
+
+  /* Floating pills */
+  .pill {
+    position: absolute;
+    background: white;
+    border: 1px solid rgba(150,100,210,0.2);
+    border-radius: 16px;
+    padding: 10px 14px;
+    box-shadow: 0 8px 28px rgba(100,60,180,0.12);
+    z-index: 20;
+  }
+  .pill-title { font-size: 12px; font-weight: 700; color: #1a1025; font-family: 'Inter',sans-serif; }
+  .pill-sub   { font-size: 10px; color: rgba(26,16,37,0.45); font-family: 'Inter',sans-serif; margin-top: 1px; }
+  .pill-dot   { width: 7px; height: 7px; border-radius: 50%; background: #9b7fd0; display: inline-block; margin-right: 5px; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  .p1 { top: 28px; right: -10px; animation: float1 4.2s ease-in-out infinite; }
+  .p2 { bottom: 120px; left: -18px; animation: float2 5s ease-in-out infinite; }
+  @keyframes float1 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes float2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+  /* ANNOTATION OVERLAY */
+  .ann {
+    position: absolute;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(124,92,191,0.6);
+    background: white;
+    border: 1px dashed rgba(150,100,210,0.3);
+    padding: 3px 9px; border-radius: 6px;
+    pointer-events: none; z-index: 100;
+    font-family: 'Inter', monospace;
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Slidez</div>
+    <div class="nav-links">
+      <a href="#">Features</a>
+      <a href="#">Pricing</a>
+      <a href="#">Blog</a>
+    </div>
+    <a class="nav-cta" href="#">Download App</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="breathe"></div>
+    <div class="glow"></div>
+
+    <!-- LEFT -->
+    <div class="left">
+
+      <!-- annotation -->
+      <div class="ann" style="top:16px;left:16px;">Playfair Display 900 — editorial weight</div>
+
+      <div class="eyebrow">✦ AI-Powered Styling</div>
+
+      <h1>
+        Your personal<br/>
+        <em>AI Stylist</em><br/>
+        on every device
+      </h1>
+
+      <p class="sub">
+        Describe your vibe. Get a full outfit instantly.<br/>
+        Virtual try-on powered by AI that actually gets style.
+      </p>
+
+      <!-- Typewriter input -->
+      <div class="input-wrap">
+        <span class="input-icon">✦</span>
+        <span class="input-text">Style me for a date night...</span>
+        <div class="send">→</div>
+      </div>
+
+      <!-- CTAs -->
+      <div class="ctas">
+        <a class="btn-dl" href="#">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          Download App
+        </a>
+        <a class="btn-ext" href="#">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Add to Chrome
+        </a>
+      </div>
+
+      <!-- Social proof -->
+      <div class="proof">
+        <span class="stars">★★★★★</span>
+        <span class="proof-txt"><strong>12,000+</strong> outfits styled this week</span>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+      <!-- annotation -->
+      <div class="ann" style="top:16px;right:16px;">Fanned outfit cards — depth via rotation + shadow</div>
+
+      <div class="fan">
+
+        <!-- Floating context pills -->
+        <div class="pill p1">
+          <div class="pill-title"><span class="pill-dot"></span>AI Generated</div>
+          <div class="pill-sub">Date night look · just now</div>
+        </div>
+        <div class="pill p2">
+          <div class="pill-title">👗 Virtual Try-On</div>
+          <div class="pill-sub">See it on you in seconds</div>
+        </div>
+
+        <!-- Card 1 — back left -->
+        <div class="card c1">
+          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=80&fit=crop&crop=top" alt="Weekend"/>
+          <div class="card-overlay"></div>
+          <div class="chip">Weekend</div>
+          <div class="notch"></div>
+        </div>
+
+        <!-- Card 2 — mid -->
+        <div class="card c2">
+          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=80&fit=crop&crop=top" alt="Work"/>
+          <div class="card-overlay"></div>
+          <div class="chip">Work Chic</div>
+          <div class="notch"></div>
+        </div>
+
+        <!-- Card 3 — front right -->
+        <div class="card c3">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80&fit=crop&crop=top" alt="Night Out"/>
+          <div class="card-overlay"></div>
+          <div class="chip">Night Out</div>
+          <div class="notch"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+</div>
+</body>
+</html>
