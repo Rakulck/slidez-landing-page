@@ -15,32 +15,7 @@
       "Bash(npm install:*)",
       "Bash(curl:*)",
       "Bash(xargs -I{} taskkill /PID {} /F)",
-      "Bash(npx skills:*)",
-      "Bash(gh api:*)",
-      "Bash(cp \"C:/Users/Asus/OneDrive/Desktop/SLidez- Code/frontend/assets/images/model-man.jpg\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/model-man.jpg\")",
-      "Bash(cp \"C:/Users/Asus/OneDrive/Desktop/SLidez- Code/frontend/assets/images/model-woman.jpg\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/model-woman.jpg\")",
-      "Bash(cd:*)",
-      "Bash(npx kill-port:*)",
-      "Bash(rm -rf .next)",
-      "Bash(python:*)",
-      "Bash(npx tsc:*)",
-      "Bash(python3 \"C:/Users/Asus/.claude/skills/ui-ux-pro-max/scripts/search.py\" \"editorial bold hero headline fashion luxury\" --domain typography -n 3)",
-      "Bash(cp \"/c/Users/Asus/Downloads/5a5bc46d98d917ddda11e0b623cec43c.jpg.jpeg\" \"/c/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/outfit-casual.jpg\")",
-      "Bash(cp \"/c/Users/Asus/Downloads/28c53edefe3b0c4ee0090297c93be248.jpg.jpeg\" \"/c/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/outfit-vacation.jpg\")",
-      "Bash(cp \"/c/Users/Asus/Downloads/02e4d35bb20fd9bf215ce3ff02428d05.jpg.jpeg\" \"/c/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/outfit-work.jpg\")",
-      "Bash(cp \"/c/Users/Asus/Downloads/38914be874c01fed2132e74195640918.jpg.jpeg\" \"/c/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/outfit-weekend.jpg\")",
-      "Bash(python3 -c ':*)",
-      "Bash(mkdir -p \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/models\")",
-      "Bash(cp \"C:/Users/Asus/Downloads/Model Photos/archive \\(1\\)/Indian Woman.png\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/models/indian-woman.png\")",
-      "Bash(cp \"C:/Users/Asus/Downloads/Model Photos/archive \\(1\\)/Latina Woman.png\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/models/latina-woman.png\")",
-      "Bash(cp \"C:/Users/Asus/Downloads/Model Photos/archive \\(1\\)/Mexican Man.png\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/models/mexican-man.png\")",
-      "Bash(cp \"C:/Users/Asus/Downloads/Model Photos/archive \\(1\\)/Arab Man.png\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/models/arab-man.png\")",
-      "Bash(cp \"C:/Users/Asus/Downloads/494304ecfa4d1a0fb52e834c7603694d.jpg.jpeg\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/inspiration/date-night.jpg\")",
-      "Bash(cp \"C:/Users/Asus/Downloads/33d4b7c9dd66b606e4a3114be4a4d5c2.jpg.jpeg\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/inspiration/black-dress.jpg\")",
-      "Bash(cp \"C:/Users/Asus/Downloads/93f488b7982ac079676772176c8a61e2.jpg.jpeg\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/inspiration/casual-men.jpg\")",
-      "Bash(cp \"C:/Users/Asus/Downloads/b49926cd329f992a0a1ab4f609af35ef.jpg.jpeg\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/inspiration/party.jpg\")",
-      "Bash(cp \"C:/Users/Asus/Downloads/20f0b9f2c7df4ced437299b32f2f8d2c.jpg.jpeg\" \"C:/Users/Asus/OneDrive/Desktop/Claude code/slidez-landingpage/public/inspiration/winter-street.jpg\")",
-      "Bash(python3:*)"
+      "Bash(npx skills:*)"
     ]
   }
 }

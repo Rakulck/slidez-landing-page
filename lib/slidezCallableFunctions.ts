@@ -1,7 +1,7 @@
 import { signInAnonymously } from "firebase/auth";
 import { httpsCallable } from "firebase/functions";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc, collection, query as firestoreQuery, where, getDocs } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { auth, functions, storage, firestoreDb } from "@/lib/firebaseClient";
 import { initFirebaseAppCheck } from "@/lib/firebaseAppCheck";
 
@@ -126,64 +126,3 @@ export async function setupPersonPhoto(userId: string, imageBase64: string, mime
   );
 }
 
-/**
- * Fetches the actual checkout/shop URLs for products directly from Firestore
- * to bypass any API stripping. Handles falling back to brand_products or id fields.
- */
-export async function fetchProductPurchaseUrls(productIdsToFetch: string[]): Promise<Record<string, string>> {
-  const fetchedUrls: Record<string, string> = {};
-  if (productIdsToFetch.length === 0) return fetchedUrls;
-
-  try {
-    // Firestore "in" queries are limited to 10 max items, safely batch them
-    for (let i = 0; i < productIdsToFetch.length; i += 10) {
-      const batch = productIdsToFetch.slice(i, i + 10);
-      
-      // Try standard "products" collection
-      let q = firestoreQuery(
-        collection(firestoreDb, "products"),
-        where("__name__", "in", batch)
-      );
-      let querySnapshot = await getDocs(q);
-
-      // Fallback 1: Try "brand_products" collection if user mistyped the collection name
-      if (querySnapshot.docs.length === 0) {
-        q = firestoreQuery(
-          collection(firestoreDb, "brand_products"),
-          where("__name__", "in", batch)
-        );
-        querySnapshot = await getDocs(q);
-      }
-      
-      // Fallback 2: Try querying by "id" field instead of __name__ if document ID is different
-      if (querySnapshot.docs.length === 0) {
-        q = firestoreQuery(
-          collection(firestoreDb, "products"),
-          where("id", "in", batch)
-        );
-        querySnapshot = await getDocs(q);
-      }
-
-      querySnapshot.forEach((docSnap) => {
-        const data = docSnap.data() as Record<string, any>;
-        // Look through product schema and variants array for the sourceUrl
-        let sourceUrl = data.sourceUrl ?? data.shopUrl ?? data.product_url ?? data.url;
-        if (!sourceUrl && Array.isArray(data.variants) && data.variants.length > 0) {
-          sourceUrl = data.variants[0].sourceUrl ?? data.variants[0].shopUrl;
-        }
-        if (!sourceUrl && Array.isArray(data.productVariants) && data.productVariants.length > 0) {
-          sourceUrl = data.productVariants[0].sourceUrl ?? data.productVariants[0].shopUrl;
-        }
-        if (sourceUrl) {
-          fetchedUrls[docSnap.id] = sourceUrl;
-          // Also map any internal 'id' field to catch Fallback 2
-          if (data.id && typeof data.id === 'string') fetchedUrls[data.id] = sourceUrl;
-        }
-      });
-    }
-  } catch (error) {
-    console.error("[Slidez] Error fetching product URLs from Firestore:", error);
-  }
-  
-  return fetchedUrls;
-}
