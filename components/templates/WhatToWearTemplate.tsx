@@ -27,7 +27,7 @@ const OUTFIT_IDEAS = [
     sub: "Elegant · Confident · Evening-ready",
     prompt:
       "Create a stylish date night outfit that feels elegant and confident. Include clothing pieces, color combinations, footwear, and accessories. The outfit should work for a dinner date or evening outing and feel modern and attractive.",
-    img: `${U}1524504388940-b1c1722653e1?w=600&q=85&fit=crop&crop=top`,
+    img: "/outfits/winter-date.jpeg",
     alt: "Date night outfit look",
   },
   {
@@ -35,7 +35,7 @@ const OUTFIT_IDEAS = [
     sub: "Polished · Modern · Work-ready",
     prompt:
       "Create a professional office outfit that looks polished and modern. Include clothing pieces suitable for work environments such as blazers, shirts, trousers, or dresses along with appropriate footwear and accessories.",
-    img: `${U}1490481651871-ab68de25d43d?w=600&q=85&fit=crop&crop=top`,
+    img: "/outfits/winter-office.jpeg",
     alt: "Office outfit look",
   },
   {
@@ -43,7 +43,7 @@ const OUTFIT_IDEAS = [
     sub: "Relaxed · Stylish · Comfortable",
     prompt:
       "Create a relaxed casual outfit that is comfortable but still stylish. Include clothing pieces, colors, footwear, and simple accessories suitable for everyday wear such as shopping, coffee runs, or hanging out with friends.",
-    img: `${U}1539109136881-3be0616acf4b?w=600&q=85&fit=crop&crop=top`,
+    img: "/outfits/oversized-white-tee.jpeg",
     alt: "Casual day outfit look",
   },
   {
@@ -51,7 +51,7 @@ const OUTFIT_IDEAS = [
     sub: "Bold · Statement · Night out",
     prompt:
       "Create a bold party outfit suitable for a night out. Include statement pieces, trendy clothing combinations, footwear, and accessories that feel energetic, fashionable, and eye-catching.",
-    img: `${U}1469334031218-e382a71b716b?w=600&q=85&fit=crop&crop=top`,
+    img: "/outfits/party-look.jpeg",
     alt: "Party night out outfit look",
   },
   {
@@ -59,7 +59,7 @@ const OUTFIT_IDEAS = [
     sub: "Cozy · Layered · Fashion-forward",
     prompt:
       "Create a stylish winter outfit that is warm but fashionable. Include layering pieces such as coats, sweaters, scarves, boots, and accessories while keeping the outfit modern and well coordinated.",
-    img: `${U}1483985988355-763728e1935b?w=600&q=85&fit=crop&crop=top`,
+    img: "/outfits/winter-look.jpeg",
     alt: "Winter outfit look",
   },
   {
@@ -67,7 +67,7 @@ const OUTFIT_IDEAS = [
     sub: "Breezy · Relaxed · Vacation-ready",
     prompt:
       "Create a relaxed beach outfit perfect for vacation or a beach day. Include lightweight clothing pieces, swimwear or layering options, sandals, sunglasses, and accessories that match a summer beach vibe.",
-    img: `${U}1507525428034-b723cf961d3e?w=600&q=85&fit=crop&crop=top`,
+    img: "/outfits/beach-look.jpeg",
     alt: "Beach vacation outfit look",
   },
 ];
@@ -100,42 +100,42 @@ const OCCASIONS = [
     title: "What to wear on a first date",
     prompt:
       "What should I wear on a first date? Create a stylish, confident outfit that feels effortless and attractive for a first impression.",
-    img: `${U}1515886657613-9f3515b0c78f?w=600&q=85&fit=crop&crop=top`,
+    img: "/outfits/cocktail-bar.jpeg",
     alt: "What to wear on a first date",
   },
   {
     title: "What to wear to work",
     prompt:
       "What should I wear to work? Create a polished, professional outfit that looks modern and intentional for an office environment.",
-    img: `${U}1490481651871-ab68de25d43d?w=600&q=85&fit=crop&crop=faces`,
+    img: "/outfits/winter-office.jpeg",
     alt: "What to wear to work",
   },
   {
     title: "What to wear to brunch",
     prompt:
       "What should I wear to brunch? Create a relaxed but polished outfit that looks great in photos and feels comfortable for a leisurely morning.",
-    img: `${U}1539109136881-3be0616acf4b?w=600&q=85&fit=crop&crop=faces`,
+    img: "/outfits/oversized-white-tee.jpeg",
     alt: "What to wear to brunch",
   },
   {
     title: "What to wear on vacation",
     prompt:
       "What should I wear on vacation? Create a stylish travel wardrobe with versatile, lightweight pieces perfect for any destination.",
-    img: `${U}1507525428034-b723cf961d3e?w=600&q=85&fit=crop&crop=top`,
+    img: "/outfits/beach-look.jpeg",
     alt: "What to wear on vacation",
   },
   {
     title: "What to wear to a party",
     prompt:
       "What should I wear to a party? Create a bold, eye-catching outfit for a night out that feels confident, fun, and fashionable.",
-    img: `${U}1469334031218-e382a71b716b?w=600&q=85&fit=crop&crop=top`,
+    img: "/outfits/nightout-dancing.jpeg",
     alt: "What to wear to a party",
   },
   {
     title: "What to wear in winter",
     prompt:
       "What should I wear in winter? Create a stylish, warm winter outfit with great layering, cozy textures, and a well-coordinated color palette.",
-    img: `${U}1483985988355-763728e1935b?w=600&q=85&fit=crop&crop=faces`,
+    img: "/outfits/winter-look.jpeg",
     alt: "What to wear in winter",
   },
 ];
@@ -488,8 +488,56 @@ export default function WhatToWearTemplate() {
         </div>
       </section>
 
+      {/* ── Related Pages ───────────────────────────────────────── */}
+      <section
+        aria-label="Related outfit idea pages"
+        className="relative z-[70] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6"
+      >
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-4">
+              More Style Guides
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+              Related Pages
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any style or occasion.", img: "/outfits/rooftop-outfit.jpeg" },
+              { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic evening looks, even in cold weather.",       img: "/outfits/restaurant-dinner.jpeg" },
+              { label: "Office Outfit Ideas",     href: "/office-outfit-ideas",     desc: "Professional winter styles for the modern workplace.", img: "/outfits/winter-office.jpeg" },
+              { label: "Winter Outfit Ideas",     href: "/winter-outfit-ideas",     desc: "Cozy layered looks for the colder months.",            img: "/outfits/winter-look.jpeg" },
+            ].map(({ label, href, desc, img }) => (
+              <a
+                key={label}
+                href={href}
+                className="group rounded-2xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.03)] overflow-hidden
+                  hover:border-[rgba(192,192,192,0.25)] hover:bg-[rgba(255,255,255,0.05)]
+                  transition-all duration-200"
+              >
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={img}
+                    alt={label}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-5">
+                  <p className="font-semibold text-white text-sm mb-1.5">{label}</p>
+                  <p className="text-white/35 text-xs leading-relaxed">{desc}</p>
+                  <ArrowRight className="w-3.5 h-3.5 text-white/20 mt-3 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200" />
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Footer ──────────────────────────────────────────────── */}
-      <div className="relative z-[70] -mt-10 rounded-t-[2.5rem] overflow-hidden">
+      <div className="relative z-[80] -mt-10 rounded-t-[2.5rem] overflow-hidden">
         <Footer />
       </div>
     </main>

@@ -31,25 +31,25 @@ const config = createOutfitPageConfig("Date Night", {
     {
       label: "Restaurant Dinner",
       desc: "Elegant but not overdressed — the sweet spot between effort and ease for a seated dinner date.",
-      img: `${U}1524504388940-b1c1722653e1?w=400&q=85&fit=crop&crop=top`,
+      img: "/outfits/restaurant-dinner.jpeg",
       alt: "Restaurant dinner date night outfit idea from Slidez AI Stylist",
     },
     {
       label: "Cocktail Bar",
       desc: "Polished, confident, and just the right amount of dressed up for drinks and conversation.",
-      img: `${U}1483985988355-763728e1935b?w=400&q=85&fit=crop&crop=top`,
+      img: "/outfits/cocktail-bar.jpeg",
       alt: "Cocktail bar date night outfit from Slidez AI Stylist",
     },
     {
       label: "Night Out Dancing",
       desc: "Outfits that move with you — fun, flirty, and ready for whatever the night turns into.",
-      img: `${U}1490481651871-ab68de25d43d?w=400&q=85&fit=crop&crop=top`,
+      img: "/outfits/nightout-dancing.jpeg",
       alt: "Night out dancing date outfit from Slidez AI Stylist",
     },
     {
       label: "Rooftop or Outdoor Evening",
       desc: "Date night under the sky — layered, stylish, and ready for cooler air without losing the look.",
-      img: `${U}1539109136881-3be0616acf4b?w=400&q=85&fit=crop&crop=top`,
+      img: "/outfits/rooftop-outfit.jpeg",
       alt: "Rooftop evening date night outfit from Slidez AI Stylist",
     },
   ],
@@ -93,10 +93,10 @@ const config = createOutfitPageConfig("Date Night", {
   ],
 
   relatedPages: [
-    { label: "Outfit Ideas",        href: "/outfit-ideas",        desc: "Browse AI outfit ideas for any style or occasion." },
-    { label: "Winter Outfit Ideas", href: "/winter-outfit-ideas", desc: "Cozy layered looks for cold-weather dates." },
-    { label: "Office Outfit Ideas", href: "/office-outfit-ideas", desc: "Professional styles for the modern workplace." },
-    { label: "What to Wear",        href: "/what-to-wear",        desc: "Not sure where to start? Let AI decide." },
+    { label: "Outfit Ideas",        href: "/outfit-ideas",        desc: "Browse AI outfit ideas for any style or occasion.", img: "/outfits/rooftop-outfit.jpeg" },
+    { label: "Winter Outfit Ideas", href: "/winter-outfit-ideas", desc: "Cozy layered looks for cold-weather dates.",        img: "/outfits/winter-look.jpeg" },
+    { label: "Office Outfit Ideas", href: "/office-outfit-ideas", desc: "Professional styles for the modern workplace.",     img: "/outfits/winter-office.jpeg" },
+    { label: "What to Wear",        href: "/what-to-wear",        desc: "Not sure where to start? Let AI decide.",           img: "/outfits/oversized-white-tee.jpeg" },
   ],
 });
 

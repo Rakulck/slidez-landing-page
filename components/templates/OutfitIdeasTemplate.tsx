@@ -330,17 +330,30 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {config.relatedPages.map(({ label, href, desc }) => (
+              {config.relatedPages.map(({ label, href, desc, img }) => (
                 <a
                   key={label}
                   href={href}
-                  className="group p-5 rounded-2xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.03)]
+                  className="group rounded-2xl border border-[rgba(192,192,192,0.1)] bg-[rgba(255,255,255,0.03)] overflow-hidden
                     hover:border-[rgba(192,192,192,0.25)] hover:bg-[rgba(255,255,255,0.05)]
                     transition-all duration-200"
                 >
-                  <p className="font-semibold text-white text-sm mb-1.5">{label}</p>
-                  <p className="text-white/35 text-xs leading-relaxed">{desc}</p>
-                  <ArrowRight className="w-3.5 h-3.5 text-white/20 mt-3 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200" />
+                  {img && (
+                    <div className="aspect-[4/3] overflow-hidden">
+                      <img
+                        src={img}
+                        alt={label}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+                  <div className="p-5">
+                    <p className="font-semibold text-white text-sm mb-1.5">{label}</p>
+                    <p className="text-white/35 text-xs leading-relaxed">{desc}</p>
+                    <ArrowRight className="w-3.5 h-3.5 text-white/20 mt-3 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200" />
+                  </div>
                 </a>
               ))}
             </div>

@@ -1,194 +1,152 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { StylistVisual, ImportVisual } from "@/components/ui/feature-visuals";
 
 /* ── Animated visuals ─────────────────────────────────────────── */
 
 function TryOnVisual() {
-  const outfitPieces = [
-    { label: "Top", delay: 0.3, y: -60 },
-    { label: "Bottom", delay: 0.6, y: -40 },
-    { label: "Shoes", delay: 0.9, y: -20 },
-  ];
+  const [phase, setPhase] = useState<"front" | "result">("front");
+  const [showButton, setShowButton] = useState(false);
+  const [merging, setMerging] = useState(false);
+  const [cycle, setCycle] = useState(0);
+
+  useEffect(() => {
+    if (phase !== "front") return;
+    setShowButton(false);
+    setMerging(false);
+    const t1 = setTimeout(() => setShowButton(true), 700);
+    const t2 = setTimeout(() => setMerging(true), 1800);
+    const t3 = setTimeout(() => setPhase("result"), 2400);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [phase, cycle]);
+
+  useEffect(() => {
+    if (phase === "result") {
+      const t = setTimeout(() => { setPhase("front"); setCycle((c) => c + 1); }, 2500);
+      return () => clearTimeout(t);
+    }
+  }, [phase]);
 
   return (
-    <div className="relative flex items-center justify-center h-full overflow-hidden">
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <motion.div
-          animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.15, 1] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          className="w-32 h-48 rounded-full bg-[rgba(192,192,192,0.08)] blur-2xl"
-        />
-      </div>
+    <div className="relative h-full overflow-hidden">
+      <AnimatePresence mode="sync">
 
-      <div className="relative flex flex-col items-center gap-1 z-10">
-        <div className="w-9 h-9 rounded-full bg-[rgba(192,192,192,0.2)] border border-[rgba(192,192,192,0.25)]" />
-        <div className="relative w-16 h-24 rounded-2xl bg-[rgba(192,192,192,0.08)] border border-[rgba(192,192,192,0.15)] overflow-hidden">
-          {outfitPieces.slice(0, 2).map((p, i) => (
-            <motion.div
-              key={p.label}
-              initial={{ y: p.y, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{
-                delay: p.delay,
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1],
-                repeat: Infinity,
-                repeatDelay: 2.5,
-                repeatType: "loop",
-              }}
-              className={`absolute inset-x-0 ${i === 0 ? "top-0 h-1/2" : "bottom-0 h-1/2"} gradient-silver opacity-70`}
-            />
-          ))}
-        </div>
-        <div className="flex gap-1.5">
-          {[0, 1].map((l) => (
-            <div key={l} className="w-6 h-12 rounded-b-xl bg-[rgba(192,192,192,0.1)] border border-[rgba(192,192,192,0.12)] relative overflow-hidden">
-              <motion.div
-                initial={{ y: -40, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{
-                  delay: 0.9,
-                  duration: 0.5,
-                  ease: [0.22, 1, 0.36, 1],
-                  repeat: Infinity,
-                  repeatDelay: 2.5,
-                  repeatType: "loop",
-                }}
-                className="absolute inset-0 gradient-silver opacity-60"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {outfitPieces.map((p, i) => (
-        <motion.div
-          key={p.label}
-          initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40 }}
-          animate={{ opacity: [0, 1, 1, 0], x: 0 }}
-          transition={{
-            delay: p.delay,
-            duration: 1.8,
-            repeat: Infinity,
-            repeatDelay: 1.5,
-            repeatType: "loop",
-          }}
-          className="absolute px-2.5 py-1 rounded-full border border-[rgba(192,192,192,0.25)] bg-[rgba(192,192,192,0.08)] text-[10px] text-[#c0c0c0] font-medium"
-          style={{ top: `${20 + i * 28}%`, [i % 2 === 0 ? "left" : "right"]: "8%" }}
-        >
-          {p.label}
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-function StylistVisual() {
-  return (
-    <div className="flex flex-col justify-center gap-3 px-4 h-full">
-      <div className="self-end max-w-[85%] px-3 py-2 rounded-2xl rounded-br-sm bg-white text-black text-[11px] font-medium leading-snug">
-        <motion.span
-          animate={{ opacity: [0, 1] }}
-          transition={{ duration: 0.4, repeat: Infinity, repeatDelay: 3 }}
-        >
-          Style me for a date night ✨
-        </motion.span>
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        {["Black slip dress", "Strappy heels", "Gold hoops"].map((piece, i) => (
+        {/* ── Front: user + outfit cards ── */}
+        {phase === "front" && (
           <motion.div
-            key={piece}
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-              delay: 0.5 + i * 0.2,
-              duration: 0.4,
-              repeat: Infinity,
-              repeatDelay: 3.5,
-              repeatType: "loop",
-            }}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[rgba(192,192,192,0.07)] border border-[rgba(192,192,192,0.12)]"
+            key={`front-${cycle}`}
+            className="absolute inset-0 flex items-center justify-center gap-3 px-6"
+            exit={{ opacity: 0, scale: 1.04, filter: "blur(5px)", transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }}
           >
-            <div className="w-5 h-5 rounded-md gradient-silver shrink-0" />
-            <span className="text-[11px] text-white/60">{piece}</span>
+            {/* User image */}
+            <motion.div
+              className="flex flex-col rounded-2xl border border-[rgba(192,192,192,0.15)] overflow-hidden shrink-0"
+              initial={{ opacity: 0, x: -32 }}
+              animate={{ opacity: merging ? 0 : 1, x: merging ? 16 : 0, scale: merging ? 0.82 : 1 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="w-20 h-[88px] overflow-hidden">
+                <img src="/model-woman.jpg" alt="You" className="w-full h-full object-cover object-top" />
+              </div>
+              <div className="px-2 py-1.5 bg-[#111] border-t border-[rgba(192,192,192,0.1)]">
+                <p className="text-[8px] text-white/50 text-center">You</p>
+              </div>
+            </motion.div>
+
+            {/* Plus connector */}
+            <motion.span
+              className="text-white/20 text-lg font-light shrink-0 select-none"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: merging ? 0 : 1 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
+              +
+            </motion.span>
+
+            {/* Outfit image */}
+            <motion.div
+              className="flex flex-col rounded-2xl border border-[rgba(192,192,192,0.15)] overflow-hidden shrink-0"
+              initial={{ opacity: 0, x: 32 }}
+              animate={{ opacity: merging ? 0 : 1, x: merging ? -16 : 0, scale: merging ? 0.82 : 1 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="w-20 h-[88px] overflow-hidden">
+                <img src="/outfit-vacation.jpg" alt="Outfit" className="w-full h-full object-cover" />
+              </div>
+              <div className="px-2 py-1.5 bg-[#111] border-t border-[rgba(192,192,192,0.1)]">
+                <p className="text-[8px] text-white/50 text-center">Outfit</p>
+              </div>
+            </motion.div>
+
+            {/* Try Outfit button */}
+            <AnimatePresence>
+              {showButton && !merging && (
+                <motion.div
+                  key="try-btn"
+                  className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-full gradient-silver whitespace-nowrap cursor-pointer"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: [0, 1, 1, 1], scale: [0.5, 1.08, 1, 1] }}
+                  exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                  <span className="text-[10px] text-black font-bold">Try Outfit</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
-        ))}
-      </div>
+        )}
 
-      <div className="self-start flex items-center gap-1.5 px-3 py-2 rounded-2xl rounded-bl-sm bg-[rgba(192,192,192,0.06)] border border-[rgba(192,192,192,0.1)]">
-        {[0, 1, 2].map((d) => (
+        {/* ── Result: try-on reveal ── */}
+        {phase === "result" && (
           <motion.div
-            key={d}
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 1, delay: d * 0.2, repeat: Infinity }}
-            className="w-1.5 h-1.5 rounded-full bg-[#c0c0c0]"
-          />
-        ))}
-      </div>
+            key="result"
+            className="absolute inset-0 flex items-end justify-center pt-4"
+            initial={{ opacity: 0, scale: 1.08, filter: "blur(10px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, transition: { duration: 0.3 } }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <img
+              src="/screenshots/import-outfit-mockup.png"
+              alt="Try-on result"
+              className="h-full w-auto object-contain object-bottom"
+            />
+            {/* Success badge */}
+            <motion.div
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-full gradient-silver whitespace-nowrap"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: [0, 1, 1, 0], scale: [0.5, 1.1, 1, 1] }}
+              transition={{ delay: 0.5, duration: 2, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="text-[10px] text-black font-bold">Outfit Applied</span>
+            </motion.div>
+          </motion.div>
+        )}
+
+      </AnimatePresence>
     </div>
   );
 }
 
-function ImportVisual() {
-  return (
-    <div className="flex flex-col items-center justify-center gap-3 h-full px-3">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 3, repeatType: "loop" }}
-        className="w-full px-3 py-2.5 rounded-xl border border-[rgba(192,192,192,0.15)] bg-[rgba(192,192,192,0.05)] flex items-center gap-2.5"
-      >
-        <div className="w-8 h-8 rounded-lg bg-[rgba(192,192,192,0.15)] flex items-center justify-center shrink-0">
-          <span className="text-[9px] font-bold text-[#c0c0c0]">IG</span>
-        </div>
-        <div className="flex flex-col gap-1 flex-1 min-w-0">
-          <div className="h-1.5 bg-[rgba(192,192,192,0.3)] rounded w-3/4" />
-          <div className="h-1.5 bg-[rgba(192,192,192,0.15)] rounded w-1/2" />
-        </div>
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, 4, 0] }}
-        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-        className="flex flex-col items-center gap-0.5"
-      >
-        <div className="w-px h-4 bg-[rgba(192,192,192,0.25)]" />
-        <div className="w-5 h-5 rounded-full gradient-silver flex items-center justify-center">
-          <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7, duration: 0.6, repeat: Infinity, repeatDelay: 3, repeatType: "loop" }}
-        className="w-full px-3 py-2.5 rounded-xl border border-[rgba(192,192,192,0.3)] bg-[rgba(192,192,192,0.08)] flex items-center gap-2.5"
-      >
-        <div className="w-8 h-8 rounded-lg gradient-silver shrink-0" />
-        <div className="flex flex-col gap-1 flex-1">
-          <div className="h-1.5 bg-white/40 rounded w-2/3" />
-          <div className="h-1.5 bg-white/20 rounded w-1/2" />
-        </div>
-        <span className="text-[9px] text-[#c0c0c0] font-semibold shrink-0">Try On</span>
-      </motion.div>
-    </div>
-  );
-}
 
 function BuyVisual() {
   const cards = [
-    { name: "Date Night", color: "#1a1a1a" },
-    { name: "Work Look",  color: "#252525" },
-    { name: "Weekend",    color: "#2e2e2e" },
+    { name: "Date Night", img: "/outfit-vacation.jpg" },
+    { name: "Work Look",  img: "/outfit-work.jpg" },
+    { name: "Weekend",    img: "/outfit-weekend.jpg" },
   ];
 
   return (
-    <div className="relative flex items-center justify-center h-full gap-3 overflow-hidden">
+    <div className="relative flex items-center justify-center h-full gap-3 overflow-hidden px-4">
       {cards.map((card, i) => (
         <motion.div
           key={card.name}
@@ -203,15 +161,15 @@ function BuyVisual() {
             repeatType: "loop",
           }}
           className="flex flex-col rounded-2xl border border-[rgba(192,192,192,0.15)] overflow-hidden"
-          style={{ background: `linear-gradient(160deg, ${card.color} 0%, #0a0a0a 100%)` }}
         >
-          <div className="w-20 h-24 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-1">
-              <div className="w-5 h-5 rounded-full bg-[rgba(192,192,192,0.2)]" />
-              <div className="w-8 h-12 rounded-lg gradient-silver opacity-50" />
-            </div>
+          <div className="w-20 h-24 overflow-hidden">
+            <img
+              src={card.img}
+              alt={card.name}
+              className="w-full h-full object-cover"
+            />
           </div>
-          <div className="px-2 py-2 border-t border-[rgba(192,192,192,0.1)]">
+          <div className="px-2 py-2 border-t border-[rgba(192,192,192,0.1)] bg-[#111]">
             <p className="text-[9px] text-white/50 text-center">{card.name}</p>
           </div>
         </motion.div>
@@ -342,6 +300,8 @@ export default function Features() {
             );
           })}
         </div>
+
+
       </div>
     </section>
   );

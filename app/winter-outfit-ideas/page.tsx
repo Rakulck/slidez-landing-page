@@ -31,25 +31,25 @@ const config = createOutfitPageConfig("Winter", {
     {
       label: "Cozy Weekend",
       desc: "Warm, relaxed layers for errands and lazy weekends — comfort-first without looking like you gave up.",
-      img: `${U}1483985988355-763728e1935b?w=400&q=85&fit=crop&crop=top`,
+      img: "/outfits/cozy-weekend.jpeg",
       alt: "Cozy winter weekend outfit idea from Slidez AI Stylist",
     },
     {
       label: "Winter Office Look",
       desc: "Polished cold-weather workwear — structured coats, turtlenecks, and tailored layers that still mean business.",
-      img: `${U}1490481651871-ab68de25d43d?w=400&q=85&fit=crop&crop=top`,
+      img: "/outfits/winter-office.jpeg",
       alt: "Winter office outfit idea from Slidez AI Stylist",
     },
     {
       label: "Winter Date Night",
       desc: "Romantic and warm — long coats, velvet, and boots that make a cold night feel like an occasion.",
-      img: `${U}1524504388940-b1c1722653e1?w=400&q=85&fit=crop&crop=top`,
+      img: "/outfits/winter-date.jpeg",
       alt: "Winter date night outfit idea from Slidez AI Stylist",
     },
     {
       label: "Snow Day Casual",
       desc: "Practical and still stylish — puffer coats, chunky knits, and warm boots that look like a choice, not an emergency.",
-      img: `${U}1539109136881-3be0616acf4b?w=400&q=85&fit=crop&crop=top`,
+      img: "/outfits/snow-day-casual.jpeg",
       alt: "Snow day casual winter outfit from Slidez AI Stylist",
     },
   ],
@@ -93,10 +93,10 @@ const config = createOutfitPageConfig("Winter", {
   ],
 
   relatedPages: [
-    { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any style or occasion." },
-    { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic evening looks, even in cold weather." },
-    { label: "Office Outfit Ideas",     href: "/office-outfit-ideas",     desc: "Professional winter styles for the modern workplace." },
-    { label: "What to Wear",            href: "/what-to-wear",            desc: "Not sure where to start? Let AI decide." },
+    { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any style or occasion.", img: "/outfits/rooftop-outfit.jpeg" },
+    { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic evening looks, even in cold weather.",       img: "/outfits/restaurant-dinner.jpeg" },
+    { label: "Office Outfit Ideas",     href: "/office-outfit-ideas",     desc: "Professional winter styles for the modern workplace.", img: "/outfits/winter-office.jpeg" },
+    { label: "What to Wear",            href: "/what-to-wear",            desc: "Not sure where to start? Let AI decide.",              img: "/outfits/oversized-white-tee.jpeg" },
   ],
 });
 

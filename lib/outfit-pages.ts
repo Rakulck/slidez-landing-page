@@ -35,6 +35,7 @@ export type RelatedPage = {
   label: string;
   href: string;
   desc: string;
+  img?: string;
 };
 
 export type PopularIdea = {
@@ -234,10 +235,10 @@ export const DEFAULT_POPULAR_IDEAS: PopularIdea[] = [
 ];
 
 export const DEFAULT_RELATED_PAGES: RelatedPage[] = [
-  { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic looks for any evening out." },
-  { label: "Office Outfit Ideas",     href: "/office-outfit-ideas",     desc: "Professional styles for the modern workplace." },
-  { label: "Winter Outfit Ideas",     href: "/winter-outfit-ideas",     desc: "Cozy layered looks for the colder months." },
-  { label: "Concert Outfit Ideas",    href: "/concert-outfit-ideas",    desc: "Standout looks for live music and festivals." },
+  { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic looks for any evening out.",           img: "/outfits/restaurant-dinner.jpeg" },
+  { label: "Office Outfit Ideas",     href: "/office-outfit-ideas",     desc: "Professional styles for the modern workplace.", img: "/outfits/winter-office.jpeg" },
+  { label: "Winter Outfit Ideas",     href: "/winter-outfit-ideas",     desc: "Cozy layered looks for the colder months.",     img: "/outfits/winter-look.jpeg" },
+  { label: "Concert Outfit Ideas",    href: "/concert-outfit-ideas",    desc: "Standout looks for live music and festivals.",  img: "/outfits/nightout-dancing.jpeg" },
 ];
 
 export function createDefaultFaqItems(keyword: string): FaqItem[] {

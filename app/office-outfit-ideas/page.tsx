@@ -93,10 +93,10 @@ const config = createOutfitPageConfig("Office", {
   ],
 
   relatedPages: [
-    { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any style or occasion." },
-    { label: "Black Jeans Outfit Ideas", href: "/black-jeans-outfit-ideas", desc: "How to make black jeans work-appropriate." },
-    { label: "What to Wear",            href: "/what-to-wear",            desc: "Not sure where to start? Let AI decide." },
-    { label: "Winter Outfit Ideas",     href: "/winter-outfit-ideas",     desc: "Stay warm and professional through winter." },
+    { label: "Outfit Ideas",             href: "/outfit-ideas",             desc: "Browse AI outfit ideas for any style or occasion.", img: "/outfits/rooftop-outfit.jpeg" },
+    { label: "Black Jeans Outfit Ideas", href: "/black-jeans-outfit-ideas", desc: "How to make black jeans work-appropriate.",        img: "/outfits/grey-cropped-hoodie.jpeg" },
+    { label: "What to Wear",             href: "/what-to-wear",             desc: "Not sure where to start? Let AI decide.",           img: "/outfits/oversized-white-tee.jpeg" },
+    { label: "Winter Outfit Ideas",      href: "/winter-outfit-ideas",      desc: "Stay warm and professional through winter.",        img: "/outfits/winter-look.jpeg" },
   ],
 });
 

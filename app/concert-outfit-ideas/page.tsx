@@ -93,10 +93,10 @@ const config = createOutfitPageConfig("Concert", {
   ],
 
   relatedPages: [
-    { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any occasion." },
-    { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic evening looks for any occasion." },
-    { label: "What to Wear",            href: "/what-to-wear",            desc: "Not sure where to start? Let AI decide." },
-    { label: "Winter Outfit Ideas",     href: "/winter-outfit-ideas",     desc: "Layered looks for cold-weather shows and festivals." },
+    { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any occasion.",              img: "/outfits/rooftop-outfit.jpeg" },
+    { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic evening looks for any occasion.",              img: "/outfits/restaurant-dinner.jpeg" },
+    { label: "What to Wear",            href: "/what-to-wear",            desc: "Not sure where to start? Let AI decide.",               img: "/outfits/oversized-white-tee.jpeg" },
+    { label: "Winter Outfit Ideas",     href: "/winter-outfit-ideas",     desc: "Layered looks for cold-weather shows and festivals.",   img: "/outfits/winter-look.jpeg" },
   ],
 });
 

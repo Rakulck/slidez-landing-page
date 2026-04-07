@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { StylistVisual, ImportVisual } from "@/components/ui/feature-visuals";
 
 /* ─── Phone mockup sub-components ─────────────────────────────── */
 
@@ -29,21 +30,17 @@ function TryOnPhone() {
 
 function StylistPhone() {
   return (
-    <img
-      src="/screenshots/ai-stylist-mockup.png"
-      alt="Slidez AI Stylist — outfit planner in action"
-      className="mx-auto w-72 drop-shadow-2xl"
-    />
+    <div className="relative w-full h-[560px]">
+      <StylistVisual />
+    </div>
   );
 }
 
 function ImportPhone() {
   return (
-    <img
-      src="/screenshots/import-outfit-mockup.png"
-      alt="Slidez Import Outfits — try on from anywhere"
-      className="mx-auto w-72 drop-shadow-2xl"
-    />
+    <div className="relative w-full h-[560px]">
+      <ImportVisual />
+    </div>
   );
 }
 

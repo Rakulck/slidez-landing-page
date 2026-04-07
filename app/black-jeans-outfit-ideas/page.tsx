@@ -93,10 +93,10 @@ const config = createOutfitPageConfig("Black Jeans", {
   ],
 
   relatedPages: [
-    { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any style or occasion." },
-    { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic looks for any evening out." },
-    { label: "Office Outfit Ideas",     href: "/office-outfit-ideas",     desc: "Professional styles for the modern workplace." },
-    { label: "What to Wear",            href: "/what-to-wear",            desc: "Not sure where to start? Let AI decide." },
+    { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any style or occasion.", img: "/outfits/rooftop-outfit.jpeg" },
+    { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic looks for any evening out.",               img: "/outfits/restaurant-dinner.jpeg" },
+    { label: "Office Outfit Ideas",     href: "/office-outfit-ideas",     desc: "Professional styles for the modern workplace.",     img: "/outfits/winter-office.jpeg" },
+    { label: "What to Wear",            href: "/what-to-wear",            desc: "Not sure where to start? Let AI decide.",           img: "/outfits/oversized-white-tee.jpeg" },
   ],
 });
 
