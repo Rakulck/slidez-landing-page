@@ -213,7 +213,7 @@ const bentoCards = [
     visual: StylistVisual,
     colSpan: "lg:col-span-1",
     visualHeight: "h-64",
-    link: { href: "https://slidez.ai/outfit-ideas", label: "Explore Outfit Ideas" },
+    link: { href: "https://www.slidez.social/outfit-ideas", label: "Explore Outfit Ideas" },
   },
   {
     label: "Import",

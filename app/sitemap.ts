@@ -1,80 +1,39 @@
 import { MetadataRoute } from "next";
 
-const CANONICAL = "https://slidez.ai";
+const CANONICAL = "https://www.slidez.social";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: CANONICAL,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    {
-      url: `${CANONICAL}/outfit-ideas`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${CANONICAL}/what-to-wear`,
-      lastModified: new Date("2025-03-09"),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${CANONICAL}/ai-stylist`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${CANONICAL}/ai-virtual-try-on`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${CANONICAL}/try-on-from-anywhere`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${CANONICAL}/date-night-outfit-ideas`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${CANONICAL}/winter-outfit-ideas`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${CANONICAL}/concert-outfit-ideas`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${CANONICAL}/black-jeans-outfit-ideas`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${CANONICAL}/office-outfit-ideas`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${CANONICAL}/casual-coffee-date-outfit`,
-      lastModified: new Date("2025-03-01"),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+  // Using current date so it automatically updates when generated/built
+  const currentDate = new Date();
+
+  // Define live, active routes only (no redirects or 404s)
+  const routes = [
+    { path: "", priority: 1.0, changeFrequency: "weekly" as const },
+    
+    // Core Features & Hubs
+    { path: "/ai-stylist", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/outfit-ideas", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/what-to-wear", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/ai-virtual-try-on", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/try-on-from-anywhere", priority: 0.8, changeFrequency: "monthly" as const },
+    
+    // Specific Outfit Idea Pages
+    { path: "/date-night-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/winter-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/concert-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/office-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/black-jeans-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/casual-coffee-date-outfit", priority: 0.8, changeFrequency: "monthly" as const },
+    
+    // Legal & Support pages
+    { path: "/privacy", priority: 0.3, changeFrequency: "yearly" as const },
+    { path: "/terms", priority: 0.3, changeFrequency: "yearly" as const },
   ];
+
+  return routes.map((route) => ({
+    url: `${CANONICAL}${route.path}`,
+    lastModified: currentDate,
+    changeFrequency: route.changeFrequency,
+    priority: route.priority,
+  }));
 }

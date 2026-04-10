@@ -5,11 +5,11 @@ import { ArrowRight } from "lucide-react";
 import { trackDownloadClick, trackExtensionClick } from "@/lib/gtag";
 
 const goals = [
-  "Look great at work",
-  "Dress for any occasion",
-  "Find my personal style",
-  "Stop second-guessing outfits",
-  "Shop smarter, return less",
+  { label: "Look great at work", href: "/office-outfit-ideas" },
+  { label: "Dress for any occasion", href: "/outfit-ideas" },
+  { label: "Find my personal style", href: "/ai-stylist" },
+  { label: "Stop second-guessing outfits", href: "/what-to-wear" },
+  { label: "Shop smarter, return less", href: "/ai-virtual-try-on" },
 ];
 
 export default function CTA() {
@@ -55,14 +55,14 @@ export default function CTA() {
         >
           {goals.map((goal) => (
             <a
-              key={goal}
-              href="https://linkly.link/2FWYm"
+              key={goal.label}
+              href={goal.href}
               className="px-5 py-2.5 rounded-full border border-black/10 text-black/50 text-sm font-medium hover:border-black/30 hover:text-black
                 hover:scale-[1.04] hover:-translate-y-px
                 active:scale-[0.97]
                 transition-all duration-200 cursor-pointer"
             >
-              {goal}
+              {goal.label}
             </a>
           ))}
         </motion.div>

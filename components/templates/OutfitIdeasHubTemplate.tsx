@@ -143,15 +143,15 @@ const FAQ = [
 
 const POPULAR_IDEAS = [
   { label: "Black Jeans Outfit Ideas",       href: "/black-jeans-outfit-ideas"       },
-  { label: "Summer Date Night Outfit Ideas", href: "/summer-date-night-outfit-ideas" },
+  { label: "Date Night Outfit Ideas",        href: "/date-night-outfit-ideas"        },
   { label: "Casual Coffee Date Outfit",      href: "/casual-coffee-date-outfit"      },
   { label: "Winter Outfit Ideas",            href: "/winter-outfit-ideas"            },
-  { label: "Office Outfit Ideas for Women",  href: "/office-outfit-ideas-for-women"  },
-  { label: "Office Outfit Ideas for Men",    href: "/office-outfit-ideas-for-men"    },
+  { label: "Office Outfit Ideas",            href: "/office-outfit-ideas"            },
   { label: "Concert Outfit Ideas",           href: "/concert-outfit-ideas"           },
-  { label: "Party Night Outfit Ideas",       href: "/party-night-outfit-ideas"       },
-  { label: "Vacation Outfit Ideas",          href: "/vacation-outfit-ideas"          },
-  { label: "Streetwear Outfit Ideas",        href: "/streetwear-outfit-ideas"        },
+  { label: "What Should I Wear?",            href: "/what-to-wear"                   },
+  { label: "AI Outfit Stylist",              href: "/ai-stylist"                     },
+  { label: "Virtual Clothing Try-On",        href: "/ai-virtual-try-on"              },
+  { label: "Try On From Anywhere",           href: "/try-on-from-anywhere"           },
 ];
 
 /* ── Shared glow orb ──────────────────────────────────────────── */

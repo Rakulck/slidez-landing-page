@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-
-Disallow: /about
-Disallow: /blog
-Disallow: /faq
-Disallow: /virtual-try-on
-
-Sitemap: https://slidez.ai/sitemap.xml

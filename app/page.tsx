@@ -10,11 +10,11 @@ const FAQ             = dynamic(() => import("@/components/sections/FAQ"));
 const CTA             = dynamic(() => import("@/components/sections/CTA"));
 const Footer          = dynamic(() => import("@/components/sections/Footer"));
 
-const BASE_URL = "https://slidez-landing-page.vercel.app";
+const BASE_URL = "https://www.slidez.social";
 const isProduction = process.env.VERCEL_ENV === "production";
 
 export const metadata: Metadata = {
-  alternates: { canonical: BASE_URL },
+  alternates: { canonical: "https://www.slidez.social/" },
   robots: isProduction
     ? { index: true, follow: true, googleBot: { index: true, follow: true } }
     : { index: false, follow: false },

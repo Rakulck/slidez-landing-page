@@ -9,8 +9,7 @@ const geistSans = Geist({
   display: "swap",
 });
 
-
-const BASE_URL = "https://slidez-landing-page.vercel.app";
+const BASE_URL = "https://www.slidez.social";
 
 const TITLE = "Slidez – AI Stylist & Virtual Try-On App";
 const DESCRIPTION =
@@ -48,10 +47,6 @@ export const metadata: Metadata = {
   robots: isProduction
     ? { index: true, follow: true, googleBot: { index: true, follow: true } }
     : { index: false, follow: false },
-  alternates: {
-    canonical: BASE_URL,
-    languages: { "en": BASE_URL },
-  },
   verification: {
     google: "5a493f6e28990868",
   },

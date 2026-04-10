@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 /* ── Site constants ───────────────────────────────────────────── */
 
-// Asset base: the current Vercel deployment (images, og-image, etc.)
-export const ASSETS_BASE_URL = "https://slidez-landing-page.vercel.app";
+// Asset base: the current deployment (images, og-image, etc.)
+export const ASSETS_BASE_URL = "https://www.slidez.social";
 
 // Canonical base: target production domain (used for all href / schema URLs)
-export const CANONICAL_BASE = "https://slidez.ai";
+export const CANONICAL_BASE = "https://www.slidez.social";
 
 export const UNSPLASH_BASE = "https://images.unsplash.com/photo-";
 
