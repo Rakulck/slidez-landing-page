@@ -262,14 +262,7 @@ export default function Hero() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
-    <section aria-label="Slidez AI Stylist hero" className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-0 overflow-visible bg-[#080808]">
-      {/* Radial glow */}
-      <div
-        aria-hidden
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(ellipse at center, rgba(192,192,192,0.07) 0%, transparent 70%)" }}
-      />
-
+    <section aria-label="Slidez AI Stylist hero" className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-0 overflow-visible bg-black">
       {/* ── Content ─────────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 28 }}
@@ -282,7 +275,7 @@ export default function Hero() {
         <h1 className="text-[clamp(2.6rem,8vw,5.5rem)] font-bold leading-[1.05] tracking-tight mb-6">
           <span className="text-white">The Ultimate</span>
           <br />
-          <span className="gradient-silver-text">AI Stylist</span>
+          <span className="text-white">AI Stylist</span>
         </h1>
 
         {/* Sub */}

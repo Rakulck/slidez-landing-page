@@ -202,10 +202,8 @@ export default function OutfitIdeasHubTemplate() {
       ───────────────────────────────────────────────────────── */}
       <section
         aria-label="AI outfit generator"
-        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-24 bg-[#080808]"
+        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-24 bg-black"
       >
-        <GlowOrb />
-
         <div className="relative z-10 w-full max-w-3xl mx-auto" ref={heroRef}>
           <h1 style={{ fontSize: '4rem', lineHeight: '1.05', letterSpacing: '-0.02em' }} className="font-bold mb-5">
             <span className="gradient-silver-text">AI Outfit Generator - Outfit Ideas for Any Occasion</span>

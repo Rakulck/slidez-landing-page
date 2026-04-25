@@ -63,17 +63,8 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
         {/* ── Hero + Tool (dark) ─────────────────────────────── */}
         <section
           aria-label={`${config.heroH1} generator`}
-          className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-24 bg-[#080808]"
+          className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-24 bg-black"
         >
-          <div
-            aria-hidden
-            className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(192,192,192,0.06) 0%, transparent 70%)",
-            }}
-          />
-
           <div className="relative z-10 w-full max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">
               {config.heroEyebrow ?? "AI Stylist"}
