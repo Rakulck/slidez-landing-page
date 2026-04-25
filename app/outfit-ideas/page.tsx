@@ -14,9 +14,9 @@ import {
 const config: OutfitPageConfig = {
   slug: "outfit-ideas",
 
-  title: "Outfit Ideas – AI Stylist for Any Occasion | Slidez",
+  title: "AI Outfit Generator: Get Outfit Ideas for Any Occasion",
   description:
-    "Describe your style, mood, or occasion and generate outfit ideas instantly. Slidez AI Stylist creates complete looks in seconds — free to use.",
+    "Generate outfit ideas for any occasion using an AI outfit generator. Create stylish, personalized looks instantly based on your preferences.",
   keywords: [
     "outfit ideas",
     "AI outfit generator",

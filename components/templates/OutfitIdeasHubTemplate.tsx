@@ -128,12 +128,24 @@ const HOW_IT_HELPS = [
 // Section 8 — FAQ
 const FAQ = [
   {
-    q: "What should I wear today?",
-    a: "Describe the occasion, weather, or vibe in the prompt above — like 'casual Monday at the office' or 'brunch with friends.' Slidez AI Stylist generates a complete outfit in seconds.",
+    q: "What is an AI outfit generator?",
+    a: "An AI outfit generator uses your style preferences, occasion, and inputs to create personalized outfit ideas instantly. It analyzes trends, combinations, and fashion rules to suggest outfits that match your taste.",
   },
   {
     q: "How does an AI stylist work?",
     a: "Type a short prompt describing your occasion or style preference. Slidez AI reads your description and assembles a full outfit — top, bottom, shoes, and accessories — matched to your request.",
+  },
+  {
+    q: "How accurate are AI-generated outfit ideas?",
+    a: "AI-generated outfit ideas are based on style patterns, user preferences, and current fashion trends. While they are highly relevant, you can always tweak suggestions to better match your personal style.",
+  },
+  {
+    q: "Is this AI outfit generator suitable for both men and women?",
+    a: "Yes, most AI outfit generators provide outfit ideas for both men and women. You can customize inputs like gender, style, and occasion to get more personalized outfit suggestions.",
+  },
+  {
+    q: "Can I get daily outfit ideas using an AI stylist?",
+    a: "Absolutely. An AI stylist can generate daily outfit ideas based on your routine, weather, and preferences, making it easier to decide what to wear every day.",
   },
   {
     q: "Can I try outfits before buying?",
@@ -196,12 +208,12 @@ export default function OutfitIdeasHubTemplate() {
 
         <div className="relative z-10 w-full max-w-3xl mx-auto" ref={heroRef}>
           <h1 style={{ fontSize: '4rem', lineHeight: '1.05', letterSpacing: '-0.02em' }} className="font-bold mb-5">
-            <span className="gradient-silver-text">Outfit Ideas for Any Occasion</span>
+            <span className="gradient-silver-text">AI Outfit Generator - Outfit Ideas for Any Occasion</span>
           </h1>
 
           <p className="text-lg text-white/45 max-w-md mx-auto mb-12 leading-relaxed">
-            Describe your occasion or style.{" "}
-            <span className="text-white/65">Slidez AI Stylist</span> creates outfits instantly.
+            Describe your style preferences or occasion.{" "}
+            <span className="text-white/65">Slidez AI Stylist</span> creates outfit ideas instantly, designed to match your taste and make getting ready easier.
           </p>
 
           {/* StylistTool includes the input + chips (sections 1 & 2) */}

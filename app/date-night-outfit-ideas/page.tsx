@@ -7,9 +7,9 @@ import {
 } from "@/lib/outfit-pages";
 
 const config = createOutfitPageConfig("Date Night", {
-  title: "Date Night Outfit Ideas – AI Stylist | Slidez",
+  title: "Date Night Outfit Ideas: AI Date Night Outfit Planner",
   description:
-    "Not sure what to wear on a date? Get instant date night outfit ideas from the Slidez AI Stylist — from dinner looks to late-night cocktail outfits.",
+    "Find the perfect date night outfit ideas with an AI outfit planner. Get personalized looks for dinner, movies, and special occasions instantly.",
   keywords: [
     "date night outfit ideas",
     "what to wear on a date",
@@ -24,8 +24,10 @@ const config = createOutfitPageConfig("Date Night", {
   ogDescription:
     "Get instant date night outfit ideas with the Slidez AI Stylist. From dinner looks to cocktail outfits.",
 
+  heroH1:
+    "Date Night Outfit Ideas: AI Date Night Outfit Planner",
   heroSubtext:
-    "Find the perfect date night outfit — from intimate dinners to late-night cocktails. Describe your plans and let Slidez AI build the full look.",
+    "Find the best date night outfit ideas for any plan, from intimate dinners to late night cocktails. Describe your plans and let Slidez AI create your perfect look.",
 
   styleCards: [
     {
@@ -75,6 +77,18 @@ const config = createOutfitPageConfig("Date Night", {
 
   faqItems: [
     {
+      q: "What are the best date night outfit ideas for different occasions?",
+      a: "The best date night outfit ideas depend on your plans. For dinner dates, go for classy and elegant looks, while casual dates call for relaxed yet stylish outfits. Choosing outfits based on the setting helps you feel confident and comfortable.",
+    },
+    {
+      q: "How can I choose the perfect date night outfit?",
+      a: "To choose the perfect date night outfit, consider the location, time, and your personal style. Many people use AI date night outfit planners to get outfit ideas that match their vibe and make styling easier.",
+    },
+    {
+      q: "Can I use AI to get date night outfit ideas?",
+      a: "Yes, an AI outfit planner can generate date night outfit ideas instantly. By describing your plans and preferences, you can get personalized outfit suggestions tailored to your style and occasion.",
+    },
+    {
       q: "What should I wear on a date night?",
       a: "The best date night outfit matches the venue and feels like you — confident and comfortable. Tell the Slidez AI Stylist where you're going and it'll suggest a complete look: top, bottom, shoes, and accessories.",
     },
@@ -85,6 +99,10 @@ const config = createOutfitPageConfig("Date Night", {
     {
       q: "What shoes should I wear on a date night?",
       a: "It depends on the vibe — strappy heels for dinner, sleek ankle boots for a bar, block heels for a long night out. Slidez suggests footwear that fits the occasion and matches the rest of your look.",
+    },
+    {
+      q: "What should I wear on a first date night?",
+      a: "For a first date night, choose outfit ideas that are simple, comfortable, and stylish. Clean, well-fitted clothes that reflect your personality usually work best and help you make a great first impression.",
     },
     {
       q: "Can I try date night outfits on with Slidez before buying?",
