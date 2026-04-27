@@ -13,9 +13,9 @@ import {
 const isProduction = process.env.VERCEL_ENV === "production";
 const CANONICAL = `${CANONICAL_BASE}/what-to-wear`;
 
-const TITLE = "What to Wear – Outfit Ideas for Any Occasion | Slidez";
+const TITLE = "What Should I Wear? AI Outfit Ideas for Every Occasion";
 const DESCRIPTION =
-  "Not sure what to wear? Explore outfit ideas for any occasion — date night, office, casual, party, beach, and more. Create a look that fits your style with Slidez.";
+  "Not sure what to wear? Get AI outfit ideas based on your style, mood, and occasion. Discover the perfect look instantly with smart outfit suggestions.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -56,7 +56,7 @@ const pageConfig = {
   slug: "what-to-wear",
   title: TITLE,
   description: DESCRIPTION,
-  heroH1: "What Should You Wear?",
+  heroH1: "What Should I Wear Today?",
 } as OutfitPageConfig;
 
 const faqItems = [

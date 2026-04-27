@@ -7,25 +7,22 @@ import {
 } from "@/lib/outfit-pages";
 
 const config = createOutfitPageConfig("Winter", {
-  title: "Winter Outfit Ideas – AI Stylist | Slidez",
+  title: "AI Winter Outfit Ideas: Smart Looks for Every Occasion",
   description:
-    "Stay warm without losing style. Get instant winter outfit ideas from the Slidez AI Stylist — layered looks for cold weather, work, weekends, and everything in between.",
+    "Discover AI winter outfit ideas tailored to your style and occasion. Get personalized looks instantly and stay warm while looking stylish all season.",
   keywords: [
-    "winter outfit ideas",
-    "winter outfits",
-    "cold weather outfit ideas",
-    "what to wear in winter",
-    "layered winter looks",
-    "cozy winter style",
-    "AI stylist",
-    "Slidez AI Stylist",
+    "AI Winter Outfit Ideas",
+    "AI Winter Outfit Generator",
+    "Winter Outfit Ideas AI",
+    "AI Winter Outfit Planner",
   ],
-  ogTitle: "Winter Outfit Ideas – AI Stylist | Slidez",
+  ogTitle: "AI Winter Outfit Ideas: Smart Looks for Every Occasion",
   ogDescription:
-    "Stay warm without losing style. Get instant winter outfit ideas with the Slidez AI Stylist.",
+    "Discover AI winter outfit ideas tailored to your style and occasion. Get personalized looks instantly and stay warm while looking stylish all season.",
 
+  heroH1: "AI Winter Outfit Ideas",
   heroSubtext:
-    "Stay warm without losing style. Describe your plans and Slidez AI builds cold-weather looks with layers that actually work — coats, knits, boots, and everything in between.",
+    "Stay stylish this season with AI winter outfit ideas tailored to your preferences. From coats and knits to boots, describe your occasion and let Slidez AI create the perfect winter look instantly.",
 
   styleCards: [
     {

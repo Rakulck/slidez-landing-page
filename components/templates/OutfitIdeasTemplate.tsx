@@ -70,15 +70,15 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
               {config.heroEyebrow ?? "AI Stylist"}
             </p>
 
-            <h1 className="text-[clamp(2.8rem,8vw,5.5rem)] font-bold leading-[1.05] tracking-tight mb-6">
+            <h1 className="text-[clamp(2.8rem,8vw,5.5rem)] font-bold leading-[1.05] tracking-tight mb-10">
               <span className="gradient-silver-text">{config.heroH1}</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-white/50 max-w-lg mx-auto mb-12 leading-relaxed">
-              {config.heroSubtext}
-            </p>
-
             <StylistTool />
+
+            <h2 className="text-lg md:text-xl text-white/50 max-w-lg mx-auto mt-12 leading-relaxed">
+              {config.heroSubtext}
+            </h2>
           </div>
         </section>
 

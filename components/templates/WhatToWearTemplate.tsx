@@ -203,15 +203,10 @@ export default function WhatToWearTemplate() {
               lineHeight: "1.05",
               letterSpacing: "-0.02em",
             }}
-            className="font-bold mb-5"
+            className="font-bold mb-10"
           >
-            <span className="gradient-silver-text">What Should You Wear?</span>
+            <span className="gradient-silver-text">What Should I Wear Today?</span>
           </h1>
-
-          <p className="text-lg text-white/45 max-w-md mx-auto mb-12 leading-relaxed">
-            Find outfit ideas for any occasion and{" "}
-            <span className="text-white/65">create a look that fits your style.</span>
-          </p>
 
           <StylistTool
             externalPrompt={externalPrompt}
@@ -220,6 +215,10 @@ export default function WhatToWearTemplate() {
             chips={WHAT_TO_WEAR_CHIPS}
             prompts={WHAT_TO_WEAR_PROMPTS}
           />
+
+          <h2 className="text-lg text-white/45 max-w-md mx-auto mt-12 leading-relaxed">
+            Not sure what to wear today? Get AI outfit ideas tailored to your style, mood, and occasion. Simply describe what you need, and the AI outfit planner will suggest the perfect look instantly.
+          </h2>
         </div>
       </section>
 
