@@ -22,17 +22,21 @@ export async function initFirebaseAppCheck(): Promise<AppCheck> {
       (self as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN?: boolean | string }).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
     }
 
-    const siteKeyFromEnv = process.env.NEXT_PUBLIC_FIREBASE_APPCHECK_SITE_KEY;
-    const siteKey = siteKeyFromEnv && siteKeyFromEnv.trim().length > 0 ? siteKeyFromEnv : debugMode ? "debug" : "";
+    const siteKey = process.env.NEXT_PUBLIC_FIREBASE_APPCHECK_SITE_KEY;
 
-    if (!siteKey) {
+    if (!siteKey && !debugMode) {
       throw new Error(
         "App Check site key is missing. Set `NEXT_PUBLIC_FIREBASE_APPCHECK_SITE_KEY` in your environment."
       );
     }
 
+    // If no site key is provided in debug mode, we can still initialize with a dummy key
+    // because the FIREBASE_APPCHECK_DEBUG_TOKEN flag will override the provider logic.
+    // However, the dummy key should look like a valid reCAPTCHA key to avoid client-side validation issues.
+    const effectiveSiteKey = siteKey || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // standard reCAPTCHA test key
+
     return initializeAppCheck(firebaseApp, {
-      provider: new ReCaptchaV3Provider(siteKey),
+      provider: new ReCaptchaV3Provider(effectiveSiteKey),
       isTokenAutoRefreshEnabled: true,
     });
   })();

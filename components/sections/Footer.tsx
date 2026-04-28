@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const links = [
   {
@@ -26,13 +27,31 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#080808] border-t border-white/[0.06] px-6 pt-16 pb-10">
-      <div className="max-w-6xl mx-auto">
+    <footer className="relative bg-[#080808] border-t border-white/[0.06] px-6 pt-16 pb-10 overflow-hidden">
+      {/* Background signature logo */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+        <Image
+          src="/logo.png"
+          alt=""
+          width={1200}
+          height={1200}
+          className="w-[90vw] max-w-[1100px] opacity-[0.06] mix-blend-screen"
+          aria-hidden="true"
+        />
+      </div>
+
+      <div className="relative max-w-6xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-14">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 font-bold text-lg text-white mb-4">
-              Slidez
+            <Link href="/" className="flex items-center mb-4">
+              <Image
+                src="/logo.png"
+                alt="Slidez"
+                width={48}
+                height={48}
+                className="h-12 w-12 mix-blend-screen"
+              />
             </Link>
             <p className="text-white/30 text-sm leading-relaxed max-w-[180px]">
               The AI virtual fitting room. Try on anything before you buy.
@@ -120,5 +139,6 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+
   );
 }
