@@ -34,8 +34,11 @@ export async function analyzeOutfitIntentCallable(args: {
   gender?: Gender | string;
   analyzedImages?: Array<{ category: string; color?: string; style?: string }>;
 }): Promise<unknown> {
+  const normalizedGender = args.gender
+    ? args.gender === "Women" ? "female" : args.gender === "Men" ? "male" : args.gender.toLowerCase()
+    : undefined;
   const callable = httpsCallable(functions, "analyzeOutfitIntent");
-  const res = await callable(args);
+  const res = await callable({ ...args, gender: normalizedGender });
   return res.data as unknown;
 }
 
