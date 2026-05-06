@@ -450,6 +450,40 @@ type TryOnCard = {
   resultImageUrl: string;
 };
 
+type ProductInfo = {
+  category: string;
+  name: string;
+  imageUrl: string | null;
+  productLink: string | null;
+};
+
+function ProductCard({ item, onClick }: { item: ProductInfo; onClick: () => void }) {
+  return (
+    <motion.button
+      onClick={onClick}
+      whileTap={{ scale: 0.97 }}
+      className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)] transition-colors text-left cursor-pointer"
+    >
+      {item.imageUrl ? (
+        <img
+          src={item.imageUrl}
+          alt={item.name}
+          className="w-11 h-11 rounded-lg object-cover shrink-0 border border-white/[0.06]"
+        />
+      ) : (
+        <div className="w-11 h-11 rounded-lg bg-[rgba(192,192,192,0.08)] shrink-0 flex items-center justify-center">
+          <span className="text-[9px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+        </div>
+      )}
+      <div className="flex-1 min-w-0">
+        <p className="text-[11px] font-semibold text-white/80 leading-tight line-clamp-2">{item.name}</p>
+        <p className="text-[9px] text-white/30 mt-0.5 uppercase tracking-wide truncate">{item.category}</p>
+      </div>
+      <ArrowRight className="w-3 h-3 text-white/25 shrink-0" />
+    </motion.button>
+  );
+}
+
 type StylistToolProps = {
   /** Text to inject from a parent (e.g. card click). */
   externalPrompt?: string;
@@ -490,6 +524,7 @@ export default function StylistTool({
   const [tryOnStage, setTryOnStage] = useState<string | null>(null);
   const [tryOnError, setTryOnError] = useState<string | null>(null);
   const [selectedModelSrc, setSelectedModelSrc] = useState<string | null>(null);
+  const [productItems, setProductItems] = useState<ProductInfo[]>([]);
   const outfitFileRef = useRef<HTMLInputElement>(null);
   const photoFileRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -528,6 +563,7 @@ export default function StylistTool({
     setTryOnFinalImageUrl(null);
     setTryOnError(null);
     setTryOnStage(null);
+    setProductItems([]);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -546,6 +582,7 @@ export default function StylistTool({
     setTryOnFinalImageUrl(null);
     setTryOnError(null);
     setTryOnStage(null);
+    setProductItems([]);
     setLoading(true);
     setTimeout(() => { setLoading(false); setShowModelPicker(true); }, 250);
   };
@@ -603,6 +640,25 @@ export default function StylistTool({
       })) as { recommendations?: unknown[] };
 
       const recommendations = Array.isArray(products.recommendations) ? products.recommendations : [];
+
+      console.log("🔍 DEBUG: recommendations array", recommendations);
+      console.log("🔍 DEBUG: recommendations length", recommendations.length);
+      if (recommendations.length > 0) {
+        console.log("🔍 DEBUG: first recommendation", recommendations[0]);
+      }
+
+      const productInfos: ProductInfo[] = recommendations.map((rec) => {
+        const r = rec as Record<string, unknown>;
+        const str = (k: string) => (typeof r[k] === "string" ? (r[k] as string) : null);
+        return {
+          category: str("category") ?? "Product",
+          name: str("name") ?? str("title") ?? str("productName") ?? str("category") ?? "Product",
+          imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
+          productLink: str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl"),
+        };
+      });
+      console.log("🔍 DEBUG: productInfos extracted", productInfos);
+      setProductItems(productInfos);
 
       if (runSeq !== tryOnRunSeqRef.current) return;
 
@@ -751,6 +807,7 @@ export default function StylistTool({
     setOutfitImageBase64(null);
     setOutfitImageMimeType("image/jpeg");
     setOutfitImagePreview(null);
+    setProductItems([]);
     inputRef.current?.focus();
   };
 
@@ -1197,12 +1254,12 @@ export default function StylistTool({
 
             {tryOnFinalImageUrl && (
               <motion.div
-                className="mb-8 flex justify-center"
+                className={`mb-8 ${productItems.length > 0 ? "flex gap-4 items-start" : "flex justify-center"}`}
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="relative w-full max-w-[300px] group cursor-pointer">
+                <div className={`relative group cursor-pointer shrink-0 ${productItems.length > 0 ? "w-[55%]" : "w-full max-w-[300px]"}`}>
                   {/* Ambient glow behind card */}
                   <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-white/8 via-[rgba(180,180,255,0.06)] to-transparent blur-2xl pointer-events-none transition-opacity duration-500 group-hover:opacity-150" />
                   {/* Animated shimmer border */}
@@ -1235,6 +1292,23 @@ export default function StylistTool({
                     </div>
                   </div>
                 </div>
+
+                {productItems.length > 0 && (
+                  <div className="flex-1 flex flex-col gap-2 min-w-0">
+                    <p className="text-[9px] text-white/25 uppercase tracking-widest mb-1 font-medium">
+                      Items tried on
+                    </p>
+                    {productItems.map((item, i) => (
+                      <ProductCard
+                        key={i}
+                        item={item}
+                        onClick={() => {
+                          if (item.productLink) window.open(item.productLink, "_blank");
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
               </motion.div>
             )}
 

@@ -125,6 +125,7 @@ export default function Hero() {
   const [tryOnError, setTryOnError] = useState<string | null>(null);
   const [tryOnLoading, setTryOnLoading] = useState(false);
   const [selectedModelSrc, setSelectedModelSrc] = useState<string | null>(null);
+  const [productItems, setProductItems] = useState<Array<{ category: string; name: string; imageUrl: string | null; productLink: string | null }>>([]);
   const placeholder = useTypewriter(!inputValue && !results);
 
   const handleSubmit = () => {
@@ -207,6 +208,18 @@ export default function Hero() {
           // ── 4. Fetch matching products ─────────────────────────────
           const products = (await fetchOutfitProductsCallable({ intent, productsPerCategory: 3, userId })) as { recommendations?: unknown[] };
           const recommendations = Array.isArray(products.recommendations) ? products.recommendations : [];
+
+          const productInfos = recommendations.map((rec) => {
+            const r = rec as Record<string, unknown>;
+            const str = (k: string) => (typeof r[k] === "string" ? (r[k] as string) : null);
+            return {
+              category: str("category") ?? "Product",
+              name: str("name") ?? str("title") ?? str("productName") ?? str("category") ?? "Product",
+              imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
+              productLink: str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl"),
+            };
+          });
+          setProductItems(productInfos);
 
           // ── 5. Run virtual try-on ──────────────────────────────────
           const tryOn = (await executeMultiItemTryOnCallable({ recommendations, userId })) as { itemResults?: unknown[]; finalImageUrl?: string };
@@ -453,6 +466,47 @@ export default function Hero() {
                       </>
                     )}
                   </motion.div>
+
+                  {/* Product cards stacked below image */}
+                  {productItems.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.1 }}
+                      className="mt-4 flex flex-col gap-2"
+                    >
+                      <p className="text-[9px] text-white/25 uppercase tracking-widest mb-1 font-medium">
+                        Items tried on
+                      </p>
+                      {productItems.map((item, i) => (
+                        <motion.button
+                          key={i}
+                          onClick={() => {
+                            if (item.productLink) window.open(item.productLink, "_blank");
+                          }}
+                          whileTap={{ scale: 0.97 }}
+                          className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)] transition-colors text-left cursor-pointer"
+                        >
+                          {item.imageUrl ? (
+                            <img
+                              src={item.imageUrl}
+                              alt={item.name}
+                              className="w-11 h-11 rounded-lg object-cover shrink-0 border border-white/[0.06]"
+                            />
+                          ) : (
+                            <div className="w-11 h-11 rounded-lg bg-[rgba(192,192,192,0.08)] shrink-0 flex items-center justify-center">
+                              <span className="text-[9px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[11px] font-semibold text-white/80 leading-tight line-clamp-2">{item.name}</p>
+                            <p className="text-[9px] text-white/30 mt-0.5 uppercase tracking-wide truncate">{item.category}</p>
+                          </div>
+                          <ArrowRight className="w-3 h-3 text-white/25 shrink-0" />
+                        </motion.button>
+                      ))}
+                    </motion.div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
