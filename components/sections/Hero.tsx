@@ -209,15 +209,27 @@ export default function Hero() {
           const products = (await fetchOutfitProductsCallable({ intent, productsPerCategory: 3, userId })) as { recommendations?: unknown[] };
           const recommendations = Array.isArray(products.recommendations) ? products.recommendations : [];
 
-          const productInfos = recommendations.map((rec) => {
+          const productInfos = recommendations.flatMap((rec) => {
             const r = rec as Record<string, unknown>;
-            const str = (k: string) => (typeof r[k] === "string" ? (r[k] as string) : null);
-            return {
-              category: str("category") ?? "Product",
-              name: str("name") ?? str("title") ?? str("productName") ?? str("category") ?? "Product",
-              imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
-              productLink: str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl"),
-            };
+            const slotCategory = typeof r["category"] === "string" ? r["category"] : "Product";
+            const products = Array.isArray(r["products"]) ? r["products"] as Record<string, unknown>[] : [];
+            // Take only the first product per slot (coherence pass already picked the best)
+            const p = products[0];
+            if (!p) return [];
+            const str = (k: string) => (typeof p[k] === "string" ? (p[k] as string) : null);
+            const media = (typeof p["media"] === "object" && p["media"] !== null ? p["media"] : {}) as Record<string, unknown>;
+            const imageUrl =
+              (typeof media["productImage"] === "string" ? media["productImage"] : null) ??
+              str("productImage") ??
+              null;
+            const productLink =
+              str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl") ?? null;
+            return [{
+              category: slotCategory,
+              name: str("productName") ?? str("name") ?? str("title") ?? slotCategory,
+              imageUrl,
+              productLink,
+            }];
           });
           setProductItems(productInfos);
 
