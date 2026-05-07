@@ -484,6 +484,15 @@ function ProductCard({ item, onClick }: { item: ProductInfo; onClick: () => void
   );
 }
 
+const OVERLAY_CONTAINER_VARIANTS = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.32, delayChildren: 0.2 } },
+};
+const OVERLAY_CARD_VARIANTS = (i: number) => ({
+  hidden: { x: i % 2 === 0 ? -70 : 70, opacity: 0 },
+  show: { x: 0, opacity: 1, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const } },
+});
+
 type StylistToolProps = {
   /** Text to inject from a parent (e.g. card click). */
   externalPrompt?: string;
@@ -641,21 +650,37 @@ export default function StylistTool({
 
       const recommendations = Array.isArray(products.recommendations) ? products.recommendations : [];
 
-      console.log("🔍 DEBUG: recommendations array", recommendations);
       console.log("🔍 DEBUG: recommendations length", recommendations.length);
       if (recommendations.length > 0) {
-        console.log("🔍 DEBUG: first recommendation", recommendations[0]);
+        const first = recommendations[0] as Record<string, unknown>;
+        console.log("🔍 DEBUG: first rec category", first["category"]);
+        console.log("🔍 DEBUG: first rec products", first["products"]);
       }
 
-      const productInfos: ProductInfo[] = recommendations.map((rec) => {
+      const productInfos: ProductInfo[] = recommendations.flatMap((rec) => {
         const r = rec as Record<string, unknown>;
-        const str = (k: string) => (typeof r[k] === "string" ? (r[k] as string) : null);
-        return {
-          category: str("category") ?? "Product",
-          name: str("name") ?? str("title") ?? str("productName") ?? str("category") ?? "Product",
-          imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
-          productLink: str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl"),
-        };
+        const category = (typeof r["category"] === "string" ? r["category"] : null) ?? "Product";
+        const nested = Array.isArray(r["products"]) ? r["products"] : [];
+        if (nested.length === 0) {
+          // flat structure fallback
+          const str = (k: string) => (typeof r[k] === "string" ? (r[k] as string) : null);
+          return [{
+            category,
+            name: str("name") ?? str("title") ?? str("productName") ?? category,
+            imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
+            productLink: str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl"),
+          }];
+        }
+        return nested.slice(0, 1).map((prod) => {
+          const p = prod as Record<string, unknown>;
+          const str = (k: string) => (typeof p[k] === "string" ? (p[k] as string) : null);
+          return {
+            category,
+            name: str("name") ?? str("title") ?? str("productName") ?? category,
+            imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
+            productLink: str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl"),
+          };
+        });
       });
       console.log("🔍 DEBUG: productInfos extracted", productInfos);
       setProductItems(productInfos);
@@ -1127,48 +1152,95 @@ export default function StylistTool({
         )}
       </AnimatePresence>
 
-      {loading && !showModelPicker && !results && (
-        <div className="mt-6">
-          {selectedModelSrc ? (
-            <div className="relative max-w-[280px] mx-auto rounded-2xl overflow-hidden border border-[rgba(192,192,192,0.15)]">
-              <motion.img
-                src={selectedModelSrc}
-                alt="Selected model"
-                className="w-full h-auto block"
-                animate={{
-                  filter: [
-                    "blur(6px) brightness(0.75)",
-                    "blur(2px) brightness(1.08)",
-                    "blur(6px) brightness(0.75)",
-                  ],
-                  scale: [1.05, 1.07, 1.05],
-                }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-              />
-              {/* Loading pill overlay at the top of the image */}
-              <div className="absolute inset-x-0 top-0 flex justify-center pt-4 z-10">
-                <div
-                  className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10"
-                  style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(10px)" }}
-                >
-                  <motion.span
-                    animate={{ opacity: [0.35, 1, 0.35] }}
-                    transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                    className="block w-1.5 h-1.5 rounded-full bg-[#c0c0c0] shrink-0"
+      <AnimatePresence>
+        {loading && !showModelPicker && !results && (
+          <motion.div
+            key="loading-block"
+            className="mt-6"
+            exit={{ x: 90, opacity: 0, transition: { duration: 0.45, ease: [0.4, 0, 1, 1] } }}
+          >
+            {selectedModelSrc ? (
+              <div className="relative max-w-[280px] mx-auto">
+                {/* Inner div keeps overflow-hidden for image rounded corners */}
+                <div className="rounded-2xl overflow-hidden border border-[rgba(192,192,192,0.15)]">
+                  <motion.img
+                    src={selectedModelSrc}
+                    alt="Selected model"
+                    className="w-full h-auto block"
+                    animate={{
+                      filter: [
+                        "blur(6px) brightness(0.75)",
+                        "blur(2px) brightness(1.08)",
+                        "blur(6px) brightness(0.75)",
+                      ],
+                      scale: [1.05, 1.07, 1.05],
+                    }}
+                    transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
                   />
-                  <span className="text-[11px] text-white/70 font-medium whitespace-nowrap">
-                    {tryOnStage ?? "Generating try-on…"}
-                  </span>
+                  {/* Loading pill overlay at the top of the image */}
+                  <div className="absolute inset-x-0 top-0 flex justify-center pt-4 z-10">
+                    <div
+                      className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10"
+                      style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(10px)" }}
+                    >
+                      <motion.span
+                        animate={{ opacity: [0.35, 1, 0.35] }}
+                        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                        className="block w-1.5 h-1.5 rounded-full bg-[#c0c0c0] shrink-0"
+                      />
+                      <span className="text-[11px] text-white/70 font-medium whitespace-nowrap">
+                        {tryOnStage ?? "Generating try-on…"}
+                      </span>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Product cards overlaid over the blurred image, outside overflow-hidden so they can slide from sides */}
+                <AnimatePresence>
+                  {productItems.length > 0 && (
+                    <motion.div
+                      key="overlay-cards"
+                      className="absolute inset-x-2 bottom-2 z-20 flex flex-col gap-1"
+                      variants={OVERLAY_CONTAINER_VARIANTS}
+                      initial="hidden"
+                      animate="show"
+                    >
+                      {productItems.map((item, i) => (
+                        <motion.div
+                          key={i}
+                          variants={OVERLAY_CARD_VARIANTS(i)}
+                          className="flex items-center gap-2 px-2.5 py-2 rounded-xl border border-white/10 bg-[rgba(10,10,10,0.78)]"
+                          style={{ backdropFilter: "blur(8px)" }}
+                        >
+                          {item.imageUrl ? (
+                            <img
+                              src={item.imageUrl}
+                              alt={item.name}
+                              className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/[0.06]"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-lg bg-white/5 shrink-0 flex items-center justify-center">
+                              <span className="text-[8px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[10px] font-semibold text-white/80 leading-tight line-clamp-1">{item.name}</p>
+                            <p className="text-[8px] text-white/30 uppercase tracking-wide truncate">{item.category}</p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </div>
-          ) : (
-            <div className="text-center text-white/35 text-xs uppercase tracking-widest">
-              {tryOnStage ?? "Generating..."}
-            </div>
-          )}
-        </div>
-      )}
+            ) : (
+              <div className="text-center text-white/35 text-xs uppercase tracking-widest">
+                {tryOnStage ?? "Generating..."}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Chip-specific outfit suggestions ─────────────────────── */}
       <AnimatePresence mode="wait">
@@ -1299,13 +1371,19 @@ export default function StylistTool({
                       Items tried on
                     </p>
                     {productItems.map((item, i) => (
-                      <ProductCard
+                      <motion.div
                         key={i}
-                        item={item}
-                        onClick={() => {
-                          if (item.productLink) window.open(item.productLink, "_blank");
-                        }}
-                      />
+                        initial={{ x: 30, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 0.3 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        <ProductCard
+                          item={item}
+                          onClick={() => {
+                            if (item.productLink) window.open(item.productLink, "_blank");
+                          }}
+                        />
+                      </motion.div>
                     ))}
                   </div>
                 )}

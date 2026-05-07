@@ -112,6 +112,15 @@ function useTypewriter(active: boolean) {
   return displayed;
 }
 
+const OVERLAY_CONTAINER_VARIANTS = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.32, delayChildren: 0.2 } },
+};
+const OVERLAY_CARD_VARIANTS = (i: number) => ({
+  hidden: { x: i % 2 === 0 ? -70 : 70, opacity: 0 },
+  show: { x: 0, opacity: 1, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const } },
+});
+
 /* ── Main component ──────────────────────────────────────────── */
 export default function Hero() {
   const [inputValue, setInputValue] = useState("");
@@ -134,6 +143,7 @@ export default function Hero() {
     setLoading(true);
     setActivePrompt(inputValue.trim());
     setTryOnCards([]);
+    setProductItems([]);
     setTryOnError(null);
     setShowStyler(true);
   };
@@ -145,6 +155,7 @@ export default function Hero() {
     setResults(false);
     setLoading(true);
     setTryOnCards([]);
+    setProductItems([]);
     setTryOnError(null);
     setShowStyler(true);
   };
@@ -277,6 +288,7 @@ export default function Hero() {
     setResults(false);
     setLoading(false);
     setTryOnCards([]);
+    setProductItems([]);
     setTryOnError(null);
     setTryOnLoading(false);
     setSelectedModelSrc(null);
@@ -407,95 +419,177 @@ export default function Hero() {
                     </p>
                   )}
 
-                  {/* Single result card */}
+                  {/* Result & Loading Layout */}
                   <motion.div
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4 }}
-                    className="p-4 rounded-xl border border-[rgba(192,192,192,0.14)] bg-[rgba(255,255,255,0.04)] hover:border-[rgba(192,192,192,0.3)] transition-colors cursor-pointer group text-left"
+                    className={`relative w-full mx-auto text-left mb-6 ${tryOnCards[0]?.imageUrl && productItems.length > 0 ? "flex gap-4 items-start" : "flex justify-center"}`}
                   >
-                    {tryOnCards[0]?.imageUrl ? (
-                      /* Real try-on result */
-                      <>
-                        <span className="text-[10px] font-semibold uppercase tracking-widest text-[#c0c0c0] mb-2 block">
-                          Top Pick
-                        </span>
-                        <img
-                          src={tryOnCards[0].imageUrl}
-                          alt={tryOnCards[0].name}
-                          className="w-full h-[280px] object-cover object-top rounded-lg mb-4"
-                          loading="lazy"
-                        />
-                        <p className="text-white font-semibold text-sm mb-2">
-                          {tryOnCards[0].name}
-                        </p>
-                        <div className="flex items-center justify-end">
-                          <span className="text-[11px] text-[#c0c0c0] font-medium group-hover:text-white transition-colors">
-                            Try On →
-                          </span>
-                        </div>
-                      </>
-                    ) : (
-                      /* Model image with loading overlay while try-on generates */
-                      <>
-                        <span className="text-[10px] font-semibold uppercase tracking-widest text-[#c0c0c0] mb-2 block">
-                          Top Pick
-                        </span>
-                        <div className="relative w-full h-[280px] rounded-lg mb-4 overflow-hidden bg-[rgba(192,192,192,0.08)]">
-                          {selectedModelSrc && (
-                            <motion.img
-                              src={selectedModelSrc}
-                              alt="Your selected model"
-                              className="absolute inset-0 w-full h-full object-cover object-top"
-                              animate={{
-                                filter: [
-                                  "blur(6px) brightness(0.75)",
-                                  "blur(2px) brightness(1.08)",
-                                  "blur(6px) brightness(0.75)",
-                                ],
-                                scale: [1.05, 1.07, 1.05],
-                              }}
-                              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                    {/* Image Card Container */}
+                    <div className={`relative group cursor-pointer shrink-0 ${tryOnCards[0]?.imageUrl && productItems.length > 0 ? "w-[55%] max-w-[300px]" : "w-full max-w-[300px]"}`}>
+                      <AnimatePresence mode="wait">
+                        {tryOnCards[0]?.imageUrl ? (
+                        <motion.div
+                          key="result-image"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.4 }}
+                        >
+                          {/* Ambient glow behind card */}
+                          <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-white/8 via-[rgba(180,180,255,0.06)] to-transparent blur-2xl pointer-events-none transition-opacity duration-500 group-hover:opacity-150" />
+                          {/* Animated shimmer border */}
+                          <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-white/20 via-white/5 to-white/12 pointer-events-none" />
+
+                          {/* Glass card */}
+                          <div
+                            className="relative rounded-3xl overflow-hidden border border-white/10 bg-[rgba(255,255,255,0.03)]"
+                            style={{ boxShadow: "0 12px 48px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.07), inset 0 1px 0 rgba(255,255,255,0.08)" }}
+                          >
+                            {/* Top badge */}
+                            <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/50 border border-white/10"
+                              style={{ backdropFilter: "blur(12px)" }}>
+                              <Sparkles className="w-2.5 h-2.5 text-white/60" />
+                              <span className="text-[9px] font-semibold text-white/60 tracking-[0.15em] uppercase">Top Pick</span>
+                            </div>
+
+                            {/* Image */}
+                            <img
+                              src={tryOnCards[0].imageUrl}
+                              alt={tryOnCards[0].name}
+                              className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
+                              loading="lazy"
                             />
-                          )}
-                          {/* Loading pill at top of image */}
-                          <div className="absolute inset-x-0 top-0 flex justify-center pt-4 z-10">
-                            <div
-                              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10"
-                              style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(10px)" }}
-                            >
-                              <motion.span
-                                animate={{ opacity: [0.35, 1, 0.35] }}
-                                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                                className="block w-1.5 h-1.5 rounded-full bg-[#c0c0c0] shrink-0"
-                              />
-                              <span className="text-[10px] text-white/70 font-medium">Generating try-on…</span>
+
+                            {/* Bottom glass overlay */}
+                            <div className="absolute bottom-0 inset-x-0 px-4 pt-10 pb-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
+                              <p className="text-[9px] text-white/40 uppercase tracking-[0.14em] mb-0.5">AI Try-On</p>
+                              <p className="text-[11px] font-medium text-white/80 truncate">{tryOnCards[0].name}</p>
                             </div>
                           </div>
-                        </div>
-                        <div className="h-3 w-2/3 rounded bg-[rgba(192,192,192,0.08)] mb-3 animate-pulse" />
-                        <div className="h-2.5 w-full rounded bg-[rgba(192,192,192,0.06)] mb-2 animate-pulse" />
-                      </>
-                    )}
-                  </motion.div>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="loading-image"
+                          exit={{ x: 60, opacity: 0, transition: { duration: 0.35, ease: [0.4, 0, 1, 1] } }}
+                        >
+                          {/* Ambient glow behind card */}
+                          <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-white/8 via-[rgba(180,180,255,0.06)] to-transparent blur-2xl pointer-events-none transition-opacity duration-500 opacity-50" />
+                          
+                          {/* Glass card loading state */}
+                          <div
+                            className="relative rounded-3xl border border-white/10 bg-[rgba(255,255,255,0.03)]"
+                            style={{ boxShadow: "0 12px 48px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.07), inset 0 1px 0 rgba(255,255,255,0.08)" }}
+                          >
+                            <div className="relative w-full">
+                              {/* Inner: overflow-hidden for image rounded corners */}
+                              <div className="absolute inset-0 rounded-3xl overflow-hidden bg-[rgba(192,192,192,0.08)]">
+                                {selectedModelSrc && (
+                                  <motion.img
+                                    src={selectedModelSrc}
+                                    alt="Your selected model"
+                                    className="absolute inset-0 w-full h-full object-cover object-top"
+                                    animate={{
+                                      filter: [
+                                        "blur(6px) brightness(0.75)",
+                                        "blur(2px) brightness(1.08)",
+                                        "blur(6px) brightness(0.75)",
+                                      ],
+                                      scale: [1.05, 1.07, 1.05],
+                                    }}
+                                    transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                                  />
+                                )}
+                              </div>
+                              
+                              {/* Loading pill at top of image */}
+                              <div className="absolute inset-x-0 top-0 flex justify-center pt-4 z-10">
+                                <div
+                                  className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10"
+                                  style={{ background: "rgba(0,0,0,0.72)", backdropFilter: "blur(10px)" }}
+                                >
+                                  <motion.span
+                                    animate={{ opacity: [0.35, 1, 0.35] }}
+                                    transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                                    className="block w-1.5 h-1.5 rounded-full bg-[#c0c0c0] shrink-0"
+                                  />
+                                  <span className="text-[10px] text-white/70 font-medium">Generating try-on…</span>
+                                </div>
+                              </div>
 
-                  {/* Product cards stacked below image */}
-                  {productItems.length > 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: 0.1 }}
-                      className="mt-4 flex flex-col gap-2"
-                    >
-                      <p className="text-[9px] text-white/25 uppercase tracking-widest mb-1 font-medium">
+                              {/* Invisible spacer image to maintain aspect ratio based on original image */}
+                              {selectedModelSrc ? (
+                                <img
+                                  src={selectedModelSrc}
+                                  alt="spacer"
+                                  className="w-full h-auto block opacity-0 pointer-events-none"
+                                />
+                              ) : (
+                                <div className="w-full pb-[133%]" />
+                              )}
+
+                              {/* Overlay cards */}
+                              <AnimatePresence>
+                                {productItems.length > 0 && !tryOnCards[0]?.imageUrl && (
+                                  <motion.div
+                                    key="overlay-cards"
+                                    className="absolute inset-x-2 bottom-2 z-20 flex flex-col gap-1"
+                                    variants={OVERLAY_CONTAINER_VARIANTS}
+                                    initial="hidden"
+                                    animate="show"
+                                    exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                                  >
+                                    {productItems.map((item, i) => (
+                                      <motion.div
+                                        key={i}
+                                        variants={OVERLAY_CARD_VARIANTS(i)}
+                                        className="flex items-center gap-2 px-2.5 py-2 rounded-xl border border-white/10 bg-[rgba(10,10,10,0.78)]"
+                                        style={{ backdropFilter: "blur(8px)" }}
+                                      >
+                                        {item.imageUrl ? (
+                                          <img src={item.imageUrl} alt={item.name}
+                                               className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/[0.06]" />
+                                        ) : (
+                                          <div className="w-8 h-8 rounded-lg bg-white/5 shrink-0 flex items-center justify-center">
+                                            <span className="text-[8px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+                                          </div>
+                                        )}
+                                        <div className="flex-1 min-w-0">
+                                          <p className="text-[10px] font-semibold text-white/80 leading-tight line-clamp-1">{item.name}</p>
+                                          <p className="text-[8px] text-white/30 uppercase tracking-wide truncate">{item.category}</p>
+                                        </div>
+                                      </motion.div>
+                                    ))}
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Product cards stacked to the right of image */}
+                    {productItems.length > 0 && tryOnCards[0]?.imageUrl && (
+                      <div className="flex-1 flex flex-col gap-2 min-w-0">
+                        <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
+                        className="text-[9px] text-white/25 uppercase tracking-widest mb-1 font-medium"
+                      >
                         Items tried on
-                      </p>
+                      </motion.p>
                       {productItems.map((item, i) => (
                         <motion.button
                           key={i}
                           onClick={() => {
                             if (item.productLink) window.open(item.productLink, "_blank");
                           }}
+                          initial={{ x: 30, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ duration: 0.4, delay: 0.3 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
                           whileTap={{ scale: 0.97 }}
                           className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)] transition-colors text-left cursor-pointer"
                         >
@@ -517,8 +611,9 @@ export default function Hero() {
                           <ArrowRight className="w-3 h-3 text-white/25 shrink-0" />
                         </motion.button>
                       ))}
-                    </motion.div>
-                  )}
+                      </div>
+                    )}
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
