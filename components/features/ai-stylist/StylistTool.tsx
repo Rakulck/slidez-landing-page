@@ -457,7 +457,7 @@ type ProductInfo = {
   productLink: string | null;
 };
 
-function ProductCard({ item }: { item: ProductInfo }) {
+function ProductCard({ item, onClick }: { item: ProductInfo; onClick?: () => void }) {
   const CardContent = (
     <>
       {item.imageUrl ? (
@@ -485,6 +485,12 @@ function ProductCard({ item }: { item: ProductInfo }) {
         href={item.productLink}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={(e) => {
+          if (onClick) {
+            e.preventDefault();
+            onClick();
+          }
+        }}
         whileTap={{ scale: 0.97 }}
         className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)] transition-colors text-left cursor-pointer"
       >
@@ -495,6 +501,7 @@ function ProductCard({ item }: { item: ProductInfo }) {
 
   return (
     <motion.div
+      onClick={onClick}
       whileTap={{ scale: 0.97 }}
       className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] text-left"
     >
@@ -693,6 +700,7 @@ export default function StylistTool({
         return nested.slice(0, 1).map((prod) => {
           const p = prod as Record<string, unknown>;
           const str = (k: string) => (typeof p[k] === "string" ? (p[k] as string) : null);
+          console.log("🔍 DEBUG: Raw product from backend in StylistTool:", p);
           return {
             category,
             name: str("name") ?? str("title") ?? str("productName") ?? category,
@@ -1428,6 +1436,15 @@ export default function StylistTool({
                       >
                         <ProductCard
                           item={item}
+                          onClick={() => {
+                            console.log("Product card clicked:", JSON.stringify(item, null, 2));
+                            if (item.productLink) {
+                              console.log("Opening product link:", item.productLink);
+                              window.open(item.productLink, "_blank");
+                            } else {
+                              console.warn("No product link available for this item");
+                            }
+                          }}
                         />
                       </motion.div>
                     ))}

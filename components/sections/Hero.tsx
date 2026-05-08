@@ -234,7 +234,10 @@ export default function Hero() {
               str("productImage") ??
               null;
             const productLink =
-              str("sourceUrl") ?? str("productUrl") ??  null;
+              str("productLink") ?? str("link") ?? str("url") ?? str("sourceUrl") ?? str("productUrl") ?? str("shopUrl") ?? null;
+            
+            console.log("🔍 DEBUG: Raw product from backend in Hero:", p);
+            
             return [{
               category: slotCategory,
               name: str("productName") ?? str("name") ?? str("title") ?? slotCategory,
@@ -611,9 +614,15 @@ export default function Hero() {
                       {productItems.map((item, i) => (
                         <motion.a
                           key={i}
-                          href={item.productLink ?? undefined}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          onClick={() => {
+                            console.log("Product card clicked:", JSON.stringify(item, null, 2));
+                            if (item.productLink) {
+                              console.log("Opening product link:", item.productLink);
+                              window.open(item.productLink, "_blank");
+                            } else {
+                              console.warn("No product link available for this item");
+                            }
+                          }}
                           initial={{ x: 30, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ duration: 0.4, delay: 0.3 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
