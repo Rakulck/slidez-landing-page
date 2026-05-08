@@ -234,7 +234,7 @@ export default function Hero() {
               str("productImage") ??
               null;
             const productLink =
-              str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl") ?? null;
+              str("sourceUrl") ?? str("productUrl") ??  null;
             return [{
               category: slotCategory,
               name: str("productName") ?? str("name") ?? str("title") ?? slotCategory,
@@ -543,21 +543,48 @@ export default function Hero() {
                                       <motion.div
                                         key={i}
                                         variants={OVERLAY_CARD_VARIANTS(i)}
-                                        className="flex items-center gap-2 px-2.5 py-2 rounded-xl border border-white/10 bg-[rgba(10,10,10,0.78)]"
-                                        style={{ backdropFilter: "blur(8px)" }}
+                                        className="relative"
                                       >
-                                        {item.imageUrl ? (
-                                          <img src={item.imageUrl} alt={item.name}
-                                               className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/[0.06]" />
+                                        {item.productLink ? (
+                                          <a
+                                            href={item.productLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 px-2.5 py-2 rounded-xl border border-white/10 bg-[rgba(10,10,10,0.78)] hover:bg-[rgba(20,20,20,0.85)] hover:border-white/20 transition-all cursor-pointer"
+                                            style={{ backdropFilter: "blur(8px)" }}
+                                          >
+                                            {item.imageUrl ? (
+                                              <img src={item.imageUrl} alt={item.name}
+                                                   className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/[0.06]" />
+                                            ) : (
+                                              <div className="w-8 h-8 rounded-lg bg-white/5 shrink-0 flex items-center justify-center">
+                                                <span className="text-[8px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+                                              </div>
+                                            )}
+                                            <div className="flex-1 min-w-0">
+                                              <p className="text-[10px] font-semibold text-white/80 leading-tight line-clamp-1">{item.name}</p>
+                                              <p className="text-[8px] text-white/30 uppercase tracking-wide truncate">{item.category}</p>
+                                            </div>
+                                          </a>
                                         ) : (
-                                          <div className="w-8 h-8 rounded-lg bg-white/5 shrink-0 flex items-center justify-center">
-                                            <span className="text-[8px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+                                          <div
+                                            className="flex items-center gap-2 px-2.5 py-2 rounded-xl border border-white/10 bg-[rgba(10,10,10,0.78)]"
+                                            style={{ backdropFilter: "blur(8px)" }}
+                                          >
+                                            {item.imageUrl ? (
+                                              <img src={item.imageUrl} alt={item.name}
+                                                   className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/[0.06]" />
+                                            ) : (
+                                              <div className="w-8 h-8 rounded-lg bg-white/5 shrink-0 flex items-center justify-center">
+                                                <span className="text-[8px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+                                              </div>
+                                            )}
+                                            <div className="flex-1 min-w-0">
+                                              <p className="text-[10px] font-semibold text-white/80 leading-tight line-clamp-1">{item.name}</p>
+                                              <p className="text-[8px] text-white/30 uppercase tracking-wide truncate">{item.category}</p>
+                                            </div>
                                           </div>
                                         )}
-                                        <div className="flex-1 min-w-0">
-                                          <p className="text-[10px] font-semibold text-white/80 leading-tight line-clamp-1">{item.name}</p>
-                                          <p className="text-[8px] text-white/30 uppercase tracking-wide truncate">{item.category}</p>
-                                        </div>
                                       </motion.div>
                                     ))}
                                   </motion.div>
@@ -582,16 +609,16 @@ export default function Hero() {
                         Items tried on
                       </motion.p>
                       {productItems.map((item, i) => (
-                        <motion.button
+                        <motion.a
                           key={i}
-                          onClick={() => {
-                            if (item.productLink) window.open(item.productLink, "_blank");
-                          }}
+                          href={item.productLink ?? undefined}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           initial={{ x: 30, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ duration: 0.4, delay: 0.3 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
                           whileTap={{ scale: 0.97 }}
-                          className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)] transition-colors text-left cursor-pointer"
+                          className={`flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] transition-colors text-left ${item.productLink ? 'hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)] cursor-pointer' : ''}`}
                         >
                           {item.imageUrl ? (
                             <img
@@ -609,7 +636,7 @@ export default function Hero() {
                             <p className="text-[9px] text-white/30 mt-0.5 uppercase tracking-wide truncate">{item.category}</p>
                           </div>
                           <ArrowRight className="w-3 h-3 text-white/25 shrink-0" />
-                        </motion.button>
+                        </motion.a>
                       ))}
                       </div>
                     )}

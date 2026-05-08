@@ -457,13 +457,9 @@ type ProductInfo = {
   productLink: string | null;
 };
 
-function ProductCard({ item, onClick }: { item: ProductInfo; onClick: () => void }) {
-  return (
-    <motion.button
-      onClick={onClick}
-      whileTap={{ scale: 0.97 }}
-      className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)] transition-colors text-left cursor-pointer"
-    >
+function ProductCard({ item }: { item: ProductInfo }) {
+  const CardContent = (
+    <>
       {item.imageUrl ? (
         <img
           src={item.imageUrl}
@@ -480,7 +476,30 @@ function ProductCard({ item, onClick }: { item: ProductInfo; onClick: () => void
         <p className="text-[9px] text-white/30 mt-0.5 uppercase tracking-wide truncate">{item.category}</p>
       </div>
       <ArrowRight className="w-3 h-3 text-white/25 shrink-0" />
-    </motion.button>
+    </>
+  );
+
+  if (item.productLink) {
+    return (
+      <motion.a
+        href={item.productLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        whileTap={{ scale: 0.97 }}
+        className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)] transition-colors text-left cursor-pointer"
+      >
+        {CardContent}
+      </motion.a>
+    );
+  }
+
+  return (
+    <motion.div
+      whileTap={{ scale: 0.97 }}
+      className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] text-left"
+    >
+      {CardContent}
+    </motion.div>
   );
 }
 
@@ -668,7 +687,7 @@ export default function StylistTool({
             category,
             name: str("name") ?? str("title") ?? str("productName") ?? category,
             imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
-            productLink: str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl"),
+            productLink: str("productLink") ?? str("link") ?? str("url") ?? str("sourceUrl") ?? str("productUrl") ?? str("shopUrl"),
           }];
         }
         return nested.slice(0, 1).map((prod) => {
@@ -678,7 +697,7 @@ export default function StylistTool({
             category,
             name: str("name") ?? str("title") ?? str("productName") ?? category,
             imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
-            productLink: str("productLink") ?? str("link") ?? str("url") ?? str("productUrl") ?? str("shopUrl"),
+            productLink: str("productLink") ?? str("link") ?? str("url") ?? str("sourceUrl") ?? str("productUrl") ?? str("shopUrl"),
           };
         });
       });
@@ -1209,24 +1228,54 @@ export default function StylistTool({
                         <motion.div
                           key={i}
                           variants={OVERLAY_CARD_VARIANTS(i)}
-                          className="flex items-center gap-2 px-2.5 py-2 rounded-xl border border-white/10 bg-[rgba(10,10,10,0.78)]"
-                          style={{ backdropFilter: "blur(8px)" }}
+                          className="relative"
                         >
-                          {item.imageUrl ? (
-                            <img
-                              src={item.imageUrl}
-                              alt={item.name}
-                              className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/[0.06]"
-                            />
+                          {item.productLink ? (
+                            <a
+                              href={item.productLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 px-2.5 py-2 rounded-xl border border-white/10 bg-[rgba(10,10,10,0.78)] hover:bg-[rgba(20,20,20,0.85)] hover:border-white/20 transition-all cursor-pointer"
+                              style={{ backdropFilter: "blur(8px)" }}
+                            >
+                              {item.imageUrl ? (
+                                <img
+                                  src={item.imageUrl}
+                                  alt={item.name}
+                                  className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/[0.06]"
+                                />
+                              ) : (
+                                <div className="w-8 h-8 rounded-lg bg-white/5 shrink-0 flex items-center justify-center">
+                                  <span className="text-[8px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+                                </div>
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[10px] font-semibold text-white/80 leading-tight line-clamp-1">{item.name}</p>
+                                <p className="text-[8px] text-white/30 uppercase tracking-wide truncate">{item.category}</p>
+                              </div>
+                            </a>
                           ) : (
-                            <div className="w-8 h-8 rounded-lg bg-white/5 shrink-0 flex items-center justify-center">
-                              <span className="text-[8px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+                            <div
+                              className="flex items-center gap-2 px-2.5 py-2 rounded-xl border border-white/10 bg-[rgba(10,10,10,0.78)]"
+                              style={{ backdropFilter: "blur(8px)" }}
+                            >
+                              {item.imageUrl ? (
+                                <img
+                                  src={item.imageUrl}
+                                  alt={item.name}
+                                  className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/[0.06]"
+                                />
+                              ) : (
+                                <div className="w-8 h-8 rounded-lg bg-white/5 shrink-0 flex items-center justify-center">
+                                  <span className="text-[8px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+                                </div>
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[10px] font-semibold text-white/80 leading-tight line-clamp-1">{item.name}</p>
+                                <p className="text-[8px] text-white/30 uppercase tracking-wide truncate">{item.category}</p>
+                              </div>
                             </div>
                           )}
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[10px] font-semibold text-white/80 leading-tight line-clamp-1">{item.name}</p>
-                            <p className="text-[8px] text-white/30 uppercase tracking-wide truncate">{item.category}</p>
-                          </div>
                         </motion.div>
                       ))}
                     </motion.div>
@@ -1379,9 +1428,6 @@ export default function StylistTool({
                       >
                         <ProductCard
                           item={item}
-                          onClick={() => {
-                            if (item.productLink) window.open(item.productLink, "_blank");
-                          }}
                         />
                       </motion.div>
                     ))}
