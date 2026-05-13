@@ -10,6 +10,7 @@ const navLinks = [
   { label: "Features",  href: "/#features"  },
   { label: "Extension", href: "/#extension" },
   { label: "FAQ",       href: "/#faq"       },
+  { label: "Blogs",     href: "/blog"       },
 ];
 
 const AI_STYLIST_LINKS = [

@@ -20,6 +20,9 @@ export default function robots(): MetadataRoute.Robots {
         "/checkout/"
       ],
     },
-    sitemap: `${BASE_URL}/sitemap.xml`,
+    sitemap: [
+      `${BASE_URL}/sitemap.xml`,
+      `${BASE_URL}/blog/sitemap.xml`,
+    ],
   };
 }

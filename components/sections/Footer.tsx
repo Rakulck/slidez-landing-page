@@ -7,6 +7,7 @@ const links = [
     items: [
       { label: "Outfit Ideas", href: "/outfit-ideas" },
       { label: "What to Wear", href: "/what-to-wear" },
+      { label: "Blogs", href: "/blog" },
       { label: "Chrome Extension", href: "https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak?utm_source=item-share-cb" },
     ],
   },

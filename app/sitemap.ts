@@ -17,6 +17,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/ai-virtual-try-on", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/try-on-from-anywhere", priority: 0.8, changeFrequency: "monthly" as const },
     
+    // Blog
+    { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
+    { path: "/blog/best-ai-stylist-apps", priority: 0.7, changeFrequency: "monthly" as const },
+    
     // Specific Outfit Idea Pages
     { path: "/date-night-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/winter-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
