@@ -135,7 +135,10 @@ export default function BlogPost() {
                 <div className="inline-block px-3 py-1 bg-black text-white text-xs font-bold uppercase tracking-wider rounded-full mb-4">#1 Ranked</div>
                 <h3 className="text-3xl font-bold text-black mb-6 tracking-tight">1. Slidez: Best Modern Alternative to Traditional Closet Apps</h3>
                 
-                <ImagePlaceholder alt="Slidez virtual closet app showing saved try-on looks and outfit library" />
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-10 max-w-[800px] mx-auto">
+                  <Image src="/blog-slidez-left.jpeg" alt="Slidez virtual closet app interface" width={400} height={800} className="w-full max-w-[320px] h-auto rounded-2xl border border-black/10 shadow-sm object-cover" />
+                  <Image src="/blog-slidez-right.jpeg" alt="Slidez virtual closet app virtual try-on" width={400} height={800} className="w-full max-w-[320px] h-auto rounded-2xl border border-black/10 shadow-sm object-cover" />
+                </div>
                 
                 <p className="mb-5"><strong className="text-black">Quick Overview:</strong> Slidez is the AI-powered alternative to traditional closet apps for 2026.</p>
                 <p className="mb-5">Instead of asking you to photograph every item you own, Slidez builds your closet around saved try-on looks and outfits you have curated. You try clothes on virtually, save the ones you love, and your closet grows naturally as you shop.</p>
@@ -197,7 +200,7 @@ export default function BlogPost() {
               {/* App 2 */}
               <div id="app-acloset" className="pt-10 mb-16 scroll-mt-32 border-t border-black/5">
                 <h3 className="text-2xl font-bold text-black mb-4">2. Acloset: Best All-in-One Wardrobe Manager</h3>
-                <ImagePlaceholder alt="Acloset wardrobe organizer app showing digitized closet by category" />
+                <Image src="/blog-acloset.jpg" alt="Acloset closet styling app showing digital wardrobe view" width={800} height={450} className="w-full max-w-[500px] mx-auto block h-auto rounded-2xl border border-black/10 my-10 object-cover" />
                 <p className="mb-5"><strong className="text-black">Quick Overview:</strong> Acloset is one of the most popular digital closet app options globally, with millions of downloads. It focuses on closet digitization with strong AI styling chat and calendar-based outfit planning. Its biggest strength is breadth: it does almost everything a traditional virtual closet app can do, and does it well.</p>
                 <div className="bg-[#fafafa] p-5 rounded-xl border border-black/5 mb-6">
                   <p className="text-base text-black/80"><strong className="text-black">Best for:</strong> Users who want a single mature app that handles closet organization, outfit planning, and shopping insights.</p>
@@ -215,7 +218,7 @@ export default function BlogPost() {
               {/* App 3 */}
               <div id="app-whering" className="pt-10 mb-16 scroll-mt-32 border-t border-black/5">
                 <h3 className="text-2xl font-bold text-black mb-4">3. Whering: Best Free Virtual Closet</h3>
-                <ImagePlaceholder alt="Whering free virtual closet app with wardrobe view and daily outfit planner" />
+                <Image src="/blog-whering.jpg" alt="Whering free virtual stylist app with wardrobe and outfit planner" width={800} height={450} className="w-full max-w-[500px] mx-auto block h-auto rounded-2xl border border-black/10 my-10 object-cover" />
                 <p className="mb-5"><strong className="text-black">Quick Overview:</strong> Whering is the strongest closet organizer app if you want a real, generous free option. There is no aggressive paywall and the community of users sharing outfits is huge. It is built around &quot;shop your closet&quot; sustainable styling, not new shopping.</p>
                 <div className="bg-[#fafafa] p-5 rounded-xl border border-black/5 mb-6">
                   <p className="text-base text-black/80"><strong className="text-black">Best for:</strong> Anyone who wants to digitize their wardrobe and discover new outfits without paying.</p>
@@ -249,7 +252,7 @@ export default function BlogPost() {
               {/* App 5 */}
               <div id="app-cladwell" className="pt-10 mb-16 scroll-mt-32 border-t border-black/5">
                 <h3 className="text-2xl font-bold text-black mb-4">5. Cladwell: Best for Capsule Wardrobes</h3>
-                <ImagePlaceholder alt="Cladwell wardrobe management app for minimalist capsule wardrobe planning" />
+                <Image src="/blog-cladwell.jpg" alt="Cladwell digital stylist app for minimalist capsule wardrobe planning" width={800} height={450} className="w-full max-w-[500px] mx-auto block h-auto rounded-2xl border border-black/10 my-10 object-cover" />
                 <p className="mb-5"><strong className="text-black">Quick Overview:</strong> Cladwell takes a different approach. Instead of helping you mix everything in your closet, it helps you build a tighter, more intentional capsule wardrobe. Fewer pieces, more outfits, less clutter.</p>
                 <div className="bg-[#fafafa] p-5 rounded-xl border border-black/5 mb-6">
                   <p className="text-base text-black/80"><strong className="text-black">Best for:</strong> Minimalists who want fewer clothes that work harder.</p>
