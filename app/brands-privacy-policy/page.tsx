@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy – Slidez",
   description: "Slidez Privacy Policy for the Shopify app. Learn how we collect, use, and protect information from consumers, merchants, and visitors.",
   robots: { index: true, follow: true },
-  alternates: { canonical: "https://www.slidez.social/brands-privacy-policy" },
+  alternates: { canonical: "https://www.slidez.social/privacy" },
 };
 
 const sections = [
