@@ -35,7 +35,7 @@ export default function BlogListingPage() {
             
             {/* Blog Post Card */}
             <Link href="/blog/best-ai-stylist-apps" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <div className="relative w-full aspect-[4/3] bg-[#f5f5f5] overflow-hidden">
+              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
                   src="/blog-slidez-right.jpeg" 
                   alt="Slidez preview image" 
@@ -66,7 +66,7 @@ export default function BlogListingPage() {
 
             {/* Blog Post Card 2 */}
             <Link href="/blog/best-virtual-closet-apps" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <div className="relative w-full aspect-[4/3] bg-[#f5f5f5] overflow-hidden">
+              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
                   src="/blog-slidez-left.jpeg" 
                   alt="Virtual Closet App preview image" 
@@ -95,13 +95,37 @@ export default function BlogListingPage() {
               </div>
             </Link>
 
-            {/* Empty slots for future posts can be added here */}
+            {/* Blog Post Card 3 */}
+            <Link href="/blog/best-outfit-planner-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div className="relative w-full aspect-4/3 bg-[#f7f7f7] overflow-hidden flex items-center justify-center">
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-black/35">No image</span>
+              </div>
+              <div className="p-8 flex flex-col flex-1">
+                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
+                  <span>Guide</span>
+                  <span>·</span>
+                  <span>May 2026</span>
+                </div>
+                <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
+                  Best Outfit Planner Apps to Style Clothes Before You Buy in 2026
+                </h3>
+                <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
+                  Discover the top outfit planner apps to plan outfits from your wardrobe, preview looks, and make smarter shopping decisions before checkout.
+                </p>
+                <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
+                  Read Article
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
 
           </div>
         </div>
       </section>
 
-      <div className="relative z-[65] -mt-10 rounded-t-[2.5rem] overflow-hidden">
+      <div className="relative z-65 -mt-10 rounded-t-[2.5rem] overflow-hidden">
         <Footer />
       </div>
     </main>
