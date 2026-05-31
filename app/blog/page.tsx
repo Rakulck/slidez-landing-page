@@ -112,7 +112,7 @@ export default function BlogListingPage() {
                   <span>May 2026</span>
                 </div>
                 <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
-                  Best Outfit Planner Apps to Style Clothes Before You Buy in 2026
+                  Best Outfit Planner Apps to Style Clothes in 2026
                 </h3>
                 <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
                   Discover the top outfit planner apps to plan outfits from your wardrobe, preview looks, and make smarter shopping decisions before checkout.

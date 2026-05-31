@@ -5,7 +5,7 @@ import Footer from "@/components/sections/Footer";
 import BlogSlideAnimation from "@/components/ui/blog-slide-animation";
 
 export const metadata: Metadata = {
-  title: "Best Outfit Planner Apps to Style Clothes Before You Buy in 2026",
+  title: "Best Outfit Planner Apps to Style Clothes in 2026",
   description:
     "Discover the best outfit planner apps in 2026 to plan outfits, style clothes before you buy, and stop wasting money on pieces you never wear.",
 };
@@ -24,7 +24,7 @@ export default function BlogPost() {
         <div className="max-w-4xl mx-auto relative z-10">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40 mb-6">Blog · Guide</p>
           <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-bold text-white tracking-tight leading-[1.1] mb-6">
-            Best Outfit Planner Apps to Style Clothes Before You Buy in 2026
+            Best Outfit Planner Apps to Style Clothes in 2026
           </h1>
           <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Compare the top apps to plan outfits, match new clothes with your wardrobe, and shop smarter.
