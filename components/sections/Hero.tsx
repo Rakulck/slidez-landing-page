@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Star, Sparkles, Send, X, Puzzle } from "lucide-react";
+import { useAIAutocomplete, AIAutocompleteDropdown } from "@magicx-eng/ai-autocomplete-react";
 import { trackDownloadClick, trackExtensionClick, trackStylistDemoSubmit } from "@/lib/gtag";
 import BrandsStrip from "@/components/sections/BrandsStrip";
 import type { FloatingStylerOnCompletePayload } from "@/components/ui/floating-styler";
@@ -135,7 +136,32 @@ export default function Hero() {
   const [tryOnLoading, setTryOnLoading] = useState(false);
   const [selectedModelSrc, setSelectedModelSrc] = useState<string | null>(null);
   const [productItems, setProductItems] = useState<Array<{ category: string; name: string; imageUrl: string | null; productLink: string | null }>>([]);
+
   const placeholder = useTypewriter(!inputValue && !results);
+
+  const { inputProps, dropdownProps, reset: resetAutocomplete } = useAIAutocomplete({
+    apiConfig: {
+      endpoint: process.env.NEXT_PUBLIC_AI_AUTOCOMPLETE_ENDPOINT,
+      apiKey: process.env.NEXT_PUBLIC_AI_AUTOCOMPLETE_API_KEY,
+    },
+    value: inputValue,
+    onChange: (v) => {
+      setInputValue(v);
+      if (results) setResults(false);
+    },
+    onSubmit: (result) => {
+      const query = result.query.trim();
+      if (!query) return;
+      trackStylistDemoSubmit();
+      setLoading(true);
+      setActivePrompt(query);
+      setTryOnCards([]);
+      setProductItems([]);
+      setTryOnError(null);
+      setResults(false);
+      setShowStyler(true);
+    },
+  });
 
   const handleSubmit = () => {
     if (!inputValue.trim()) return;
@@ -296,6 +322,7 @@ export default function Hero() {
     setTryOnLoading(false);
     setSelectedModelSrc(null);
     tryOnRunSeqRef.current++;
+    resetAutocomplete();
     inputRef.current?.focus();
   };
 
@@ -340,12 +367,16 @@ export default function Hero() {
                 <input
                   ref={inputRef}
                   type="text"
-                  value={inputValue}
-                  onChange={(e) => {
-                    setInputValue(e.target.value);
-                    if (results) setResults(false);
-                  }}
-                  onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                  value={inputProps.value}
+                  onChange={(e) => inputProps.onChange(e as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
+                  onKeyDown={(e) => inputProps.onKeyDown(e as unknown as React.KeyboardEvent<HTMLTextAreaElement>)}
+                  onFocus={inputProps.onFocus}
+                  onBlur={inputProps.onBlur}
+                  role="combobox"
+                  aria-expanded={inputProps["aria-expanded"]}
+                  aria-activedescendant={inputProps["aria-activedescendant"]}
+                  aria-autocomplete="list"
+                  aria-controls={inputProps["aria-controls"]}
                   placeholder={placeholder}
                   className="flex-1 bg-transparent text-white text-base outline-none placeholder:text-white/25 min-w-0"
                   suppressHydrationWarning
@@ -399,6 +430,12 @@ export default function Hero() {
                   />
                 </span>
               )}
+
+              {/* AI Autocomplete suggestions dropdown */}
+              <AIAutocompleteDropdown
+                {...dropdownProps}
+                className="mt-2"
+              />
             </div>
 
             {/* ── Outfit Results ───────────────────────────────── */}

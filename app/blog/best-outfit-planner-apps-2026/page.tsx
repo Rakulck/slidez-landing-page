@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
+import BlogSlideAnimation from "@/components/ui/blog-slide-animation";
 
 export const metadata: Metadata = {
   title: "Best Outfit Planner Apps to Style Clothes Before You Buy in 2026",
@@ -124,8 +125,8 @@ export default function BlogPost() {
               <div className="pt-8 mb-12 border-t border-black/5">
                 <h3 className="text-2xl font-bold text-black mb-4">1. Slidez: Best Overall for Pre-Purchase Outfit Planning</h3>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-10 max-w-[800px] mx-auto">
-                  <Image src="/blog-slidez-left.jpeg" alt="Slidez outfit planner app interface" width={400} height={800} className="w-full max-w-[320px] h-auto rounded-2xl border border-black/10 shadow-sm object-cover" />
-                  <Image src="/blog-slidez-right.jpeg" alt="Slidez outfit planner app virtual try-on" width={400} height={800} className="w-full max-w-[320px] h-auto rounded-2xl border border-black/10 shadow-sm object-cover" />
+                  <BlogSlideAnimation src="/blog-slidez-left.json" alt="Slidez outfit planner app interface" className="w-full max-w-[320px]" />
+                  <BlogSlideAnimation src="/blog-slidez-right.json" alt="Slidez outfit planner app virtual try-on" className="w-full max-w-[320px]" />
                 </div>
                 <p className="mb-5"><strong className="text-black">Quick Overview:</strong> Slidez is built for the decision that matters most: what to buy.</p>
                 <p className="mb-5">It combines AI outfit recommendations with realistic try-on and lets you test looks from any online store via Chrome extension and social imports.</p>

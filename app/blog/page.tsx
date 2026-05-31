@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
+import BlogSlideAnimation from "@/components/ui/blog-slide-animation";
 
 export const metadata: Metadata = {
   title: "Blog | Slidez",
@@ -97,8 +98,12 @@ export default function BlogListingPage() {
 
             {/* Blog Post Card 3 */}
             <Link href="/blog/best-outfit-planner-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <div className="relative w-full aspect-4/3 bg-[#f7f7f7] overflow-hidden flex items-center justify-center">
-                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-black/35">No image</span>
+              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden flex items-center justify-center p-6">
+                <BlogSlideAnimation
+                  src="/blog-slidez-right.json"
+                  alt="Slidez outfit planner app preview"
+                  className="w-full max-w-[220px] border-0 shadow-none group-hover:scale-105 transition-transform duration-500"
+                />
               </div>
               <div className="p-8 flex flex-col flex-1">
                 <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
