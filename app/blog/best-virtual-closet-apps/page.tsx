@@ -346,9 +346,8 @@ export default function BlogPost() {
               </div>
             </div>
             
-            {/* Recommended Readings Section */}
             <div className="mt-16 pt-12 border-t border-black/10">
-              <h2 className="text-2xl font-bold text-black mb-8 tracking-tight">Recommended Readings:</h2>
+              <h2 className="text-2xl font-bold text-black mb-8 tracking-tight">Recommended Readings</h2>
               <div className="grid sm:grid-cols-2 gap-6">
                 <Link href="/blog/best-ai-stylist-apps" className="group block">
                   <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
@@ -356,16 +355,10 @@ export default function BlogPost() {
                     <p className="text-sm text-black/60 line-clamp-2">Discover the top AI stylist apps that are changing how millions of people plan outfits and shop smarter.</p>
                   </div>
                 </Link>
-                <Link href="/blog/virtual-try-on-guide" className="group block">
+                <Link href="/blog/best-outfit-planner-apps-2026" className="group block">
                   <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
-                    <h3 className="font-bold text-black mb-2 group-hover:underline">The Complete Guide to Virtual Try-On</h3>
-                    <p className="text-sm text-black/60 line-clamp-2">How virtual try-on technology is revolutionizing online shopping and reducing returns.</p>
-                  </div>
-                </Link>
-                <Link href="/blog/sustainable-fashion-tips" className="group block">
-                  <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
-                    <h3 className="font-bold text-black mb-2 group-hover:underline">Sustainable Fashion in the Digital Age</h3>
-                    <p className="text-sm text-black/60 line-clamp-2">Learn how digital wardrobes and AI styling are helping shoppers make more sustainable choices.</p>
+                    <h3 className="font-bold text-black mb-2 group-hover:underline">Best Outfit Planner Apps in 2026</h3>
+                    <p className="text-sm text-black/60 line-clamp-2">Compare the top apps to plan outfits, match new clothes with your wardrobe, and stop spending money on pieces you never wear.</p>
                   </div>
                 </Link>
               </div>

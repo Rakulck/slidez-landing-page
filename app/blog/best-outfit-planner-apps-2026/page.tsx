@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import BlogSlideAnimation from "@/components/ui/blog-slide-animation";
@@ -189,6 +190,24 @@ export default function BlogPost() {
                   <h4 className="text-xl font-bold text-black mb-3">Are outfit planner apps accurate?</h4>
                   <p className="text-black/70">Top apps in 2026 are accurate enough for day-to-day styling and purchase decisions, especially when combined with your saved looks and preferences.</p>
                 </div>
+              </div>
+            </div>
+
+            <div className="mt-16 pt-12 border-t border-black/10">
+              <h2 className="text-2xl font-bold text-black mb-8 tracking-tight">Recommended Readings</h2>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <Link href="/blog/best-ai-stylist-apps" className="group block">
+                  <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
+                    <h3 className="font-bold text-black mb-2 group-hover:underline">Best AI Stylist Apps in 2026</h3>
+                    <p className="text-sm text-black/60 line-clamp-2">Discover the top AI stylist apps that are changing how millions of people plan outfits and shop smarter.</p>
+                  </div>
+                </Link>
+                <Link href="/blog/best-virtual-closet-apps" className="group block">
+                  <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
+                    <h3 className="font-bold text-black mb-2 group-hover:underline">Best Virtual Closet Apps in 2026</h3>
+                    <p className="text-sm text-black/60 line-clamp-2">Turn your wardrobe into something you can actually use. Discover the top virtual closet apps for organizing and styling your wardrobe.</p>
+                  </div>
+                </Link>
               </div>
             </div>
           </article>
