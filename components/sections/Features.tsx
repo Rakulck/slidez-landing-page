@@ -235,7 +235,7 @@ const bentoCards = [
 
 export default function Features() {
   return (
-    <section id="features" className="bg-[#f5f4f2] py-28 px-6">
+    <section id="features" data-nav-theme="light-bg" className="bg-[#f5f4f2] py-28 px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

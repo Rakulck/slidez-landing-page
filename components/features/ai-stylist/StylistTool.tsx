@@ -12,8 +12,22 @@ import {
   executeMultiItemTryOnCallable,
   fetchOutfitProductsCallable,
   fetchImageBase64,
+  generateStylistComplimentCallable,
+  generateStylistClosingCallable,
   setupPersonPhoto,
 } from "@/lib/slidezCallableFunctions";
+import { WtwLoading, WtwResult, type WtwFlowScreen } from "@/components/features/ai-stylist/wtw";
+import {
+  FALLBACK_CLOSING,
+  FALLBACK_COMPLIMENT,
+  FALLBACK_MEGA,
+} from "@/components/features/ai-stylist/wtw/info-screen-timeline";
+import { inferBrandFromLink } from "@/components/features/ai-stylist/wtw/wtw-utils";
+import {
+  WTW_SCREEN_TRANSITION,
+  WTW_SCREEN_VARIANTS,
+} from "@/components/features/ai-stylist/wtw/wtw-motion";
+import { WTW_PICKER_MODELS } from "@/lib/preset-models";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
 
@@ -455,7 +469,33 @@ type ProductInfo = {
   name: string;
   imageUrl: string | null;
   productLink: string | null;
+  brand: string | null;
+  brandLogoUrl: string | null;
 };
+
+function extractProductFields(obj: Record<string, unknown>, category: string) {
+  const str = (k: string) => (typeof obj[k] === "string" ? (obj[k] as string) : null);
+  const productLink =
+    str("productLink") ?? str("link") ?? str("url") ?? str("sourceUrl") ?? str("productUrl") ?? str("shopUrl");
+  const brand =
+    str("brand") ??
+    str("brandName") ??
+    str("retailer") ??
+    str("merchant") ??
+    str("seller") ??
+    str("store") ??
+    inferBrandFromLink(productLink);
+  const brandLogoUrl =
+    str("brandLogoUrl") ?? str("brandLogo") ?? str("logoUrl") ?? str("retailerLogo") ?? str("merchantLogo");
+  return {
+    category,
+    name: str("name") ?? str("title") ?? str("productName") ?? category,
+    imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
+    productLink,
+    brand,
+    brandLogoUrl,
+  } satisfies ProductInfo;
+}
 
 function ProductCard({ item, onClick }: { item: ProductInfo; onClick?: () => void }) {
   const CardContent = (
@@ -530,6 +570,12 @@ type StylistToolProps = {
   chips?: string[];
   /** Override typewriter placeholder prompts. Defaults to DEFAULT_PROMPTS. */
   prompts?: string[];
+  /** Light editorial color scheme (white bg, dark text). */
+  lightTheme?: boolean;
+  /** Show model picker immediately; user picks prompt + model together before generating. */
+  alwaysShowPicker?: boolean;
+  /** Notifies parent of WTW light-flow screen changes (input / loading / result). */
+  onFlowScreenChange?: (screen: WtwFlowScreen) => void;
 };
 
 export default function StylistTool({
@@ -538,6 +584,9 @@ export default function StylistTool({
   submitLabel = "Generate Outfit Ideas",
   chips = DEFAULT_CHIPS,
   prompts = DEFAULT_PROMPTS,
+  lightTheme = false,
+  alwaysShowPicker = false,
+  onFlowScreenChange,
 }: StylistToolProps = {}) {
   const [gender, setGender] = useState<Gender>("Women");
   const [input, setInput] = useState("");
@@ -560,10 +609,16 @@ export default function StylistTool({
   const [tryOnError, setTryOnError] = useState<string | null>(null);
   const [selectedModelSrc, setSelectedModelSrc] = useState<string | null>(null);
   const [productItems, setProductItems] = useState<ProductInfo[]>([]);
+  const [stylistCompliment, setStylistCompliment] = useState(FALLBACK_COMPLIMENT);
+  const [stylistMega, setStylistMega] = useState(FALLBACK_MEGA);
+  const [stylistClosing, setStylistClosing] = useState(FALLBACK_CLOSING);
+  const [wtwCinematicActive, setWtwCinematicActive] = useState(false);
   const outfitFileRef = useRef<HTMLInputElement>(null);
   const photoFileRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const tryOnRunSeqRef = useRef(0);
+  const [pickerSelectedId, setPickerSelectedId] = useState<string | null>(null);
+  const [pickerSelectedSrc, setPickerSelectedSrc] = useState<string | null>(null);
 
   // Auto-show tooltip on mount, dismiss after 4s
   useEffect(() => {
@@ -590,6 +645,7 @@ export default function StylistTool({
     const prompt = CHIP_PROMPTS[chip] ?? chip;
     setInput(prompt);
     setActiveChip(chip);
+    if (alwaysShowPicker) return;
     setChipResults(null);
     setResults(false);
     setShowModelPicker(false);
@@ -608,6 +664,7 @@ export default function StylistTool({
 
   const handleSubmit = () => {
     if (!input.trim() || loading) return;
+    if (alwaysShowPicker) return;
     setQuery(input.trim());
     setChipResults(null);
     setActiveChip(null);
@@ -620,6 +677,12 @@ export default function StylistTool({
     setProductItems([]);
     setLoading(true);
     setTimeout(() => { setLoading(false); setShowModelPicker(true); }, 250);
+  };
+
+  const handleLightCTA = () => {
+    if (!input.trim() || !pickerSelectedSrc || loading) return;
+    setQuery(input.trim());
+    handleModelPick(gender, pickerSelectedSrc);
   };
 
   async function generateTryOn(args: { prompt: string; selectedGender: Gender; userProvidedItems?: Array<{ category: string; imageBase64: string; mimeType?: string }> }) {
@@ -636,7 +699,23 @@ export default function StylistTool({
     }
 
     setLoading(true);
+    setWtwCinematicActive(true);
     setTryOnStage("Analyzing your style...");
+    setStylistCompliment(FALLBACK_COMPLIMENT);
+    setStylistMega(FALLBACK_MEGA);
+    setStylistClosing(FALLBACK_CLOSING);
+
+    const promptText = args.prompt.trim();
+    void (async () => {
+      const [complimentRes, closingRes] = await Promise.all([
+        generateStylistComplimentCallable({ prompt: promptText }),
+        generateStylistClosingCallable({ prompt: promptText }),
+      ]);
+      if (runSeq !== tryOnRunSeqRef.current) return;
+      if (complimentRes) setStylistCompliment(complimentRes);
+      if (closingRes.mega) setStylistMega(closingRes.mega);
+      if (closingRes.closing) setStylistClosing(closingRes.closing);
+    })();
 
     try {
       const userId = await ensureAnonymousUserId();
@@ -688,25 +767,12 @@ export default function StylistTool({
         const category = (typeof r["category"] === "string" ? r["category"] : null) ?? "Product";
         const nested = Array.isArray(r["products"]) ? r["products"] : [];
         if (nested.length === 0) {
-          // flat structure fallback
-          const str = (k: string) => (typeof r[k] === "string" ? (r[k] as string) : null);
-          return [{
-            category,
-            name: str("name") ?? str("title") ?? str("productName") ?? category,
-            imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
-            productLink: str("productLink") ?? str("link") ?? str("url") ?? str("sourceUrl") ?? str("productUrl") ?? str("shopUrl"),
-          }];
+          return [extractProductFields(r, category)];
         }
         return nested.slice(0, 1).map((prod) => {
           const p = prod as Record<string, unknown>;
-          const str = (k: string) => (typeof p[k] === "string" ? (p[k] as string) : null);
           console.log("🔍 DEBUG: Raw product from backend in StylistTool:", p);
-          return {
-            category,
-            name: str("name") ?? str("title") ?? str("productName") ?? category,
-            imageUrl: str("imageUrl") ?? str("image") ?? str("thumbnail") ?? str("productImageUrl"),
-            productLink: str("productLink") ?? str("link") ?? str("url") ?? str("sourceUrl") ?? str("productUrl") ?? str("shopUrl"),
-          };
+          return extractProductFields(p, category);
         });
       });
       console.log("🔍 DEBUG: productInfos extracted", productInfos);
@@ -750,6 +816,7 @@ export default function StylistTool({
       setTryOnStage(null);
       setTryOnItems([]);
       setResults(true); // Show fallback UI if the pipeline fails.
+      setWtwCinematicActive(false);
     } finally {
       if (runSeq === tryOnRunSeqRef.current) setLoading(false);
     }
@@ -765,7 +832,16 @@ export default function StylistTool({
     setTryOnStage("Setting up model...");
     try {
       setSelectedModelSrc(modelSrc);
-      const { imageBase64, mimeType } = await fetchImageBase64(modelSrc);
+      const { imageBase64, mimeType } = modelSrc.startsWith("data:")
+        ? (() => {
+            const commaIdx = modelSrc.indexOf(",");
+            const mimeMatch = modelSrc.slice(0, commaIdx).match(/^data:([^;]+)/);
+            return {
+              imageBase64: commaIdx >= 0 ? modelSrc.slice(commaIdx + 1) : modelSrc,
+              mimeType: mimeMatch?.[1] || "image/jpeg",
+            };
+          })()
+        : await fetchImageBase64(modelSrc);
       const userId = await ensureAnonymousUserId();
       await setupPersonPhoto(userId, imageBase64, mimeType);
     } catch {
@@ -778,19 +854,16 @@ export default function StylistTool({
     photoFileRef.current?.click();
   };
 
+  const handleClearUploadedPhoto = () => {
+    setPickerSelectedId(null);
+    setPickerSelectedSrc(null);
+    setSelectedModelSrc(null);
+    if (photoFileRef.current) photoFileRef.current.value = "";
+  };
+
   const handlePhotoFileChange = async () => {
     const file_ = photoFileRef.current?.files?.[0] ?? null;
     if (!file_) return;
-
-    setShowModelPicker(false);
-    setTryOnItems([]);
-    setTryOnFinalImageUrl(null);
-    setTryOnStage(null);
-    setTryOnError(null);
-
-    const prompt = (query || input).trim();
-    setLoading(true);
-    setTryOnStage("Detecting gender from photo...");
 
     try {
       const dataUrl = await new Promise<string>((resolve, reject) => {
@@ -802,6 +875,35 @@ export default function StylistTool({
       const commaIdx = dataUrl.indexOf(",");
       const imageBase64 = commaIdx >= 0 ? dataUrl.slice(commaIdx + 1) : dataUrl;
       const mimeType = file_.type || "image/jpeg";
+
+      if (alwaysShowPicker) {
+        setPickerSelectedId("upload");
+        setPickerSelectedSrc(dataUrl);
+        setSelectedModelSrc(dataUrl);
+        setTryOnError(null);
+
+        void detectPersonGenderCallable({ imageBase64, mimeType })
+          .then((detected) => {
+            const mappedGender: Gender | null =
+              detected === "male" ? "Men" : detected === "female" ? "Women" : null;
+            if (mappedGender) setGender(mappedGender);
+          })
+          .catch(() => {
+            // Gender stays on current toggle; user can switch manually.
+          });
+
+        return;
+      }
+
+      setShowModelPicker(false);
+      setTryOnItems([]);
+      setTryOnFinalImageUrl(null);
+      setTryOnStage(null);
+      setTryOnError(null);
+
+      const prompt = (query || input).trim();
+      setLoading(true);
+      setTryOnStage("Detecting gender from photo...");
       setSelectedModelSrc(dataUrl);
 
       const detected = await detectPersonGenderCallable({ imageBase64, mimeType });
@@ -820,8 +922,10 @@ export default function StylistTool({
       setTryOnError(message);
       setTryOnStage(null);
       setResults(true);
+      setWtwCinematicActive(false);
     } finally {
-      setLoading(false);
+      if (photoFileRef.current) photoFileRef.current.value = "";
+      if (!alwaysShowPicker) setLoading(false);
     }
   };
 
@@ -843,10 +947,15 @@ export default function StylistTool({
     setShowOutfitDialog(false);
   };
 
+  const handleWtwSequenceComplete = useCallback(() => {
+    setWtwCinematicActive(false);
+  }, []);
+
   const handleReset = () => {
     setInput("");
     setResults(false);
     setLoading(false);
+    setWtwCinematicActive(false);
     setQuery("");
     setChipResults(null);
     setActiveChip(null);
@@ -860,70 +969,123 @@ export default function StylistTool({
     setOutfitImageMimeType("image/jpeg");
     setOutfitImagePreview(null);
     setProductItems([]);
+    setPickerSelectedId(null);
+    setPickerSelectedSrc(null);
     inputRef.current?.focus();
   };
 
-  const hasAnyResults = results || tryOnItems.length > 0 || chipResults !== null || showModelPicker;
+  const hasAnyResults = results || tryOnItems.length > 0 || chipResults !== null || (!alwaysShowPicker && showModelPicker);
+  const lightReady = alwaysShowPicker && !!input.trim() && !!pickerSelectedSrc;
 
-  return (
-    <div className="w-full max-w-2xl mx-auto">
+  const wtwLightFlow = lightTheme && alwaysShowPicker;
+  const wtwShowLoading = wtwLightFlow && wtwCinematicActive;
+  const wtwShowResult = wtwLightFlow && results && !wtwCinematicActive;
+  const wtwShowInput = !wtwShowLoading && !wtwShowResult;
 
-      {/* ── Input box (single line pill) ─────────────────────────── */}
+  const wtwModelName =
+    pickerSelectedId === "upload" || (selectedModelSrc?.startsWith("data:") ?? false)
+      ? "Your photo"
+      : WTW_PICKER_MODELS[gender].find(
+          (m) => m.id === pickerSelectedId || m.src === pickerSelectedSrc
+        )?.name ?? "Model";
+
+  useEffect(() => {
+    if (!wtwLightFlow || !onFlowScreenChange) return;
+    if (wtwShowResult) onFlowScreenChange("result");
+    else if (wtwShowLoading) onFlowScreenChange("loading");
+    else onFlowScreenChange("input");
+  }, [wtwLightFlow, wtwShowResult, wtwShowLoading, onFlowScreenChange]);
+
+  const renderInputSection = () => (
+    <>
+      {/* ── Input box ────────────────────────────────────────────── */}
       <div className="relative" style={{ isolation: "isolate" }}>
-        <div
-          className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 ${
-            hasAnyResults
-              ? "border-[rgba(192,192,192,0.3)] bg-[rgba(255,255,255,0.05)]"
-              : "border-[rgba(192,192,192,0.18)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.42)] focus-within:bg-[rgba(255,255,255,0.05)]"
-          }`}
-        >
-
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value);
-              if (results) setResults(false);
-            }}
-            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-            placeholder={placeholder}
-            className="flex-1 bg-transparent text-white text-base outline-none placeholder:text-white/25 min-w-0"
-            suppressHydrationWarning
-          />
-          <AnimatePresence>
-            {(input || hasAnyResults) && (
-              <motion.button
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                onClick={handleReset}
-                className="text-white/25 hover:text-white/50 transition-colors shrink-0"
-                aria-label="Clear input"
-              >
-                <X className="w-3.5 h-3.5" />
-              </motion.button>
-            )}
-          </AnimatePresence>
-          <button
-            onClick={handleSubmit}
-            disabled={!input.trim() || loading}
-            aria-label={submitLabel}
-            className="shrink-0 w-8 h-8 rounded-full gradient-silver flex items-center justify-center disabled:opacity-25 hover:opacity-85 transition-opacity"
+        {lightTheme ? (
+          /* ── Light-theme input ── */
+          <div className="flex items-center gap-2 rounded-2xl bg-white border border-black/25 pl-4 pr-1 py-1 shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)]">
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => { setInput(e.target.value); if (results) setResults(false); }}
+              onKeyDown={(e) => e.key === "Enter" && handleLightCTA()}
+              placeholder={placeholder || "What should I wear on a date..."}
+              className="flex-1 bg-transparent text-[#0d0d0d] text-[15px] outline-none placeholder:text-[#c0c0c0] min-w-0 py-2"
+              suppressHydrationWarning
+            />
+            <button
+              onClick={alwaysShowPicker ? handleLightCTA : handleSubmit}
+              disabled={alwaysShowPicker ? (!lightReady || loading) : (!input.trim() || loading)}
+              aria-label={submitLabel}
+              className="shrink-0 w-[47px] h-[47px] rounded-xl bg-[#0d0d0d] flex items-center justify-center hover:bg-[#222] disabled:bg-[#ccc] transition-colors"
+            >
+              {loading ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                  className="w-4 h-4 rounded-full border-2 border-white border-t-transparent"
+                />
+              ) : (
+                <Sparkles className="w-5 h-5 text-white" />
+              )}
+            </button>
+          </div>
+        ) : (
+          /* ── Dark-theme input ── */
+          <div
+            className={`flex items-center gap-3 px-5 py-3.5 rounded-full border transition-all duration-300 ${
+              hasAnyResults
+                ? "border-[rgba(192,192,192,0.3)] bg-[rgba(255,255,255,0.05)]"
+                : "border-[rgba(192,192,192,0.18)] bg-[rgba(255,255,255,0.03)] focus-within:border-[rgba(192,192,192,0.42)] focus-within:bg-[rgba(255,255,255,0.05)]"
+            }`}
           >
-            {loading ? (
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                className="w-3.5 h-3.5 rounded-full border-2 border-black border-t-transparent"
-              />
-            ) : (
-              <Sparkles className="w-3.5 h-3.5 text-black" />
-            )}
-          </button>
-        </div>
-        {/* Blinking cursor on typewriter */}
-        {!input && !results && !chipResults && (
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value);
+                if (results) setResults(false);
+              }}
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+              placeholder={placeholder}
+              className="flex-1 bg-transparent text-white text-base outline-none placeholder:text-white/25 min-w-0"
+              suppressHydrationWarning
+            />
+            <AnimatePresence>
+              {(input || hasAnyResults) && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  onClick={handleReset}
+                  className="text-white/25 hover:text-white/50 transition-colors shrink-0"
+                  aria-label="Clear input"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </motion.button>
+              )}
+            </AnimatePresence>
+            <button
+              onClick={handleSubmit}
+              disabled={!input.trim() || loading}
+              aria-label={submitLabel}
+              className="shrink-0 w-8 h-8 rounded-full gradient-silver flex items-center justify-center disabled:opacity-25 hover:opacity-85 transition-opacity"
+            >
+              {loading ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                  className="w-3.5 h-3.5 rounded-full border-2 border-black border-t-transparent"
+                />
+              ) : (
+                <Sparkles className="w-3.5 h-3.5 text-black" />
+              )}
+            </button>
+          </div>
+        )}
+        {/* Blinking cursor on typewriter (dark theme only) */}
+        {!lightTheme && !input && !results && !chipResults && (
           <span
             className="absolute left-[3.25rem] top-1/2 -translate-y-1/2 w-px h-4 pointer-events-none"
             style={{ marginLeft: `${placeholder.length * 7.2}px` }}
@@ -1024,18 +1186,25 @@ export default function StylistTool({
       </div>
 
       {/* ── Suggestion chips ─────────────────────────────────────── */}
-      <div className="flex flex-wrap justify-center gap-2 mt-4">
+      <div className="flex flex-wrap justify-center gap-2.5 mt-4">
         {chips.map((chip) => (
           <button
             key={chip}
             onClick={() => handleChip(chip)}
-            className={`px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 ${
-              activeChip === chip
-                ? "border-[rgba(192,192,192,0.5)] bg-[rgba(192,192,192,0.12)] text-white"
-                : "border-[rgba(192,192,192,0.15)] text-white/40 hover:border-[rgba(192,192,192,0.3)] hover:text-white/70"
-            }`}
+            className={lightTheme
+              ? `px-4 py-2 rounded-full border text-sm font-medium transition-all duration-200 ${
+                  activeChip === chip
+                    ? "border-[#0d0d0d] bg-[#0d0d0d] text-white"
+                    : "bg-white border-2 border-[#b8b8b8] text-[#555] shadow-[0_1px_3px_rgba(0,0,0,0.06)] hover:border-[#888] hover:text-[#111] hover:shadow-md"
+                }`
+              : `px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 ${
+                  activeChip === chip
+                    ? "border-[rgba(192,192,192,0.5)] bg-[rgba(192,192,192,0.12)] text-white"
+                    : "border-[rgba(192,192,192,0.15)] text-white/40 hover:border-[rgba(192,192,192,0.3)] hover:text-white/70"
+                }`
+            }
           >
-            {CHIP_EMOJI[chip] && (
+            {!lightTheme && CHIP_EMOJI[chip] && (
               <span className="text-base leading-none">{CHIP_EMOJI[chip]}</span>
             )}
             {chip}
@@ -1043,7 +1212,220 @@ export default function StylistTool({
         ))}
       </div>
 
+      {/* ── Light model picker (always visible in light/alwaysShowPicker mode) ── */}
+      {alwaysShowPicker && !loading && !results && tryOnItems.length === 0 && (
+        <div className="mt-5 sm:mt-6 bg-white border-2 border-[#b8b8b8] rounded-[22px] p-5 sm:p-6 shadow-[0_12px_40px_rgba(0,0,0,0.08),0_2px_8px_rgba(0,0,0,0.04)]">
+          <input ref={photoFileRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoFileChange} />
+          {/* Header */}
+          <div className="flex items-center justify-between mb-4 sm:mb-5">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#aaa]">Choose your model</p>
+            <div className="flex items-center bg-[#f0f0f0] rounded-full p-1 gap-0.5">
+              {(["Women", "Men"] as const).map((g) => (
+                <button
+                  key={g}
+                  onClick={() => { setGender(g); setPickerSelectedId(null); setPickerSelectedSrc(null); }}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                    gender === g ? "bg-[#0d0d0d] text-white shadow-sm" : "text-[#888] hover:text-[#444]"
+                  }`}
+                >
+                  {g}
+                </button>
+              ))}
+            </div>
+          </div>
+          {/* 3-col model grid */}
+          <div className="grid grid-cols-3 gap-3 sm:gap-3.5">
+            {/* Upload card */}
+            <div
+              className={`relative h-[112px] sm:h-[128px] md:h-[142px] rounded-2xl border-[1.5px] overflow-hidden transition-all duration-200 ${
+                pickerSelectedId === "upload" && pickerSelectedSrc
+                  ? "border-[#0d0d0d] shadow-[0_0_0_2.5px_#0d0d0d,0_14px_26px_-16px_rgba(20,20,20,0.35)]"
+                  : pickerSelectedId === "upload"
+                    ? "border-[#0d0d0d] border-dashed bg-white"
+                    : "border-dashed border-black/[0.12] bg-[#fafafa] hover:border-black/20"
+              }`}
+            >
+              {pickerSelectedId === "upload" && pickerSelectedSrc ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => { setPickerSelectedId("upload"); handlePhotoUpload(); }}
+                    className="absolute inset-0 w-full h-full cursor-pointer"
+                    aria-label="Replace uploaded photo"
+                  >
+                    <img
+                      src={pickerSelectedSrc}
+                      alt="Your uploaded photo"
+                      className="absolute inset-0 w-full h-full object-cover object-top"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 px-2.5 sm:px-3 pb-2 sm:pb-2.5 pt-5 sm:pt-6 bg-gradient-to-t from-white/95 to-transparent">
+                      <p className="text-[12px] sm:text-[13px] font-semibold text-[#0d0d0d] leading-tight">Your photo</p>
+                    </div>
+                    <div className="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-[#0d0d0d] flex items-center justify-center z-10">
+                      <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                        <path d="M1.5 4.2L3.3 6L6.7 2.2" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleClearUploadedPhoto}
+                    aria-label="Remove uploaded photo"
+                    className="absolute top-2 right-2 z-20 w-6 h-6 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => { setPickerSelectedId("upload"); handlePhotoUpload(); }}
+                  className="w-full h-full flex flex-col items-center justify-center gap-2 sm:gap-2.5"
+                >
+                  <div className={`w-10 h-10 rounded-full border flex items-center justify-center ${
+                    pickerSelectedId === "upload" ? "border-[#0d0d0d]" : "border-[#ccc]"
+                  }`}>
+                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                      <path d="M8 11V3M5 6L8 3L11 6M3 12.5H13" stroke={pickerSelectedId === "upload" ? "#0d0d0d" : "#999"} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <span className={`text-[12px] sm:text-[13px] font-medium ${pickerSelectedId === "upload" ? "text-[#0d0d0d]" : "text-[#888]"}`}>
+                    Upload your photo
+                  </span>
+                </button>
+              )}
+            </div>
+            {/* AI model cards */}
+            {WTW_PICKER_MODELS[gender].map((model) => (
+              <button
+                key={model.id}
+                onClick={() => { setPickerSelectedId(model.id); setPickerSelectedSrc(model.src); }}
+                className={`relative h-[112px] sm:h-[128px] md:h-[142px] rounded-2xl overflow-hidden transition-all duration-200 ${
+                  pickerSelectedId === model.id
+                    ? "shadow-[0_0_0_2.5px_#0d0d0d,0_14px_26px_-16px_rgba(20,20,20,0.35)]"
+                    : "border border-black/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.06)] hover:border-black/15 hover:shadow-[0_6px_20px_rgba(0,0,0,0.10)]"
+                }`}
+              >
+                <Image src={model.src} alt={model.name} fill unoptimized className="object-cover object-top" sizes="200px" />
+                <div className="absolute bottom-0 left-0 right-0 px-2.5 sm:px-3 pb-2 sm:pb-2.5 pt-5 sm:pt-6 bg-gradient-to-t from-white/95 to-transparent">
+                  <p className="text-[12px] sm:text-[13px] font-semibold text-[#0d0d0d] leading-tight">{model.name}</p>
+                </div>
+                {pickerSelectedId === model.id && (
+                  <div className="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-[#0d0d0d] flex items-center justify-center z-10">
+                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                      <path d="M1.5 4.2L3.3 6L6.7 2.2" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── CTA + footer (light mode, before generation) ─────────── */}
+      {alwaysShowPicker && !loading && !results && tryOnItems.length === 0 && (
+        <>
+          <div className="flex justify-center mt-5 sm:mt-6">
+            <button
+              onClick={handleLightCTA}
+              disabled={!lightReady}
+              className={`px-10 py-3.5 sm:py-4 rounded-full text-sm font-semibold transition-all duration-300 min-w-[260px] ${
+                lightReady
+                  ? "bg-[#0d0d0d] text-white hover:bg-[#333] hover:shadow-lg border border-transparent"
+                  : "bg-white border border-black/25 text-[#aaa] cursor-not-allowed shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)]"
+              }`}
+            >
+              {submitLabel}
+            </button>
+          </div>
+          <p className="text-center text-[9.5px] uppercase tracking-widest text-[#ccc] mt-3 sm:mt-4">
+            Powered by Slidez AI &middot; Free to use
+          </p>
+        </>
+      )}
+
+    </>
+  );
+
+  return (
+    <div className={`w-full mx-auto ${wtwLightFlow ? "" : wtwShowLoading || wtwShowResult ? "max-w-4xl" : "max-w-2xl"}`}>
+
+      {wtwLightFlow ? (
+        <div
+          className={`relative w-full ${
+            wtwShowLoading
+              ? "flex items-center justify-center w-full min-h-[min(560px,calc(100vh-220px))]"
+              : wtwShowResult
+                ? "min-h-[640px] pt-2"
+                : ""
+          }`}
+        >
+          <AnimatePresence mode="wait">
+            {wtwShowInput && (
+              <motion.div
+                key="wtw-input"
+                initial={WTW_SCREEN_VARIANTS.initial}
+                animate={WTW_SCREEN_VARIANTS.animate}
+                exit={WTW_SCREEN_VARIANTS.exit}
+                transition={WTW_SCREEN_TRANSITION}
+                className="w-full"
+              >
+                {renderInputSection()}
+              </motion.div>
+            )}
+
+            {wtwShowLoading && (
+              <motion.div
+                key="wtw-loading"
+                initial={WTW_SCREEN_VARIANTS.initial}
+                animate={WTW_SCREEN_VARIANTS.animate}
+                exit={WTW_SCREEN_VARIANTS.exit}
+                transition={WTW_SCREEN_TRANSITION}
+                className="w-full h-full flex items-center justify-center"
+              >
+                <WtwLoading
+                  query={query || input}
+                  gender={gender}
+                  sessionActive={wtwCinematicActive}
+                  apiDone={!loading}
+                  productItems={productItems}
+                  compliment={stylistCompliment}
+                  megaText={stylistMega}
+                  closingLine={stylistClosing}
+                  onSequenceComplete={handleWtwSequenceComplete}
+                />
+              </motion.div>
+            )}
+
+            {wtwShowResult && (
+              <motion.div
+                key="wtw-result"
+                initial={WTW_SCREEN_VARIANTS.initial}
+                animate={WTW_SCREEN_VARIANTS.animate}
+                exit={WTW_SCREEN_VARIANTS.exit}
+                transition={WTW_SCREEN_TRANSITION}
+                className="w-full"
+              >
+                <WtwResult
+                  query={query}
+                  gender={gender}
+                  modelName={wtwModelName}
+                  tryOnFinalImageUrl={tryOnFinalImageUrl}
+                  productItems={productItems}
+                  tryOnError={tryOnError}
+                  onRestart={handleReset}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      ) : (
+        renderInputSection()
+      )}
+
       {/* ── Model picker (shown after submit, before results) ────── */}
+      {!alwaysShowPicker && (
       <AnimatePresence>
         {showModelPicker && (
           <motion.div
@@ -1131,16 +1513,7 @@ export default function StylistTool({
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
-                    {({
-                      Women: [
-                        { id: "blonde-woman",   src: "/models/blonde-woman.png"   },
-                        { id: "brunette-woman", src: "/models/brunette-woman.png" },
-                      ],
-                      Men: [
-                        { id: "blonde-white-man", src: "/models/blonde-white-man.png" },
-                        { id: "black-man",        src: "/models/black-man.png"        },
-                      ],
-                    }[pickerGender ?? "Men"]).map((model, i) => (
+                    {WTW_PICKER_MODELS[pickerGender ?? "Men"].map((model, i) => (
                       <motion.button
                         key={model.id}
                         initial={{ opacity: 0, y: 10 }}
@@ -1152,7 +1525,7 @@ export default function StylistTool({
                         className="group relative rounded-xl overflow-hidden border border-[rgba(192,192,192,0.12)] hover:border-[rgba(192,192,192,0.45)] transition-all duration-200 cursor-pointer"
                       >
                         <div className="relative w-full h-[160px]">
-                          <Image src={model.src} alt="model" fill className="object-cover object-top" sizes="160px" />
+                          <Image src={model.src} alt="model" fill unoptimized className="object-cover object-top" sizes="160px" />
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" />
                         </div>
                       </motion.button>
@@ -1178,9 +1551,10 @@ export default function StylistTool({
           </motion.div>
         )}
       </AnimatePresence>
+      )}
 
       <AnimatePresence>
-        {loading && !showModelPicker && !results && (
+        {loading && !showModelPicker && !results && !wtwLightFlow && (
           <motion.div
             key="loading-block"
             className="mt-6"
@@ -1369,13 +1743,13 @@ export default function StylistTool({
 
       {/* ── Custom query results ──────────────────────────────────── */}
       <AnimatePresence>
-        {results && (
+        {results && !wtwLightFlow && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8"
+            className={lightTheme ? "mt-8 bg-[#0d0d0d] rounded-3xl p-6" : "mt-8"}
           >
             <p className="text-xs text-white/35 uppercase tracking-widest mb-4 font-medium">
               {gender}&rsquo;s outfit ideas for &ldquo;{query}&rdquo;
@@ -1484,7 +1858,7 @@ export default function StylistTool({
         )}
       </AnimatePresence>
 
-      {!hasAnyResults && !loading && (
+      {!hasAnyResults && !loading && !alwaysShowPicker && (
         <p className="text-center text-white/20 text-xs mt-5">
           Powered by Slidez AI &middot; Free to use
         </p>

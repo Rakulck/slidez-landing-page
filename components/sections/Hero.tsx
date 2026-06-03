@@ -196,7 +196,7 @@ export default function Hero() {
       if (payload.avatar === "upload" && payload.uploadedFile) {
         setSelectedModelSrc(URL.createObjectURL(payload.uploadedFile));
       } else {
-        setSelectedModelSrc(payload.modelSrc || "/models/brunette-white-man.png");
+        setSelectedModelSrc(payload.modelSrc || "/models/onboarding-man-1.png");
       }
 
       void (async () => {
@@ -230,7 +230,7 @@ export default function Hero() {
             if (!selectedGender) throw new Error("Could not detect gender from your photo. Please try a clearer photo or use a preset model.");
           } else {
             // Preset model images from the public folder
-            const src = payload.modelSrc || "/models/brunette-white-man.png";
+            const src = payload.modelSrc || "/models/onboarding-man-1.png";
             ({ imageBase64: personImageBase64, mimeType: personMimeType } = await fetchImageBase64(src));
           }
 
@@ -329,7 +329,7 @@ export default function Hero() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
-    <section aria-label="Slidez AI Stylist hero" className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-0 overflow-visible bg-black">
+    <section data-nav-theme="dark-bg" aria-label="Slidez AI Stylist hero" className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-0 overflow-visible bg-black">
       {/* ── Content ─────────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 28 }}

@@ -161,7 +161,7 @@ export default function Page() {
         <Navbar />
 
         {/* ── Hero ──────────────────────────────────────────── */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-10 bg-[#080808]">
+        <section data-nav-theme="dark-bg" className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-10 bg-[#080808]">
           <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(192,192,192,0.06) 0%, transparent 70%)" }} />
           <div className="relative z-10 max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">AI Stylist</p>
@@ -175,7 +175,7 @@ export default function Page() {
         </section>
 
         {/* ── Context ────────────────────────────────────────── */}
-        <section className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
           <div className="max-w-2xl mx-auto text-center space-y-5 text-black/55 text-lg leading-relaxed">
             <p>
               Traditional styling advice costs money and time. A personal stylist charges hundreds per session and isn&apos;t available when you&apos;re standing in front of your wardrobe at 7am wondering what to wear. An AI stylist removes that friction entirely.
@@ -190,7 +190,7 @@ export default function Page() {
         </section>
 
         {/* ── How It Works ──────────────────────────────────── */}
-        <section className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Step by Step</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">How AI Styling Works</h2>
@@ -209,7 +209,7 @@ export default function Page() {
         </section>
 
         {/* ── Comparison ────────────────────────────────────── */}
-        <section className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Comparison</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-5 text-center">AI Stylist vs. Personal Stylist</h2>
@@ -236,7 +236,7 @@ export default function Page() {
         </section>
 
         {/* ── CTA ───────────────────────────────────────────── */}
-        <section className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6">
+        <section data-nav-theme="dark-bg" className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6">
           <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(192,192,192,0.06) 0%, transparent 70%)" }} />
           <div className="relative z-10 max-w-2xl mx-auto text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">Try It Free</p>
@@ -252,7 +252,7 @@ export default function Page() {
         </section>
 
         {/* ── FAQ ───────────────────────────────────────────── */}
-        <section className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
           <div className="max-w-2xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">FAQ</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">AI Stylist — Frequently Asked Questions</h2>
@@ -274,7 +274,7 @@ export default function Page() {
         </section>
 
         {/* ── Related ───────────────────────────────────────── */}
-        <section className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6">
+        <section data-nav-theme="dark-bg" className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-4">Keep Exploring</p>

@@ -72,6 +72,48 @@ export async function fetchOutfitProductsCallable(args: {
   return res.data as unknown;
 }
 
+export async function generateStylistComplimentCallable(args: {
+  prompt: string;
+}): Promise<string> {
+  try {
+    const callable = httpsCallable(functions, "generateStylistCompliment");
+    const res = await callable(args);
+    const data = res.data as { compliment?: string; text?: string };
+    const text = data?.compliment ?? data?.text;
+    return typeof text === "string" && text.trim() ? text.trim() : "";
+  } catch {
+    return "";
+  }
+}
+
+export async function generateStylistClosingCallable(args: {
+  prompt: string;
+}): Promise<{ mega: string; closing: string }> {
+  try {
+    const callable = httpsCallable(functions, "generateStylistClosing");
+    const res = await callable(args);
+    const data = res.data as {
+      mega?: string;
+      megaText?: string;
+      closing?: string;
+      closingLine?: string;
+      line1?: string;
+      line2?: string;
+    };
+    if (typeof data?.line1 === "string" && typeof data?.line2 === "string") {
+      return { mega: data.line1.trim(), closing: data.line2.trim() };
+    }
+    const mega = data?.mega ?? data?.megaText ?? "";
+    const closing = data?.closing ?? data?.closingLine ?? "";
+    return {
+      mega: typeof mega === "string" ? mega.trim() : "",
+      closing: typeof closing === "string" ? closing.trim() : "",
+    };
+  } catch {
+    return { mega: "", closing: "" };
+  }
+}
+
 export async function executeMultiItemTryOnCallable(args: {
   recommendations: unknown[];
   userId: string;

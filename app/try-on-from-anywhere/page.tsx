@@ -158,7 +158,7 @@ export default function Page() {
         <Navbar />
 
         {/* ── Hero ──────────────────────────────────────────── */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-10 bg-[#080808]">
+        <section data-nav-theme="dark-bg" className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-10 bg-[#080808]">
           <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(192,192,192,0.06) 0%, transparent 70%)" }} />
           <div className="relative z-10 max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">Virtual Try-On</p>
@@ -172,7 +172,7 @@ export default function Page() {
         </section>
 
         {/* ── Context ────────────────────────────────────────── */}
-        <section className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
           <div className="max-w-2xl mx-auto text-center space-y-5 text-black/55 text-lg leading-relaxed">
             <p>
               You are scrolling Instagram, see an outfit on someone, and want to know if it will look as good on you. Until now, the only option was to find the item, buy it, try it on, and hope for the best.
@@ -187,7 +187,7 @@ export default function Page() {
         </section>
 
         {/* ── How It Works ──────────────────────────────────── */}
-        <section className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Step by Step</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">How to Try On from Any Source</h2>
@@ -206,7 +206,7 @@ export default function Page() {
         </section>
 
         {/* ── Works With ────────────────────────────────────── */}
-        <section className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Sources</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-5 text-center">Works with Any Source</h2>
@@ -223,7 +223,7 @@ export default function Page() {
         </section>
 
         {/* ── CTA ───────────────────────────────────────────── */}
-        <section className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6">
+        <section data-nav-theme="dark-bg" className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6">
           <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(192,192,192,0.06) 0%, transparent 70%)" }} />
           <div className="relative z-10 max-w-2xl mx-auto text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">Try It Free</p>
@@ -239,7 +239,7 @@ export default function Page() {
         </section>
 
         {/* ── FAQ ───────────────────────────────────────────── */}
-        <section className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
           <div className="max-w-2xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">FAQ</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">Frequently Asked Questions</h2>
@@ -261,7 +261,7 @@ export default function Page() {
         </section>
 
         {/* ── Related ───────────────────────────────────────── */}
-        <section className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6">
+        <section data-nav-theme="dark-bg" className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-4">Keep Exploring</p>

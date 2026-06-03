@@ -229,3 +229,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes wtw-dot-bounce {
+  0%,
+  70%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-wtw-dot-bounce {
+  animation: wtw-dot-bounce 1.8s ease-in-out infinite;
+}

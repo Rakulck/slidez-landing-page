@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
-import StylistTool from "@/components/features/ai-stylist/StylistTool";
+import StylistToolHeroSection, { StylistToolSection } from "@/components/features/ai-stylist/StylistToolHeroSection";
 import BrandsStrip from "@/components/sections/BrandsStrip";
 import { ArrowRight, Camera, Sparkles, ShoppingBag } from "lucide-react";
 
@@ -175,7 +175,7 @@ function GlowOrb() {
 export default function WhatToWearTemplate() {
   const [externalPrompt, setExternalPrompt] = useState("");
   const [externalPromptKey, setExternalPromptKey] = useState(0);
-  const heroRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLHeadingElement>(null);
 
   const fillPrompt = (prompt: string) => {
     setExternalPrompt(prompt);
@@ -190,42 +190,24 @@ export default function WhatToWearTemplate() {
       {/* ─────────────────────────────────────────────────────────
           1. HERO
       ───────────────────────────────────────────────────────── */}
-      <section
-        aria-label="What should you wear"
-        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-24 bg-[#080808]"
-      >
-        <GlowOrb />
-
-        <div className="relative z-10 w-full max-w-3xl mx-auto" ref={heroRef}>
-          <h1
-            style={{
-              fontSize: "clamp(2.5rem, 6vw, 4rem)",
-              lineHeight: "1.05",
-              letterSpacing: "-0.02em",
-            }}
-            className="font-bold mb-10"
-          >
-            <span className="gradient-silver-text">What Should I Wear Today?</span>
-          </h1>
-
-          <StylistTool
-            externalPrompt={externalPrompt}
-            externalPromptKey={externalPromptKey}
-            submitLabel="Find My Outfit"
-            chips={WHAT_TO_WEAR_CHIPS}
-            prompts={WHAT_TO_WEAR_PROMPTS}
-          />
-
-          <h2 className="text-lg text-white/45 max-w-md mx-auto mt-12 leading-relaxed">
-            Not sure what to wear today? Get AI outfit ideas tailored to your style, mood, and occasion. Simply describe what you need, and the AI outfit planner will suggest the perfect look instantly.
-          </h2>
-        </div>
-      </section>
+      <StylistToolHeroSection
+        ariaLabel="What should you wear"
+        eyebrow="AI Stylist · Virtual Try-On"
+        title="What should I wear today?"
+        subtitle="Describe the moment. Your stylist pulls a look and tries it on your model — instantly."
+        titleRef={heroRef}
+        externalPrompt={externalPrompt}
+        externalPromptKey={externalPromptKey}
+        submitLabel="Style me"
+        chips={WHAT_TO_WEAR_CHIPS}
+        prompts={WHAT_TO_WEAR_PROMPTS}
+      />
 
       {/* ─────────────────────────────────────────────────────────
           2. OUTFIT IDEAS YOU CAN TRY
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="Outfit ideas you can try"
         className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
       >
@@ -278,6 +260,7 @@ export default function WhatToWearTemplate() {
           3. HOW SLIDEZ HELPS
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="How Slidez helps you decide"
         className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-20 px-6"
       >
@@ -317,6 +300,7 @@ export default function WhatToWearTemplate() {
           4. BRANDS
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="Brands you can style with"
         className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-6"
       >
@@ -332,6 +316,7 @@ export default function WhatToWearTemplate() {
           5. OCCASION LIBRARY
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="What to wear for every occasion"
         className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-20 px-6"
       >
@@ -380,6 +365,7 @@ export default function WhatToWearTemplate() {
           6. SECOND INPUT — CREATE YOUR LOOK
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="dark-bg"
         aria-label="Create your look"
         className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6"
       >
@@ -396,10 +382,11 @@ export default function WhatToWearTemplate() {
             Describe where you&rsquo;re going or the style you want.
           </p>
 
-          <StylistTool
+          <StylistToolSection
             submitLabel="Find My Outfit"
             chips={WHAT_TO_WEAR_CHIPS}
             prompts={WHAT_TO_WEAR_PROMPTS}
+            className="w-full max-w-[800px] mx-auto"
           />
         </div>
       </section>
@@ -408,6 +395,7 @@ export default function WhatToWearTemplate() {
           7. TRY WITH SLIDEZ CTA
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="Try with Slidez"
         className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6"
       >
@@ -455,6 +443,7 @@ export default function WhatToWearTemplate() {
           8. FAQ
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="What to wear FAQ"
         className="relative z-[65] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
       >
@@ -489,6 +478,7 @@ export default function WhatToWearTemplate() {
 
       {/* ── Related Pages ───────────────────────────────────────── */}
       <section
+        data-nav-theme="dark-bg"
         aria-label="Related outfit idea pages"
         className="relative z-[70] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6"
       >

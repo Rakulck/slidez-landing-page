@@ -14,7 +14,7 @@ const goals = [
 
 export default function CTA() {
   return (
-    <section className="relative bg-[#f5f4f2] py-28 px-6 border-t border-black/[0.06] overflow-hidden">
+    <section data-nav-theme="light-bg" className="relative bg-[#f5f4f2] py-28 px-6 border-t border-black/[0.06] overflow-hidden">
       {/* Decorative background rings */}
       <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="w-[600px] h-[600px] rounded-full border border-black/[0.04]" />

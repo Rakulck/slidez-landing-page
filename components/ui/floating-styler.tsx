@@ -113,7 +113,7 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
           avatar: "model-man",
           chosenGender: "Men",
           uploadedFile: null,
-          modelSrc: "/models/brunette-white-man.png"
+          modelSrc: "/models/onboarding-man-1.png"
         });
       }, 300);
     });
@@ -128,7 +128,7 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
     clearTimer();
     setChosenAvatar(type);
     setChosenGender(type === "model-man" ? "Men" : "Women");
-    const src = type === "model-man" ? "/models/brunette-white-man.png" : "/models/brunette-woman.png";
+    const src = type === "model-man" ? "/models/onboarding-man-1.png" : "/models/onboarding-woman-1.png";
     setTimeout(() => {
       onComplete({
         avatar: type,
@@ -273,8 +273,8 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
                       {/* Model image cards */}
                       <div className="grid grid-cols-2 gap-2.5">
                         {[
-                          { type: "model-man" as const, src: "/models/brunette-white-man.png", label: "Male Model" },
-                          { type: "model-woman" as const, src: "/models/brunette-woman.png", label: "Female Model" },
+                          { type: "model-man" as const, src: "/models/onboarding-man-1.png", label: "Male Model" },
+                          { type: "model-woman" as const, src: "/models/onboarding-woman-1.png", label: "Female Model" },
                         ].map(({ type, src, label }) => (
                           <motion.button
                             key={type}
@@ -288,6 +288,7 @@ export function FloatingStyler({ visible, onComplete }: FloatingStylerProps) {
                                 src={src}
                                 alt={label}
                                 fill
+                                unoptimized
                                 className="object-cover object-top"
                                 sizes="120px"
                               />

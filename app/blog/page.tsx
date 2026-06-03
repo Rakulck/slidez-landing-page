@@ -16,7 +16,7 @@ export default function BlogListingPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-32 bg-[#080808] px-6 text-center overflow-hidden">
+      <section data-nav-theme="dark-bg" className="relative pt-40 pb-32 bg-[#080808] px-6 text-center overflow-hidden">
         <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(192,192,192,0.05) 0%, transparent 70%)" }} />
         <div className="max-w-4xl mx-auto relative z-10">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40 mb-6">Articles & Guides</p>
@@ -30,7 +30,7 @@ export default function BlogListingPage() {
       </section>
 
       {/* Content Section */}
-      <section className="relative z-20 -mt-10 bg-[#fafafa] rounded-t-[2.5rem] px-6 py-16 md:py-24 shadow-sm border-t border-black/5">
+      <section data-nav-theme="light-bg" className="relative z-20 -mt-10 bg-[#fafafa] rounded-t-[2.5rem] px-6 py-16 md:py-24 shadow-sm border-t border-black/5">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             

@@ -24,8 +24,8 @@ const config = createOutfitPageConfig("Date Night", {
   ogDescription:
     "Get instant date night outfit ideas with the Slidez AI Stylist. From dinner looks to cocktail outfits.",
 
-  heroH1:
-    "Date Night Outfit Ideas: AI Date Night Outfit Planner",
+  heroEyebrow: "Date Night Outfit Ideas:",
+  heroH1: "AI Date Night Outfit Planner",
   heroSubtext:
     "Find the best date night outfit ideas for any plan, from intimate dinners to late night cocktails. Describe your plans and let Slidez AI create your perfect look.",
 

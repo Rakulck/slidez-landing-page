@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
-import StylistTool from "@/components/features/ai-stylist/StylistTool";
+import StylistToolHeroSection, { StylistToolSection } from "@/components/features/ai-stylist/StylistToolHeroSection";
 import { ArrowRight, Camera, Sparkles, ShoppingBag } from "lucide-react";
 import BrandsStrip from "@/components/sections/BrandsStrip";
 
@@ -185,7 +185,7 @@ function GlowOrb() {
 export default function OutfitIdeasHubTemplate() {
   const [externalPrompt, setExternalPrompt]     = useState("");
   const [externalPromptKey, setExternalPromptKey] = useState(0);
-  const heroRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLHeadingElement>(null);
 
   const fillPrompt = (prompt: string) => {
     setExternalPrompt(prompt);
@@ -200,32 +200,28 @@ export default function OutfitIdeasHubTemplate() {
       {/* ─────────────────────────────────────────────────────────
           1. HERO — Tool First
       ───────────────────────────────────────────────────────── */}
-      <section
-        aria-label="AI outfit generator"
-        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-24 bg-black"
-      >
-        <div className="relative z-10 w-full max-w-3xl mx-auto" ref={heroRef}>
-          <h1 style={{ fontSize: '4rem', lineHeight: '1.05', letterSpacing: '-0.02em' }} className="font-bold mb-5">
-            <span className="gradient-silver-text">AI Outfit Generator - Outfit Ideas for Any Occasion</span>
-          </h1>
-
-          <p className="text-lg text-white/45 max-w-md mx-auto mb-12 leading-relaxed">
+      <StylistToolHeroSection
+        ariaLabel="AI outfit generator"
+        eyebrow="AI Outfit Generator"
+        title="Outfit Ideas for Any Occasion"
+        subtitle={
+          <>
             Describe your style preferences or occasion.{" "}
-            <span className="text-white/65">Slidez AI Stylist</span> creates outfit ideas instantly, designed to match your taste and make getting ready easier.
-          </p>
-
-          {/* StylistTool includes the input + chips (sections 1 & 2) */}
-          <StylistTool
-            externalPrompt={externalPrompt}
-            externalPromptKey={externalPromptKey}
-          />
-        </div>
-      </section>
+            <span className="text-black/55">Slidez AI Stylist</span> creates outfit ideas instantly, designed to match your taste and make getting ready easier.
+          </>
+        }
+        titleRef={heroRef}
+        externalPrompt={externalPrompt}
+        externalPromptKey={externalPromptKey}
+        submitLabel="Style me"
+        maxWidthClassName="max-w-3xl"
+      />
 
       {/* ─────────────────────────────────────────────────────────
           3. GENERATED OUTFIT EXAMPLES
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="Example AI-generated outfits"
         className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
       >
@@ -286,6 +282,7 @@ export default function OutfitIdeasHubTemplate() {
           4. OUTFIT IDEA LIBRARY
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="Outfit idea library"
         className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-20 px-6"
       >
@@ -355,6 +352,7 @@ export default function OutfitIdeasHubTemplate() {
           5. SECOND TOOL SECTION
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="dark-bg"
         aria-label="Create your outfit with AI"
         className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6"
       >
@@ -371,8 +369,7 @@ export default function OutfitIdeasHubTemplate() {
             Type anything — occasion, vibe, or a single item you want to build around.
           </p>
 
-          {/* Independent tool instance — no external prompt injection */}
-          <StylistTool />
+          <StylistToolSection submitLabel="Style me" className="w-full max-w-[800px] mx-auto" />
         </div>
       </section>
 
@@ -380,6 +377,7 @@ export default function OutfitIdeasHubTemplate() {
           6. HOW SLIDEZ HELPS
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="How Slidez helps"
         className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
       >
@@ -419,6 +417,7 @@ export default function OutfitIdeasHubTemplate() {
           7. TRY WITH SLIDEZ CTA
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="dark-bg"
         aria-label="Try with Slidez"
         className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6"
       >
@@ -462,6 +461,7 @@ export default function OutfitIdeasHubTemplate() {
           8. SHORT FAQ
       ───────────────────────────────────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="AI outfit generator FAQ"
         className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-20 px-6"
       >
@@ -496,6 +496,7 @@ export default function OutfitIdeasHubTemplate() {
 
       {/* ── Popular Outfit Ideas (SEO) ───────────────────────────── */}
       <section
+        data-nav-theme="light-bg"
         aria-label="Popular outfit ideas"
         className="relative z-[65] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
       >

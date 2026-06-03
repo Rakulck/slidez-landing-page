@@ -166,7 +166,7 @@ export default function TermsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[#080808] pt-28 pb-24 px-6">
+      <main data-nav-theme="dark-bg" className="min-h-screen bg-[#080808] pt-28 pb-24 px-6">
         <div className="max-w-2xl mx-auto">
 
           {/* Header */}

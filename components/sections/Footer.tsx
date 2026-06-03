@@ -28,7 +28,7 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[#080808] border-t border-white/[0.06] px-6 pt-16 pb-10 overflow-hidden">
+    <footer data-nav-theme="dark-bg" className="relative bg-[#080808] border-t border-white/[0.06] px-6 pt-16 pb-10 overflow-hidden">
       {/* Background signature logo */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
         <Image

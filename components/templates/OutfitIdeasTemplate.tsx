@@ -1,6 +1,6 @@
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
-import StylistTool from "@/components/features/ai-stylist/StylistTool";
+import StylistToolHeroSection from "@/components/features/ai-stylist/StylistToolHeroSection";
 import { ArrowRight, Sparkles, Zap, ShieldCheck } from "lucide-react";
 import {
   type OutfitPageConfig,
@@ -60,31 +60,18 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
       <main className="overflow-hidden">
         <Navbar />
 
-        {/* ── Hero + Tool (dark) ─────────────────────────────── */}
-        <section
-          aria-label={`${config.heroH1} generator`}
-          className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-24 bg-black"
-        >
-          <div className="relative z-10 w-full max-w-3xl mx-auto">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">
-              {config.heroEyebrow ?? "AI Stylist"}
-            </p>
-
-            <h1 className="text-[clamp(2.8rem,8vw,5.5rem)] font-bold leading-[1.05] tracking-tight mb-10">
-              <span className="gradient-silver-text">{config.heroH1}</span>
-            </h1>
-
-            <StylistTool />
-
-            <h2 className="text-lg md:text-xl text-white/50 max-w-lg mx-auto mt-12 leading-relaxed">
-              {config.heroSubtext}
-            </h2>
-          </div>
-        </section>
+        <StylistToolHeroSection
+          ariaLabel={`${config.heroH1} generator`}
+          eyebrow={config.heroEyebrow ?? "AI Stylist · Virtual Try-On"}
+          title={config.heroH1}
+          subtitle={config.heroSubtext}
+          submitLabel="Style me"
+        />
 
         {/* ── Ways to Style ──────────────────────────────────── */}
         <section
           id="ways-to-style"
+          data-nav-theme="light-bg"
           aria-label="Ways to style your outfit"
           className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6"
         >
@@ -129,6 +116,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
         {/* ── What Goes With ─────────────────────────────────── */}
         <section
           id="what-goes-with"
+          data-nav-theme="light-bg"
           aria-label="What goes with your outfit"
           className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6"
         >
@@ -164,6 +152,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
         {/* ── Why Use an AI Stylist (shared) ─────────────────── */}
         <section
           id="why-ai-stylist"
+          data-nav-theme="light-bg"
           aria-label="Why use an AI stylist"
           className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6"
         >
@@ -194,6 +183,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
         {/* ── Try With Slidez CTA (shared) ───────────────────── */}
         <section
           id="try-with-slidez"
+          data-nav-theme="dark-bg"
           aria-label="Try with Slidez"
           className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6"
         >
@@ -232,6 +222,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
         {/* ── FAQ ────────────────────────────────────────────── */}
         <section
           id="faq"
+          data-nav-theme="light-bg"
           aria-label={`${config.heroH1} FAQs`}
           className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6"
         >
@@ -270,6 +261,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
         {/* ── Popular Outfit Ideas ────────────────────────────── */}
         <section
           id="popular-outfit-ideas"
+          data-nav-theme="light-bg"
           aria-label="Popular outfit ideas"
           className="relative z-[58] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6"
         >
@@ -307,6 +299,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
         {/* ── Related Pages ───────────────────────────────────── */}
         <section
           id="related"
+          data-nav-theme="dark-bg"
           aria-label="Related outfit idea pages"
           className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6"
         >

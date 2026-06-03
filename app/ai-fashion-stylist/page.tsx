@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
-import StylistTool from "@/components/features/ai-stylist/StylistTool";
+import StylistToolHeroSection, { StylistToolSection } from "@/components/features/ai-stylist/StylistToolHeroSection";
 import { ArrowRight } from "lucide-react";
 import { CANONICAL_BASE, ASSETS_BASE_URL } from "@/lib/outfit-pages";
 
@@ -186,29 +186,23 @@ export default function Page() {
       <main className="overflow-hidden">
         <Navbar />
 
-        {/* ── Hero ──────────────────────────────────────────── */}
-        <section
-          aria-label="AI fashion stylist"
-          className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 pb-24 bg-black"
-        >
-          <div className="relative z-10 w-full max-w-3xl mx-auto">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">AI Fashion Stylist · Free to Use</p>
-            <h1 className="text-[clamp(2.8rem,8vw,5.5rem)] font-bold leading-[1.05] tracking-tight mb-10">
-              <span className="text-white">AI Fashion Stylist</span>
-            </h1>
-            <StylistTool
-              chips={["Casual", "Office", "Date Night", "Winter", "Party", "Vacation"]}
-            />
-            <p className="text-lg md:text-xl text-white/50 max-w-lg mx-auto mt-12 leading-relaxed">
+        <StylistToolHeroSection
+          ariaLabel="AI fashion stylist"
+          eyebrow="AI Fashion Stylist · Free to Use"
+          title="AI Fashion Stylist"
+          subtitle={
+            <>
               Your personal AI stylist and AI outfit generator — describe your vibe, occasion, or a single item and get a complete look instantly.
-              <br className="hidden md:block" />
               The virtual stylist app that works from your wardrobe, free on iOS and Android.
-            </p>
-          </div>
-        </section>
+            </>
+          }
+          submitLabel="Style me"
+          chips={["Casual", "Office", "Date Night", "Winter", "Party", "Vacation"]}
+          maxWidthClassName="max-w-3xl"
+        />
 
         {/* ── Tired of Guessing ─────────────────────────────── */}
-        <section className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
           <div className="max-w-4xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">The Problem</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-6 text-center">
@@ -237,7 +231,7 @@ export default function Page() {
         </section>
 
         {/* ── Create Your Own Style ─────────────────────────── */}
-        <section className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6">
+        <section data-nav-theme="dark-bg" className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6">
           <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(192,192,192,0.05) 0%, transparent 70%)" }} />
           <div className="relative z-10 max-w-3xl mx-auto text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">AI Stylist</p>
@@ -247,14 +241,16 @@ export default function Page() {
             <p className="text-white/40 text-base mb-10 max-w-md mx-auto">
               Type anything — occasion, vibe, or a single item you want to build around.
             </p>
-            <StylistTool
+            <StylistToolSection
+              submitLabel="Style me"
               chips={["Casual", "Office", "Date Night", "Winter", "Party", "Vacation"]}
+              className="w-full max-w-[800px] mx-auto"
             />
           </div>
         </section>
 
         {/* ── How It Works ──────────────────────────────────── */}
-        <section className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">How It Works</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">
@@ -275,7 +271,7 @@ export default function Page() {
         </section>
 
         {/* ── CTA ───────────────────────────────────────────── */}
-        <section className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6">
+        <section data-nav-theme="dark-bg" className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-24 px-6">
           <div aria-hidden className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse at center, rgba(192,192,192,0.06) 0%, transparent 70%)" }} />
           <div className="relative z-10 max-w-2xl mx-auto text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6">Virtual Try-On</p>
@@ -295,7 +291,7 @@ export default function Page() {
         </section>
 
         {/* ── FAQ ───────────────────────────────────────────── */}
-        <section className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
           <div className="max-w-2xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Questions</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">
@@ -319,7 +315,7 @@ export default function Page() {
         </section>
 
         {/* ── Related ───────────────────────────────────────── */}
-        <section className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6">
+        <section data-nav-theme="dark-bg" className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-4">Keep Exploring</p>

@@ -56,7 +56,7 @@ function BrowserMockup() {
 
 export default function ChromeExtension() {
   return (
-    <section id="extension" className="bg-[#080808] py-28 px-6">
+    <section id="extension" data-nav-theme="dark-bg" className="bg-[#080808] py-28 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
 

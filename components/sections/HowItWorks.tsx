@@ -150,7 +150,7 @@ const blocks = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" aria-label="How Slidez Works" className="bg-[#0b0b0b]">
+    <section id="how-it-works" data-nav-theme="dark-bg" aria-label="How Slidez Works" className="bg-[#0b0b0b]">
       {blocks.map((block, i) => {
         const PhoneComponent = block.phone;
         const isSecond = i === 1;
