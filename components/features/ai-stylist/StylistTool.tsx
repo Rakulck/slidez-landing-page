@@ -1002,7 +1002,7 @@ export default function StylistTool({
       <div className="relative" style={{ isolation: "isolate" }}>
         {lightTheme ? (
           /* ── Light-theme input ── */
-          <div className="flex items-center gap-2 rounded-2xl bg-white border border-black/25 pl-4 pr-1 py-1 shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)]">
+          <div className="flex items-center gap-1.5 sm:gap-2 rounded-2xl bg-white border border-black/25 pl-3 sm:pl-4 pr-0.5 sm:pr-1 py-0.5 sm:py-1 shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)]">
             <input
               ref={inputRef}
               type="text"
@@ -1010,23 +1010,23 @@ export default function StylistTool({
               onChange={(e) => { setInput(e.target.value); if (results) setResults(false); }}
               onKeyDown={(e) => e.key === "Enter" && handleLightCTA()}
               placeholder={placeholder || "What should I wear on a date..."}
-              className="flex-1 bg-transparent text-[#0d0d0d] text-[15px] outline-none placeholder:text-[#c0c0c0] min-w-0 py-2"
+              className="flex-1 bg-transparent text-[#0d0d0d] text-sm sm:text-[15px] outline-none placeholder:text-[#c0c0c0] min-w-0 py-1.5 sm:py-2"
               suppressHydrationWarning
             />
             <button
               onClick={alwaysShowPicker ? handleLightCTA : handleSubmit}
               disabled={alwaysShowPicker ? (!lightReady || loading) : (!input.trim() || loading)}
               aria-label={submitLabel}
-              className="shrink-0 w-[47px] h-[47px] rounded-xl bg-[#0d0d0d] flex items-center justify-center hover:bg-[#222] disabled:bg-[#ccc] transition-colors"
+              className="shrink-0 w-9 h-9 sm:w-[47px] sm:h-[47px] rounded-lg sm:rounded-xl bg-[#0d0d0d] flex items-center justify-center hover:bg-[#222] disabled:bg-[#ccc] transition-colors"
             >
               {loading ? (
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                  className="w-4 h-4 rounded-full border-2 border-white border-t-transparent"
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border-2 border-white border-t-transparent"
                 />
               ) : (
-                <Sparkles className="w-5 h-5 text-white" />
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               )}
             </button>
           </div>
@@ -1192,10 +1192,10 @@ export default function StylistTool({
             key={chip}
             onClick={() => handleChip(chip)}
             className={lightTheme
-              ? `px-4 py-2 rounded-full border text-sm font-medium transition-all duration-200 ${
+              ? `px-4 py-2 rounded-2xl border text-sm font-medium transition-all duration-200 ${
                   activeChip === chip
                     ? "border-[#0d0d0d] bg-[#0d0d0d] text-white"
-                    : "bg-white border-2 border-[#b8b8b8] text-[#555] shadow-[0_1px_3px_rgba(0,0,0,0.06)] hover:border-[#888] hover:text-[#111] hover:shadow-md"
+                    : "bg-white border border-black/25 text-[#555] shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)] hover:border-black/40 hover:text-[#111]"
                 }`
               : `px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 ${
                   activeChip === chip
@@ -1214,7 +1214,7 @@ export default function StylistTool({
 
       {/* ── Light model picker (always visible in light/alwaysShowPicker mode) ── */}
       {alwaysShowPicker && !loading && !results && tryOnItems.length === 0 && (
-        <div className="mt-5 sm:mt-6 bg-white border-2 border-[#b8b8b8] rounded-[22px] p-5 sm:p-6 shadow-[0_12px_40px_rgba(0,0,0,0.08),0_2px_8px_rgba(0,0,0,0.04)]">
+        <div className="mt-5 sm:mt-6 bg-white border border-black/25 rounded-2xl p-5 sm:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)]">
           <input ref={photoFileRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoFileChange} />
           {/* Header */}
           <div className="flex items-center justify-between mb-4 sm:mb-5">
@@ -1242,7 +1242,7 @@ export default function StylistTool({
                   ? "border-[#0d0d0d] shadow-[0_0_0_2.5px_#0d0d0d,0_14px_26px_-16px_rgba(20,20,20,0.35)]"
                   : pickerSelectedId === "upload"
                     ? "border-[#0d0d0d] border-dashed bg-white"
-                    : "border-dashed border-black/[0.12] bg-[#fafafa] hover:border-black/20"
+                    : "border-dashed border-black/25 bg-white hover:border-black/40"
               }`}
             >
               {pickerSelectedId === "upload" && pickerSelectedSrc ? (
@@ -1303,7 +1303,7 @@ export default function StylistTool({
                 className={`relative h-[112px] sm:h-[128px] md:h-[142px] rounded-2xl overflow-hidden transition-all duration-200 ${
                   pickerSelectedId === model.id
                     ? "shadow-[0_0_0_2.5px_#0d0d0d,0_14px_26px_-16px_rgba(20,20,20,0.35)]"
-                    : "border border-black/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.06)] hover:border-black/15 hover:shadow-[0_6px_20px_rgba(0,0,0,0.10)]"
+                    : "border border-black/25 shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)] hover:border-black/40"
                 }`}
               >
                 <Image src={model.src} alt={model.name} fill unoptimized className="object-cover object-top" sizes="200px" />
@@ -1330,7 +1330,7 @@ export default function StylistTool({
             <button
               onClick={handleLightCTA}
               disabled={!lightReady}
-              className={`px-10 py-3.5 sm:py-4 rounded-full text-sm font-semibold transition-all duration-300 min-w-[260px] ${
+              className={`px-10 py-3.5 sm:py-4 rounded-2xl text-sm font-semibold transition-all duration-300 min-w-[260px] ${
                 lightReady
                   ? "bg-[#0d0d0d] text-white hover:bg-[#333] hover:shadow-lg border border-transparent"
                   : "bg-white border border-black/25 text-[#aaa] cursor-not-allowed shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)]"
