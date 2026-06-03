@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { occasionFromPrompt, inferBrandFromLink, type WtwProductItem } from "./wtw-utils";
+import { occasionFromPrompt, inferBrandFromLink, openExternalLinksInNewTabs, type WtwProductItem } from "./wtw-utils";
 
 const APP_STORE_URL = "https://linkly.link/2FWYm";
 
@@ -89,10 +89,13 @@ export default function WtwResult({
 }: WtwResultProps) {
   const occasion = occasionFromPrompt(query);
   const title = `Your ${occasion.toLowerCase()} look`;
-  const firstShopLink = productItems.find((p) => p.productLink)?.productLink ?? null;
+  const shopLinks = productItems
+    .map((p) => p.productLink)
+    .filter((link): link is string => Boolean(link));
 
-  const handleShopLook = () => {
-    if (firstShopLink) window.open(firstShopLink, "_blank");
+  const handleShopLook = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    openExternalLinksInNewTabs(shopLinks);
   };
 
   return (
@@ -200,15 +203,15 @@ export default function WtwResult({
           <button
             type="button"
             onClick={handleShopLook}
-            disabled={!firstShopLink}
+            disabled={shopLinks.length === 0}
             className={`h-[54px] flex-1 rounded-full border text-base font-medium tracking-[-0.01em] inline-flex items-center justify-center gap-2.5 transition-all cursor-pointer ${
-              firstShopLink
+              shopLinks.length > 0
                 ? "border-[#e3e3e3] bg-white text-[#0a0a0a] hover:bg-[#fafaf9]"
                 : "border-[#e3e3e3] bg-[#fafaf9] text-[#c4c2bd] cursor-not-allowed"
             }`}
           >
             <span>Shop the look</span>
-            {firstShopLink && <ArrowRight className="w-4 h-4" />}
+            {shopLinks.length > 0 && <ArrowRight className="w-4 h-4" />}
           </button>
           <a
             href={APP_STORE_URL}

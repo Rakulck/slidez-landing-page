@@ -58,3 +58,18 @@ export function inferBrandFromLink(link: string | null): string | null {
     return null;
   }
 }
+
+/** Opens URLs in new tabs without navigating the current page. */
+export function openExternalLinksInNewTabs(urls: string[]) {
+  const uniqueUrls = [...new Set(urls.filter(Boolean))];
+  for (const url of uniqueUrls) {
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  }
+  window.focus();
+}
