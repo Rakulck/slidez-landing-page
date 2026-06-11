@@ -3,6 +3,11 @@ import type { NextConfig } from "next";
 const isProduction = process.env.VERCEL_ENV === "production";
 
 const nextConfig: NextConfig = {
+  // Pin the workspace root to this project so Turbopack doesn't get
+  // confused by the unrelated package-lock.json in the user's home directory.
+  turbopack: {
+    root: __dirname,
+  },
   async redirects() {
     return [
       {
@@ -41,6 +46,9 @@ const nextConfig: NextConfig = {
         destination: "/blog",
         permanent: true,
       },
+      // Catch-all: any remaining /blogs/<slug> maps to the matching /blog/<slug>.
+      // Must come AFTER the specific dead-slug rules above (first match wins).
+      { source: "/blogs/:path*", destination: "/blog/:path*", permanent: true },
     ];
   },
   async headers() {

@@ -7,11 +7,64 @@ import Footer from "@/components/sections/Footer";
 export const metadata: Metadata = {
   title: "What Is an AI Fashion Stylist? (2026 Guide)",
   description: "Discover what an AI fashion stylist is, how it works behind the scenes, and whether it deserves a spot on your phone in 2026.",
+  alternates: { canonical: "https://www.slidez.social/blog/what-is-ai-fashion-stylist" },
+};
+
+// FAQPage schema — mirrors the visible "Frequently Asked Questions" section verbatim.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is an AI fashion stylist?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "An AI fashion stylist is a digital personal stylist powered by artificial intelligence. It recommends outfits, plans looks for occasions, helps you shop smarter, and sometimes lets you try clothes on virtually before you buy.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does an AI fashion stylist work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It combines several AI technologies: computer vision to recognize clothing items, personalization models that learn your taste, recommendation engines that suggest outfits, and virtual try-on tech that shows clothes on your body.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can an AI fashion stylist create outfits automatically?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. You tell the app the occasion, weather, or vibe you are going for, and it builds a complete outfit for you. Apps like Slidez also pair each recommendation with a virtual try-on.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does an AI fashion stylist consider body shape and preferences?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The best apps do. Some build a personalized model from a selfie to show realistic fit. Slidez focuses on photorealistic virtual try-on so what you see on screen reflects how the outfit will look on you.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are AI fashion stylist apps accurate?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Accuracy has improved dramatically in 2026. The best apps genuinely understand fit, occasion, color theory, and personal taste, especially after a week or two of use. Realistic virtual try-on is also much closer to photographic quality.",
+      },
+    },
+  ],
 };
 
 export default function BlogPost() {
   return (
     <main className="overflow-hidden bg-[#fafafa]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <Navbar />
 
       {/* Hero Section */}

@@ -9,11 +9,56 @@ export const metadata: Metadata = {
   title: "Best Outfit Planner Apps to Style Clothes in 2026",
   description:
     "Discover the best outfit planner apps in 2026 to plan outfits, style clothes before you buy, and stop wasting money on pieces you never wear.",
+  alternates: { canonical: "https://www.slidez.social/blog/best-outfit-planner-apps-2026" },
+};
+
+// FAQPage schema — mirrors the visible "Frequently Asked Questions (FAQs)" section verbatim.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is the best app for planning outfits before shopping?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "For most users in 2026, Slidez is the best choice for pre-purchase outfit planning thanks to virtual try-on and occasion-based recommendations.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do outfit planner apps work with online shopping?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Many apps integrate shopping links, and some include browser extensions to bring website items into your planning flow.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I preview outfits before buying clothes?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Modern apps use virtual try-on so you can preview outfits and reduce guesswork before placing an order.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are outfit planner apps accurate?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Top apps in 2026 are accurate enough for day-to-day styling and purchase decisions, especially when combined with your saved looks and preferences.",
+      },
+    },
+  ],
 };
 
 export default function BlogPost() {
   return (
     <main className="overflow-hidden bg-[#fafafa]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <Navbar />
 
       <section data-nav-theme="dark-bg" className="relative pt-40 pb-32 bg-[#080808] px-6 text-center overflow-hidden">

@@ -8,6 +8,7 @@ import BlogSlideAnimation from "@/components/ui/blog-slide-animation";
 export const metadata: Metadata = {
   title: "Blog | Slidez",
   description: "Read the latest news, guides, and tips on AI styling, fashion trends, and building the perfect wardrobe.",
+  alternates: { canonical: "https://www.slidez.social/blog" },
 };
 
 export default function BlogListingPage() {
