@@ -339,7 +339,7 @@ export default function Hero() {
       >
 
         {/* Headline */}
-        <h1 className="text-[clamp(2.6rem,8vw,5.5rem)] font-bold leading-[1.05] tracking-tight mb-6">
+        <h1 className="text-[clamp(2.6rem,8vw,5.5rem)] font-bold leading-[1.05] tracking-tight mb-6" suppressHydrationWarning>
           <span className="text-white">The Ultimate</span>
           <br />
           <span className="text-white">AI Stylist</span>
@@ -347,7 +347,7 @@ export default function Hero() {
 
         {/* Sub */}
         <p className="text-lg md:text-xl text-white/50 max-w-xl mx-auto mb-4 leading-relaxed">
-          Slidez is your AI stylist for any occasion. Describe your event or vibe, get complete outfit ideas, see them tried on you, and shop with confidence.
+          Style Yourself in Seconds
         </p>
         <p className="text-sm md:text-base text-white/35 max-w-xl mx-auto mb-10 leading-relaxed">
           AI outfit ideas for dates, interviews, college, weddings, travel, and everyday style.

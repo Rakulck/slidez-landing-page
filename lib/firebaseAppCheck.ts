@@ -1,4 +1,4 @@
-import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from "firebase/app-check";
+import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider, type AppCheck } from "firebase/app-check";
 import { firebaseApp } from "@/lib/firebaseClient";
 
 const g = globalThis as typeof globalThis & { __slidezAppCheckInit?: Promise<AppCheck> };
@@ -30,17 +30,30 @@ export async function initFirebaseAppCheck(): Promise<AppCheck> {
       );
     }
 
-    // If no site key is provided in debug mode, we can still initialize with a dummy key
-    // because the FIREBASE_APPCHECK_DEBUG_TOKEN flag will override the provider logic.
-    // However, the dummy key should look like a valid reCAPTCHA key to avoid client-side validation issues.
-    const effectiveSiteKey = siteKey || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // standard reCAPTCHA test key
+    if (debugMode && !siteKey) {
+      // In local dev without a site key, use a CustomProvider that returns a dummy token.
+      // This avoids loading the reCAPTCHA v3 script and prevents console errors.
+      return initializeAppCheck(firebaseApp, {
+        provider: new CustomProvider({
+          getToken: async () => {
+            return {
+              token: "local-dev-dummy-token",
+              expireTimeMillis: Date.now() + 3600000, // 1 hour expiration
+            };
+          },
+        }),
+        isTokenAutoRefreshEnabled: true,
+      });
+    }
 
+    // Otherwise, use the real (or debug-intercepted) ReCaptchaV3Provider
     return initializeAppCheck(firebaseApp, {
-      provider: new ReCaptchaV3Provider(effectiveSiteKey),
+      provider: new ReCaptchaV3Provider(siteKey!),
       isTokenAutoRefreshEnabled: true,
     });
   })();
 
   return g.__slidezAppCheckInit;
 }
+
 
