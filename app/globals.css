@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./tw-animate.css";
+
 /* shadcn/tailwind.css inlined */
 @theme inline {
   @keyframes accordion-down {
