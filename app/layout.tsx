@@ -11,14 +11,9 @@ const geistSans = Geist({
 
 const BASE_URL = "https://www.slidez.social";
 
-const TITLE = "Slidez – AI Stylist App for Outfit Ideas & Virtual Try-On";
+const TITLE = "Slidez – AI Stylist & Virtual Try-On App";
 const DESCRIPTION =
-  "Slidez is your AI stylist for any occasion. Get complete outfit ideas, see them tried on you, import looks from Instagram or any site, and shop with confidence.";
-// Per-entity structured-data descriptions (distinct from the page meta description)
-const ORG_DESCRIPTION =
-  "Slidez is an AI stylist app where users describe what they want and get complete outfits generated and tried on for them.";
-const APP_DESCRIPTION =
-  "AI stylist app for outfit ideas, virtual try-on, and shopping confidence.";
+  "Meet your AI Stylist. Slidez generates outfit ideas, visualizes looks on you, and helps you shop smarter. Free on iOS & Android.";
 const OG_TITLE = "Slidez: AI Stylist & Try-On";
 const OG_DESCRIPTION =
   "Generate outfits & try clothes virtually with Slidez AI.";
@@ -81,7 +76,7 @@ const jsonLd = {
       "@id": `${BASE_URL}/#organization`,
       name: "Slidez",
       url: BASE_URL,
-      description: ORG_DESCRIPTION,
+      description: DESCRIPTION,
       logo: {
         "@type": "ImageObject",
         url: `${BASE_URL}/logo.png`,
@@ -100,16 +95,15 @@ const jsonLd = {
       "@id": `${BASE_URL}/#website`,
       name: "Slidez",
       url: BASE_URL,
-      description: APP_DESCRIPTION,
       publisher: { "@id": `${BASE_URL}/#organization` },
     },
     {
       "@type": "SoftwareApplication",
       "@id": `${BASE_URL}/#app`,
-      name: "Slidez",
+      name: TITLE,
       url: "https://linkly.link/2FWYm",
       downloadUrl: "https://linkly.link/2FWYm",
-      description: APP_DESCRIPTION,
+      description: DESCRIPTION,
       image: `${BASE_URL}/logo.png`,
       applicationCategory: "LifestyleApplication",
       operatingSystem: "iOS, Android",

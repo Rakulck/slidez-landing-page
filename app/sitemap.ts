@@ -16,10 +16,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/what-to-wear", priority: 0.9, changeFrequency: "weekly" as const },
     { path: "/ai-virtual-try-on", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/try-on-from-anywhere", priority: 0.8, changeFrequency: "monthly" as const },
-
-    // Blog URLs are owned by the dedicated /blog/sitemap.xml (app/blog/sitemap.ts)
-    // to avoid duplicate entries across sitemaps.
-
+    
+    // Blog
+    { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
+    { path: "/blog/best-ai-stylist-apps", priority: 0.7, changeFrequency: "monthly" as const },
+    
     // Specific Outfit Idea Pages
     { path: "/date-night-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/winter-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },

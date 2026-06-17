@@ -7,72 +7,11 @@ import Footer from "@/components/sections/Footer";
 export const metadata: Metadata = {
   title: "AI Stylist vs Human Stylist: Which Is Right for You? (2026 Guide)",
   description: "Compare AI stylists and human stylists on cost, personalization, speed, and accuracy to find out which one fits your needs in 2026.",
-  alternates: { canonical: "https://www.slidez.social/blog/ai-stylist-vs-human-stylist" },
-};
-
-// FAQPage schema — mirrors the visible "Frequently Asked Questions (FAQs)" section verbatim.
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What is the difference between an AI stylist and a human stylist?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "An AI stylist is a software-based personal stylist that uses artificial intelligence to recommend outfits, plan looks, and help you shop, instantly and at low cost. A human stylist is a trained fashion professional who works with you one-on-one through consultation and styling sessions. They cost more but offer depth and human intuition an algorithm cannot match.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are AI stylists as effective as human stylists?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "For daily outfit decisions and online shopping, yes, increasingly. The best AI stylists in 2026 are accurate enough that most users trust them for everyday styling. For big-event styling, complete wardrobe overhauls, or work requiring deep emotional and cultural attunement, human stylists still win.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is an AI stylist cheaper than a personal stylist?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "By a large margin. Many AI stylists are free, and premium versions usually cost $5 to $15 per month. A human personal stylist typically charges $150 to $500 per session, with full styling packages running into the thousands. Over a year, the cost difference is often more than $1,000.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can AI stylists provide personalized outfit recommendations?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Modern AI stylists learn your taste from saved outfits, try-on history, and rejected suggestions. After a week or two of regular use, recommendations feel genuinely personal. Apps like Slidez also pair each recommendation with a virtual try-on, so you see exactly how the outfit will look on you before deciding.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Who should use an AI stylist?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Anyone who wants help with daily outfits, smarter shopping, or virtual try-on. AI stylists are especially useful if you shop online, have a busy schedule, or want personal styling without the cost of a human professional. They are also great for people exploring new styles privately, without the awkwardness of a fitting room or a styling consultation.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can AI replace human fashion stylists completely?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No, and probably not for a long time. AI handles volume, daily styling, and shopping decisions well. Human stylists still win on big-event expertise, cultural nuance, emotional attunement, and complex transformations. The future is hybrid: AI for daily styling, human stylists for the moments that really matter.",
-      },
-    },
-  ],
 };
 
 export default function BlogPost() {
   return (
     <main className="overflow-hidden bg-[#fafafa]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
       <Navbar />
 
       {/* Hero Section */}

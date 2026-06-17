@@ -6,72 +6,11 @@ import Footer from "@/components/sections/Footer";
 export const metadata: Metadata = {
   title: "Virtual Try-On vs Online Shopping: What's Better in 2026?",
   description: "Compare virtual try-on with traditional online shopping on fit accuracy, return rates, shopping confidence, and convenience. Find out which one fits your habits.",
-  alternates: { canonical: "https://www.slidez.social/blog/virtual-try-on-vs-online-shopping" },
-};
-
-// FAQPage schema — mirrors the visible "Frequently Asked Questions" section verbatim.
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What is virtual try-on technology?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Virtual try-on technology lets you see how clothes, shoes, glasses, jewelry, or makeup will look on you before you buy them. It uses computer vision, generative AI, and sometimes augmented reality to render the item onto a model that looks like you. The goal is to replace the “look at a photo and hope” step of online shopping with a personal preview.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is virtual try-on more accurate than traditional online shopping?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, for most categories. Virtual try-on shows you the item on your own body, which is far more informative than a generic product photo. It is not perfect (fabric drape and texture are still hard to render exactly), but it closes most of the information gap that causes bad purchases and returns.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can virtual try-on help reduce clothing returns?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, and the impact is significant. Brands using virtual try-on consistently report return rate drops of 25% to 40%. For shoppers, that means less money wasted on items that do not fit, less hassle returning things, and less time spent on the whole post-purchase cycle.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Do virtual try-on apps show how clothes will actually look on me?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "The best ones do. Slidez focuses on photorealistic try-on, so what you see on screen is close to how you will actually look in the outfit. Accuracy varies by app and category. Tops, dresses, jeans, shoes, and accessories tend to render best. Highly textured fabrics and tight-fit items like swimwear are harder.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Which is better for online clothes shopping, virtual try-on or traditional online shopping?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "For most people in 2026, virtual try-on is the better default. It saves money, reduces returns, and removes most of the uncertainty from buying clothes online. Traditional online shopping still works for basics, reorders, and items where fit does not really matter. For new pieces, statement items, or anything where fit is important, virtual try-on wins.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does virtual try-on work on any online store?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "It depends on the app. Some try-on tools only work on specific brand sites. Others work across the web. The Slidez Chrome extension is one example that works on any online store. You browse normally, and you can try on clothes you see, even if the store does not offer try-on itself.",
-      },
-    },
-  ],
 };
 
 export default function BlogPost() {
   return (
     <main className="overflow-hidden bg-[#fafafa]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
       <Navbar />
 
       {/* Hero Section */}

@@ -346,11 +346,8 @@ export default function Hero() {
         </h1>
 
         {/* Sub */}
-        <p className="text-lg md:text-xl text-white/50 max-w-xl mx-auto mb-4 leading-relaxed">
-          Slidez is your AI stylist for any occasion. Describe your event or vibe, get complete outfit ideas, see them tried on you, and shop with confidence.
-        </p>
-        <p className="text-sm md:text-base text-white/35 max-w-xl mx-auto mb-10 leading-relaxed">
-          AI outfit ideas for dates, interviews, college, weddings, travel, and everyday style.
+        <p className="text-lg md:text-xl text-white/50 max-w-xl mx-auto mb-10 leading-relaxed">
+          AI stylist & virtual try-on. Style yourself in seconds.
         </p>
 
         {!USE_REAL_STYLIST_TOOL && (

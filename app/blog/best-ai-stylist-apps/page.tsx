@@ -7,55 +7,6 @@ import Footer from "@/components/sections/Footer";
 export const metadata: Metadata = {
   title: "Best AI Stylist Apps to Instantly Upgrade Your Style in 2026",
   description: "Discover the best AI stylist apps in 2026 to plan outfits, build your wardrobe, and shop smarter with virtual try-ons.",
-  alternates: { canonical: "https://www.slidez.social/blog/best-ai-stylist-apps" },
-};
-
-// FAQPage schema — mirrors the visible "Frequently Asked Questions" section verbatim.
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What is the best AI stylist app in 2026?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "The best AI stylist app in 2026 for most users is Slidez. It styles you for any occasion with the strongest outfit recommendations on the market, paired with realistic virtual try-on so you actually see the look on yourself. Strong alternatives include Acloset, Whering, Fits, Style DNA, and Cladwell.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are AI stylist apps free to use?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, many AI stylist apps offer a free tier. Slidez has a free version that includes all core features (AI stylist, virtual try-on, social import, and Chrome extension), with a Pro version available for unlimited try-ons. Whering is another generous free option.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can AI stylist apps create outfits from my wardrobe?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Apps like Whering, Acloset, and Fits let you upload your real clothes and generate outfits using only what you own. Slidez takes a slightly different approach: it lets you import any outfit you like from anywhere on the web and try it on instantly.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Do AI stylist apps consider body type?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "The top apps in 2026 consider this in different ways. Slidez pairs every outfit recommendation with a realistic virtual try-on, so you actually see how the look fits before deciding. Fits offers selfie-based modeling for similar try-on. Style DNA focuses more on facial features and color.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are AI fashion apps accurate?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Accuracy has improved a lot in 2026. The best AI fashion stylist apps now genuinely understand fit, occasion, color theory, and personal taste. They are not perfect, but for most everyday styling decisions, they are reliable enough to trust.",
-      },
-    },
-  ],
 };
 
 function ImagePlaceholder({ alt }: { alt: string }) {
@@ -75,10 +26,6 @@ function ImagePlaceholder({ alt }: { alt: string }) {
 export default function BlogPost() {
   return (
     <main className="overflow-hidden bg-[#fafafa]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
       <Navbar />
 
       {/* Hero Section */}
