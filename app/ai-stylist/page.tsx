@@ -9,8 +9,6 @@ import { CANONICAL_BASE, ASSETS_BASE_URL } from "@/lib/outfit-pages";
 const TITLE       = "What Is an AI Stylist? How AI Fashion Styling Works";
 const DESCRIPTION = "An AI stylist generates personalized outfit recommendations based on your occasion, vibe, and style. Learn how it works and try Slidez free on iOS and Android.";
 const CANONICAL   = `${CANONICAL_BASE}/ai-stylist`;
-const isProduction = process.env.VERCEL_ENV === "production";
-
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
@@ -24,9 +22,7 @@ export const metadata: Metadata = {
     "personal stylist app",
     "Slidez AI stylist",
   ],
-  robots: isProduction
-    ? { index: true, follow: true, googleBot: { index: true, follow: true } }
-    : { index: false, follow: false },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   alternates: { canonical: CANONICAL },
   openGraph: {
     title: TITLE,

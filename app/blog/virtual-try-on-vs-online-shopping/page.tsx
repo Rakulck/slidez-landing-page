@@ -6,6 +6,15 @@ import Footer from "@/components/sections/Footer";
 export const metadata: Metadata = {
   title: "Virtual Try-On vs Online Shopping: What's Better in 2026?",
   description: "Compare virtual try-on with traditional online shopping on fit accuracy, return rates, shopping confidence, and convenience. Find out which one fits your habits.",
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  alternates: { canonical: "https://www.slidez.app/blog/virtual-try-on-vs-online-shopping" },
+  openGraph: {
+    title: "Virtual Try-On vs Online Shopping: What's Better in 2026?",
+    description: "Compare virtual try-on with traditional online shopping on fit accuracy, return rates, shopping confidence, and convenience. Find out which one fits your habits.",
+    url: "https://www.slidez.app/blog/virtual-try-on-vs-online-shopping",
+    type: "article",
+    siteName: "Slidez",
+  },
 };
 
 export default function BlogPost() {

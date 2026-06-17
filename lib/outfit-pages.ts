@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 /* ── Site constants ───────────────────────────────────────────── */
 
 // Asset base: the current deployment (images, og-image, etc.)
-export const ASSETS_BASE_URL = "https://www.slidez.social";
+export const ASSETS_BASE_URL = "https://www.slidez.app";
 
 // Canonical base: target production domain (used for all href / schema URLs)
-export const CANONICAL_BASE = "https://www.slidez.social";
+export const CANONICAL_BASE = "https://www.slidez.app";
 
 export const UNSPLASH_BASE = "https://images.unsplash.com/photo-";
 
-const isProduction = process.env.VERCEL_ENV === "production";
+
 
 /* ── Config types ─────────────────────────────────────────────── */
 
@@ -76,9 +76,7 @@ export function generateOutfitPageMetadata(config: OutfitPageConfig): Metadata {
     title: config.title,
     description: config.description,
     keywords: config.keywords,
-    robots: isProduction
-      ? { index: true, follow: true, googleBot: { index: true, follow: true } }
-      : { index: false, follow: false },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
     alternates: {
       canonical: canonicalUrl,
     },

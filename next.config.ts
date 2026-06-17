@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const isProduction = process.env.VERCEL_ENV === "production";
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: __dirname,
+  },
   async redirects() {
     return [
       {
@@ -13,34 +16,15 @@ const nextConfig: NextConfig = {
             value: "slidez-landing-page.vercel.app",
           },
         ],
-        destination: "https://www.slidez.social/:path*",
+        destination: "https://www.slidez.app/:path*",
         permanent: true,
       },
       { source: "/blogs", destination: "/blog", permanent: true },
+      { source: "/blogs/:path*", destination: "/blog/:path*", permanent: true },
       { source: "/team", destination: "/", permanent: true },
       { source: "/features/slidez-ai", destination: "/", permanent: true },
       { source: "/features", destination: "/", permanent: true },
       { source: "/features/social-media-for-brands", destination: "/", permanent: true },
-      {
-        source: "/blogs/everything-sellers-need-to-know-about-slidez-s-zero-ad-marketing-your-1-question-answered-how-does-slidez-drive-sales-without-ad-spend",
-        destination: "/blog",
-        permanent: true,
-      },
-      {
-        source: "/blogs/the-seller-s-guide-to-building-a-gen-z-community-on-slidez-watch-your-brand-go-from-unknown-to-gen-z-s-favorite-the-slidez-success-blueprint",
-        destination: "/blog",
-        permanent: true,
-      },
-      {
-        source: "/blogs/what-is-social-shopping-a-gen-z-guide-to-community-driven-fashion-add-to-cart-is-old-news-ask-the-squad-is-the-new-wave",
-        destination: "/blog",
-        permanent: true,
-      },
-      {
-        source: "/blogs/pov-shopping-with-friends-why-social-proof-is-the-new-fashion-currency-should-i-buy-this-texts-are-out-real-time-squad-approval-is-in",
-        destination: "/blog",
-        permanent: true,
-      },
     ];
   },
   async headers() {

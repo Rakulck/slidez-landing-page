@@ -7,6 +7,15 @@ import Footer from "@/components/sections/Footer";
 export const metadata: Metadata = {
   title: "AI Stylist vs Human Stylist: Which Is Right for You? (2026 Guide)",
   description: "Compare AI stylists and human stylists on cost, personalization, speed, and accuracy to find out which one fits your needs in 2026.",
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  alternates: { canonical: "https://www.slidez.app/blog/ai-stylist-vs-human-stylist" },
+  openGraph: {
+    title: "AI Stylist vs Human Stylist: Which Is Right for You? (2026 Guide)",
+    description: "Compare AI stylists and human stylists on cost, personalization, speed, and accuracy to find out which one fits your needs in 2026.",
+    url: "https://www.slidez.app/blog/ai-stylist-vs-human-stylist",
+    type: "article",
+    siteName: "Slidez",
+  },
 };
 
 export default function BlogPost() {

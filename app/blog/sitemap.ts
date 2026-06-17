@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const CANONICAL = "https://www.slidez.social";
+const CANONICAL = "https://www.slidez.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const currentDate = new Date();

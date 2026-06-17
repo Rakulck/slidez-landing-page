@@ -11,8 +11,6 @@ import { CANONICAL_BASE, ASSETS_BASE_URL } from "@/lib/outfit-pages";
 const TITLE       = "AI Fashion Stylist: Create Perfect Outfits Instantly";
 const DESCRIPTION = "Discover your personal AI fashion stylist. Generate outfits, try styles virtually, and plan looks using your wardrobe in seconds.";
 const CANONICAL   = `${CANONICAL_BASE}/ai-fashion-stylist`;
-const isProduction = process.env.VERCEL_ENV === "production";
-
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
@@ -28,9 +26,7 @@ export const metadata: Metadata = {
     "ai style assistant",
     "outfit maker app",
   ],
-  robots: isProduction
-    ? { index: true, follow: true, googleBot: { index: true, follow: true } }
-    : { index: false, follow: false },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   alternates: { canonical: CANONICAL },
   openGraph: {
     title: TITLE,

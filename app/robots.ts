@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = "https://www.slidez.social";
+const BASE_URL = "https://www.slidez.app";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,16 +8,12 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
       disallow: [
-        "/api",
         "/api/",
-        "/admin",
         "/admin/",
-        "/account",
         "/account/",
-        "/dashboard",
         "/dashboard/",
-        "/checkout",
-        "/checkout/"
+        "/checkout/",
+        "/login",
       ],
     },
     sitemap: [

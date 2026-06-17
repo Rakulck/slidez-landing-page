@@ -9,7 +9,7 @@ const geistSans = Geist({
   display: "swap",
 });
 
-const BASE_URL = "https://www.slidez.social";
+const BASE_URL = "https://www.slidez.app";
 
 const TITLE = "Slidez – AI Stylist & Virtual Try-On App";
 const DESCRIPTION =
@@ -20,8 +20,6 @@ const OG_DESCRIPTION =
 const TWITTER_TITLE =
   "Slidez: AI Outfit Stylist & Virtual Fitting Room App";
 const OG_IMAGE = `${BASE_URL}/opengraph-image`;
-
-const isProduction = process.env.VERCEL_ENV === "production";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -44,9 +42,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Slidez", url: BASE_URL }],
   formatDetection: { telephone: false },
-  robots: isProduction
-    ? { index: true, follow: true, googleBot: { index: true, follow: true } }
-    : { index: false, follow: false },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   verification: {
     google: "5a493f6e28990868",
   },

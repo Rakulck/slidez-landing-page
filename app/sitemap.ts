@@ -1,37 +1,34 @@
 import { MetadataRoute } from "next";
 
-const CANONICAL = "https://www.slidez.social";
+const CANONICAL = "https://www.slidez.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Using current date so it automatically updates when generated/built
   const currentDate = new Date();
 
-  // Define live, active routes only (no redirects or 404s)
   const routes = [
     { path: "", priority: 1.0, changeFrequency: "weekly" as const },
-    
-    // Core Features & Hubs
+
+    // Core feature pages
     { path: "/ai-stylist", priority: 0.9, changeFrequency: "weekly" as const },
-    { path: "/outfit-ideas", priority: 0.9, changeFrequency: "weekly" as const },
-    { path: "/what-to-wear", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/ai-fashion-stylist", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/free-ai-stylist-app", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/ai-virtual-try-on", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/try-on-from-anywhere", priority: 0.8, changeFrequency: "monthly" as const },
-    
-    // Blog
-    { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
-    { path: "/blog/best-ai-stylist-apps", priority: 0.7, changeFrequency: "monthly" as const },
-    
-    // Specific Outfit Idea Pages
+
+    // Outfit hub pages
+    { path: "/outfit-ideas", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/what-to-wear", priority: 0.9, changeFrequency: "weekly" as const },
     { path: "/date-night-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/winter-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/concert-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/office-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/black-jeans-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/casual-coffee-date-outfit", priority: 0.8, changeFrequency: "monthly" as const },
-    
-    // Legal & Support pages
+
+    // Legal
     { path: "/privacy", priority: 0.3, changeFrequency: "yearly" as const },
     { path: "/terms", priority: 0.3, changeFrequency: "yearly" as const },
+    { path: "/brands-privacy-policy", priority: 0.3, changeFrequency: "yearly" as const },
   ];
 
   return routes.map((route) => ({

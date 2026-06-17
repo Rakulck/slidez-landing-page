@@ -7,6 +7,15 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Best Virtual Closet Apps to Organize and Style Your Wardrobe in 2026",
   description: "Discover the best virtual closet apps in 2026 to digitize your wardrobe, plan outfits, and make smarter shopping decisions.",
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  alternates: { canonical: "https://www.slidez.app/blog/best-virtual-closet-apps" },
+  openGraph: {
+    title: "Best Virtual Closet Apps to Organize and Style Your Wardrobe in 2026",
+    description: "Discover the best virtual closet apps in 2026 to digitize your wardrobe, plan outfits, and make smarter shopping decisions.",
+    url: "https://www.slidez.app/blog/best-virtual-closet-apps",
+    type: "article",
+    siteName: "Slidez",
+  },
 };
 
 function ImagePlaceholder({ alt }: { alt: string }) {
