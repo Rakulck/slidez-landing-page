@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Terms of Service – Slidez",
   description: "Slidez Terms of Service. Read the terms and conditions for using the Slidez AI stylist and virtual try-on platform.",
   robots: { index: true, follow: true },
-  alternates: { canonical: "https://www.slidez.app/terms" },
+  alternates: { canonical: "https://www.slidez.social/terms" },
 };
 
 const sections = [

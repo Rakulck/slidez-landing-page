@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 /* ── Site constants ───────────────────────────────────────────── */
 
 // Asset base: the current deployment (images, og-image, etc.)
-export const ASSETS_BASE_URL = "https://www.slidez.app";
+export const ASSETS_BASE_URL = "https://www.slidez.social";
 
 // Canonical base: target production domain (used for all href / schema URLs)
-export const CANONICAL_BASE = "https://www.slidez.app";
+export const CANONICAL_BASE = "https://www.slidez.social";
 
 export const UNSPLASH_BASE = "https://images.unsplash.com/photo-";
 

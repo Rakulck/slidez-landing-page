@@ -9,7 +9,7 @@ const geistSans = Geist({
   display: "swap",
 });
 
-const BASE_URL = "https://www.slidez.app";
+const BASE_URL = "https://www.slidez.social";
 
 const TITLE = "Slidez – AI Stylist & Virtual Try-On App";
 const DESCRIPTION =

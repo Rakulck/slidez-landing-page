@@ -11,7 +11,7 @@ const CTA             = dynamic(() => import("@/components/sections/CTA"));
 const Footer          = dynamic(() => import("@/components/sections/Footer"));
 
 export const metadata: Metadata = {
-  alternates: { canonical: "https://www.slidez.app/" },
+  alternates: { canonical: "https://www.slidez.social/" },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 };
 

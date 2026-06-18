@@ -13,23 +13,23 @@ Slidez is free on iOS and Android. A Chrome extension is also available for tryi
 
 ## Core pages
 
-- [Homepage](https://www.slidez.app/)
-- [What Is AI Virtual Try-On?](https://www.slidez.app/ai-virtual-try-on)
-- [What Is an AI Stylist?](https://www.slidez.app/ai-stylist)
-- [Try On from Anywhere](https://www.slidez.app/try-on-from-anywhere)
-- [Outfit Ideas](https://www.slidez.app/outfit-ideas)
-- [What to Wear](https://www.slidez.app/what-to-wear)
+- [Homepage](https://www.slidez.social/)
+- [What Is AI Virtual Try-On?](https://www.slidez.social/ai-virtual-try-on)
+- [What Is an AI Stylist?](https://www.slidez.social/ai-stylist)
+- [Try On from Anywhere](https://www.slidez.social/try-on-from-anywhere)
+- [Outfit Ideas](https://www.slidez.social/outfit-ideas)
+- [What to Wear](https://www.slidez.social/what-to-wear)
 
 ## Outfit idea pages
 
-- [Date Night Outfit Ideas](https://www.slidez.app/date-night-outfit-ideas)
-- [Winter Outfit Ideas](https://www.slidez.app/winter-outfit-ideas)
-- [Concert Outfit Ideas](https://www.slidez.app/concert-outfit-ideas)
-- [Office Outfit Ideas](https://www.slidez.app/office-outfit-ideas)
-- [Black Jeans Outfit Ideas](https://www.slidez.app/black-jeans-outfit-ideas)
-- [Casual Coffee Date Outfit](https://www.slidez.app/casual-coffee-date-outfit)
+- [Date Night Outfit Ideas](https://www.slidez.social/date-night-outfit-ideas)
+- [Winter Outfit Ideas](https://www.slidez.social/winter-outfit-ideas)
+- [Concert Outfit Ideas](https://www.slidez.social/concert-outfit-ideas)
+- [Office Outfit Ideas](https://www.slidez.social/office-outfit-ideas)
+- [Black Jeans Outfit Ideas](https://www.slidez.social/black-jeans-outfit-ideas)
+- [Casual Coffee Date Outfit](https://www.slidez.social/casual-coffee-date-outfit)
 
 ## Policies
 
-- [Privacy Policy](https://www.slidez.app/privacy)
-- [Terms of Service](https://www.slidez.app/terms)
+- [Privacy Policy](https://www.slidez.social/privacy)
+- [Terms of Service](https://www.slidez.social/terms)

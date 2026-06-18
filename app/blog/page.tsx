@@ -9,11 +9,11 @@ export const metadata: Metadata = {
   title: "Blog | Slidez",
   description: "Read the latest news, guides, and tips on AI styling, fashion trends, and building the perfect wardrobe.",
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-  alternates: { canonical: "https://www.slidez.app/blog" },
+  alternates: { canonical: "https://www.slidez.social/blog" },
   openGraph: {
     title: "Blog | Slidez",
     description: "Read the latest news, guides, and tips on AI styling, fashion trends, and building the perfect wardrobe.",
-    url: "https://www.slidez.app/blog",
+    url: "https://www.slidez.social/blog",
     type: "website",
     siteName: "Slidez",
   },

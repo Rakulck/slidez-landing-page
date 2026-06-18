@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
             value: "slidez-landing-page.vercel.app",
           },
         ],
-        destination: "https://www.slidez.app/:path*",
+        destination: "https://www.slidez.social/:path*",
         permanent: true,
       },
       { source: "/blogs", destination: "/blog", permanent: true },

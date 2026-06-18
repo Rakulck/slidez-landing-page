@@ -8,11 +8,11 @@ export const metadata: Metadata = {
   title: "What Is an AI Fashion Stylist? (2026 Guide)",
   description: "Discover what an AI fashion stylist is, how it works behind the scenes, and whether it deserves a spot on your phone in 2026.",
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-  alternates: { canonical: "https://www.slidez.app/blog/what-is-ai-fashion-stylist" },
+  alternates: { canonical: "https://www.slidez.social/blog/what-is-ai-fashion-stylist" },
   openGraph: {
     title: "What Is an AI Fashion Stylist? (2026 Guide)",
     description: "Discover what an AI fashion stylist is, how it works behind the scenes, and whether it deserves a spot on your phone in 2026.",
-    url: "https://www.slidez.app/blog/what-is-ai-fashion-stylist",
+    url: "https://www.slidez.social/blog/what-is-ai-fashion-stylist",
     type: "article",
     siteName: "Slidez",
   },
