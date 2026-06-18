@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogRoutes = [
     { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
     { path: "/blog/best-ai-stylist-apps", priority: 0.7, changeFrequency: "monthly" as const },
+    { path: "/blog/best-ai-stylist-apps-2026", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/blog/best-virtual-closet-apps", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/blog/best-outfit-planner-apps-2026", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/blog/what-is-ai-fashion-stylist", priority: 0.7, changeFrequency: "monthly" as const },
