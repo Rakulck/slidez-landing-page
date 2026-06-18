@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       { source: "/blogs", destination: "/blog", permanent: true },
+      {
+        source: "/blogs/what-is-social-shopping-a-gen-z-guide-to-community-driven-fashion-add-to-cart-is-old-news-ask-the-squad-is-the-new-wave",
+        destination: "/blog/what-is-social-shopping",
+        permanent: true,
+      },
       { source: "/blogs/:path*", destination: "/blog/:path*", permanent: true },
       { source: "/team", destination: "/", permanent: true },
       { source: "/features/slidez-ai", destination: "/", permanent: true },
