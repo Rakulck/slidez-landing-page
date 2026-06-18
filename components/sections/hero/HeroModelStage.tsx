@@ -56,11 +56,11 @@ export default function HeroModelStage({
 
   return (
     <div
-      className={`relative mx-auto w-full max-w-[420px] lg:max-w-none ${
+      className={`relative mx-auto w-full max-w-[420px] md:max-w-none ${
         highlight ? "rounded-[32px] ring-2 ring-[#1a1a1e]/20 ring-offset-4 ring-offset-[#e8e9ec] transition-shadow duration-300" : ""
       }`}
     >
-      <div className="relative h-[420px] w-full lg:h-[580px]">
+      <div className="relative h-[420px] w-full md:h-[580px]">
         {/* Gender toggle */}
         <div className="absolute left-4 top-4 z-30 inline-flex gap-1 rounded-full border border-black/10 bg-white/80 p-1 shadow-sm backdrop-blur-md">
           {(["women", "men"] as const).map((g) => (
@@ -84,7 +84,7 @@ export default function HeroModelStage({
         </div>
 
         {/* Panel */}
-        <div className="absolute bottom-0 left-0 right-0 h-[340px] overflow-hidden rounded-[28px] border border-white/60 bg-gradient-to-b from-[#f4f5f7] to-[#dddee3] shadow-[0_8px_40px_rgba(0,0,0,0.06)] lg:h-[470px]">
+        <div className="absolute bottom-0 left-0 right-0 h-[340px] overflow-hidden rounded-[28px] border border-white/60 bg-gradient-to-b from-[#f4f5f7] to-[#dddee3] shadow-[0_8px_40px_rgba(0,0,0,0.06)] md:h-[470px]">
           <div
             className="pointer-events-none absolute left-1/2 top-[-40px] h-[440px] w-[440px] -translate-x-1/2 opacity-75"
             style={{

@@ -318,27 +318,21 @@ export default function Hero() {
     >
       <HeroCloudBackground />
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-[1] mx-auto w-full max-w-[1280px]"
-      >
+      <div className="relative z-[1] mx-auto w-full max-w-[1280px]">
         {/* Two-column grid */}
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_0.82fr] lg:gap-11">
+        <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-11">
           {/* Left column */}
-          <div className="text-left">
-            {/* Eyebrow pill */}
-            <div className="mb-8 inline-flex h-8 items-center gap-2 rounded-full border border-black/10 bg-white/[0.65] py-0 pl-3 pr-3.5 backdrop-blur-md">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#4caf50]" />
-              <span className="font-mono text-[10.5px] uppercase tracking-[1.6px] text-[#888]">
-                AI Stylist · Virtual Try-On
-              </span>
-            </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="text-left"
+          >
+
 
             {/* Headline */}
             <h1
-              className="font-semibold leading-[0.9] tracking-[-5px] text-[#1a1a1e]"
+              className="mt-16 font-semibold leading-[0.9] tracking-[-5px] text-[#1a1a1e]"
               style={{ fontSize: "clamp(2.8rem, 7vw, 5.8rem)" }}
               suppressHydrationWarning
             >
@@ -476,7 +470,7 @@ export default function Hero() {
             <div className="mt-8">
               <BrandsStrip theme="light" variant="full" />
             </div>
-          </div>
+          </motion.div>
 
           {/* Right column — model stage */}
           <div className="w-full min-w-0">
@@ -493,7 +487,7 @@ export default function Hero() {
             />
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Outfit card carousel */}
       <div className="relative z-10 mt-12 w-full pb-8 lg:mt-16">
