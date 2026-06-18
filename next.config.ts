@@ -38,7 +38,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/blogs/what-is-social-shopping-a-gen-z-guide-to-community-driven-fashion-add-to-cart-is-old-news-ask-the-squad-is-the-new-wave",
-        destination: "/blog",
+        destination: "/blog/what-is-social-shopping",
         permanent: true,
       },
       {
