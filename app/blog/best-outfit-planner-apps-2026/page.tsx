@@ -9,7 +9,15 @@ export const metadata: Metadata = {
   title: "Best Outfit Planner Apps to Style Clothes in 2026",
   description:
     "Discover the best outfit planner apps in 2026 to plan outfits, style clothes before you buy, and stop wasting money on pieces you never wear.",
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   alternates: { canonical: "https://www.slidez.social/blog/best-outfit-planner-apps-2026" },
+  openGraph: {
+    title: "Best Outfit Planner Apps to Style Clothes in 2026",
+    description: "Discover the best outfit planner apps in 2026 to plan outfits, style clothes before you buy, and stop wasting money on pieces you never wear.",
+    url: "https://www.slidez.social/blog/best-outfit-planner-apps-2026",
+    type: "article",
+    siteName: "Slidez",
+  },
 };
 
 // FAQPage schema — mirrors the visible "Frequently Asked Questions (FAQs)" section verbatim.

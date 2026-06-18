@@ -7,7 +7,15 @@ import Footer from "@/components/sections/Footer";
 export const metadata: Metadata = {
   title: "Best AI Stylist Apps to Instantly Upgrade Your Style in 2026",
   description: "Discover the best AI stylist apps in 2026 to plan outfits, build your wardrobe, and shop smarter with virtual try-ons.",
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   alternates: { canonical: "https://www.slidez.social/blog/best-ai-stylist-apps" },
+  openGraph: {
+    title: "Best AI Stylist Apps to Instantly Upgrade Your Style in 2026",
+    description: "Discover the best AI stylist apps in 2026 to plan outfits, build your wardrobe, and shop smarter with virtual try-ons.",
+    url: "https://www.slidez.social/blog/best-ai-stylist-apps",
+    type: "article",
+    siteName: "Slidez",
+  },
 };
 
 // FAQPage schema — mirrors the visible "Frequently Asked Questions" section verbatim.

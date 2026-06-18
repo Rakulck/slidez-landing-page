@@ -10,8 +10,6 @@ const TITLE       = "What Is AI Virtual Try-On? How It Works & Why It Matters";
 const DESCRIPTION = "AI virtual try-on lets you see how clothes look on your body before buying. Learn how it works, why shoppers use it, and how Slidez makes it free on iOS and Android.";
 const CANONICAL   = `${CANONICAL_BASE}/ai-virtual-try-on`;
 
-const isProduction = process.env.VERCEL_ENV === "production";
-
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
@@ -26,9 +24,7 @@ export const metadata: Metadata = {
     "AI stylist",
     "Slidez",
   ],
-  robots: isProduction
-    ? { index: true, follow: true, googleBot: { index: true, follow: true } }
-    : { index: false, follow: false },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   alternates: { canonical: CANONICAL },
   openGraph: {
     title: TITLE,

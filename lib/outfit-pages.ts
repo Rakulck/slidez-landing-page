@@ -10,8 +10,6 @@ export const CANONICAL_BASE = "https://www.slidez.social";
 
 export const UNSPLASH_BASE = "https://images.unsplash.com/photo-";
 
-const isProduction = process.env.VERCEL_ENV === "production";
-
 /* ── Config types ─────────────────────────────────────────────── */
 
 export type StyleCard = {
@@ -76,9 +74,7 @@ export function generateOutfitPageMetadata(config: OutfitPageConfig): Metadata {
     title: config.title,
     description: config.description,
     keywords: config.keywords,
-    robots: isProduction
-      ? { index: true, follow: true, googleBot: { index: true, follow: true } }
-      : { index: false, follow: false },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
     alternates: {
       canonical: canonicalUrl,
     },

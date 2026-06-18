@@ -33,8 +33,6 @@ const TWITTER_TITLE =
   "Slidez: AI Outfit Stylist & Virtual Fitting Room App";
 const OG_IMAGE = `${BASE_URL}/opengraph-image`;
 
-const isProduction = process.env.VERCEL_ENV === "production";
-
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: TITLE,
@@ -56,9 +54,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Slidez", url: BASE_URL }],
   formatDetection: { telephone: false },
-  robots: isProduction
-    ? { index: true, follow: true, googleBot: { index: true, follow: true } }
-    : { index: false, follow: false },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   verification: {
     google: "5a493f6e28990868",
   },

@@ -10,7 +10,6 @@ import {
   type OutfitPageConfig,
 } from "@/lib/outfit-pages";
 
-const isProduction = process.env.VERCEL_ENV === "production";
 const CANONICAL = `${CANONICAL_BASE}/what-to-wear`;
 
 const TITLE = "What Should I Wear? AI Outfit Ideas for Every Occasion";
@@ -30,9 +29,7 @@ export const metadata: Metadata = {
     "what should I wear today",
     "Slidez AI Stylist",
   ],
-  robots: isProduction
-    ? { index: true, follow: true, googleBot: { index: true, follow: true } }
-    : { index: false, follow: false },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   alternates: { canonical: CANONICAL },
   openGraph: {
     title: TITLE,

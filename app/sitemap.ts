@@ -12,13 +12,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     
     // Core Features & Hubs
     { path: "/ai-stylist", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/ai-fashion-stylist", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/free-ai-stylist-app", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/outfit-ideas", priority: 0.9, changeFrequency: "weekly" as const },
     { path: "/what-to-wear", priority: 0.9, changeFrequency: "weekly" as const },
     { path: "/ai-virtual-try-on", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/try-on-from-anywhere", priority: 0.8, changeFrequency: "monthly" as const },
-
-    // Blog URLs are owned by the dedicated /blog/sitemap.xml (app/blog/sitemap.ts)
-    // to avoid duplicate entries across sitemaps.
 
     // Specific Outfit Idea Pages
     { path: "/date-night-outfit-ideas", priority: 0.8, changeFrequency: "monthly" as const },
@@ -31,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Legal & Support pages
     { path: "/privacy", priority: 0.3, changeFrequency: "yearly" as const },
     { path: "/terms", priority: 0.3, changeFrequency: "yearly" as const },
+    { path: "/brands-privacy-policy", priority: 0.3, changeFrequency: "yearly" as const },
   ];
 
   return routes.map((route) => ({

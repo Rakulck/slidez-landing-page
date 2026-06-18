@@ -9,8 +9,6 @@ import { CANONICAL_BASE, ASSETS_BASE_URL } from "@/lib/outfit-pages";
 const TITLE       = "Try On Clothes from Any Website or Instagram | Slidez";
 const DESCRIPTION = "Spot something you like on Instagram or any shopping site, import it into Slidez, and virtually try it on your own photo before buying. Free on iOS and Android.";
 const CANONICAL   = `${CANONICAL_BASE}/try-on-from-anywhere`;
-const isProduction = process.env.VERCEL_ENV === "production";
-
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
@@ -24,9 +22,7 @@ export const metadata: Metadata = {
     "AI virtual try-on",
     "Slidez import",
   ],
-  robots: isProduction
-    ? { index: true, follow: true, googleBot: { index: true, follow: true } }
-    : { index: false, follow: false },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   alternates: { canonical: CANONICAL },
   openGraph: {
     title: TITLE,
