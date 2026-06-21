@@ -43,12 +43,12 @@ export default function BlogListingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             
-            {/* Blog Post Card */}
-            <Link href="/blog/best-ai-stylist-apps" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            {/* Blog Post Card - Best Virtual Closet Apps 2026 */}
+            <Link href="/blog/best-virtual-closet-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
-                  src="/blog-slidez-right.jpeg" 
-                  alt="Slidez preview image" 
+                  src="/blog-slidez-left.jpeg" 
+                  alt="Virtual Closet App preview image" 
                   fill
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                 />
@@ -57,13 +57,13 @@ export default function BlogListingPage() {
                 <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
                   <span>Guide</span>
                   <span>·</span>
-                  <span>May 2026</span>
+                  <span>June 2026</span>
                 </div>
                 <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
-                  Best AI Stylist Apps to Instantly Upgrade Your Style in 2026
+                  Best Virtual Closet Apps to Organize and Style Your Wardrobe in 2026
                 </h3>
                 <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
-                  The rise of the AI stylist app has changed how millions of people plan outfits, build wardrobes, and shop smarter. Discover the top picks for this year.
+                  Turn your wardrobe into something you can actually use. Discover the top virtual closet apps that help you plan outfits and shop smarter.
                 </p>
                 <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
                   Read Article
@@ -105,68 +105,7 @@ export default function BlogListingPage() {
               </div>
             </Link>
 
-            {/* Blog Post Card 2 */}
-            <Link href="/blog/best-virtual-closet-apps" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
-                <Image 
-                  src="/blog-slidez-left.jpeg" 
-                  alt="Virtual Closet App preview image" 
-                  fill
-                  className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-8 flex flex-col flex-1">
-                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
-                  <span>Guide</span>
-                  <span>·</span>
-                  <span>May 2026</span>
-                </div>
-                <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
-                  Best Virtual Closet Apps to Organize and Style Your Wardrobe in 2026
-                </h3>
-                <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
-                  Turn your wardrobe into something you can actually use. Discover the top virtual closet apps that help you plan outfits and shop smarter.
-                </p>
-                <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
-                  Read Article
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </div>
-              </div>
-            </Link>
-
-            {/* Blog Post Card 3 */}
-            <Link href="/blog/best-outfit-planner-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden flex items-center justify-center p-6">
-                <BlogSlideAnimation
-                  src="/blog-slidez-right.json"
-                  alt="Slidez outfit planner app preview"
-                  className="w-full max-w-[220px] border-0 shadow-none group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-8 flex flex-col flex-1">
-                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
-                  <span>Guide</span>
-                  <span>·</span>
-                  <span>May 2026</span>
-                </div>
-                <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
-                  Best Outfit Planner Apps to Style Clothes in 2026
-                </h3>
-                <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
-                  Discover the top outfit planner apps to plan outfits from your wardrobe, preview looks, and make smarter shopping decisions before checkout.
-                </p>
-                <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
-                  Read Article
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </div>
-              </div>
-            </Link>
-
-            {/* Blog Post Card 4 */}
+            {/* Blog Post Card - What is AI Stylist */}
             <Link href="/blog/what-is-ai-fashion-stylist" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
@@ -197,7 +136,7 @@ export default function BlogListingPage() {
               </div>
             </Link>
 
-            {/* Blog Post Card 5 */}
+            {/* Blog Post Card - AI vs Human */}
             <Link href="/blog/ai-stylist-vs-human-stylist" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
@@ -228,7 +167,7 @@ export default function BlogListingPage() {
               </div>
             </Link>
 
-            {/* Blog Post Card 6 */}
+            {/* Blog Post Card - Virtual vs Online */}
             <Link href="/blog/virtual-try-on-vs-online-shopping" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
@@ -249,6 +188,67 @@ export default function BlogListingPage() {
                 </h3>
                 <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
                   Compare virtual try-on with traditional online shopping on fit accuracy, return rates, and shopping confidence to find out which is better in 2026.
+                </p>
+                <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
+                  Read Article
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+            
+            {/* Blog Post Card */}
+            <Link href="/blog/best-ai-stylist-apps" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
+                <Image 
+                  src="/blog-slidez-right.jpeg" 
+                  alt="Slidez preview image" 
+                  fill
+                  className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-8 flex flex-col flex-1">
+                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
+                  <span>Guide</span>
+                  <span>·</span>
+                  <span>May 2026</span>
+                </div>
+                <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
+                  Best AI Stylist Apps to Instantly Upgrade Your Style in 2026
+                </h3>
+                <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
+                  The rise of the AI stylist app has changed how millions of people plan outfits, build wardrobes, and shop smarter. Discover the top picks for this year.
+                </p>
+                <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
+                  Read Article
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+
+            {/* Blog Post Card - Outfit Planner Apps */}
+            <Link href="/blog/best-outfit-planner-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden flex items-center justify-center p-6">
+                <BlogSlideAnimation
+                  src="/blog-slidez-right.json"
+                  alt="Slidez outfit planner app preview"
+                  className="w-full max-w-[220px] border-0 shadow-none group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-8 flex flex-col flex-1">
+                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
+                  <span>Guide</span>
+                  <span>·</span>
+                  <span>May 2026</span>
+                </div>
+                <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
+                  Best Outfit Planner Apps to Style Clothes in 2026
+                </h3>
+                <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
+                  Discover the top outfit planner apps to plan outfits from your wardrobe, preview looks, and make smarter shopping decisions before checkout.
                 </p>
                 <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
                   Read Article
