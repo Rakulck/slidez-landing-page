@@ -144,7 +144,8 @@ const HOW_IT_WORKS = [
 ];
 
 const BENEFITS = [
-  { icon: "✦", title: "Instant outfit ideas", body: "Get a complete look in seconds — no endless scrolling, no guessing. Faster than any fashion ai app." },
+const BENEFITS = [
+  { icon: "✦", title: "Instant outfit ideas", body: "Get a complete look in seconds — no endless scrolling, no guessing. Faster than any fashion ai app or outfit maker app." },
   { icon: "🎨", title: "Coordinated head-to-toe", body: "Every suggestion is a complete outfit — top, bottom, shoes, accessories — matched for colour and proportion." },
   { icon: "🎯", title: "Occasion-ready", body: "Casual, office, date night, party, winter — your AI style assistant covers every dress code and context." },
   { icon: "👗", title: "Works from your wardrobe", body: "Describe pieces you already own and the ai clothing app builds complete looks around them." },
@@ -157,6 +158,13 @@ const RELATED = [
   { label: "AI Virtual Try-On",     href: "/ai-virtual-try-on",     desc: "See how clothes look on you before buying." },
   { label: "Outfit Ideas",          href: "/outfit-ideas",          desc: "Browse AI outfit ideas for any occasion." },
   { label: "What to Wear",          href: "/what-to-wear",          desc: "Not sure what to wear? Let AI decide." },
+];
+
+const RECOMMENDED_READING = [
+  { label: "What is an AI Fashion Stylist?", href: "/blog/what-is-ai-fashion-stylist", desc: "Learn how AI is changing the way we dress and plan outfits." },
+  { label: "Best AI Stylist Apps in 2026", href: "/blog/best-ai-stylist-apps-2026", desc: "Compare the top AI styling apps available today." },
+  { label: "Virtual Try-On vs Online Shopping", href: "/blog/virtual-try-on-vs-online-shopping", desc: "Why trying on clothes virtually is the future of fashion." },
+  { label: "AI vs Human Stylist", href: "/blog/ai-stylist-vs-human-stylist", desc: "Which one is right for your wardrobe and budget?" },
 ];
 
 const FAQS = [
@@ -309,6 +317,30 @@ export default function Page() {
             </div>
           </div>
         </section>
+
+        {/* ── Recommended Reading ─────────────────────────── */}
+        <section data-nav-theme="light-bg" className="relative z-[58] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4">On The Blog</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight">Recommended Reading</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {RECOMMENDED_READING.map(({ label, href, desc }) => (
+                <a key={label} href={href} className="group p-6 rounded-2xl border border-black/[0.07] bg-[#fafafa] hover:border-black/[0.15] hover:bg-white transition-all duration-200 flex flex-col justify-between">
+                  <div>
+                    <p className="font-bold text-black text-lg mb-2 group-hover:text-black/80 transition-colors">{label}</p>
+                    <p className="text-black/60 text-sm leading-relaxed mb-4">{desc}</p>
+                  </div>
+                  <div className="flex items-center text-sm font-semibold text-black/40 group-hover:text-black transition-colors">
+                    Read article <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
 
         {/* ── Related ───────────────────────────────────────── */}
         <section data-nav-theme="dark-bg" className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#080808] py-20 px-6">
