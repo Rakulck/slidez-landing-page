@@ -32,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   return routes.map((route) => ({
-    url: `${CANONICAL}${route.path}`,
+    url: route.path === "" ? `${CANONICAL}/` : `${CANONICAL}${route.path}`,
     lastModified: currentDate,
     changeFrequency: route.changeFrequency,
     priority: route.priority,

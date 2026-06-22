@@ -92,6 +92,22 @@ const config = createOutfitPageConfig("Black Jeans", {
     },
   ],
 
+  whyAiStylistHeading: "Why Use AI to Style Black Jeans",
+  whyAiStylistBenefits: [
+    {
+      title: "Endless pairing options",
+      desc: "Black jeans work with almost everything — Slidez finds the right top, outerwear, and shoes for casual, office, or date-night contexts.",
+    },
+    {
+      title: "Occasion-specific looks",
+      desc: "Same denim, different energy. Get distinct outfits for weekends, work, and evenings without repeating the same formula.",
+    },
+    {
+      title: "Try combinations risk-free",
+      desc: "Test how black jeans look with new pieces on your photo before buying — especially helpful for bold colors, heels, or structured blazers.",
+    },
+  ],
+
   relatedPages: [
     { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any style or occasion.", img: "/outfits/rooftop-outfit.jpeg" },
     { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic looks for any evening out.",               img: "/outfits/restaurant-dinner.jpeg" },

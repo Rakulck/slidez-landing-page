@@ -89,6 +89,22 @@ const config = createOutfitPageConfig("Winter", {
     },
   ],
 
+  whyAiStylistHeading: "Why Use AI for Winter Outfits",
+  whyAiStylistBenefits: [
+    {
+      title: "Smart layering built in",
+      desc: "Slidez plans coats, knits, and base layers together so you stay warm without looking bulky or mismatched.",
+    },
+    {
+      title: "Season-ready in one prompt",
+      desc: "Describe the temperature, occasion, or vibe — from snow days to winter date nights — and get a complete cold-weather look instantly.",
+    },
+    {
+      title: "Preview layers on your photo",
+      desc: "Virtual try-on lets you see how winter outfits drape and fit on your body before buying coats, boots, or knits online.",
+    },
+  ],
+
   relatedPages: [
     { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any style or occasion.", img: "/outfits/rooftop-outfit.jpeg" },
     { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic evening looks, even in cold weather.",       img: "/outfits/restaurant-dinner.jpeg" },

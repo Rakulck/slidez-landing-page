@@ -43,6 +43,11 @@ export type PopularIdea = {
   href: string;
 };
 
+export type BenefitItem = {
+  title: string;
+  desc: string;
+};
+
 export type OutfitPageConfig = {
   // Routing — the URL segment after the domain, e.g. "outfit-ideas"
   slug: string;
@@ -65,6 +70,10 @@ export type OutfitPageConfig = {
   faqItems: FaqItem[];
   popularIdeas: PopularIdea[];
   relatedPages: RelatedPage[];
+
+  /** Optional override for the "Why Use an AI Stylist" section */
+  whyAiStylistHeading?: string;
+  whyAiStylistBenefits?: BenefitItem[];
 };
 
 /* ── Metadata generator ───────────────────────────────────────── */

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
+import BlogProductLinks from "@/components/sections/BlogProductLinks";
 
 export const metadata: Metadata = {
   title: "Best AI Stylist Apps to Upgrade Your Style in 2026",
@@ -512,6 +513,8 @@ export default function BlogPost() {
                 </div>
               </div>
             </div>
+
+            <BlogProductLinks />
 
             <div className="mt-16 pt-12 border-t border-black/10">
               <h2 className="text-2xl font-bold text-black mb-8 tracking-tight">Recommended Readings</h2>

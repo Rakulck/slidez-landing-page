@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   description: "Slidez Terms of Service. Read the terms and conditions for using the Slidez AI stylist and virtual try-on platform.",
   robots: { index: true, follow: true },
   alternates: { canonical: "https://www.slidez.social/terms" },
+  openGraph: {
+    title: "Terms of Service – Slidez",
+    description: "Slidez Terms of Service. Read the terms and conditions for using the Slidez AI stylist and virtual try-on platform.",
+    url: "https://www.slidez.social/terms",
+    type: "website",
+    siteName: "Slidez",
+  },
 };
 
 const sections = [

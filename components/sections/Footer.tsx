@@ -5,10 +5,23 @@ const links = [
   {
     group: "Product",
     items: [
+      { label: "AI Stylist", href: "/ai-stylist" },
+      { label: "Virtual Try-On", href: "/ai-virtual-try-on" },
+      { label: "Try On From Anywhere", href: "/try-on-from-anywhere" },
       { label: "Outfit Ideas", href: "/outfit-ideas" },
       { label: "What to Wear", href: "/what-to-wear" },
-      { label: "Blogs", href: "/blog" },
+      { label: "Blog", href: "/blog" },
       { label: "Chrome Extension", href: "https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak?utm_source=item-share-cb" },
+    ],
+  },
+  {
+    group: "Outfit Guides",
+    items: [
+      { label: "Office Outfit Ideas", href: "/office-outfit-ideas" },
+      { label: "Winter Outfit Ideas", href: "/winter-outfit-ideas" },
+      { label: "Concert Outfit Ideas", href: "/concert-outfit-ideas" },
+      { label: "Black Jeans Outfits", href: "/black-jeans-outfit-ideas" },
+      { label: "Date Night Outfits", href: "/date-night-outfit-ideas" },
     ],
   },
   {
@@ -42,7 +55,7 @@ export default function Footer() {
       </div>
 
       <div className="relative max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-14">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-10 mb-14">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center mb-4">

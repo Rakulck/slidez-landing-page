@@ -162,12 +162,14 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
                 Benefits
               </p>
               <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-black leading-tight">
-                Why Use an AI Stylist
+                {config.whyAiStylistHeading ?? "Why Use an AI Stylist"}
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {BENEFITS.map(({ icon: Icon, title, desc }) => (
+              {(config.whyAiStylistBenefits ?? BENEFITS).map(({ title, desc }, i) => {
+                const Icon = BENEFITS[i % BENEFITS.length].icon;
+                return (
                 <div key={title} className="p-7 rounded-2xl border border-black/[0.07] bg-[#fafafa]">
                   <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center mb-5">
                     <Icon className="w-5 h-5 text-white" />
@@ -175,7 +177,8 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
                   <p className="font-semibold text-black text-base mb-2">{title}</p>
                   <p className="text-black/45 text-sm leading-relaxed">{desc}</p>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>

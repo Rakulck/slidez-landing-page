@@ -1,9 +1,14 @@
 
 const LINKS = [
-  { label: "Outfit Ideas",            href: "/outfit-ideas"            },
-  { label: "What Should I Wear",      href: "/what-to-wear"            },
-  { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas" },
+  { label: "Outfit Ideas",            href: "/outfit-ideas"              },
+  { label: "What Should I Wear",      href: "/what-to-wear"              },
+  { label: "AI Stylist",              href: "/ai-stylist"                },
+  { label: "Virtual Try-On",          href: "/ai-virtual-try-on"         },
+  { label: "Try On From Anywhere",    href: "/try-on-from-anywhere"    },
+  { label: "Office Outfit Ideas",     href: "/office-outfit-ideas"     },
   { label: "Winter Outfit Ideas",     href: "/winter-outfit-ideas"     },
+  { label: "Concert Outfit Ideas",    href: "/concert-outfit-ideas"    },
+  { label: "Black Jeans Outfits",     href: "/black-jeans-outfit-ideas" },
 ];
 
 export default function AIStylistLinks() {

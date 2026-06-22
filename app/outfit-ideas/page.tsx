@@ -34,9 +34,9 @@ const config: OutfitPageConfig = {
     "Describe your style or occasion and generate complete outfit ideas instantly with Slidez AI Stylist.",
 
   heroEyebrow: "AI Outfit Generator",
-  heroH1: "Generate Your Outfit in Seconds",
+  heroH1: "Outfit Ideas for Any Occasion",
   heroSubtext:
-    "Describe your occasion or style. Slidez AI Stylist creates outfits instantly.",
+    "Describe your occasion or style. Slidez AI Stylist creates complete outfit ideas instantly — from casual days to date nights and work looks.",
 
   // Unused by hub template — required by type
   styleCards:   [],
@@ -87,7 +87,11 @@ export default function OutfitIdeasPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
       />
-      <OutfitIdeasHubTemplate />
+      <OutfitIdeasHubTemplate
+        heroEyebrow={config.heroEyebrow}
+        heroH1={config.heroH1}
+        heroSubtext={config.heroSubtext}
+      />
     </>
   );
 }

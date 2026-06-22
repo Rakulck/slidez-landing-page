@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
+import BlogProductLinks from "@/components/sections/BlogProductLinks";
 
 export const metadata: Metadata = {
   title: "Virtual Try-On vs Online Shopping: What's Better in 2026?",
@@ -450,6 +451,8 @@ export default function BlogPost() {
                 </div>
               </div>
             </div>
+
+            <BlogProductLinks />
 
             {/* Recommended Readings */}
             <div className="mt-16 pt-12 border-t border-black/10">

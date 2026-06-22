@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, type ReactNode } from "react";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import StylistToolHeroSection, { StylistToolSection } from "@/components/features/ai-stylist/StylistToolHeroSection";
@@ -182,7 +182,22 @@ function GlowOrb() {
 
 /* ── Component ────────────────────────────────────────────────── */
 
-export default function OutfitIdeasHubTemplate() {
+type OutfitIdeasHubTemplateProps = {
+  heroEyebrow?: string;
+  heroH1?: string;
+  heroSubtext?: ReactNode;
+};
+
+export default function OutfitIdeasHubTemplate({
+  heroEyebrow = "AI Outfit Generator",
+  heroH1 = "Outfit Ideas for Any Occasion",
+  heroSubtext = (
+    <>
+      Describe your style preferences or occasion.{" "}
+      <span className="text-black/55">Slidez AI Stylist</span> creates outfit ideas instantly, designed to match your taste and make getting ready easier.
+    </>
+  ),
+}: OutfitIdeasHubTemplateProps = {}) {
   const [externalPrompt, setExternalPrompt]     = useState("");
   const [externalPromptKey, setExternalPromptKey] = useState(0);
   const heroRef = useRef<HTMLHeadingElement>(null);
@@ -202,14 +217,9 @@ export default function OutfitIdeasHubTemplate() {
       ───────────────────────────────────────────────────────── */}
       <StylistToolHeroSection
         ariaLabel="AI outfit generator"
-        eyebrow="AI Outfit Generator"
-        title="Outfit Ideas for Any Occasion"
-        subtitle={
-          <>
-            Describe your style preferences or occasion.{" "}
-            <span className="text-black/55">Slidez AI Stylist</span> creates outfit ideas instantly, designed to match your taste and make getting ready easier.
-          </>
-        }
+        eyebrow={heroEyebrow}
+        title={heroH1}
+        subtitle={heroSubtext}
         titleRef={heroRef}
         externalPrompt={externalPrompt}
         externalPromptKey={externalPromptKey}

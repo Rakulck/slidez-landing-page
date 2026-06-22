@@ -92,6 +92,22 @@ const config = createOutfitPageConfig("Office", {
     },
   ],
 
+  whyAiStylistHeading: "Why Use AI for Office Outfits",
+  whyAiStylistBenefits: [
+    {
+      title: "Dress-code aware suggestions",
+      desc: "Tell Slidez your workplace — corporate, creative, or business casual — and get outfits that fit the environment without guesswork.",
+    },
+    {
+      title: "Polished in seconds",
+      desc: "Skip the 7am wardrobe spiral. AI assembles a complete work look — top, bottom, shoes, and layers — before your coffee is ready.",
+    },
+    {
+      title: "Try before you buy workwear",
+      desc: "Use Slidez virtual try-on to see how office outfits look on you before spending on pieces that might not suit your shape or style.",
+    },
+  ],
+
   relatedPages: [
     { label: "Outfit Ideas",             href: "/outfit-ideas",             desc: "Browse AI outfit ideas for any style or occasion.", img: "/outfits/rooftop-outfit.jpeg" },
     { label: "Black Jeans Outfit Ideas", href: "/black-jeans-outfit-ideas", desc: "How to make black jeans work-appropriate.",        img: "/outfits/grey-cropped-hoodie.jpeg" },

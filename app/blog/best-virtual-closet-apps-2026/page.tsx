@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
+import BlogProductLinks from "@/components/sections/BlogProductLinks";
 
 export const metadata: Metadata = {
   title: "Best Virtual Closet Apps to Organize Your Wardrobe in 2026",
@@ -492,6 +493,8 @@ export default function BlogPost() {
               </div>
             </div>
             
+            <BlogProductLinks />
+
             <div className="mt-16 pt-10 border-t border-black/10 text-center">
               <p className="text-xl font-bold text-black mb-4">Looking to upgrade your style?</p>
               <a href="https://linkly.link/2FWYm" className="text-black hover:text-black/70 underline font-medium">👉 Download Slidez, your AI stylist in your pocket.</a>

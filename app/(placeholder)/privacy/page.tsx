@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   description: "Slidez Privacy Policy. Learn how we collect, use, and protect your information when you use Slidez AI stylist and virtual try-on.",
   robots: { index: true, follow: true },
   alternates: { canonical: "https://www.slidez.social/privacy" },
+  openGraph: {
+    title: "Privacy Policy – Slidez",
+    description: "Slidez Privacy Policy. Learn how we collect, use, and protect your information when you use Slidez AI stylist and virtual try-on.",
+    url: "https://www.slidez.social/privacy",
+    type: "website",
+    siteName: "Slidez",
+  },
 };
 
 const sections = [

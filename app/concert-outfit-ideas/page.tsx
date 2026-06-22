@@ -92,6 +92,22 @@ const config = createOutfitPageConfig("Concert", {
     },
   ],
 
+  whyAiStylistHeading: "Why Use AI for Concert Outfits",
+  whyAiStylistBenefits: [
+    {
+      title: "Venue-aware styling",
+      desc: "Indoor venue, outdoor festival, or standing-room-only — Slidez builds concert outfits that work for the setting, not just the photo.",
+    },
+    {
+      title: "Comfort meets statement",
+      desc: "Get looks that feel expressive and on-trend while accounting for hours on your feet, dancing, and unpredictable weather.",
+    },
+    {
+      title: "See the full look before the show",
+      desc: "Try on concert outfits virtually so you know exactly how bold pieces, layers, and footwear come together before show night.",
+    },
+  ],
+
   relatedPages: [
     { label: "Outfit Ideas",            href: "/outfit-ideas",            desc: "Browse AI outfit ideas for any occasion.",              img: "/outfits/rooftop-outfit.jpeg" },
     { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas", desc: "Romantic evening looks for any occasion.",              img: "/outfits/restaurant-dinner.jpeg" },
