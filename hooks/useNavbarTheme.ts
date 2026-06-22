@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 
 export type NavBgTheme = "dark-bg" | "light-bg";
 
-/** Vertical center of the fixed navbar pill (pt-4 + ~half of 60px bar). */
-export const NAVBAR_PROBE_Y = 76;
+/** Bottom edge of the fixed navbar pill (pt-4 + 68px bar). */
+export const NAVBAR_PROBE_Y = 84;
 
 function themeFromElement(el: Element): NavBgTheme | null {
   const value = (el as HTMLElement).dataset?.navTheme;

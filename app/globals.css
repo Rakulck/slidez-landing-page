@@ -262,6 +262,68 @@
   .font-sacramento {
     font-family: var(--font-sacramento), cursive;
   }
+
+  /* Apple-style Liquid Glass navbar shell */
+  .liquid-glass-nav {
+    isolation: isolate;
+    overflow: hidden;
+    position: relative;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) brightness(1.08);
+    backdrop-filter: blur(16px) saturate(180%) brightness(1.08);
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.22),
+      inset 0 1px 1px rgba(255, 255, 255, 0.45),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.2),
+      inset 1px 0 1px rgba(255, 255, 255, 0.14),
+      inset -1px 0 1px rgba(255, 255, 255, 0.14);
+  }
+
+  .liquid-glass-nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.07) 38%,
+      transparent 62%
+    );
+    z-index: 0;
+  }
+
+  .liquid-glass-nav > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .liquid-glass-nav.is-scrolled {
+    -webkit-backdrop-filter: blur(20px) saturate(190%) brightness(1.1);
+    backdrop-filter: blur(20px) saturate(190%) brightness(1.1);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.32),
+      inset 0 1px 1px rgba(255, 255, 255, 0.55),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.26),
+      inset 1px 0 1px rgba(255, 255, 255, 0.18),
+      inset -1px 0 1px rgba(255, 255, 255, 0.18);
+  }
+
+  @supports (backdrop-filter: url(#liquid-glass-nav)) {
+    .liquid-glass-nav {
+      -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.08)
+        url(#liquid-glass-nav);
+      backdrop-filter: blur(12px) saturate(180%) brightness(1.08)
+        url(#liquid-glass-nav);
+    }
+
+    .liquid-glass-nav.is-scrolled {
+      -webkit-backdrop-filter: blur(16px) saturate(190%) brightness(1.1)
+        url(#liquid-glass-nav);
+      backdrop-filter: blur(16px) saturate(190%) brightness(1.1)
+        url(#liquid-glass-nav);
+    }
+  }
 }
 
 

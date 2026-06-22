@@ -26,29 +26,27 @@ const SHELL_LAYOUT =
 
 const SHELL: Record<NavBgTheme, { base: string; scrolled: string }> = {
   "dark-bg": {
-    base:
-      "bg-white/[0.04] border-white/[0.07] shadow-[0_4px_24px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.07)] backdrop-blur-xl",
-    scrolled:
-      "shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] bg-white/[0.06] border-white/[0.1] backdrop-blur-2xl",
+    base: "bg-white/10 border-white/20",
+    scrolled: "bg-white/[0.14] border-white/25",
   },
   "light-bg": {
-    base:
-      "bg-black/[0.72] border-black/20 shadow-[0_4px_24px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl",
-    scrolled:
-      "shadow-[0_8px_32px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.12)] bg-black/[0.78] border-black/25 backdrop-blur-2xl",
+    base: "bg-black/40 border-white/15",
+    scrolled: "bg-black/[0.48] border-white/20",
   },
 };
 
+const LIQUID_GLASS = "liquid-glass-nav";
+
 const LINK =
-  "text-sm text-white/70 hover:text-white transition-colors duration-500";
+  "text-sm font-medium text-white/75 hover:text-white transition-colors duration-500";
 const DROPDOWN_LINK =
-  "block px-4 py-2.5 text-sm leading-snug whitespace-nowrap text-white/80 hover:text-white hover:bg-white/[0.08] transition-colors duration-150";
+  "block px-4 py-2.5 text-sm font-medium leading-snug whitespace-nowrap text-white/85 hover:text-white hover:bg-white/[0.08] transition-colors duration-150";
 const LINK_MUTED =
-  "text-sm text-white/55 hover:text-white transition-colors duration-500";
+  "text-sm font-medium text-white/60 hover:text-white transition-colors duration-500";
 const ICON =
   "text-white/60 hover:text-white transition-colors duration-500";
 const CHROME_BTN =
-  "px-4 py-2.5 text-sm font-semibold rounded-full border border-white/25 text-white/90 hover:border-white/40 hover:text-white hover:bg-white/[0.08] active:scale-[0.97] transition-all duration-500 cursor-pointer";
+  "px-4 py-2.5 text-sm font-semibold rounded-full border border-white/30 text-white/90 hover:border-white/45 hover:text-white hover:bg-white/[0.08] active:scale-[0.97] transition-all duration-500 cursor-pointer";
 const DIVIDER = "border-white/10";
 
 export default function Navbar() {
@@ -61,8 +59,9 @@ export default function Navbar() {
 
   const shell = SHELL[navTheme];
   const shellSurface = scrolled ? shell.scrolled : shell.base;
-  const shellClass = `${SHELL_LAYOUT} ${shellSurface}`;
-  const dropdownClass = `rounded-xl border overflow-hidden shadow-lg ${shellSurface}`;
+  const glassState = scrolled ? "is-scrolled" : "";
+  const shellClass = `${SHELL_LAYOUT} ${LIQUID_GLASS} ${glassState} ${shellSurface}`;
+  const dropdownClass = `rounded-xl border overflow-hidden ${LIQUID_GLASS} ${glassState} ${shellSurface}`;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -82,9 +81,36 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center pt-4 px-4 pointer-events-none">
+    <header className="fixed inset-x-0 top-0 z-[100] flex justify-center pt-4 px-4 pointer-events-none">
+      <svg
+        aria-hidden="true"
+        width="0"
+        height="0"
+        className="absolute overflow-hidden"
+        style={{ position: "absolute" }}
+      >
+        <defs>
+          <filter id="liquid-glass-nav" x="0" y="0" width="100%" height="100%">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.008 0.008"
+              numOctaves="2"
+              seed="4"
+              result="noise"
+            />
+            <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="blurred"
+              scale="28"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
       <div className={shellClass}>
-        <div className="px-5 h-[60px] flex items-center justify-between" suppressHydrationWarning>
+        <div className="px-5 h-[68px] flex items-center justify-between" suppressHydrationWarning>
           <Link href="/" className="flex items-center">
             <Image
               src="/logo.png"
@@ -124,7 +150,7 @@ export default function Navbar() {
               {aiOpen && (
                 <div
                   role="menu"
-                  className={`absolute top-[calc(100%+0.5rem)] left-full ml-2 -translate-x-[35%] z-50 w-max ${dropdownClass}`}
+                  className={`absolute top-[calc(100%+0.5rem)] left-full ml-2 -translate-x-[35%] z-[110] w-max ${dropdownClass}`}
                 >
                   {AI_STYLIST_LINKS.map(({ label, href }) => (
                     <a
