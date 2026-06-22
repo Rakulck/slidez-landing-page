@@ -144,7 +144,6 @@ const HOW_IT_WORKS = [
 ];
 
 const BENEFITS = [
-const BENEFITS = [
   { icon: "✦", title: "Instant outfit ideas", body: "Get a complete look in seconds — no endless scrolling, no guessing. Faster than any fashion ai app or outfit maker app." },
   { icon: "🎨", title: "Coordinated head-to-toe", body: "Every suggestion is a complete outfit — top, bottom, shoes, accessories — matched for colour and proportion." },
   { icon: "🎯", title: "Occasion-ready", body: "Casual, office, date night, party, winter — your AI style assistant covers every dress code and context." },
