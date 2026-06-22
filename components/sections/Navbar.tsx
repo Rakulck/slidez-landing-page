@@ -3,15 +3,18 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { trackDownloadClick } from "@/lib/gtag";
 import { useNavbarTheme, type NavBgTheme } from "@/hooks/useNavbarTheme";
 
-const navLinks = [
-  { label: "Features",  href: "/#features"  },
-  { label: "Extension", href: "/#extension" },
-  { label: "FAQ",       href: "/#faq"       },
-  { label: "Blogs",     href: "/blog"       },
+type NavItemId = "features" | "extension" | "faq" | "blogs";
+
+const navLinks: { label: string; href: string; id: NavItemId }[] = [
+  { label: "Features",  href: "/#features",  id: "features"  },
+  { label: "Extension", href: "/#extension", id: "extension" },
+  { label: "FAQ",       href: "/#faq",       id: "faq"       },
+  { label: "Blogs",     href: "/blog",       id: "blogs"     },
 ];
 
 const AI_STYLIST_LINKS = [
@@ -20,6 +23,52 @@ const AI_STYLIST_LINKS = [
   { label: "Date Night Outfit Ideas", href: "/date-night-outfit-ideas" },
   { label: "Winter Outfit Ideas",     href: "/winter-outfit-ideas"     },
 ];
+
+const AI_STYLIST_EXTRA_ROUTES = [
+  "/ai-stylist",
+  "/ai-fashion-stylist",
+  "/free-ai-stylist-app",
+  "/ai-virtual-try-on",
+  "/try-on-from-anywhere",
+];
+
+function isAiStylistRoute(pathname: string): boolean {
+  if (AI_STYLIST_LINKS.some(({ href }) => pathname === href)) return true;
+  if (pathname === "/outfit-ideas" || pathname.includes("-outfit-ideas")) return true;
+  if (pathname === "/what-to-wear") return true;
+  return AI_STYLIST_EXTRA_ROUTES.includes(pathname);
+}
+
+function isNavItemActive(
+  item: NavItemId | "ai-stylist",
+  pathname: string,
+  hash: string
+): boolean {
+  if (item === "blogs") return pathname.startsWith("/blog");
+  if (item === "ai-stylist") return isAiStylistRoute(pathname);
+  if (pathname !== "/") return false;
+  return hash === `#${item}`;
+}
+
+function NavTabLabel({ label, active }: { label: string; active: boolean }) {
+  return (
+    <span className="inline-flex flex-col items-center">
+      <span>{label}</span>
+      <span
+        aria-hidden
+        className={`mt-1.5 h-[2px] w-1/2 rounded-full bg-white transition-opacity duration-300 ${
+          active ? "opacity-100" : "opacity-0"
+        }`}
+      />
+    </span>
+  );
+}
+
+function navLinkClass(active: boolean) {
+  return `text-sm font-medium transition-colors duration-500 ${
+    active ? "text-white" : "text-white/75 hover:text-white"
+  }`;
+}
 
 const SHELL_LAYOUT =
   "w-full max-w-4xl pointer-events-auto transition-all duration-500 rounded-2xl border";
@@ -37,8 +86,6 @@ const SHELL: Record<NavBgTheme, { base: string; scrolled: string }> = {
 
 const LIQUID_GLASS = "liquid-glass-nav";
 
-const LINK =
-  "text-sm font-medium text-white/75 hover:text-white transition-colors duration-500";
 const DROPDOWN_LINK =
   "block px-4 py-2.5 text-sm font-medium leading-snug whitespace-nowrap text-white/85 hover:text-white hover:bg-white/[0.08] transition-colors duration-150";
 const LINK_MUTED =
@@ -50,18 +97,29 @@ const CHROME_BTN =
 const DIVIDER = "border-white/10";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const navTheme = useNavbarTheme();
+  const [hash, setHash] = useState("");
   const [open, setOpen]           = useState(false);
   const [scrolled, setScrolled]   = useState(false);
   const [aiOpen, setAiOpen]       = useState(false);
   const [mobileAiOpen, setMobileAiOpen] = useState(false);
   const aiRef = useRef<HTMLDivElement>(null);
 
+  const aiStylistActive = isNavItemActive("ai-stylist", pathname, hash);
+
   const shell = SHELL[navTheme];
   const shellSurface = scrolled ? shell.scrolled : shell.base;
   const glassState = scrolled ? "is-scrolled" : "";
   const shellClass = `${SHELL_LAYOUT} ${LIQUID_GLASS} ${glassState} ${shellSurface}`;
   const dropdownClass = `rounded-xl border overflow-hidden ${LIQUID_GLASS} ${glassState} ${shellSurface}`;
+
+  useEffect(() => {
+    const syncHash = () => setHash(window.location.hash);
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -125,21 +183,30 @@ export default function Navbar() {
           </Link>
 
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-7">
-            {navLinks.map((l) => (
-              <a key={l.href} href={l.href} className={LINK}>
-                {l.label}
-              </a>
-            ))}
+            {navLinks.map((l) => {
+              const active = isNavItemActive(l.id, pathname, hash);
+              return (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  className={navLinkClass(active)}
+                  aria-current={active ? "page" : undefined}
+                >
+                  <NavTabLabel label={l.label} active={active} />
+                </a>
+              );
+            })}
 
             <div ref={aiRef} className="relative inline-flex">
               <button
                 type="button"
                 onClick={() => setAiOpen((v) => !v)}
-                className={`inline-flex items-center gap-1.5 ${LINK}`}
+                className={`inline-flex items-center gap-1.5 ${navLinkClass(aiStylistActive)}`}
                 aria-expanded={aiOpen}
                 aria-haspopup="true"
+                aria-current={aiStylistActive ? "page" : undefined}
               >
-                AI Stylist
+                <NavTabLabel label="AI Stylist" active={aiStylistActive} />
                 <ChevronDown
                   className={`w-3.5 h-3.5 shrink-0 transition-transform duration-200 ${
                     aiOpen ? "rotate-180" : ""
@@ -152,17 +219,23 @@ export default function Navbar() {
                   role="menu"
                   className={`absolute top-[calc(100%+0.5rem)] left-full ml-2 -translate-x-[35%] z-[110] w-max ${dropdownClass}`}
                 >
-                  {AI_STYLIST_LINKS.map(({ label, href }) => (
-                    <a
-                      key={href}
-                      href={href}
-                      role="menuitem"
-                      onClick={() => setAiOpen(false)}
-                      className={`${DROPDOWN_LINK} border-b ${DIVIDER} last:border-b-0`}
-                    >
-                      {label}
-                    </a>
-                  ))}
+                  {AI_STYLIST_LINKS.map(({ label, href }) => {
+                    const subActive = pathname === href;
+                    return (
+                      <a
+                        key={href}
+                        href={href}
+                        role="menuitem"
+                        onClick={() => setAiOpen(false)}
+                        className={`${DROPDOWN_LINK} border-b ${DIVIDER} last:border-b-0 ${
+                          subActive ? "text-white" : ""
+                        }`}
+                        aria-current={subActive ? "page" : undefined}
+                      >
+                        <NavTabLabel label={label} active={subActive} />
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -208,23 +281,28 @@ export default function Navbar() {
 
         {open && (
           <div className={`md:hidden border-t ${DIVIDER} px-5 py-5 flex flex-col gap-5`}>
-            {navLinks.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className={LINK}
-              >
-                {l.label}
-              </a>
-            ))}
+            {navLinks.map((l) => {
+              const active = isNavItemActive(l.id, pathname, hash);
+              return (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className={navLinkClass(active)}
+                  aria-current={active ? "page" : undefined}
+                >
+                  <NavTabLabel label={l.label} active={active} />
+                </a>
+              );
+            })}
 
             <div>
               <button
                 onClick={() => setMobileAiOpen((v) => !v)}
-                className={`flex items-center justify-between w-full ${LINK}`}
+                className={`flex items-center justify-between w-full ${navLinkClass(aiStylistActive)}`}
+                aria-current={aiStylistActive ? "page" : undefined}
               >
-                AI Stylist
+                <NavTabLabel label="AI Stylist" active={aiStylistActive} />
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${
                     mobileAiOpen ? "rotate-180" : ""
@@ -233,16 +311,20 @@ export default function Navbar() {
               </button>
               {mobileAiOpen && (
                 <div className={`mt-3 flex flex-col gap-1 pl-3 border-l ${DIVIDER}`}>
-                  {AI_STYLIST_LINKS.map(({ label, href }) => (
-                    <a
-                      key={href}
-                      href={href}
-                      onClick={() => { setOpen(false); setMobileAiOpen(false); }}
-                      className={`${LINK_MUTED} py-1.5`}
-                    >
-                      {label}
-                    </a>
-                  ))}
+                  {AI_STYLIST_LINKS.map(({ label, href }) => {
+                    const subActive = pathname === href;
+                    return (
+                      <a
+                        key={href}
+                        href={href}
+                        onClick={() => { setOpen(false); setMobileAiOpen(false); }}
+                        className={`${LINK_MUTED} py-1.5 ${subActive ? "text-white" : ""}`}
+                        aria-current={subActive ? "page" : undefined}
+                      >
+                        <NavTabLabel label={label} active={subActive} />
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </div>
