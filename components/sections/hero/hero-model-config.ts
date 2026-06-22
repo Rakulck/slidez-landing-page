@@ -39,5 +39,11 @@ export function getHeroModel(gender: HeroGender, modelId: string): HeroModelEntr
   return HERO_MODELS[gender].find((m) => m.id === modelId) ?? HERO_MODELS[gender][0];
 }
 
+export function pickRandomHeroModelId(gender: HeroGender, excludeId: string): string {
+  const pool = HERO_MODELS[gender].filter((m) => m.id !== excludeId);
+  if (pool.length === 0) return excludeId;
+  return pool[Math.floor(Math.random() * pool.length)].id;
+}
+
 export const DEFAULT_HERO_GENDER: HeroGender = "women";
 export const DEFAULT_HERO_MODEL_ID = HERO_MODELS.women[0].id;

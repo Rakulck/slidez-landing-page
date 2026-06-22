@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   type HeroGender,
   type HeroModelEntry,
-  HERO_MODELS,
   getHeroModel,
 } from "./hero-model-config";
 
@@ -19,13 +18,16 @@ export type ProductItem = {
 type HeroModelStageProps = {
   gender: HeroGender;
   modelId: string;
-  onGenderChange: (gender: HeroGender) => void;
-  onModelChange: (modelId: string) => void;
-  highlight?: boolean;
+  idleImageSrc?: string | null;
   tryOnLoading?: boolean;
   resultImageUrl?: string | null;
   productItems?: ProductItem[];
   tryOnError?: string | null;
+};
+
+const IMAGE_CROSSFADE = {
+  duration: 1,
+  ease: [0.22, 1, 0.36, 1] as const,
 };
 
 const OVERLAY_CONTAINER_VARIANTS = {
@@ -41,56 +43,35 @@ const OVERLAY_CARD_VARIANTS = (i: number) => ({
 export default function HeroModelStage({
   gender,
   modelId,
-  onGenderChange,
-  onModelChange,
-  highlight = false,
+  idleImageSrc = null,
   tryOnLoading = false,
   resultImageUrl = null,
   productItems = [],
   tryOnError = null,
 }: HeroModelStageProps) {
   const active: HeroModelEntry = getHeroModel(gender, modelId);
-  const roster = HERO_MODELS[gender];
+  const displaySrc = idleImageSrc ?? active.src;
   const showResult = Boolean(resultImageUrl);
   const showLoading = tryOnLoading && !showResult;
 
   return (
-    <div
-      className={`relative mx-auto w-full max-w-[420px] md:max-w-none ${
-        highlight ? "rounded-[32px] ring-2 ring-[#1a1a1e]/20 ring-offset-4 ring-offset-[#e8e9ec] transition-shadow duration-300" : ""
-      }`}
-    >
+    <div className="relative mx-auto w-full max-w-[420px] md:max-w-none">
       <div className="relative h-[420px] w-full md:h-[580px]">
-        {/* Gender toggle */}
-        <div className="absolute left-4 top-4 z-30 inline-flex gap-1 rounded-full border border-black/10 bg-white/80 p-1 shadow-sm backdrop-blur-md">
-          {(["women", "men"] as const).map((g) => (
-            <button
-              key={g}
-              type="button"
-              onClick={() => onGenderChange(g)}
-              className={`hero-gender-btn h-8 rounded-full border-none px-4 text-[12.5px] font-semibold capitalize transition-colors ${
-                gender === g ? "hero-gender-on" : "hero-gender-off"
-              }`}
-            >
-              {g}
-            </button>
-          ))}
-        </div>
-
-        {/* On you badge */}
-        <div className="absolute right-4 top-5 z-30 inline-flex h-[30px] items-center gap-[7px] rounded-full border border-black/10 bg-white/80 px-[13px] font-mono text-[10px] uppercase tracking-[1px] text-[#888] shadow-sm backdrop-blur-md">
-          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#4caf50]" />
-          On you
-        </div>
-
         {/* Panel */}
         <div className="absolute bottom-0 left-0 right-0 h-[340px] overflow-hidden rounded-[28px] border border-white/60 bg-gradient-to-b from-[#f4f5f7] to-[#dddee3] shadow-[0_8px_40px_rgba(0,0,0,0.06)] md:h-[470px]">
-          <div
-            className="pointer-events-none absolute left-1/2 top-[-40px] h-[440px] w-[440px] -translate-x-1/2 opacity-75"
-            style={{
-              background: `radial-gradient(circle at center, ${active.glow} 0%, transparent 62%)`,
-            }}
-          />
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={active.glow}
+              className="pointer-events-none absolute left-1/2 top-[-40px] h-[440px] w-[440px] -translate-x-1/2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.75 }}
+              exit={{ opacity: 0 }}
+              transition={IMAGE_CROSSFADE}
+              style={{
+                background: `radial-gradient(circle at center, ${active.glow} 0%, transparent 62%)`,
+              }}
+            />
+          </AnimatePresence>
           <div className="pointer-events-none absolute bottom-[60px] left-1/2 h-14 w-[280px] -translate-x-1/2 rounded-full bg-white/55 blur-[2px]" />
           <div className="pointer-events-none absolute bottom-[66px] left-1/2 h-7 w-[200px] -translate-x-1/2 rounded-full bg-[rgba(40,30,24,0.14)] blur-[10px]" />
 
@@ -98,16 +79,26 @@ export default function HeroModelStage({
           {!showResult && (
             <div className="absolute inset-x-0 bottom-0 top-0 z-[1] flex items-end justify-center pb-2">
               <div className="relative h-[94%] w-[72%] max-w-[300px]">
-                <Image
-                  key={`${gender}-${modelId}`}
-                  src={active.src}
-                  alt={`${active.name} model preview`}
-                  fill
-                  unoptimized
-                  priority
-                  sizes="(max-width: 1024px) 260px, 300px"
-                  className="object-cover object-top"
-                />
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={displaySrc}
+                    initial={{ opacity: 0, scale: 1.015 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.985 }}
+                    transition={IMAGE_CROSSFADE}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={displaySrc}
+                      alt="Slidez stylist model preview"
+                      fill
+                      unoptimized
+                      priority
+                      sizes="(max-width: 1024px) 260px, 300px"
+                      className="object-cover object-top"
+                    />
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
           )}
@@ -186,13 +177,14 @@ export default function HeroModelStage({
           </AnimatePresence>
 
           {/* Try-on result */}
-          <AnimatePresence mode="wait">
+          <AnimatePresence initial={false}>
             {showResult && resultImageUrl && (
               <motion.div
-                key="result"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                key={resultImageUrl}
+                initial={{ opacity: 0, scale: 1.01 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.99 }}
+                transition={IMAGE_CROSSFADE}
                 className="absolute inset-0 z-[3]"
               >
                 <img
@@ -208,35 +200,6 @@ export default function HeroModelStage({
             )}
           </AnimatePresence>
         </div>
-
-        {/* Model switcher — visible in idle + loading */}
-        {!showResult && (
-          <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2.5 rounded-full border border-black/10 bg-white/80 px-3 py-2 shadow-sm backdrop-blur-md">
-            {roster.map((m) => (
-              <button
-                key={m.id}
-                type="button"
-                title={m.name}
-                disabled={showLoading}
-                onClick={() => onModelChange(m.id)}
-                className={`hero-swatch relative overflow-hidden p-0 disabled:opacity-60 ${m.id === modelId ? "hero-swatch-active" : ""}`}
-                aria-label={`Select model ${m.name}`}
-                aria-pressed={m.id === modelId}
-              >
-                <Image
-                  src={m.src}
-                  alt=""
-                  fill
-                  unoptimized
-                  sizes="38px"
-                  className="object-cover object-top"
-                />
-              </button>
-            ))}
-            <div className="mx-0.5 h-6 w-px bg-black/10" />
-            <div className="pr-2 text-[13.5px] font-semibold tracking-[-0.2px] text-[#1a1a1e]">{active.name}</div>
-          </div>
-        )}
       </div>
 
       {tryOnError && (

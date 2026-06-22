@@ -9,10 +9,11 @@ import BrandsStrip from "@/components/sections/BrandsStrip";
 import HeroCloudBackground from "@/components/sections/hero/HeroCloudBackground";
 import HeroModelStage from "@/components/sections/hero/HeroModelStage";
 import {
+  PROMPT_PAUSE_IMAGES,
+  PROMPT_TYPING_MODELS,
+} from "@/components/sections/hero/hero-slide-config";
+import {
   type HeroGender,
-  DEFAULT_HERO_GENDER,
-  DEFAULT_HERO_MODEL_ID,
-  HERO_MODELS,
   getHeroModel,
   heroGenderToApi,
 } from "@/components/sections/hero/hero-model-config";
@@ -31,13 +32,6 @@ const PROMPTS = [
   "Business casual, but make it edgy…",
   "Something for a job interview…",
   "Cozy Sunday brunch outfit…",
-  "Black tie, keep it minimal…",
-];
-
-const SUGGESTION_CHIPS = [
-  { label: "Date night", prompt: "Style me for a date night..." },
-  { label: "Office", prompt: "Sharp office outfit, polished and professional" },
-  { label: "Weekend away", prompt: "Relaxed weekend getaway, stylish and comfortable" },
 ];
 
 const CAROUSEL_CARDS = [
@@ -67,12 +61,20 @@ async function withTimeout<T>(promise: Promise<T>, ms: number, message: string):
   }
 }
 
-function useTypewriter(active: boolean) {
+function useTypewriter(
+  active: boolean,
+  onPromptStart?: (promptIndex: number) => void,
+  onPromptTyped?: (promptIndex: number) => void,
+) {
   const [displayed, setDisplayed] = useState("");
   const promptIdx = useRef(0);
   const charIdx = useRef(0);
   const deleting = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const onPromptStartRef = useRef(onPromptStart);
+  const onPromptTypedRef = useRef(onPromptTyped);
+  onPromptStartRef.current = onPromptStart;
+  onPromptTypedRef.current = onPromptTyped;
 
   const tick = useCallback(function tick() {
     const current = PROMPTS[promptIdx.current];
@@ -82,7 +84,11 @@ function useTypewriter(active: boolean) {
       setDisplayed(current.slice(0, charIdx.current));
       if (charIdx.current === current.length) {
         deleting.current = true;
-        timer.current = setTimeout(tick, 2000);
+        onPromptTypedRef.current?.(promptIdx.current);
+        timer.current = setTimeout(() => {
+          onPromptStartRef.current?.((promptIdx.current + 1) % PROMPTS.length);
+          tick();
+        }, 4000);
         return;
       }
       timer.current = setTimeout(tick, 60);
@@ -105,6 +111,7 @@ function useTypewriter(active: boolean) {
       setDisplayed(PROMPTS[0]);
       return;
     }
+    onPromptStartRef.current?.(promptIdx.current);
     timer.current = setTimeout(tick, 800);
     return () => {
       if (timer.current) clearTimeout(timer.current);
@@ -125,11 +132,37 @@ export default function Hero() {
   const [tryOnLoading, setTryOnLoading] = useState(false);
   const [productItems, setProductItems] = useState<Array<{ category: string; name: string; imageUrl: string | null; productLink: string | null }>>([]);
 
-  const [gender, setGender] = useState<HeroGender>(DEFAULT_HERO_GENDER);
-  const [modelId, setModelId] = useState(DEFAULT_HERO_MODEL_ID);
-  const [highlightStage, setHighlightStage] = useState(false);
+  const [gender, setGender] = useState<HeroGender>(PROMPT_TYPING_MODELS[0].gender);
+  const [modelId, setModelId] = useState(PROMPT_TYPING_MODELS[0].modelId);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const [idleImageSrc, setIdleImageSrc] = useState<string | null>(null);
 
-  const placeholder = useTypewriter(!inputValue && !results);
+  const idleForRotationRef = useRef({
+    inputValue: "",
+    results: false,
+    tryOnLoading: false,
+    reduceMotion: false,
+  });
+  const heroMountedRef = useRef(false);
+
+  const handlePromptStart = useCallback((promptIndex: number) => {
+    if (!heroMountedRef.current) return;
+    const idle = idleForRotationRef.current;
+    if (idle.inputValue || idle.results || idle.tryOnLoading || idle.reduceMotion) return;
+    const mapping = PROMPT_TYPING_MODELS[promptIndex % PROMPT_TYPING_MODELS.length];
+    setIdleImageSrc(null);
+    setGender(mapping.gender);
+    setModelId(mapping.modelId);
+  }, []);
+
+  const handlePromptTyped = useCallback((promptIndex: number) => {
+    if (!heroMountedRef.current) return;
+    const idle = idleForRotationRef.current;
+    if (idle.inputValue || idle.results || idle.tryOnLoading || idle.reduceMotion) return;
+    setIdleImageSrc(PROMPT_PAUSE_IMAGES[promptIndex % PROMPT_PAUSE_IMAGES.length]);
+  }, []);
+
+  const placeholder = useTypewriter(!inputValue && !results, handlePromptStart, handlePromptTyped);
 
   const buildPayload = useCallback((): TryOnPayload => {
     const model = getHeroModel(gender, modelId);
@@ -225,12 +258,6 @@ export default function Hero() {
       const trimmed = prompt.trim();
       if (!trimmed) return;
 
-      if (!modelId) {
-        setHighlightStage(true);
-        setTimeout(() => setHighlightStage(false), 2000);
-        return;
-      }
-
       trackStylistDemoSubmit();
       setLoading(true);
       setInputValue(trimmed);
@@ -238,11 +265,10 @@ export default function Hero() {
       setProductItems([]);
       setTryOnError(null);
       setResults(true);
-      setHighlightStage(false);
 
       void runTryOnPipeline(trimmed, buildPayload());
     },
-    [buildPayload, modelId, runTryOnPipeline]
+    [buildPayload, runTryOnPipeline]
   );
 
   const { inputProps, dropdownProps, reset: resetAutocomplete } = useAIAutocomplete({
@@ -266,27 +292,8 @@ export default function Hero() {
     startTryOn(inputValue);
   };
 
-  const handleChipClick = (prompt: string) => {
-    setInputValue(prompt);
-    startTryOn(prompt);
-  };
-
   const handleCardClick = (prompt: string) => {
     startTryOn(prompt);
-  };
-
-  const handleGenderChange = (g: HeroGender) => {
-    setGender(g);
-    setModelId(HERO_MODELS[g][0].id);
-    if (results || tryOnLoading) {
-      setResults(false);
-      setTryOnCards([]);
-      setProductItems([]);
-      setTryOnError(null);
-      setTryOnLoading(false);
-      setLoading(false);
-      tryOnRunSeqRef.current++;
-    }
   };
 
   const handleReset = () => {
@@ -297,18 +304,24 @@ export default function Hero() {
     setProductItems([]);
     setTryOnError(null);
     setTryOnLoading(false);
-    setHighlightStage(false);
     tryOnRunSeqRef.current++;
     resetAutocomplete();
     inputRef.current?.focus();
   };
 
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
+    heroMountedRef.current = true;
     setReduceMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    return () => {
+      heroMountedRef.current = false;
+    };
   }, []);
+
+  useEffect(() => {
+    idleForRotationRef.current = { inputValue, results, tryOnLoading, reduceMotion };
+  }, [inputValue, results, tryOnLoading, reduceMotion]);
 
   return (
     <section
@@ -340,18 +353,68 @@ export default function Hero() {
               <br />
               for any
               <br />
-              <span className="font-sacramento font-normal tracking-normal" style={{ fontSize: "clamp(3.2rem, 7.5vw, 6.5rem)" }}>
+              <span
+                className="font-sacramento font-normal tracking-normal"
+                style={{
+                  fontFamily: "var(--font-sacramento), cursive",
+                  fontSize: "clamp(3.2rem, 7.5vw, 6.5rem)",
+                }}
+              >
                 moment
               </span>
             </h1>
 
             <p className="mt-8 max-w-[410px] text-lg leading-[1.55] tracking-[-0.2px] text-[#737380]">
-              Describe the occasion. Slidez styles a head-to-toe look and shows it on you — using products from brands you already shop.
+              Describe the occasion. Slidez styles a head-to-toe look and shows it on you using products from brands you already shop.
             </p>
 
+            {/* CTAs */}
+            <AnimatePresence mode="wait">
+              {!results && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-8 flex flex-col items-start gap-3 sm:flex-row"
+                >
+                  <a
+                    href="https://linkly.link/2FWYm"
+                    onClick={trackDownloadClick}
+                    className="flex items-center gap-2 rounded-full bg-[#1a1a1e] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-200 hover:-translate-y-px hover:scale-[1.03] active:scale-[0.97]"
+                  >
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                    </svg>
+                    Download App
+                  </a>
+                  <a
+                    href="https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak?utm_source=item-share-cb"
+                    onClick={trackExtensionClick}
+                    className="flex items-center gap-2 rounded-full border border-black/15 px-7 py-3.5 text-sm font-medium text-[#555] transition-all duration-200 hover:-translate-y-px hover:border-black/30 hover:text-[#1a1a1e] active:scale-[0.97]"
+                  >
+                    <Puzzle className="h-4 w-4" />
+                    Add to Chrome
+                  </a>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Right column — model stage + input */}
+          <div className="w-full min-w-0">
+            <HeroModelStage
+              gender={gender}
+              modelId={modelId}
+              idleImageSrc={idleImageSrc}
+              tryOnLoading={tryOnLoading}
+              resultImageUrl={tryOnCards[0]?.imageUrl ?? null}
+              productItems={productItems}
+              tryOnError={tryOnError}
+            />
+
             {/* Input bar */}
-            <div className="relative mt-8 max-w-[450px]">
-              <div className="flex h-[60px] items-center gap-2 rounded-full border border-black/10 bg-white/[0.78] py-0 pl-[22px] pr-2 backdrop-blur-md">
+            <div className="relative mx-auto mt-6 w-full max-w-[473px]">
+              <div className="flex h-[60px] items-center gap-2 rounded-full border-2 border-black/20 bg-white/[0.78] py-0 pl-[22px] pr-2 backdrop-blur-md transition-[border-color,box-shadow] duration-200 focus-within:border-black/35 focus-within:shadow-[0_0_0_3px_rgba(0,0,0,0.04)]">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="shrink-0" aria-hidden>
                   <path d="M12 3 L13.6 9.2 L20 11 L13.6 12.8 L12 19 L10.4 12.8 L4 11 L10.4 9.2 Z" fill="#bbb" />
                 </svg>
@@ -422,70 +485,12 @@ export default function Hero() {
 
               <AIAutocompleteDropdown {...dropdownProps} className="mt-2 text-left" />
             </div>
-
-            {/* Chips */}
-            <div className="mt-3.5 flex flex-wrap gap-2">
-              {SUGGESTION_CHIPS.map((chip) => (
-                <button key={chip.label} type="button" onClick={() => handleChipClick(chip.prompt)} className="hero-chip">
-                  {chip.label}
-                </button>
-              ))}
-            </div>
-
-            {tryOnError && !results && (
-              <p className="mt-3 text-[11px] text-red-500/90">{tryOnError}</p>
-            )}
-
-            {/* CTAs */}
-            <AnimatePresence mode="wait">
-              {!results && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="mt-8 flex flex-col items-start gap-3 sm:flex-row"
-                >
-                  <a
-                    href="https://linkly.link/2FWYm"
-                    onClick={trackDownloadClick}
-                    className="flex items-center gap-2 rounded-full bg-[#1a1a1e] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-200 hover:-translate-y-px hover:scale-[1.03] active:scale-[0.97]"
-                  >
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                    </svg>
-                    Download App
-                  </a>
-                  <a
-                    href="https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak?utm_source=item-share-cb"
-                    onClick={trackExtensionClick}
-                    className="flex items-center gap-2 rounded-full border border-black/15 px-7 py-3.5 text-sm font-medium text-[#555] transition-all duration-200 hover:-translate-y-px hover:border-black/30 hover:text-[#1a1a1e] active:scale-[0.97]"
-                  >
-                    <Puzzle className="h-4 w-4" />
-                    Add to Chrome
-                  </a>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <div className="mt-8">
-              <BrandsStrip theme="light" variant="full" />
-            </div>
-          </motion.div>
-
-          {/* Right column — model stage */}
-          <div className="w-full min-w-0">
-            <HeroModelStage
-              gender={gender}
-              modelId={modelId}
-              onGenderChange={handleGenderChange}
-              onModelChange={setModelId}
-              highlight={highlightStage}
-              tryOnLoading={tryOnLoading}
-              resultImageUrl={tryOnCards[0]?.imageUrl ?? null}
-              productItems={productItems}
-              tryOnError={tryOnError}
-            />
           </div>
+        </div>
+
+        {/* Brands strip — below hero content, centered */}
+        <div className="mt-8 w-full text-center md:mt-10">
+          <BrandsStrip theme="light" variant="compact" subtitle="" />
         </div>
       </div>
 
