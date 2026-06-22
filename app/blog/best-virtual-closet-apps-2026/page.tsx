@@ -495,9 +495,22 @@ export default function BlogPost() {
             
             <BlogProductLinks />
 
-            <div className="mt-16 pt-10 border-t border-black/10 text-center">
-              <p className="text-xl font-bold text-black mb-4">Looking to upgrade your style?</p>
-              <a href="https://linkly.link/2FWYm" className="text-black hover:text-black/70 underline font-medium">👉 Download Slidez, your AI stylist in your pocket.</a>
+            <div className="mt-16 pt-12 border-t border-black/10">
+              <h2 className="text-2xl font-bold text-black mb-8 tracking-tight">Recommended Readings</h2>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <Link href="/blog/best-ai-stylist-apps-2026" className="group block">
+                  <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
+                    <h3 className="font-bold text-black mb-2 group-hover:underline">Best AI Stylist Apps to Upgrade Your Style in 2026</h3>
+                    <p className="text-sm text-black/60 line-clamp-2">Compare the 6 best AI stylist apps including Slidez, Acloset, Whering, Fits, Style DNA, and Cladwell to find the right virtual stylist.</p>
+                  </div>
+                </Link>
+                <Link href="/blog/what-is-ai-fashion-stylist" className="group block">
+                  <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
+                    <h3 className="font-bold text-black mb-2 group-hover:underline">What Is an AI Fashion Stylist? (2026 Guide)</h3>
+                    <p className="text-sm text-black/60 line-clamp-2">Discover what an AI fashion stylist is, how it works behind the scenes, and whether it deserves a spot on your phone in 2026.</p>
+                  </div>
+                </Link>
+              </div>
             </div>
 
           </article>
