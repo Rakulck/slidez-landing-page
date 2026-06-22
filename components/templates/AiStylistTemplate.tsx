@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import StylistToolHeroSection from "@/components/features/ai-stylist/StylistToolHeroSection";
@@ -62,9 +62,9 @@ export default function AiStylistTemplate() {
       {/* ── Hero ──────────────────────────────────────────── */}
       <StylistToolHeroSection
         ariaLabel="AI Stylist"
-        eyebrow="AI Stylist"
+        eyebrow="AI Stylist · Virtual Try-On"
         title="What Is an AI Stylist?"
-        subtitle="An AI stylist generates personalized outfit recommendations based on your occasion, vibe, and style. Describe what you need and it builds a complete look instantly."
+        subtitle="Describe your occasion, vibe, and style. Get a complete personalized look instantly."
         titleRef={heroRef}
         submitLabel="Style me"
         chips={CHIPS}
