@@ -55,7 +55,7 @@ export default function HeroModelStage({
   const showLoading = tryOnLoading && !showResult;
 
   return (
-    <div className="relative mx-auto w-full max-w-[420px] md:max-w-none">
+    <div className="relative mx-auto w-full max-w-[420px] overflow-hidden md:max-w-none md:overflow-visible">
       <div className="relative h-[420px] w-full md:h-[580px]">
         {/* Panel */}
         <div className="absolute bottom-0 left-0 right-0 h-[340px] overflow-hidden rounded-[28px] border border-white/60 bg-gradient-to-b from-[#f4f5f7] to-[#dddee3] shadow-[0_8px_40px_rgba(0,0,0,0.06)] md:h-[470px]">

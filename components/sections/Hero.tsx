@@ -339,14 +339,13 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="text-left"
+            className="flex flex-col items-center text-center md:items-start md:text-left"
           >
 
 
             {/* Headline */}
             <h1
-              className="mt-16 font-semibold leading-[0.9] tracking-[-5px] text-[#1a1a1e]"
-              style={{ fontSize: "clamp(2.8rem, 7vw, 5.8rem)" }}
+              className="mt-8 text-[3.5rem] font-semibold leading-[0.9] tracking-[-3px] text-[#1a1a1e] sm:text-[4rem] md:mt-16 md:text-[4.75rem] md:tracking-[-5px] lg:text-[5.8rem]"
               suppressHydrationWarning
             >
               Dress
@@ -354,17 +353,14 @@ export default function Hero() {
               for any
               <br />
               <span
-                className="font-sacramento font-normal tracking-normal"
-                style={{
-                  fontFamily: "var(--font-sacramento), cursive",
-                  fontSize: "clamp(3.2rem, 7.5vw, 6.5rem)",
-                }}
+                className="font-sacramento text-[4rem] font-normal tracking-normal sm:text-[4.5rem] md:text-[5.75rem] lg:text-[6.5rem]"
+                style={{ fontFamily: "var(--font-sacramento), cursive" }}
               >
                 moment
               </span>
             </h1>
 
-            <p className="mt-8 max-w-[410px] text-lg leading-[1.55] tracking-[-0.2px] text-[#737380]">
+            <p className="mx-auto mt-6 max-w-[410px] text-sm leading-[1.55] tracking-[-0.2px] text-[#737380] sm:text-base md:mx-0 md:mt-8 md:text-lg">
               Describe the occasion. Slidez styles a head-to-toe look and shows it on you using products from brands you already shop.
             </p>
 
@@ -375,7 +371,7 @@ export default function Hero() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="mt-8 flex flex-col items-start gap-3 sm:flex-row"
+                  className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center md:items-start md:justify-start"
                 >
                   <a
                     href="https://linkly.link/2FWYm"
@@ -401,7 +397,7 @@ export default function Hero() {
           </motion.div>
 
           {/* Right column — model stage + input */}
-          <div className="w-full min-w-0">
+          <div className="relative z-[2] w-full min-w-0">
             <HeroModelStage
               gender={gender}
               modelId={modelId}
@@ -413,8 +409,17 @@ export default function Hero() {
             />
 
             {/* Input bar */}
-            <div className="relative mx-auto mt-6 w-full max-w-[473px]">
-              <div className="flex h-[60px] items-center gap-2 rounded-full border-2 border-black/20 bg-white/[0.78] py-0 pl-[22px] pr-2 backdrop-blur-md transition-[border-color,box-shadow] duration-200 focus-within:border-black/35 focus-within:shadow-[0_0_0_3px_rgba(0,0,0,0.04)]">
+            <div className="relative z-20 mx-auto mt-6 w-full max-w-[473px]">
+              <div
+                role="search"
+                className="flex h-[60px] cursor-text items-center gap-2 rounded-full border-2 border-black/20 bg-white/[0.78] py-0 pl-[22px] pr-2 backdrop-blur-md transition-[border-color,box-shadow] duration-200 focus-within:border-black/35 focus-within:shadow-[0_0_0_3px_rgba(0,0,0,0.04)]"
+                onMouseDown={(e) => {
+                  const target = e.target as HTMLElement;
+                  if (target.tagName === "INPUT" || target.closest("button")) return;
+                  e.preventDefault();
+                  inputRef.current?.focus();
+                }}
+              >
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="shrink-0" aria-hidden>
                   <path d="M12 3 L13.6 9.2 L20 11 L13.6 12.8 L12 19 L10.4 12.8 L4 11 L10.4 9.2 Z" fill="#bbb" />
                 </svg>
@@ -422,6 +427,9 @@ export default function Hero() {
                 <input
                   ref={inputRef}
                   type="text"
+                  inputMode="text"
+                  enterKeyHint="search"
+                  autoComplete="off"
                   value={inputProps.value}
                   onChange={(e) => inputProps.onChange(e as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
                   onKeyDown={(e) => inputProps.onKeyDown(e as unknown as React.KeyboardEvent<HTMLTextAreaElement>)}
@@ -433,7 +441,7 @@ export default function Hero() {
                   aria-autocomplete="list"
                   aria-controls={inputProps["aria-controls"]}
                   placeholder={placeholder}
-                  className="min-w-0 flex-1 bg-transparent text-base tracking-[-0.2px] text-[#1a1a1e] outline-none placeholder:text-[#aaa]"
+                  className="min-h-[44px] min-w-0 flex-1 touch-manipulation bg-transparent text-[16px] tracking-[-0.2px] text-[#1a1a1e] outline-none placeholder:text-[#aaa]"
                   suppressHydrationWarning
                 />
 
