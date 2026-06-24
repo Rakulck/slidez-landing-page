@@ -267,7 +267,6 @@
   /* Apple-style Liquid Glass navbar shell */
   .liquid-glass-nav {
     isolation: isolate;
-    overflow: hidden;
     position: relative;
     -webkit-backdrop-filter: blur(16px) saturate(180%) brightness(1.08);
     backdrop-filter: blur(16px) saturate(180%) brightness(1.08);

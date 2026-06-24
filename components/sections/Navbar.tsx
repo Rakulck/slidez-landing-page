@@ -217,7 +217,8 @@ export default function Navbar() {
               {aiOpen && (
                 <div
                   role="menu"
-                  className={`absolute top-[calc(100%+0.5rem)] left-full ml-2 -translate-x-[35%] z-[110] w-max ${dropdownClass}`}
+                  className={`z-[110] w-max ${dropdownClass}`}
+                  style={{ position: "absolute", top: "calc(100% + 1.25rem)", left: 0 }}
                 >
                   {AI_STYLIST_LINKS.map(({ label, href }) => {
                     const subActive = pathname === href;
