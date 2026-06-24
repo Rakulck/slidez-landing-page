@@ -442,12 +442,15 @@ export default function BlogPost() {
                   <p className="text-black/70">The best ones do. Slidez focuses on photorealistic try-on, so what you see on screen is close to how you will actually look in the outfit. Accuracy varies by app and category. Tops, dresses, jeans, shoes, and accessories tend to render best. Highly textured fabrics and tight-fit items like swimwear are harder.</p>
                 </div>
                 <div>
-                  <h4 className="text-xl font-bold text-black mb-3">Which is better for online clothes shopping, virtual try-on or traditional online shopping?</h4>
-                  <p className="text-black/70">For most people in 2026, virtual try-on is the better default. It saves money, reduces returns, and removes most of the uncertainty from buying clothes online. Traditional online shopping still works for basics, reorders, and items where fit does not really matter. For new pieces, statement items, or anything where fit is important, virtual try-on wins.</p>
+                  <h4 className="text-xl font-bold text-black mb-3">Which is better: virtual try-on or traditional online shopping?</h4>
+                  <p className="text-black/70 mb-3">For most people in 2026, virtual try-on is the better default. It saves money, reduces returns, and removes most of the uncertainty from buying clothes online.</p>
+                  <p className="text-black/70">Traditional online shopping still works for basics, reorders, and items where fit does not really matter. For new pieces, statement items, or anything where fit is important, virtual try-on wins.</p>
                 </div>
                 <div>
-                  <h4 className="text-xl font-bold text-black mb-3">Does virtual try-on work on any online store?</h4>
-                  <p className="text-black/70">It depends on the app. Some try-on tools only work on specific brand sites. Others work across the web. The Slidez Chrome extension is one example that works on any online store. You browse normally, and you can try on clothes you see, even if the store does not offer try-on itself.</p>
+                  <h4 className="text-xl font-bold text-black mb-3">Is virtual try-on available for all clothing brands?</h4>
+                  <p className="text-black/70 mb-3">Not yet, but coverage has grown rapidly. Many large retailers now offer native virtual try-on on their own product pages, but plenty of smaller and mid-size brands still do not.</p>
+                  <p className="text-black/70 mb-3">The workaround is a cross-store try-on tool. The Slidez Chrome extension, for example, lets you try on clothes from any online store while you browse, even if the store itself does not offer virtual try-on.</p>
+                  <p className="text-black/70">That means you are not limited to brands that have built in the feature.</p>
                 </div>
               </div>
             </div>

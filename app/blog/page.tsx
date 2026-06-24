@@ -43,6 +43,37 @@ export default function BlogListingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             
+            {/* Blog Post Card - How AI Outfit Generators Work */}
+            <Link href="/blog/how-ai-outfit-generators-work" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
+                <Image 
+                  src="/blog-slidez-left.jpeg" 
+                  alt="AI Outfit Generator preview image" 
+                  fill
+                  className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-8 flex flex-col flex-1">
+                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
+                  <span>Guide</span>
+                  <span>·</span>
+                  <span>June 2026</span>
+                </div>
+                <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
+                  How AI Outfit Generators Create Personalized Looks
+                </h3>
+                <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
+                  Discover how AI outfit generators create personalized looks using computer vision, machine learning, and your unique style preferences.
+                </p>
+                <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
+                  Read Article
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+
             {/* Blog Post Card - Best Virtual Closet Apps 2026 */}
             <Link href="/blog/best-virtual-closet-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
