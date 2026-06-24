@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Sacramento } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
 
@@ -143,6 +144,23 @@ export default function RootLayout({
         className={`${geistSans.variable} ${sacramento.variable} antialiased`}
         suppressHydrationWarning
       >
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-1J6K4QZJQ2"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-1J6K4QZJQ2');
+            `,
+          }}
+        />
         {children}
         <Analytics />
       </body>
