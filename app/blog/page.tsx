@@ -42,6 +42,38 @@ export default function BlogListingPage() {
       <section data-nav-theme="light-bg" className="relative z-20 -mt-10 bg-[#fafafa] rounded-t-[2.5rem] px-6 py-16 md:py-24 shadow-sm border-t border-black/5">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Blog Post Card - Clothing Styles for Body Types */}
+            <Link href="/blog/clothing-styles-for-body-types" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
+                <Image 
+                  src="/body-shapes-guide.jpg" 
+                  alt="Clothing Styles for Body Types preview image" 
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-contain p-6 group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-8 flex flex-col flex-1">
+                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
+                  <span>Guide</span>
+                  <span>·</span>
+                  <span>June 2026</span>
+                </div>
+                <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
+                  How Clothing Styles Work for Every Body Type
+                </h3>
+                <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
+                  A complete guide to clothing styles for every body type in 2026. Learn which cuts, silhouettes, and styles work for rectangle, pear, apple, hourglass, and inverted triangle shapes.
+                </p>
+                <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
+                  Read Article
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+
             {/* Blog Post Card - Body Type Calculator */}
             <Link href="/blog/body-type-calculator" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">

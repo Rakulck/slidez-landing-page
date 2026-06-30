@@ -17,7 +17,8 @@
       "Bash(xargs -I{} taskkill /PID {} /F)",
       "Bash(npx skills:*)",
       "Bash(Get-Content \"C:\\\\Users\\\\Asus\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-Asus-OneDrive-Desktop-SLIDEZ-SLIDEZ-Landing-page-slidez-landingpage\\\\80be54d4-3c4c-4f1a-925f-12c151916156\\\\tasks\\\\b375on19x.output\")",
-      "Bash(Start-Sleep -Seconds 3)"
+      "Bash(Start-Sleep -Seconds 3)",
+      "Bash(claude plugin *)"
     ]
   }
 }
