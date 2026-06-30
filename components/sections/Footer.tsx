@@ -68,7 +68,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-white/30 text-sm leading-relaxed max-w-[180px]">
-              The AI virtual fitting room. Try on anything before you buy.
+              Find outfit combinations for any occasion, styled from real brands.
             </p>
           </div>
 
