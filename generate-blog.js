@@ -1,7 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const mdPath = "C:\\Users\\Asus\\Downloads\\clothing-styles-for-body-types (1).md";
+const mdPath = process.argv[2];
+if (!mdPath || !fs.existsSync(mdPath)) {
+  console.error("Please provide a valid markdown file path as an argument.");
+  process.exit(1);
+}
 const content = fs.readFileSync(mdPath, 'utf8');
 
 const lines = content.split('\n');
@@ -9,6 +13,7 @@ const lines = content.split('\n');
 let inFrontmatter = false;
 let title = '';
 let description = '';
+let canonicalUrl = '';
 let bodyLines = [];
 
 for (let i = 0; i < lines.length; i++) {
@@ -29,9 +34,21 @@ for (let i = 0; i < lines.length; i++) {
     if (line.startsWith('meta_description:')) {
       description = line.replace('meta_description:', '').trim().replace(/^"|"$/g, '');
     }
+    if (line.startsWith('canonical_url:')) {
+      canonicalUrl = line.replace('canonical_url:', '').trim().replace(/^"|"$/g, '');
+    }
   } else {
     bodyLines.push(lines[i]);
   }
+}
+
+// Extract slug from canonical URL or fallback
+let slug = '';
+if (canonicalUrl) {
+  slug = canonicalUrl.split('/').pop();
+} else {
+  slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  canonicalUrl = `https://www.slidez.social/blog/${slug}`;
 }
 
 // Custom Markdown Parser for this specific format
@@ -165,11 +182,11 @@ export const metadata: Metadata = {
   title: "${title}",
   description: "${description}",
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-  alternates: { canonical: "https://www.slidez.social/blog/clothing-styles-for-body-types" },
+  alternates: { canonical: "${canonicalUrl}" },
   openGraph: {
     title: "${title}",
     description: "${description}",
-    url: "https://www.slidez.social/blog/clothing-styles-for-body-types",
+    url: "${canonicalUrl}",
     type: "article",
     siteName: "Slidez",
   },
@@ -224,9 +241,9 @@ export default function BlogPost() {
 }
 `;
 
-const outDir = path.join(__dirname, 'app', 'blog', 'clothing-styles-for-body-types');
+const outDir = path.join(__dirname, 'app', 'blog', slug);
 if (!fs.existsSync(outDir)) {
   fs.mkdirSync(outDir, { recursive: true });
 }
 fs.writeFileSync(path.join(outDir, 'page.tsx'), pageContent, 'utf8');
-console.log('Successfully generated blog post at app/blog/clothing-styles-for-body-types/page.tsx');
+console.log(`Successfully generated blog post at app/blog/${slug}/page.tsx`);

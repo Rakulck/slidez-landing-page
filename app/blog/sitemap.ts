@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/blog/how-ai-outfit-generators-work", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/blog/body-type-calculator", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/blog/clothing-styles-for-body-types", priority: 0.7, changeFrequency: "monthly" as const },
+    { path: "/blog/how-to-stop-buying-clothes-you-never-wear", priority: 0.7, changeFrequency: "monthly" as const },
   ];
 
   return blogRoutes.map((route) => ({
