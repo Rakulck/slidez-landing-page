@@ -33,7 +33,7 @@ export default function BlogPost() {
             How to Stop Buying Clothes You Never Wear
           </h1>
           <div className="mt-10 flex items-center justify-center gap-3 text-white/50 text-sm font-medium">
-            <span>By Slidez Team</span>
+            <span>By Slidez AI Team</span>
             <span>·</span>
             <span>June 2026</span>
           </div>
@@ -80,7 +80,7 @@ export default function BlogPost() {
 <div className="bg-[#fafafa] p-8 rounded-2xl border border-black/5 my-10 shadow-sm relative overflow-hidden">
   <div className="absolute top-0 left-0 w-1 h-full bg-black/80"></div>
   <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
-  <p className="text-[17px] text-black/70 m-0 leading-relaxed"> To stop buying clothes you never wear, identify your triggers (impulse, trends, sales), plan outfits before you buy, and use virtual try-on to see how items look on you first. Apps like <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong> help you make better decisions before you buy, so fewer mistakes ever reach your closet.</p>
+  <p className="text-[17px] text-black/70 m-0 leading-relaxed"> To stop buying clothes you never wear, identify your triggers (impulse, trends, sales), plan outfits before you buy, and use virtual try-on to see how items look on you first. Apps like <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> help you make better decisions before you buy, so fewer mistakes ever reach your closet.</p>
 </div>
 <hr className="my-12 border-black/10" />
 <h2 id="why-do-people-buy-clothes-they-never-wear" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Why Do People Buy Clothes They Never Wear?</h2>
@@ -211,7 +211,7 @@ export default function BlogPost() {
 <p className="mb-6"><strong>Wardrobe matching.</strong> The AI checks whether a new piece works with what you already own before you buy.</p>
 <p className="mb-6"><strong>Virtual try-on.</strong> You see each recommendation on your own body.</p>
 <p className="mb-6"><strong>Reduced impulse.</strong> By making shopping intentional and personalized, AI tools naturally cut down on random purchases.</p>
-<p className="mb-6"><strong><a href="https://www.slidez.social/" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong> brings these together. It analyzes your body during styling, recommends outfits for any occasion, and shows each look through a realistic virtual try-on. You can import outfits from Pinterest, TikTok, or Instagram and instantly see whether they work on you, before spending a cent. Its Chrome extension even lets you try on items from any store while you browse.</p>
+<p className="mb-6"><strong><a href="https://www.slidez.social/" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> brings these together. It analyzes your body during styling, recommends outfits for any occasion, and shows each look through a realistic virtual try-on. You can import outfits from Pinterest, TikTok, or Instagram and instantly see whether they work on you, before spending a cent. Its Chrome extension even lets you try on items from any store while you browse.</p>
 <p className="mb-6">The result is a shopping process built around what you will actually wear.</p>
 <p className="mb-6"><em>For more on the technology, see our guide on <a href="/blog/how-ai-outfit-generators-work" className="text-black underline decoration-black/20 hover:decoration-black transition-all">how AI outfit generators work</a>.</em></p>
 <hr className="my-12 border-black/10" />
@@ -243,9 +243,9 @@ export default function BlogPost() {
 <h2 id="conclusion" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Conclusion</h2>
 <p className="mb-6">Buying clothes you never wear is not a personal failing. It is the predictable result of how modern fashion is sold: designed to trigger impulse, powered by social media, and detached from what you actually need.</p>
 <p className="mb-6">The fix is intention. Audit what you own, plan outfits before you buy, ask the right questions, and see how items look on you before committing.</p>
-<p className="mb-6">If you want help doing all of that in one place, <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong> was built for exactly this. It analyzes your body, recommends outfits that suit you, and shows each look through virtual try-on, so you only buy what you will actually wear.</p>
+<p className="mb-6">If you want help doing all of that in one place, <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> was built for exactly this. It analyzes your body, recommends outfits that suit you, and shows each look through virtual try-on, so you only buy what you will actually wear.</p>
 <p className="mb-6">The goal is not to stop enjoying clothes. It is to enjoy a wardrobe you actually use.</p>
-<p className="mb-6"><strong>Ready to shop smarter?</strong> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez free</a></strong> and start building a wardrobe you actually wear.</p>
+<p className="mb-6"><strong>Ready to shop smarter?</strong> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez AI free</a></strong> and start building a wardrobe you actually wear.</p>
 <hr className="my-12 border-black/10" />
 <h2 id="frequently-asked-questions-faqs" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Frequently Asked Questions (FAQs)</h2>
 <h3 id="why-do-i-keep-buying-clothes-i-never-wear" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">Why do I keep buying clothes I never wear?</h3>
@@ -265,15 +265,15 @@ export default function BlogPost() {
 <p className="mb-6">Outfit planning turns shopping from impulse into intention.</p>
 <h3 id="how-can-ai-fashion-tools-help-me-make-better-shopping-decisions" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">How can AI fashion tools help me make better shopping decisions?</h3>
 <p className="mb-6">AI fashion tools analyze your body, your wardrobe, and your style to recommend only pieces that fit your actual needs. They also let you try items on virtually and check whether new pieces match what you already own.</p>
-<p className="mb-6"><strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong> does all of this, helping you make confident decisions before you buy rather than shopping on impulse.</p>
+<p className="mb-6"><strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> does all of this, helping you make confident decisions before you buy rather than shopping on impulse.</p>
 <h3 id="does-virtual-try-on-help-prevent-buying-the-wrong-clothes" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">Does virtual try-on help prevent buying the wrong clothes?</h3>
 <p className="mb-6">Yes. Virtual try-on lets you see how an item looks on your actual body before buying, removing the guesswork that causes most bad purchases. Seeing the result reduces disappointing deliveries and returns.</p>
 <p className="mb-6">It directly targets the &quot;looked great online, wrong in person&quot; problem that fills closets with unworn clothes.</p>
 <h3 id="how-can-i-build-a-wardrobe-with-clothes-i-actually-wear" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">How can I build a wardrobe with clothes I actually wear?</h3>
 <p className="mb-6">Start with a core color palette, build a foundation of versatile basics, and add statement pieces with intention. Plan in outfits rather than individual items, and audit your wardrobe each season to learn what you did not wear.</p>
-<p className="mb-6">Tools that combine wardrobe matching with virtual try-on, like Slidez, make this process much easier by ensuring new pieces fit both your body and your existing closet.</p>
+<p className="mb-6">Tools that combine wardrobe matching with virtual try-on, like Slidez AI, make this process much easier by ensuring new pieces fit both your body and your existing closet.</p>
 <hr className="my-12 border-black/10" />
-<p className="mb-6"><em>Ready to build a wardrobe you actually wear?</em> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez free</a></strong> and shop smarter from today.</p>
+<p className="mb-6"><em>Ready to build a wardrobe you actually wear?</em> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez AI free</a></strong> and shop smarter from today.</p>
 <hr className="my-12 border-black/10" />
 <h2 id="references" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">References</h2>
 <ol className="list-decimal pl-6 mb-8 space-y-3 text-black/70">

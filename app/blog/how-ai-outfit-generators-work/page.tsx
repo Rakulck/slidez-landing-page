@@ -35,7 +35,7 @@ export default function BlogPost() {
             Imagine telling your phone &ldquo;I have a wedding next weekend, something elegant but not too formal&rdquo; and getting back a complete outfit, head to toe.
           </p>
           <div className="mt-10 flex items-center justify-center gap-3 text-white/50 text-sm font-medium">
-            <span>By Slidez Team</span>
+            <span>By Slidez AI Team</span>
             <span>·</span>
             <span>June 2026</span>
           </div>
@@ -84,7 +84,7 @@ export default function BlogPost() {
               <div className="bg-[#fafafa] p-8 rounded-2xl border border-black/5 my-10 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-black/80"></div>
                 <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
-                <p className="text-[17px] text-black/70 m-0 leading-relaxed">An AI outfit generator is a software-based stylist that builds complete outfit recommendations using artificial intelligence. It learns your taste from saved looks, occasion context, and try-on history, then assembles personalized outfits in seconds. Apps like <strong>Slidez</strong> combine outfit generation with virtual try-on, so you see how every recommendation looks on you.</p>
+                <p className="text-[17px] text-black/70 m-0 leading-relaxed">An AI outfit generator is a software-based stylist that builds complete outfit recommendations using artificial intelligence. It learns your taste from saved looks, occasion context, and try-on history, then assembles personalized outfits in seconds. Apps like <strong>Slidez AI</strong> combine outfit generation with virtual try-on, so you see how every recommendation looks on you.</p>
               </div>
             </div>
 
@@ -190,7 +190,7 @@ export default function BlogPost() {
                   <p className="text-[15px] text-black/60 leading-relaxed">Use virtual try-on technology to show clothes on your actual body. They draw on your photos to render outfits with realistic proportions, fit, and drape. The result is dramatically more accurate than any generic model.</p>
                 </div>
               </div>
-              <p className="mb-6"><strong className="text-black">Slidez</strong> falls in the third category. Every outfit recommendation comes with a realistic virtual try-on, so you see exactly how the look will work for your body, not for a stock model.</p>
+              <p className="mb-6"><strong className="text-black">Slidez AI</strong> falls in the third category. Every outfit recommendation comes with a realistic virtual try-on, so you see exactly how the look will work for your body, not for a stock model.</p>
             </div>
 
             {/* Analyzing Trends */}
@@ -200,7 +200,7 @@ export default function BlogPost() {
               <ul className="list-disc pl-6 mb-6 space-y-4 text-black/70">
                 <li><strong className="text-black">Trend ingestion.</strong> Modern AI tools constantly analyze fashion content from Pinterest, TikTok, Instagram, and fashion publications. They identify which silhouettes, colors, and combinations are gaining attention right now.</li>
                 <li><strong className="text-black">Trend filtering.</strong> Not every trend suits every person. The AI weighs trends against your personal preferences before suggesting them. A trend-following AI without that filter feels generic. A good AI uses trends as inspiration, not as instruction.</li>
-                <li><strong className="text-black">Social import.</strong> Some AI generators let you bring in trends you saw yourself. Slidez, for example, lets you import outfits directly from Pinterest, TikTok, or Instagram and instantly try them on. This closes the loop between &ldquo;I saw it&rdquo; and &ldquo;I tested it on me.&rdquo;</li>
+                <li><strong className="text-black">Social import.</strong> Some AI generators let you bring in trends you saw yourself. Slidez AI, for example, lets you import outfits directly from Pinterest, TikTok, or Instagram and instantly try them on. This closes the loop between &ldquo;I saw it&rdquo; and &ldquo;I tested it on me.&rdquo;</li>
                 <li><strong className="text-black">Personal trend awareness.</strong> The best AI also tracks your trend pattern. Maybe you adopt trends six months after they peak, or maybe you set them. Either pattern teaches the AI how to time your recommendations.</li>
               </ul>
               <p className="mb-6 font-medium text-black">The balance between personal and trending is where outfit generation becomes art.</p>
@@ -350,7 +350,7 @@ export default function BlogPost() {
                 <li><strong className="text-black">AR mirrors and smart glasses.</strong> Try-on will move from your phone to your physical space, blending the digital and physical fitting room.</li>
                 <li><strong className="text-black">Real-time outfit feedback.</strong> Your phone (or AR glasses) could confirm that today&apos;s outfit works for your meeting in two hours, factoring in weather and dress code.</li>
                 <li><strong className="text-black">Sustainability scoring.</strong> AI will factor in carbon footprint, ethical sourcing, and longevity when recommending purchases.</li>
-                <li><strong className="text-black">Universal browser try-on.</strong> Tools like the Slidez Chrome extension already let you try clothes on from any website. This will become standard.</li>
+                <li><strong className="text-black">Universal browser try-on.</strong> Tools like the Slidez AI Chrome extension already let you try clothes on from any website. This will become standard.</li>
               </ul>
               <p className="mb-6 font-medium text-black">Most of these are not theoretical. Versions of them already exist or are in active testing.</p>
             </div>
@@ -360,7 +360,7 @@ export default function BlogPost() {
               <h2 className="text-[2rem] font-bold text-black mb-6 tracking-tight">Conclusion</h2>
               <p className="mb-6">An AI outfit generator is no longer experimental. It is a practical, useful tool that saves time, saves money, and helps you dress with more confidence.</p>
               <p className="mb-6">The technology has matured to the point where the best apps genuinely understand fit, occasion, and personal taste. Free tiers make it easy to try without commitment.</p>
-              <p className="mb-8">If you want a place to start, <strong className="text-black">Slidez</strong> is one of the strongest options in 2026.</p>
+              <p className="mb-8">If you want a place to start, <strong className="text-black">Slidez AI</strong> is one of the strongest options in 2026.</p>
               <p className="mb-8">It generates personalized outfits for any occasion, pairs every recommendation with a realistic virtual try-on, imports looks from Pinterest, TikTok, and Instagram, and includes a Chrome extension that works across any online store. The free version includes all core features.</p>
               <p className="mb-8 font-medium text-black text-xl">You will probably wonder how you got dressed before AI did the heavy lifting.</p>
 
@@ -368,7 +368,7 @@ export default function BlogPost() {
                 <div aria-hidden className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
                 <div className="relative z-10">
                   <h4 className="text-3xl font-bold mb-4 tracking-tight">Ready to see what an AI outfit generator can do?</h4>
-                  <p className="text-white/70 mb-8 text-lg">Download Slidez free and see your first outfit in 30 seconds.</p>
+                  <p className="text-white/70 mb-8 text-lg">Download Slidez AI free and see your first outfit in 30 seconds.</p>
                   <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-white text-black text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
                     Download Free App
                   </a>
@@ -393,7 +393,7 @@ export default function BlogPost() {
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Can AI outfit generators recommend outfits based on body type?</h4>
                   <p className="text-black/70 mb-3">The best ones do, in different ways. Some use measurements or self-reported body shape. The most advanced apps use virtual try-on technology to show outfits on your actual body, with realistic fit and proportions.</p>
-                  <p className="text-black/70">Slidez focuses on photorealistic virtual try-on, so what you see is how the outfit will actually look on you.</p>
+                  <p className="text-black/70">Slidez AI focuses on photorealistic virtual try-on, so what you see is how the outfit will actually look on you.</p>
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Do AI outfit generators learn my style preferences over time?</h4>
@@ -408,7 +408,7 @@ export default function BlogPost() {
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Can AI outfit generators help me choose clothes before buying?</h4>
                   <p className="text-black/70 mb-3">Yes, and this is one of the biggest practical benefits. AI outfit generators combined with virtual try-on let you see how new pieces will look on you and how they will pair with your existing wardrobe, before you spend any money.</p>
-                  <p className="text-black/70">Apps like Slidez include a Chrome extension that works on any online store, so this pre-purchase check happens directly during your normal shopping.</p>
+                  <p className="text-black/70">Apps like Slidez AI include a Chrome extension that works on any online store, so this pre-purchase check happens directly during your normal shopping.</p>
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">What information does an AI outfit generator use to create recommendations?</h4>
@@ -417,7 +417,7 @@ export default function BlogPost() {
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Are AI outfit generators free to use?</h4>
-                  <p className="text-black/70 mb-3">Many are. Apps like Slidez include all core features (AI outfit generation, virtual try-on, social import) in the free version, with a Pro tier for unlimited try-ons.</p>
+                  <p className="text-black/70 mb-3">Many are. Apps like Slidez AI include all core features (AI outfit generation, virtual try-on, social import) in the free version, with a Pro tier for unlimited try-ons.</p>
                   <p className="text-black/70">Other apps follow different models, ranging from full subscriptions to one-time purchases. There is a good free option for almost every use case.</p>
                 </div>
               </div>

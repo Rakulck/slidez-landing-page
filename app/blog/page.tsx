@@ -30,7 +30,7 @@ export default function BlogListingPage() {
         <div className="max-w-4xl mx-auto relative z-10">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40 mb-6">Articles & Guides</p>
           <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-bold text-white tracking-tight leading-[1.1] mb-6">
-            The Slidez Blog
+            The Slidez AI Blog
           </h1>
           <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Everything you need to know about AI stylists, smart shopping, and the future of fashion.
@@ -223,7 +223,7 @@ export default function BlogListingPage() {
                   Best AI Stylist Apps to Upgrade Your Style in 2026
                 </h3>
                 <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
-                  Compare the 6 best AI stylist apps including Slidez, Acloset, Whering, Fits, Style DNA, and Cladwell to find the right virtual stylist for your style goals.
+                  Compare the 6 best AI stylist apps including Slidez AI, Acloset, Whering, Fits, Style DNA, and Cladwell to find the right virtual stylist for your style goals.
                 </p>
                 <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
                   Read Article
@@ -333,7 +333,7 @@ export default function BlogListingPage() {
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
                   src="/blog-slidez-right.jpeg" 
-                  alt="Slidez preview image" 
+                  alt="Slidez AI preview image" 
                   fill
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                 />
@@ -364,7 +364,7 @@ export default function BlogListingPage() {
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden flex items-center justify-center p-6">
                 <BlogSlideAnimation
                   src="/blog-slidez-right.json"
-                  alt="Slidez outfit planner app preview"
+                  alt="Slidez AI outfit planner app preview"
                   className="w-full max-w-[220px] border-0 shadow-none group-hover:scale-105 transition-transform duration-500"
                 />
               </div>

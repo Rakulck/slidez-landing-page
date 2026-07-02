@@ -35,7 +35,7 @@ export default function BlogPost() {
             The &ldquo;look at a photo and hope&rdquo; model of buying clothes online is broken. Here&apos;s how virtual try-on compares, head to head.
           </p>
           <div className="mt-10 flex items-center justify-center gap-3 text-white/50 text-sm font-medium">
-            <span>By Slidez Team</span>
+            <span>By Slidez AI Team</span>
             <span>·</span>
             <span>June 2026</span>
           </div>
@@ -84,7 +84,7 @@ export default function BlogPost() {
               <div className="bg-[#fafafa] p-8 rounded-2xl border border-black/5 my-10 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-black/80"></div>
                 <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
-                <p className="text-[17px] text-black/70 m-0 leading-relaxed">Virtual try-on is the better choice for most clothing purchases in 2026. It helps you see how a piece looks on you before you buy, dramatically cuts returns, and makes online shopping less of a gamble. Apps like <strong>Slidez</strong> lead the category with a Chrome extension that works on any online store.</p>
+                <p className="text-[17px] text-black/70 m-0 leading-relaxed">Virtual try-on is the better choice for most clothing purchases in 2026. It helps you see how a piece looks on you before you buy, dramatically cuts returns, and makes online shopping less of a gamble. Apps like <strong>Slidez AI</strong> lead the category with a Chrome extension that works on any online store.</p>
               </div>
             </div>
 
@@ -256,7 +256,7 @@ export default function BlogPost() {
               <p className="mb-6">Virtual try-on becomes much more useful when paired with personalization.</p>
               <p className="mb-6">A basic try-on tool shows you a single item on a model that looks like you. That is helpful but limited.</p>
               <p className="mb-6">A personalized AI stylist that combines try-on with recommendations does something more powerful. It learns your taste, suggests outfits, and pairs every recommendation with a try-on, so you see how each look actually works on you.</p>
-              <p className="mb-6">This is where apps like <strong className="text-black">Slidez</strong> stand out in 2026. Slidez recommends outfits for any occasion, lets you try them on virtually, and even imports outfits from Pinterest, TikTok, or Instagram so you can test ideas the moment you find them.</p>
+              <p className="mb-6">This is where apps like <strong className="text-black">Slidez AI</strong> stand out in 2026. Slidez AI recommends outfits for any occasion, lets you try them on virtually, and even imports outfits from Pinterest, TikTok, or Instagram so you can test ideas the moment you find them.</p>
               <p className="mb-6">The shopping decision shifts from &ldquo;I think this might work&rdquo; to &ldquo;I have seen it on me and I love it.&rdquo;</p>
               <p className="mb-6">For a fuller list of options, see our guide to the <Link href="/blog/best-ai-stylist-apps" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">best AI stylist apps in 2026</Link>.</p>
             </div>
@@ -288,7 +288,7 @@ export default function BlogPost() {
                 </div>
                 <div className="flex gap-4">
                   <span className="shrink-0 w-8 h-8 rounded-full bg-[#f0f0f0] flex items-center justify-center text-sm font-bold text-black">2</span>
-                  <p><strong className="text-black">Browser-based try-on.</strong> Tools like the Slidez Chrome extension let users try on items from any online store, even if the store has not integrated try-on natively. This is one of the most important shifts in the category.</p>
+                  <p><strong className="text-black">Browser-based try-on.</strong> Tools like the Slidez AI Chrome extension let users try on items from any online store, even if the store has not integrated try-on natively. This is one of the most important shifts in the category.</p>
                 </div>
                 <div className="flex gap-4">
                   <span className="shrink-0 w-8 h-8 rounded-full bg-[#f0f0f0] flex items-center justify-center text-sm font-bold text-black">3</span>
@@ -393,7 +393,7 @@ export default function BlogPost() {
                 <li><strong className="text-black">AR mirrors and smart glasses.</strong> Try-on will move from your phone screen to your bathroom mirror or your AR glasses. You will see outfits on yourself in actual physical space.</li>
                 <li><strong className="text-black">Try-on by default.</strong> Most major retailers will integrate try-on into their product pages, the way they integrated reviews 20 years ago.</li>
                 <li><strong className="text-black">Cross-platform integration.</strong> Pinterest, TikTok, and Instagram are already moving toward direct try-on integration. The boundary between &ldquo;I saw it online&rdquo; and &ldquo;I tried it on&rdquo; is dissolving.</li>
-                <li><strong className="text-black">AI styling layered on top.</strong> Pure try-on is useful. Try-on combined with personalized outfit recommendations and wardrobe matching (the Slidez approach) is what most people will end up using.</li>
+                <li><strong className="text-black">AI styling layered on top.</strong> Pure try-on is useful. Try-on combined with personalized outfit recommendations and wardrobe matching (the Slidez AI approach) is what most people will end up using.</li>
               </ul>
               <p className="mb-6">The &ldquo;look at a photo and hope&rdquo; model of fashion shopping is in its final decade.</p>
               <p className="mb-6">For more on how AI styling fits into all of this, see our deeper guide to <Link href="/blog/what-is-ai-fashion-stylist" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">what an AI fashion stylist is</Link>.</p>
@@ -405,7 +405,7 @@ export default function BlogPost() {
               <p className="mb-6">Virtual try-on is the better choice for most clothing purchases in 2026.</p>
               <p className="mb-6">It helps you see how clothes will actually look on you, dramatically lowers your return rate, and removes most of the guessing that makes online shopping frustrating.</p>
               <p className="mb-6">Traditional online shopping still works for basics, reorders, and items where fit barely matters. For everything else, the smarter play is to try before you buy.</p>
-              <p className="mb-6">If you want to start, <strong className="text-black">Slidez</strong> is one of the strongest virtual try-on apps in 2026.</p>
+              <p className="mb-6">If you want to start, <strong className="text-black">Slidez AI</strong> is one of the strongest virtual try-on apps in 2026.</p>
               <p className="mb-8">It pairs virtual try-on with AI outfit recommendations, imports looks from Pinterest, TikTok, and Instagram, and includes a Chrome extension that lets you try on clothes from any online store. The free version includes all core features.</p>
               <p className="mb-8 font-medium text-black text-xl">You will probably wonder how you shopped without it.</p>
 
@@ -413,7 +413,7 @@ export default function BlogPost() {
                 <div aria-hidden className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
                 <div className="relative z-10">
                   <h4 className="text-3xl font-bold mb-4 tracking-tight">Ready to stop guessing?</h4>
-                  <p className="text-white/70 mb-8 text-lg">Download Slidez free and try clothes before you buy.</p>
+                  <p className="text-white/70 mb-8 text-lg">Download Slidez AI free and try clothes before you buy.</p>
                   <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-white text-black text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
                     Download Free App
                   </a>
@@ -439,7 +439,7 @@ export default function BlogPost() {
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Do virtual try-on apps show how clothes will actually look on me?</h4>
-                  <p className="text-black/70">The best ones do. Slidez focuses on photorealistic try-on, so what you see on screen is close to how you will actually look in the outfit. Accuracy varies by app and category. Tops, dresses, jeans, shoes, and accessories tend to render best. Highly textured fabrics and tight-fit items like swimwear are harder.</p>
+                  <p className="text-black/70">The best ones do. Slidez AI focuses on photorealistic try-on, so what you see on screen is close to how you will actually look in the outfit. Accuracy varies by app and category. Tops, dresses, jeans, shoes, and accessories tend to render best. Highly textured fabrics and tight-fit items like swimwear are harder.</p>
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Which is better: virtual try-on or traditional online shopping?</h4>
@@ -449,7 +449,7 @@ export default function BlogPost() {
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Is virtual try-on available for all clothing brands?</h4>
                   <p className="text-black/70 mb-3">Not yet, but coverage has grown rapidly. Many large retailers now offer native virtual try-on on their own product pages, but plenty of smaller and mid-size brands still do not.</p>
-                  <p className="text-black/70 mb-3">The workaround is a cross-store try-on tool. The Slidez Chrome extension, for example, lets you try on clothes from any online store while you browse, even if the store itself does not offer virtual try-on.</p>
+                  <p className="text-black/70 mb-3">The workaround is a cross-store try-on tool. The Slidez AI Chrome extension, for example, lets you try on clothes from any online store while you browse, even if the store itself does not offer virtual try-on.</p>
                   <p className="text-black/70">That means you are not limited to brands that have built in the feature.</p>
                 </div>
               </div>

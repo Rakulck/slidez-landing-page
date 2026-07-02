@@ -33,7 +33,7 @@ export default function BlogPost() {
             How Clothing Styles Work for Every Body Type
           </h1>
           <div className="mt-10 flex items-center justify-center gap-3 text-white/50 text-sm font-medium">
-            <span>By Slidez Team</span>
+            <span>By Slidez AI Team</span>
             <span>·</span>
             <span>June 2026</span>
           </div>
@@ -79,7 +79,7 @@ export default function BlogPost() {
 <div className="bg-[#fafafa] p-8 rounded-2xl border border-black/5 my-10 shadow-sm relative overflow-hidden">
   <div className="absolute top-0 left-0 w-1 h-full bg-black/80"></div>
   <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
-  <p className="text-[17px] text-black/70 m-0 leading-relaxed"> Different clothing styles work with different body proportions. This guide breaks down what tends to work for each shape. If you want to skip the manual research, <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong> analyzes your body type from your photo and generates outfit recommendations automatically, with a virtual try-on so you can see how everything looks on you.</p>
+  <p className="text-[17px] text-black/70 m-0 leading-relaxed"> Different clothing styles work with different body proportions. This guide breaks down what tends to work for each shape. If you want to skip the manual research, <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> analyzes your body type from your photo and generates outfit recommendations automatically, with a virtual try-on so you can see how everything looks on you.</p>
 </div>
 <hr className="my-12 border-black/10" />
 <h2 id="why-body-type-matters-when-choosing-clothes" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Why Body Type Matters When Choosing Clothes</h2>
@@ -307,7 +307,7 @@ export default function BlogPost() {
 <p className="mb-6"><strong>Occasion-based filtering.</strong> Once the AI knows your body type and the occasion, it filters for cuts, silhouettes, and styles that tend to work for your proportions.</p>
 <p className="mb-6"><strong>Virtual try-on.</strong> Instead of trusting a description, you see the outfit on yourself. The AI renders the look on your body realistically, so you can judge it directly. Merchants using virtual try-on report up to 30% fewer returns and significant conversion gains, <a href="https://antla.io/blog/shopify-fashion-return-rate-benchmarks" className="text-black underline decoration-black/20 hover:decoration-black transition-all">according to Shopify benchmarks</a>, because fit uncertainty is removed before checkout.</p>
 <p className="mb-6"><strong>Personalization over time.</strong> The more you use the app, the more it learns your actual preferences. Your saved looks and dismissed suggestions teach it which styles you gravitate toward regardless of the guidelines.</p>
-<p className="mb-6"><strong><a href="https://www.slidez.social/" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong> combines all of these. It analyzes your body type from your photo during styling, generates personalized outfit recommendations for any occasion, and shows each look through a realistic virtual try-on. You can also import outfits from Pinterest, TikTok, or Instagram and instantly see how they work on you.</p>
+<p className="mb-6"><strong><a href="https://www.slidez.social/" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> combines all of these. It analyzes your body type from your photo during styling, generates personalized outfit recommendations for any occasion, and shows each look through a realistic virtual try-on. You can also import outfits from Pinterest, TikTok, or Instagram and instantly see how they work on you.</p>
 <p className="mb-6">The result is body-aware styling without having to memorize a single guideline.</p>
 <p className="mb-6"><em>For more on how AI uses body data to create outfit recommendations, see our guide on <a href="/blog/how-ai-outfit-generators-work" className="text-black underline decoration-black/20 hover:decoration-black transition-all">how AI outfit generators work</a>.</em></p>
 <hr className="my-12 border-black/10" />
@@ -317,7 +317,7 @@ export default function BlogPost() {
 <p className="mb-6">A few ways to develop your style beyond body shape rules:</p>
 <p className="mb-6"><strong>Pay attention to what you wear again and again.</strong> The clothes you reach for repeatedly are telling you something about your real preferences.</p>
 <p className="mb-6"><strong>Notice what compliments you receive, and why.</strong> Not to dress for others, but because external feedback is useful data about what reads well.</p>
-<p className="mb-6"><strong>Experiment in low-stakes environments.</strong> Virtual try-on lowers the cost of experimentation. Trying a bold style in the Slidez app takes 30 seconds. Trying it in a fitting room takes 30 minutes.</p>
+<p className="mb-6"><strong>Experiment in low-stakes environments.</strong> Virtual try-on lowers the cost of experimentation. Trying a bold style in the Slidez AI app takes 30 seconds. Trying it in a fitting room takes 30 minutes.</p>
 <p className="mb-6"><strong>Look at people whose style you admire.</strong> What are they doing? Which of those moves could translate to your wardrobe?</p>
 <p className="mb-6"><strong>Give a style more than one try.</strong> Something you try once and feel unsure about might feel completely different the second or third time, especially with different shoes or accessories.</p>
 <p className="mb-6"><strong>Ignore the rules you disagree with.</strong> Fashion has always evolved by people ignoring what they were told.</p>
@@ -329,10 +329,10 @@ export default function BlogPost() {
 <h2 id="conclusion" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Conclusion</h2>
 <p className="mb-6">Clothing styles work differently for different body types because clothes create visual lines that interact with your proportions. Understanding those mechanics helps you make faster, smarter choices.</p>
 <p className="mb-6">But the goal is not to follow the guidelines perfectly. The goal is to feel good in what you wear, buy things that actually fit, and stop spending money on clothes that never quite work.</p>
-<p className="mb-6">If you want help doing that without memorizing a style guide, <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong> handles the body analysis automatically.</p>
+<p className="mb-6">If you want help doing that without memorizing a style guide, <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> handles the body analysis automatically.</p>
 <p className="mb-6">It reads your proportions from your photo, generates outfit recommendations for any occasion, and shows each look on you through virtual try-on.</p>
 <p className="mb-6">Skip the rules. See the outfit on you. Decide from there.</p>
-<p className="mb-6"><strong>Ready to try it?</strong> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez free</a></strong> and get your first body-aware outfit recommendation in seconds.</p>
+<p className="mb-6"><strong>Ready to try it?</strong> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez AI free</a></strong> and get your first body-aware outfit recommendation in seconds.</p>
 <hr className="my-12 border-black/10" />
 <h2 id="frequently-asked-questions-faqs" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Frequently Asked Questions (FAQs)</h2>
 <h3 id="why-does-body-type-matter-when-choosing-clothes" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">Why does body type matter when choosing clothes?</h3>
@@ -343,7 +343,7 @@ export default function BlogPost() {
 <p className="mb-6">Belted outfits and fit-and-flare dresses are also strong choices because they create a waist-to-hip contrast the shape does not have naturally.</p>
 <h3 id="how-can-i-find-clothes-that-suit-my-body-type" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">How can I find clothes that suit my body type?</h3>
 <p className="mb-6">Start by identifying your body type using measurements (see our guide to the <a href="/blog/body-type-calculator" className="text-black underline decoration-black/20 hover:decoration-black transition-all">body type calculator</a>) and then look for the silhouettes and cuts described in this guide.</p>
-<p className="mb-6">The faster route is to use an AI styling app like <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong>, which analyzes your body type from your photo and generates recommendations automatically, with virtual try-on so you can see the result on you.</p>
+<p className="mb-6">The faster route is to use an AI styling app like <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong>, which analyzes your body type from your photo and generates recommendations automatically, with virtual try-on so you can see the result on you.</p>
 <h3 id="can-i-wear-styles-that-aren-t-recommended-for-my-body-shape" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">Can I wear styles that aren&apos;t recommended for my body shape?</h3>
 <p className="mb-6">Yes, absolutely. Body type guidelines are starting points, not rules. Any style can work for any body type.</p>
 <p className="mb-6">The guidelines exist to help you filter options quickly. But fashion has always been about expression, not compliance. If a style speaks to you, wear it.</p>
@@ -352,7 +352,7 @@ export default function BlogPost() {
 <p className="mb-6">The most stylish people across every era have come in every body shape imaginable.</p>
 <h3 id="how-do-ai-fashion-apps-recommend-clothes-based-on-body-type" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">How do AI fashion apps recommend clothes based on body type?</h3>
 <p className="mb-6">The best AI fashion apps analyze your body type from your uploaded photo, then filter outfit recommendations for cuts and silhouettes that tend to work with your proportions.</p>
-<p className="mb-6"><strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong> does this automatically. It reads your proportions during styling, generates personalized outfit recommendations, and shows each look through a realistic virtual try-on.</p>
+<p className="mb-6"><strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> does this automatically. It reads your proportions during styling, generates personalized outfit recommendations, and shows each look through a realistic virtual try-on.</p>
 <h3 id="do-body-type-styling-rules-really-work" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">Do body type styling rules really work?</h3>
 <p className="mb-6">They work as guidelines, not guarantees. The rules are based on how visual lines interact with proportions, and that interaction is real. But fit, fabric, color, and personal confidence all matter as much or more than which category your shape falls into.</p>
 <p className="mb-6">Think of the guidelines as a useful shortcut rather than a complete system.</p>
@@ -360,7 +360,7 @@ export default function BlogPost() {
 <p className="mb-6">Take three measurements: bust, waist, and hips. If you can get a fourth, measure your shoulders. Enter those measurements into a body type calculator to get your shape category.</p>
 <p className="mb-6">For a full step-by-step guide, see our post on <a href="/blog/body-type-calculator" className="text-black underline decoration-black/20 hover:decoration-black transition-all">how to find your body shape using a body type calculator</a>.</p>
 <hr className="my-12 border-black/10" />
-<p className="mb-6"><em>Want body-aware outfit recommendations without memorizing any guidelines?</em> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez free</a></strong> and see your first personalized outfit in seconds.</p>
+<p className="mb-6"><em>Want body-aware outfit recommendations without memorizing any guidelines?</em> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez AI free</a></strong> and see your first personalized outfit in seconds.</p>
 <hr className="my-12 border-black/10" />
 <h2 id="sources" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Sources</h2>
 <ol className="list-decimal pl-6 mb-8 space-y-3 text-black/70">

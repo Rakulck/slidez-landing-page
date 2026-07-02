@@ -36,7 +36,7 @@ export default function BlogPost() {
             Five years ago, the idea of getting personal fashion advice from software sounded like a gimmick. In 2026, millions use it every morning.
           </p>
           <div className="mt-10 flex items-center justify-center gap-3 text-white/50 text-sm font-medium">
-            <span>By Slidez Team</span>
+            <span>By Slidez AI Team</span>
             <span>·</span>
             <span>June 2026</span>
           </div>
@@ -79,7 +79,7 @@ export default function BlogPost() {
               <div className="bg-[#fafafa] p-8 rounded-2xl border border-black/5 my-10 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-black/80"></div>
                 <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
-                <p className="text-[17px] text-black/70 m-0 leading-relaxed">An AI fashion stylist is a software-based personal stylist that uses artificial intelligence to recommend outfits, plan looks, and help you shop smarter. The best ones, like <strong>Slidez</strong>, combine outfit recommendations with virtual try-on, so you can see how clothes look on you before you buy them.</p>
+                <p className="text-[17px] text-black/70 m-0 leading-relaxed">An AI fashion stylist is a software-based personal stylist that uses artificial intelligence to recommend outfits, plan looks, and help you shop smarter. The best ones, like <strong>Slidez AI</strong>, combine outfit recommendations with virtual try-on, so you can see how clothes look on you before you buy them.</p>
               </div>
             </div>
 
@@ -270,13 +270,13 @@ export default function BlogPost() {
               <h2 className="text-[2rem] font-bold text-black mb-6 tracking-tight">Conclusion</h2>
               <p className="mb-6">An AI fashion stylist is no longer experimental. It is a practical, useful tool that saves time, saves money, and helps you build a wardrobe you actually want to wear.</p>
               <p className="mb-6">The technology has matured to the point where the best apps genuinely understand fit, occasion, and personal taste. Free tiers make it easy to try without commitment.</p>
-              <p className="mb-8">If you want a place to start, <strong>Slidez</strong> is one of the strongest options in 2026. It pairs an AI stylist with realistic virtual try-on, imports outfits from Pinterest and TikTok, and includes a Chrome extension that works across any online store.</p>
+              <p className="mb-8">If you want a place to start, <strong>Slidez AI</strong> is one of the strongest options in 2026. It pairs an AI stylist with realistic virtual try-on, imports outfits from Pinterest and TikTok, and includes a Chrome extension that works across any online store.</p>
               
               <div className="my-12 p-10 bg-[#080808] text-white rounded-[2rem] text-center shadow-xl relative overflow-hidden">
                 <div aria-hidden className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
                 <div className="relative z-10">
                   <h4 className="text-3xl font-bold mb-4 tracking-tight">Ready to try an AI stylist?</h4>
-                  <p className="text-white/70 mb-8 text-lg">Download Slidez free and see how it works on your own body.</p>
+                  <p className="text-white/70 mb-8 text-lg">Download Slidez AI free and see how it works on your own body.</p>
                   <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-white text-black text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
                     Download Free App
                   </a>
@@ -297,11 +297,11 @@ export default function BlogPost() {
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Can an AI fashion stylist create outfits automatically?</h4>
-                  <p className="text-black/70">Yes. You tell the app the occasion, weather, or vibe you are going for, and it builds a complete outfit for you. Apps like Slidez also pair each recommendation with a virtual try-on.</p>
+                  <p className="text-black/70">Yes. You tell the app the occasion, weather, or vibe you are going for, and it builds a complete outfit for you. Apps like Slidez AI also pair each recommendation with a virtual try-on.</p>
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Does an AI fashion stylist consider body shape and preferences?</h4>
-                  <p className="text-black/70">The best apps do. Some build a personalized model from a selfie to show realistic fit. Slidez focuses on photorealistic virtual try-on so what you see on screen reflects how the outfit will look on you.</p>
+                  <p className="text-black/70">The best apps do. Some build a personalized model from a selfie to show realistic fit. Slidez AI focuses on photorealistic virtual try-on so what you see on screen reflects how the outfit will look on you.</p>
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Are AI fashion stylist apps accurate?</h4>

@@ -36,7 +36,7 @@ export default function BlogPost() {
             Cost, personalization, speed, and accuracy compared. Find out exactly which option fits your needs (and why a lot of people use both).
           </p>
           <div className="mt-10 flex items-center justify-center gap-3 text-white/50 text-sm font-medium">
-            <span>By Slidez Team</span>
+            <span>By Slidez AI Team</span>
             <span>·</span>
             <span>June 2026</span>
           </div>
@@ -75,13 +75,13 @@ export default function BlogPost() {
   <div className="bg-[#fafafa] p-8 rounded-2xl border border-black/5 my-10 shadow-sm relative overflow-hidden">
     <div className="absolute top-0 left-0 w-1 h-full bg-black/80"></div>
     <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
-    <p className="text-[17px] text-black/70 m-0 leading-relaxed">For most people in 2026, an AI stylist is the better choice for daily styling and smarter shopping. A human stylist is still the right pick for big events, full wardrobe overhauls, or when you want deep human intuition. Apps like Slidez offer the strongest AI experience for free.</p>
+    <p className="text-[17px] text-black/70 m-0 leading-relaxed">For most people in 2026, an AI stylist is the better choice for daily styling and smarter shopping. A human stylist is still the right pick for big events, full wardrobe overhauls, or when you want deep human intuition. Apps like Slidez AI offer the strongest AI experience for free.</p>
   </div>
 </div>
 <div id="what-is-an-ai-stylist" className="mb-16 scroll-mt-32">
   <h2 className="text-[2rem] font-bold text-black mb-6 tracking-tight">What Is an AI Stylist?</h2>
   <p className="mb-6">An AI stylist is a software-based personal stylist powered by artificial intelligence. It lives in an app or browser, learns your taste over time, and gives you outfit recommendations, shopping help, and virtual try-on, all on demand.</p>
-  <p className="mb-6">The best AI stylists in 2026, like <strong>Slidez</strong>, combine occasion-based outfit recommendations with realistic virtual try-on, social import (Pinterest, TikTok, Instagram), and a Chrome extension that works across any online store.</p>
+  <p className="mb-6">The best AI stylists in 2026, like <strong>Slidez AI</strong>, combine occasion-based outfit recommendations with realistic virtual try-on, social import (Pinterest, TikTok, Instagram), and a Chrome extension that works across any online store.</p>
   <p className="mb-6">For a deeper explainer, see our guide to what an AI fashion stylist is and how it works.</p>
 </div>
 <div id="what-is-a-human-stylist" className="mb-16 scroll-mt-32">
@@ -147,7 +147,7 @@ export default function BlogPost() {
 <div id="cost-comparison-ai-stylist-vs-human-stylist" className="mb-16 scroll-mt-32">
   <h2 className="text-[2rem] font-bold text-black mb-6 tracking-tight">Cost Comparison: AI Stylist vs Human Stylist</h2>
   <p className="mb-6">Cost is where the two diverge the most.</p>
-  <p className="mb-6">AI stylist costs: - Free tier (<strong>Slidez</strong>, Whering): $0 for full core features - Subscription apps (Acloset Premium, Indyx, Cladwell): $3 to $15 per month - Premium AI stylist annual: $50 to $180 per year</p>
+  <p className="mb-6">AI stylist costs: - Free tier (<strong>Slidez AI</strong>, Whering): $0 for full core features - Subscription apps (Acloset Premium, Indyx, Cladwell): $3 to $15 per month - Premium AI stylist annual: $50 to $180 per year</p>
   <p className="mb-6">Human stylist costs: - Initial consultation: $100 to $300 - Single styling session: $150 to $500 - Wardrobe overhaul package: $1,000 to $5,000+ - Ongoing monthly retainer: $300 to $1,500 per month - Celebrity stylist day rate: $1,500 to $10,000+</p>
   <p className="mb-6">Run the math over a year. A frequent AI stylist user might spend $0 to $180. A frequent human stylist client might spend $3,000 to $30,000+.</p>
   <p className="mb-6">For 95% of people, that gap is decisive.</p>
@@ -172,7 +172,7 @@ export default function BlogPost() {
 <div id="shopping-assistance-ai-stylist-vs-human-stylist" className="mb-16 scroll-mt-32">
   <h2 className="text-[2rem] font-bold text-black mb-6 tracking-tight">Shopping Assistance: AI Stylist vs Human Stylist</h2>
   <p className="mb-6">Shopping is where AI has made its biggest leap in 2026.</p>
-  <p className="mb-6">AI stylists now offer: - Virtual try-on so you see clothes on yourself before buying - Browser extensions that work across any online store (<strong>Slidez</strong> pioneered this) - Direct outfit import from Pinterest, TikTok, and Instagram - Wardrobe matching to check if a new piece fits your existing closet - AI-driven shopping recommendations based on your taste</p>
+  <p className="mb-6">AI stylists now offer: - Virtual try-on so you see clothes on yourself before buying - Browser extensions that work across any online store (<strong>Slidez AI</strong> pioneered this) - Direct outfit import from Pinterest, TikTok, and Instagram - Wardrobe matching to check if a new piece fits your existing closet - AI-driven shopping recommendations based on your taste</p>
   <p className="mb-6">Human stylists offer: - Curated picks based on conversation - Relationships with brands and designers - Access to early or exclusive pieces - In-store shopping companionship - Tailoring and fit expertise on the spot</p>
   <p className="mb-6">For online shopping, AI is now meaningfully better. For in-store shopping and access to exclusive pieces, humans still win.</p>
   <p className="mb-6">If you spend most of your fashion budget online (most people in 2026 do), AI is the more practical shopping partner.</p>
@@ -249,13 +249,13 @@ export default function BlogPost() {
   <p className="mb-6">For daily styling, smart shopping, virtual try-on, and instant outfit help, an AI stylist is the better choice. It is free or cheap, available 24/7, and genuinely good after a couple of weeks of use.</p>
   <p className="mb-6">For big-event styling, complete wardrobe overhauls, or work that requires deep human intuition, a human stylist is still the right call.</p>
   <p className="mb-6">If you have only ever used a human stylist, an AI stylist will surprise you in the best way. If you have only ever DIY’d your wardrobe, an AI stylist will save you time and money you did not realize you were losing.</p>
-  <p className="mb-6">A good starting point: <strong>Slidez</strong> is one of the strongest AI stylists in 2026. It pairs AI outfit recommendations with realistic virtual try-on, imports outfits from Pinterest, TikTok, and Instagram, and has a Chrome extension that works across any online store. The free version includes all core features.</p>
+  <p className="mb-6">A good starting point: <strong>Slidez AI</strong> is one of the strongest AI stylists in 2026. It pairs AI outfit recommendations with realistic virtual try-on, imports outfits from Pinterest, TikTok, and Instagram, and has a Chrome extension that works across any online store. The free version includes all core features.</p>
   <p className="mb-6">Try it for a week. You can always book a human stylist for the bigger moments later.</p>
   <div className="my-12 p-10 bg-[#080808] text-white rounded-[2rem] text-center shadow-xl relative overflow-hidden">
     <div aria-hidden className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
     <div className="relative z-10">
       <h4 className="text-3xl font-bold mb-4 tracking-tight">Ready to try an AI stylist?</h4>
-      <p className="text-white/70 mb-8 text-lg">Download Slidez free and see how it works on your own body.</p>
+      <p className="text-white/70 mb-8 text-lg">Download Slidez AI free and see how it works on your own body.</p>
       <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-white text-black text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
         Download Free App
       </a>
@@ -275,7 +275,7 @@ export default function BlogPost() {
   <p className="mb-6">A human personal stylist typically charges $150 to $500 per session, with full styling packages running into the thousands. Over a year, the cost difference is often more than $1,000.</p>
   <h4 className="text-xl font-bold text-black mb-3">Can AI stylists provide personalized outfit recommendations?</h4>
   <p className="mb-6">Yes. Modern AI stylists learn your taste from saved outfits, try-on history, and rejected suggestions. After a week or two of regular use, recommendations feel genuinely personal.</p>
-  <p className="mb-6">Apps like <strong>Slidez</strong> also pair each recommendation with a virtual try-on, so you see exactly how the outfit will look on you before deciding.</p>
+  <p className="mb-6">Apps like <strong>Slidez AI</strong> also pair each recommendation with a virtual try-on, so you see exactly how the outfit will look on you before deciding.</p>
   <h4 className="text-xl font-bold text-black mb-3">Who should use an AI stylist?</h4>
   <p className="mb-6">Anyone who wants help with daily outfits, smarter shopping, or virtual try-on. AI stylists are especially useful if you shop online, have a busy schedule, or want personal styling without the cost of a human professional.</p>
   <p className="mb-6">They are also great for people exploring new styles privately, without the awkwardness of a fitting room or a styling consultation.</p>
@@ -286,7 +286,7 @@ export default function BlogPost() {
     <div aria-hidden className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
     <div className="relative z-10">
       <h4 className="text-3xl font-bold mb-4 tracking-tight">Ready to try an AI stylist?</h4>
-      <p className="text-white/70 mb-8 text-lg">Download Slidez free and see how it works on your own body.</p>
+      <p className="text-white/70 mb-8 text-lg">Download Slidez AI free and see how it works on your own body.</p>
       <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-white text-black text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
         Download Free App
       </a>

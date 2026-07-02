@@ -41,7 +41,7 @@ export default function BlogPost() {
             Compare the top apps to plan outfits, match new clothes with your wardrobe, and shop smarter.
           </p>
           <div className="mt-10 flex items-center justify-center gap-3 text-white/50 text-sm font-medium">
-            <span>By Slidez Team</span>
+            <span>By Slidez AI Team</span>
             <span>·</span>
             <span>May 2026</span>
           </div>
@@ -75,7 +75,7 @@ export default function BlogPost() {
                 <div className="absolute top-0 left-0 w-1 h-full bg-black/80" />
                 <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
                 <p className="text-[17px] text-black/70 m-0 leading-relaxed">
-                  The best outfit planner app in 2026 for shopping smarter is <strong>Slidez</strong>. It is built to help you style clothes before
+                  The best outfit planner app in 2026 for shopping smarter is <strong>Slidez AI</strong>. It is built to help you style clothes before
                   you buy with realistic virtual try-on, AI outfit recommendations, and a Chrome extension that works on any online store.
                 </p>
               </div>
@@ -134,12 +134,12 @@ export default function BlogPost() {
               <p className="mb-8">Here are the top outfit planner apps ranked by how well they help you style clothes before you buy.</p>
 
               <div className="pt-8 mb-12 border-t border-black/5">
-                <h3 className="text-2xl font-bold text-black mb-4">1. Slidez: Best Overall for Pre-Purchase Outfit Planning</h3>
+                <h3 className="text-2xl font-bold text-black mb-4">1. Slidez AI: Best Overall for Pre-Purchase Outfit Planning</h3>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-10 max-w-[800px] mx-auto">
-                  <BlogSlideAnimation src="/blog-slidez-left.json" alt="Slidez outfit planner app interface" className="w-full max-w-[320px]" />
-                  <BlogSlideAnimation src="/blog-slidez-right.json" alt="Slidez outfit planner app virtual try-on" className="w-full max-w-[320px]" />
+                  <BlogSlideAnimation src="/blog-slidez-left.json" alt="Slidez AI outfit planner app interface" className="w-full max-w-[320px]" />
+                  <BlogSlideAnimation src="/blog-slidez-right.json" alt="Slidez AI outfit planner app virtual try-on" className="w-full max-w-[320px]" />
                 </div>
-                <p className="mb-5"><strong className="text-black">Quick Overview:</strong> Slidez is built for the decision that matters most: what to buy.</p>
+                <p className="mb-5"><strong className="text-black">Quick Overview:</strong> Slidez AI is built for the decision that matters most: what to buy.</p>
                 <p className="mb-5">It combines AI outfit recommendations with realistic try-on and lets you test looks from any online store via Chrome extension and social imports.</p>
                 <p className="mb-4"><strong className="text-black">Best for:</strong> Anyone trying to stop buying clothes they will never wear.</p>
               </div>
@@ -167,7 +167,7 @@ export default function BlogPost() {
               <h2 className="text-[2rem] font-bold text-black mb-6 tracking-tight">How to Choose the Right Outfit Planner App</h2>
               <p className="mb-6">Pick based on the problem you want to solve first:</p>
               <ul className="space-y-4 text-base text-black/80 list-none p-0 mb-8">
-                <li className="flex items-start gap-3"><span className="text-xl">→</span> <span><strong>Stop bad purchases before checkout:</strong> Slidez</span></li>
+                <li className="flex items-start gap-3"><span className="text-xl">→</span> <span><strong>Stop bad purchases before checkout:</strong> Slidez AI</span></li>
                 <li className="flex items-start gap-3"><span className="text-xl">→</span> <span><strong>All-in-one closet planner:</strong> Acloset</span></li>
                 <li className="flex items-start gap-3"><span className="text-xl">→</span> <span><strong>Best free planner:</strong> Whering</span></li>
                 <li className="flex items-start gap-3"><span className="text-xl">→</span> <span><strong>Capsule planning:</strong> Cladwell</span></li>
@@ -178,7 +178,7 @@ export default function BlogPost() {
               <h2 className="text-[2rem] font-bold text-black mb-6 tracking-tight">Conclusion</h2>
               <p className="mb-6">A great outfit planner app changes how you shop: fewer impulse buys, fewer returns, and more pieces you actually wear.</p>
               <p className="mb-6">Traditional apps help you remix what you already own. Shopping-first apps help you decide better before buying.</p>
-              <p className="mb-8">If your main goal is to stop wasting money on unworn clothes, Slidez is the strongest option in 2026.</p>
+              <p className="mb-8">If your main goal is to stop wasting money on unworn clothes, Slidez AI is the strongest option in 2026.</p>
             </div>
 
             <div id="faqs" className="mb-10 scroll-mt-32 pt-12 border-t border-black/10">
@@ -186,7 +186,7 @@ export default function BlogPost() {
               <div className="space-y-8">
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">What is the best app for planning outfits before shopping?</h4>
-                  <p className="text-black/70">For most users in 2026, Slidez is the best choice for pre-purchase outfit planning thanks to virtual try-on and occasion-based recommendations.</p>
+                  <p className="text-black/70">For most users in 2026, Slidez AI is the best choice for pre-purchase outfit planning thanks to virtual try-on and occasion-based recommendations.</p>
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-black mb-3">Do outfit planner apps work with online shopping?</h4>
