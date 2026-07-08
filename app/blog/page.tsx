@@ -46,7 +46,7 @@ export default function BlogListingPage() {
             <Link href="/blog/ai-fashion-stylist-benefits" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
-                  src="/blog-slidez.png" 
+                  src="/ai-outfit-generators.jpg" 
                   alt="Benefits of Using an AI Fashion Stylist Daily preview image" 
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -78,7 +78,7 @@ export default function BlogListingPage() {
             <Link href="/blog/how-to-stop-buying-clothes-you-never-wear" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
-                  src="/blog-slidez.png" 
+                  src="/stop-buying-clothes.jpg" 
                   alt="Stop Buying Clothes You Never Wear preview image" 
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -174,7 +174,7 @@ export default function BlogListingPage() {
             <Link href="/blog/how-ai-outfit-generators-work" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
-                  src="/blog-slidez-left.jpeg" 
+                  src="/ai-fashion-stylist-benefits.jpg" 
                   alt="AI Outfit Generator preview image" 
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -206,7 +206,7 @@ export default function BlogListingPage() {
             <Link href="/blog/best-virtual-closet-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
-                  src="/blog-slidez-left.jpeg" 
+                  src="/virtual-closet-apps.jpg" 
                   alt="Virtual Closet App preview image" 
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -238,7 +238,7 @@ export default function BlogListingPage() {
             <Link href="/blog/best-ai-stylist-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image
-                  src="/blog-slidez-left.jpeg"
+                  src="/best-ai-stylist-apps-2026.jpeg"
                   alt="Best AI Stylist Apps 2026 preview"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -364,7 +364,7 @@ export default function BlogListingPage() {
             <Link href="/blog/best-ai-stylist-apps" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
-                  src="/blog-slidez-right.jpeg" 
+                  src="/best-ai-stylist-apps.jpeg" 
                   alt="Slidez AI preview image" 
                   fill
                   className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
