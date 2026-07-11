@@ -11,6 +11,8 @@ const GONE_PATHS = new Set([
   "/features/slidez-virtual-try-ons",
   "/blogs/customizing-your-template",
   "/blog/customizing-your-template",
+  "/blogs/everything-sellers-need-to-know-about-slidez-s-zero-ad-marketing-your-1-question-answered-how-does-slidez-drive-sales-without-ad-spend",
+  "/blog/everything-sellers-need-to-know-about-slidez-s-zero-ad-marketing-your-1-question-answered-how-does-slidez-drive-sales-without-ad-spend",
 ]);
 
 export function middleware(request: NextRequest) {
@@ -30,5 +32,7 @@ export const config = {
     "/features/slidez-virtual-try-ons",
     "/blogs/customizing-your-template",
     "/blog/customizing-your-template",
+    "/blogs/everything-sellers-need-to-know-about-slidez-s-zero-ad-marketing-your-1-question-answered-how-does-slidez-drive-sales-without-ad-spend",
+    "/blog/everything-sellers-need-to-know-about-slidez-s-zero-ad-marketing-your-1-question-answered-how-does-slidez-drive-sales-without-ad-spend",
   ],
 };
