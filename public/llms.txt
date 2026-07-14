@@ -1,35 +1,60 @@
-# Slidez
+# Slidez — AI Stylist & Virtual Try-On App
 
-> Slidez is an AI stylist and virtual try-on app. Users describe a vibe or occasion, and the AI generates a complete outfit — top, bottom, shoes, and accessories. Users can also virtually try on any clothing item before buying, using their own photo.
+Meet your AI Stylist. Slidez generates outfit ideas, visualizes looks on you, and helps you shop smarter. Free on iOS & Android.
 
-Slidez is free on iOS and Android. A Chrome extension is also available for trying on clothes directly from any shopping site.
+**Metadata**
+- Canonical domain: https://www.slidez.social/
+- Sitemap: https://www.slidez.social/sitemap.xml
+- Contact: info@slidez.social
+- Permissions: crawl: allow; index: allow; train: allow
+- Last-Updated: 2026-07-10
 
-## What Slidez does
 
-- Generates outfit ideas for any occasion (date night, work, concerts, casual, winter layers)
-- Virtually tries clothing, shoes, sunglasses, jewelry, and accessories on your photo
-- Imports items from Instagram or any website for virtual try-on
-- Provides AI-powered styling recommendations based on your preferences
+## Features and Functionality
 
-## Core pages
+- [Features](https://www.slidez.social/#features): Explore the various features of Slidez, including outfit generation, virtual try-on capabilities, and personalized shopping assistance.
 
-- [Homepage](https://www.slidez.social/)
-- [What Is AI Virtual Try-On?](https://www.slidez.social/ai-virtual-try-on)
-- [What Is an AI Stylist?](https://www.slidez.social/ai-stylist)
-- [Try On from Anywhere](https://www.slidez.social/try-on-from-anywhere)
-- [Outfit Ideas](https://www.slidez.social/outfit-ideas)
-- [What to Wear](https://www.slidez.social/what-to-wear)
+## Getting Started
 
-## Outfit idea pages
+- [Download App](https://play.google.com/store/apps/details): Get the Slidez app for free on iOS and Android to start using your AI Stylist today.
+- [Add to Chrome](https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak): Install the Slidez extension for Chrome to access outfit ideas and styling tips directly from your browser.
 
-- [Date Night Outfit Ideas](https://www.slidez.social/date-night-outfit-ideas)
-- [Winter Outfit Ideas](https://www.slidez.social/winter-outfit-ideas)
-- [Concert Outfit Ideas](https://www.slidez.social/concert-outfit-ideas)
-- [Office Outfit Ideas](https://www.slidez.social/office-outfit-ideas)
-- [Black Jeans Outfit Ideas](https://www.slidez.social/black-jeans-outfit-ideas)
-- [Casual Coffee Date Outfit](https://www.slidez.social/casual-coffee-date-outfit)
+## Outfit Inspiration
+
+- [Explore Outfit Ideas →](https://www.slidez.social/outfit-ideas): Discover a variety of outfit ideas tailored to different occasions and styles.
+- [Try It Free](https://play.google.com/store/apps/details): Sign up for a free trial to experience the full capabilities of the Slidez app.
+
+### Outfit Ideas by Occasion
+
+- [Look great at work](https://www.slidez.social/office-outfit-ideas): Find professional outfit suggestions that help you look polished and confident at work.
+- [Stop second-guessing outfits](https://www.slidez.social/what-to-wear): Get tips on how to choose outfits with confidence and ease.
+- [Winter Outfit Ideas](https://www.slidez.social/winter-outfit-ideas): Browse through curated winter outfits that keep you warm and stylish.
+- [Concert Outfit Ideas](https://www.slidez.social/concert-outfit-ideas): Discover trendy outfit options perfect for concert outings.
+- [Black Jeans Outfits](https://www.slidez.social/black-jeans-outfit-ideas): Explore versatile outfit ideas featuring black jeans for various occasions.
+- [Date Night Outfits](https://www.slidez.social/date-night-outfit-ideas): Get inspired with romantic outfit suggestions for your next date night.
+
+## Additional Resources
+
+- [FAQ](https://www.slidez.social/#faq): Find answers to common questions about using the Slidez app and its features.
+- [Blogs](https://www.slidez.social/blog): Read informative articles and style tips on the Slidez blog to enhance your fashion knowledge.
+- [Learn more](https://www.slidez.social/ai-virtual-try-on): Access additional information about Slidez and its offerings.
+- [Learn more](https://www.slidez.social/ai-stylist): Discover more about the technology behind Slidez and how it personalizes your shopping experience.
+- [Learn more](https://www.slidez.social/try-on-from-anywhere): Understand the benefits of using Slidez for your daily fashion needs.
 
 ## Policies
 
-- [Privacy Policy](https://www.slidez.social/privacy)
-- [Terms of Service](https://www.slidez.social/terms)
+- [Privacy Policy](https://www.slidez.social/privacy): Review Slidez's privacy policy to understand how your data is handled.
+- [Terms of Service](https://www.slidez.social/terms): Familiarize yourself with the terms of service governing the use of the Slidez app.
+- [Privacy Policy – Slidez](https://www.slidez.social/brands-privacy-policy): Access the detailed privacy policy specific to Slidez.
+
+## Contact Information
+
+- [info@slidez.social](mailto:info@slidez.social): Reach out to Slidez for support or inquiries via email.
+
+## Related Articles
+
+- [Free AI Stylist App: Create Outfits Instantly - Slidez](https://www.slidez.social/free-ai-stylist-app): Learn about the instant outfit creation capabilities of the Slidez app.
+- [Best AI Stylist Apps to Instantly Upgrade Your Style in 2026 - Slidez](https://www.slidez.social/blog/best-ai-stylist-apps): Discover other top AI stylist apps that can enhance your fashion sense.
+- [Benefits of Using an AI Fashion Stylist Daily - Slidez](https://www.slidez.social/blog/ai-fashion-stylist-benefits): Understand the advantages of incorporating an AI stylist into your daily routine.
+- [How Clothing Styles Work for Every Body Type - Slidez](https://www.slidez.social/blog/clothing-styles-for-body-types): Gain insights into how different clothing styles can complement various body types.
+- [Best Virtual Closet Apps to Organize Your Wardrobe in 2026 - Slidez](https://www.slidez.social/blog/best-virtual-closet-apps-2026): Explore the best apps for organizing your wardrobe and maximizing your outfit potential.
