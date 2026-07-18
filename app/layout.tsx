@@ -18,6 +18,10 @@ const sacramento = Sacramento({
 });
 
 const BASE_URL = "https://www.slidez.social";
+const GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=com.Slidez.app&pcampaignid=web_share";
+const CHROME_EXTENSION_URL = "https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak?utm_source=item-share-cb";
+// TODO: replace with the live App Store URL once the iOS app is published, then add it to sameAs/appStore fields below.
+const APP_STORE_URL = "";
 
 const TITLE = "Slidez – AI Stylist & Virtual Try-On App";
 const DESCRIPTION =
@@ -106,11 +110,29 @@ const jsonLd = {
       "@id": `${BASE_URL}/#app`,
       name: TITLE,
       url: "https://linkly.link/2FWYm",
-      downloadUrl: "https://linkly.link/2FWYm",
+      downloadUrl: [GOOGLE_PLAY_URL, ...(APP_STORE_URL ? [APP_STORE_URL] : [])],
       description: DESCRIPTION,
       image: `${BASE_URL}/logo.png`,
       applicationCategory: "LifestyleApplication",
       operatingSystem: "iOS, Android",
+      installUrl: GOOGLE_PLAY_URL,
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+        availableAtOrFrom: { "@type": "Place", name: "United States" },
+      },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${BASE_URL}/#chrome-extension`,
+      name: "Slidez Try-On Chrome Extension",
+      url: CHROME_EXTENSION_URL,
+      downloadUrl: CHROME_EXTENSION_URL,
+      installUrl: CHROME_EXTENSION_URL,
+      description: "Try on clothes virtually from any online store using the Slidez Chrome extension.",
+      applicationCategory: "BrowserApplication",
+      operatingSystem: "Chrome",
       offers: {
         "@type": "Offer",
         price: "0",

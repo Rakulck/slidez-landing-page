@@ -394,6 +394,12 @@ export default function Hero() {
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {!results && (
+              <p className="mt-4 text-center text-xs text-[#9a9aa5] md:text-left">
+                Free on Google Play and the App Store, plus a Chrome extension for the US and worldwide.
+              </p>
+            )}
           </motion.div>
 
           {/* Right column — model stage + input */}
