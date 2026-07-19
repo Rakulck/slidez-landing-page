@@ -86,6 +86,11 @@ export default function BlogPost() {
                 <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
                 <p className="text-[17px] text-black/70 m-0 leading-relaxed">Virtual try-on is the better choice for most clothing purchases in 2026. It helps you see how a piece looks on you before you buy, dramatically cuts returns, and makes online shopping less of a gamble. Apps like <strong>Slidez AI</strong> lead the category with a Chrome extension that works on any online store.</p>
               </div>
+              <div className="text-center my-10">
+                <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-black text-white text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg">
+                  Download Slidez AI Free
+                </a>
+              </div>
             </div>
 
             {/* What Is Virtual Try-On Technology? */}

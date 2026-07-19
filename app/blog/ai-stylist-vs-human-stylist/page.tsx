@@ -77,6 +77,11 @@ export default function BlogPost() {
     <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
     <p className="text-[17px] text-black/70 m-0 leading-relaxed">For most people in 2026, an AI stylist is the better choice for daily styling and smarter shopping. A human stylist is still the right pick for big events, full wardrobe overhauls, or when you want deep human intuition. Apps like Slidez AI offer the strongest AI experience for free.</p>
   </div>
+  <div className="text-center my-10">
+    <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-black text-white text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg">
+      Download Slidez AI Free
+    </a>
+  </div>
 </div>
 <div id="what-is-an-ai-stylist" className="mb-16 scroll-mt-32">
   <h2 className="text-[2rem] font-bold text-black mb-6 tracking-tight">What Is an AI Stylist?</h2>

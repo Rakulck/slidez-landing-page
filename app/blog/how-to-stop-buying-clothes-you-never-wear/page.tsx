@@ -82,6 +82,11 @@ export default function BlogPost() {
   <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
   <p className="text-[17px] text-black/70 m-0 leading-relaxed"> To stop buying clothes you never wear, identify your triggers (impulse, trends, sales), plan outfits before you buy, and use virtual try-on to see how items look on you first. Apps like <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> help you make better decisions before you buy, so fewer mistakes ever reach your closet.</p>
 </div>
+<div className="text-center my-10">
+  <a href="https://hoihf7.short.gy/slidez-ai" className="inline-flex items-center justify-center px-8 py-4 bg-black text-white text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg">
+    Download Slidez AI Free
+  </a>
+</div>
 <hr className="my-12 border-black/10" />
 <h2 id="why-do-people-buy-clothes-they-never-wear" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Why Do People Buy Clothes They Never Wear?</h2>
 <p className="mb-6"><strong>Most unworn purchases come down to buying on emotion rather than need.</strong> Impulse buys, trend pressure, sales, and the way clothes look on models (not on you) all lead to items that never make it into rotation.</p>
@@ -246,6 +251,16 @@ export default function BlogPost() {
 <p className="mb-6">If you want help doing all of that in one place, <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> was built for exactly this. It analyzes your body, recommends outfits that suit you, and shows each look through virtual try-on, so you only buy what you will actually wear.</p>
 <p className="mb-6">The goal is not to stop enjoying clothes. It is to enjoy a wardrobe you actually use.</p>
 <p className="mb-6"><strong>Ready to shop smarter?</strong> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez AI free</a></strong> and start building a wardrobe you actually wear.</p>
+<div className="my-12 p-10 bg-[#080808] text-white rounded-[2rem] text-center shadow-xl relative overflow-hidden">
+  <div aria-hidden className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
+  <div className="relative z-10">
+    <h4 className="text-3xl font-bold mb-4 tracking-tight">Ready to shop smarter?</h4>
+    <p className="text-white/70 mb-8 text-lg">Download Slidez AI free and build a wardrobe you actually wear.</p>
+    <a href="https://hoihf7.short.gy/slidez-ai" className="inline-flex items-center justify-center px-8 py-4 bg-white text-black text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
+      Download Free App
+    </a>
+  </div>
+</div>
 <hr className="my-12 border-black/10" />
 <h2 id="frequently-asked-questions-faqs" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Frequently Asked Questions (FAQs)</h2>
 <h3 id="why-do-i-keep-buying-clothes-i-never-wear" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">Why do I keep buying clothes I never wear?</h3>

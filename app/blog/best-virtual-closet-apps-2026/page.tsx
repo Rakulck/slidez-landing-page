@@ -84,6 +84,11 @@ export default function BlogPost() {
                 <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
                 <p className="text-[17px] text-black/70 m-0 leading-relaxed">The best virtual closet app for most people in 2026 is <strong>Slidez AI</strong>, a modern alternative that focuses on smarter shopping decisions and virtual try-on, not just organizing what you already own. If you want a traditional closet organizer, Acloset, Whering, and Stylebook are the strongest options.</p>
               </div>
+              <div className="text-center my-10">
+                <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-black text-white text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg">
+                  Download Slidez AI Free
+                </a>
+              </div>
             </div>
 
             <div id="what-is-it" className="mb-16 scroll-mt-32">

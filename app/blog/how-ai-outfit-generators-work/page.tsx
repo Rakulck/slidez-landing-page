@@ -86,6 +86,11 @@ export default function BlogPost() {
                 <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
                 <p className="text-[17px] text-black/70 m-0 leading-relaxed">An AI outfit generator is a software-based stylist that builds complete outfit recommendations using artificial intelligence. It learns your taste from saved looks, occasion context, and try-on history, then assembles personalized outfits in seconds. Apps like <strong>Slidez AI</strong> combine outfit generation with virtual try-on, so you see how every recommendation looks on you.</p>
               </div>
+              <div className="text-center my-10">
+                <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-black text-white text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg">
+                  Download Slidez AI Free
+                </a>
+              </div>
             </div>
 
             {/* What Is It */}

@@ -79,6 +79,11 @@ export default function BlogPost() {
                   you buy with realistic virtual try-on, AI outfit recommendations, and a Chrome extension that works on any online store.
                 </p>
               </div>
+              <div className="text-center my-10">
+                <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-black text-white text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg">
+                  Download Slidez AI Free
+                </a>
+              </div>
             </div>
 
             <div id="why-unworn" className="mb-16 scroll-mt-32">
@@ -179,6 +184,16 @@ export default function BlogPost() {
               <p className="mb-6">A great outfit planner app changes how you shop: fewer impulse buys, fewer returns, and more pieces you actually wear.</p>
               <p className="mb-6">Traditional apps help you remix what you already own. Shopping-first apps help you decide better before buying.</p>
               <p className="mb-8">If your main goal is to stop wasting money on unworn clothes, Slidez AI is the strongest option in 2026.</p>
+              <div className="my-12 p-10 bg-[#080808] text-white rounded-[2rem] text-center shadow-xl relative overflow-hidden">
+                <div aria-hidden className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
+                <div className="relative z-10">
+                  <h4 className="text-3xl font-bold mb-4 tracking-tight">Ready to plan smarter outfits?</h4>
+                  <p className="text-white/70 mb-8 text-lg">Download Slidez AI free and preview outfits before you buy.</p>
+                  <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-white text-black text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
+                    Download Free App
+                  </a>
+                </div>
+              </div>
             </div>
 
             <div id="faqs" className="mb-10 scroll-mt-32 pt-12 border-t border-black/10">

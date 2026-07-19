@@ -81,6 +81,11 @@ export default function BlogPost() {
   <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
   <p className="text-[17px] text-black/70 m-0 leading-relaxed"> Different clothing styles work with different body proportions. This guide breaks down what tends to work for each shape. If you want to skip the manual research, <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez AI</a></strong> analyzes your body type from your photo and generates outfit recommendations automatically, with a virtual try-on so you can see how everything looks on you.</p>
 </div>
+<div className="text-center my-10">
+  <a href="https://hoihf7.short.gy/slidez-ai" className="inline-flex items-center justify-center px-8 py-4 bg-black text-white text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg">
+    Download Slidez AI Free
+  </a>
+</div>
 <hr className="my-12 border-black/10" />
 <h2 id="why-body-type-matters-when-choosing-clothes" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Why Body Type Matters When Choosing Clothes</h2>
 <p className="mb-6">Body type is not about which shape is best. Every shape wears clothes differently, and that difference is purely mechanical.</p>
@@ -333,6 +338,16 @@ export default function BlogPost() {
 <p className="mb-6">It reads your proportions from your photo, generates outfit recommendations for any occasion, and shows each look on you through virtual try-on.</p>
 <p className="mb-6">Skip the rules. See the outfit on you. Decide from there.</p>
 <p className="mb-6"><strong>Ready to try it?</strong> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez AI free</a></strong> and get your first body-aware outfit recommendation in seconds.</p>
+<div className="my-12 p-10 bg-[#080808] text-white rounded-[2rem] text-center shadow-xl relative overflow-hidden">
+  <div aria-hidden className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
+  <div className="relative z-10">
+    <h4 className="text-3xl font-bold mb-4 tracking-tight">Ready to see it on your body?</h4>
+    <p className="text-white/70 mb-8 text-lg">Download Slidez AI free and get a body-aware outfit recommendation in seconds.</p>
+    <a href="https://hoihf7.short.gy/slidez-ai" className="inline-flex items-center justify-center px-8 py-4 bg-white text-black text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
+      Download Free App
+    </a>
+  </div>
+</div>
 <hr className="my-12 border-black/10" />
 <h2 id="frequently-asked-questions-faqs" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Frequently Asked Questions (FAQs)</h2>
 <h3 id="why-does-body-type-matter-when-choosing-clothes" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">Why does body type matter when choosing clothes?</h3>

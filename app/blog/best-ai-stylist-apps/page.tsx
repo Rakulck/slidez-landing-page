@@ -203,6 +203,11 @@ export default function BlogPost() {
                   </tbody>
                 </table>
               </div>
+              <div className="text-center my-10">
+                <a href="https://linkly.link/2FWYm" className="inline-flex items-center justify-center px-8 py-4 bg-black text-white text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg">
+                  Download Slidez AI Free
+                </a>
+              </div>
             </div>
 
             <div id="what-is-it" className="mb-16 scroll-mt-32">

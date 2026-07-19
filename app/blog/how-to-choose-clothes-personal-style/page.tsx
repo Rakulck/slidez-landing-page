@@ -78,6 +78,11 @@ export default function BlogPost() {
   <p className="font-bold text-black mb-3 text-xl tracking-tight">TL;DR</p>
   <p className="text-[17px] text-black/70 m-0 leading-relaxed"> To choose clothes that match your personal style, identify what you already gravitate toward, understand your colors and proportions, and buy versatile pieces that work together. Tools like <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Slidez</a></strong> help by learning your taste and showing outfits on you through virtual try-on, so you can see what genuinely fits your style before buying.</p>
 </div>
+<div className="text-center my-10">
+  <a href="https://hoihf7.short.gy/slidez-ai" className="inline-flex items-center justify-center px-8 py-4 bg-black text-white text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg">
+    Download Slidez AI Free
+  </a>
+</div>
 <hr className="my-12 border-black/10" />
 <h2 id="what-is-personal-style" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">What Is Personal Style?</h2>
 <p className="mb-6"><strong>Personal style is the consistent way you express yourself through clothing.</strong> It is the set of colors, cuts, silhouettes, and combinations you naturally gravitate toward, shaped by your taste, lifestyle, and personality.</p>
@@ -177,6 +182,16 @@ export default function BlogPost() {
 <p className="mb-6">It learns your taste, analyzes your body during styling, shows outfits on you through virtual try-on, and lets you import inspiration from social media to test before you buy. The free version includes all core features.</p>
 <p className="mb-6">Your personal style is already there, in what you love and reach for. The work is just learning to see it, and choosing clothes that honor it.</p>
 <p className="mb-6"><strong>Ready to discover your style?</strong> 👉 <strong><a href="https://hoihf7.short.gy/slidez-ai" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Download Slidez free</a></strong>.</p>
+<div className="my-12 p-10 bg-[#080808] text-white rounded-[2rem] text-center shadow-xl relative overflow-hidden">
+  <div aria-hidden className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_70%)] pointer-events-none"></div>
+  <div className="relative z-10">
+    <h4 className="text-3xl font-bold mb-4 tracking-tight">Ready to discover your style?</h4>
+    <p className="text-white/70 mb-8 text-lg">Download Slidez AI free and see outfits that actually match you.</p>
+    <a href="https://hoihf7.short.gy/slidez-ai" className="inline-flex items-center justify-center px-8 py-4 bg-white text-black text-[15px] font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
+      Download Free App
+    </a>
+  </div>
+</div>
 <hr className="my-12 border-black/10" />
 <h2 id="frequently-asked-questions-faqs" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Frequently Asked Questions (FAQs)</h2>
 <h3 id="what-is-personal-style" className="text-xl font-bold text-black mb-4 mt-10 tracking-tight">What is personal style?</h3>
