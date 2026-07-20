@@ -153,7 +153,7 @@ export default function BlogPost() {
   <li className="flex items-start gap-3"><span className="w-1.5 h-1.5 rounded-full bg-black/40 mt-2.5 shrink-0"></span><span>Data on what you actually wear</span></li>
 </ul>
 <p className="mb-6">Slidez lets you save and sync your looks across phone and PC, so your capsule outfits are accessible wherever you are. Dedicated closet apps like Acloset and Whering focus more heavily on cataloging garments you already own.</p>
-<p className="mb-6"><em>For a full comparison, see our guide to the <a href="/blog/best-virtual-closet-apps-2026" className="text-black underline decoration-black/20 hover:decoration-black transition-all">best virtual closet apps in 2026</a>.</em></p>
+<p className="mb-6"><em>For a full comparison, see our guide to the <a href="/blog/best-virtual-closet-apps" className="text-black underline decoration-black/20 hover:decoration-black transition-all">best virtual closet apps in 2026</a>.</em></p>
 <hr className="my-12 border-black/10" />
 <h2 id="step-5-use-ai-to-discover-new-outfit-ideas" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Step 5: Use AI to Discover New Outfit Ideas</h2>
 <p className="mb-6">A capsule can start to feel repetitive. This is where AI earns its place.</p>
@@ -182,7 +182,7 @@ export default function BlogPost() {
 <p className="mb-6"><strong>Stylebook</strong> offers deep manual control and detailed wardrobe analytics for people who want to track cost per wear precisely.</p>
 <p className="mb-6"><strong>Indyx</strong> focuses on wardrobe cataloging with styling support.</p>
 <p className="mb-6">The split is worth understanding: most of these are wardrobe apps that organize what you have. Slidez is shopping-first, helping you decide what belongs in the capsule before you buy it.</p>
-<p className="mb-6"><em>For the full breakdown, see our guide to the <a href="/blog/best-outfit-planner-apps-2026" className="text-black underline decoration-black/20 hover:decoration-black transition-all">best outfit planner apps in 2026</a>.</em></p>
+<p className="mb-6"><em>For the full breakdown, see our guide to the <a href="/blog/best-outfit-planner-apps" className="text-black underline decoration-black/20 hover:decoration-black transition-all">best outfit planner apps in 2026</a>.</em></p>
 <hr className="my-12 border-black/10" />
 <h2 id="how-to-maintain-and-update-your-capsule-wardrobe" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">How to Maintain and Update Your Capsule Wardrobe</h2>
 <p className="mb-6">A capsule is a living system, not a one-time project.</p>

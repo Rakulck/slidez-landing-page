@@ -267,7 +267,7 @@ export default function BlogListingPage() {
             </Link>
 
             {/* Blog Post Card - Best Virtual Closet Apps 2026 */}
-            <Link href="/blog/best-virtual-closet-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <Link href="/blog/best-virtual-closet-apps" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image 
                   src="/virtual-closet-apps.jpg" 
@@ -299,7 +299,7 @@ export default function BlogListingPage() {
             </Link>
 
             {/* Blog Post Card - Best AI Stylist Apps 2026 */}
-            <Link href="/blog/best-ai-stylist-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <Link href="/blog/best-ai-stylist-apps" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
                 <Image
                   src="/best-ai-stylist-apps-2026.jpeg"
@@ -456,7 +456,7 @@ export default function BlogListingPage() {
             </Link>
 
             {/* Blog Post Card - Outfit Planner Apps */}
-            <Link href="/blog/best-outfit-planner-apps-2026" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <Link href="/blog/best-outfit-planner-apps" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden flex items-center justify-center p-6">
                 <BlogSlideAnimation
                   src="/blog-slidez-right.json"

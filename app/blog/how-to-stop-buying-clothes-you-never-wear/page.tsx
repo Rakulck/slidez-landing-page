@@ -149,7 +149,7 @@ export default function BlogPost() {
   <li className="pl-2"><strong>Make a short, specific list.</strong> Shop only for the identified gaps, not for &quot;something new.&quot;</li>
 </ol>
 <p className="mb-6">The gap-first approach flips shopping from impulse to intention. You buy what completes your wardrobe, not what catches your eye.</p>
-<p className="mb-6"><em>For apps that help you organize and audit your wardrobe, see our guide to the <a href="/blog/best-virtual-closet-apps-2026" className="text-black underline decoration-black/20 hover:decoration-black transition-all">best virtual closet apps in 2026</a>.</em></p>
+<p className="mb-6"><em>For apps that help you organize and audit your wardrobe, see our guide to the <a href="/blog/best-virtual-closet-apps" className="text-black underline decoration-black/20 hover:decoration-black transition-all">best virtual closet apps in 2026</a>.</em></p>
 <hr className="my-12 border-black/10" />
 <h2 id="why-outfit-planning-helps-you-make-better-purchases" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Why Outfit Planning Helps You Make Better Purchases</h2>
 <p className="mb-6"><strong>When you plan the full outfit before buying a single piece, you only buy items that already have a place in your wardrobe.</strong> This one habit eliminates the most common cause of unworn clothes: the orphan item with nothing to pair it with.</p>
@@ -159,7 +159,7 @@ export default function BlogPost() {
 <p className="mb-6"><strong>You use what you own.</strong> Planning outfits around existing pieces surfaces forgotten items and creates new combinations.</p>
 <p className="mb-6"><strong>You buy less.</strong> When each new piece must earn its place in a planned outfit, you naturally buy fewer things.</p>
 <p className="mb-6"><strong>You waste less money.</strong> Fewer orphan purchases means less money sitting unworn in your closet. Research in the <a href="https://www.tandfonline.com/doi/full/10.1080/20932685.2024.2361884" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Journal of Global Fashion Marketing</a> confirms that unplanned fashion purchases carry much higher perceived risk and reliably lead to post-purchase regret and returns, while planned purchases show drastically lower return rates and higher sustained satisfaction.</p>
-<p className="mb-6"><em>For a deeper look at planning tools, see our guide to the <a href="/blog/best-outfit-planner-apps-2026" className="text-black underline decoration-black/20 hover:decoration-black transition-all">best outfit planner apps in 2026</a>.</em></p>
+<p className="mb-6"><em>For a deeper look at planning tools, see our guide to the <a href="/blog/best-outfit-planner-apps" className="text-black underline decoration-black/20 hover:decoration-black transition-all">best outfit planner apps in 2026</a>.</em></p>
 <hr className="my-12 border-black/10" />
 <h2 id="how-to-build-a-more-intentional-shopping-process" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">How to Build a More Intentional Shopping Process</h2>
 <p className="mb-6"><strong>An intentional shopping process replaces impulse with a repeatable set of steps.</strong> The goal is to add just enough friction that emotion no longer drives your purchases.</p>

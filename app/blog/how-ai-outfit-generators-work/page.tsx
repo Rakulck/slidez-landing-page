@@ -240,7 +240,7 @@ export default function BlogPost() {
                 <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-black/40"></span><strong className="text-black">Cross-device sync.</strong> Your saved looks should follow you from phone to PC.</li>
                 <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-black/40"></span><strong className="text-black">Genuine free tier.</strong> A useful AI generator should not require a subscription just to try it.</li>
               </ul>
-              <p className="mb-6">For specific apps with these features, see our guide to the <Link href="/blog/best-ai-stylist-apps" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">best AI stylist apps in 2026</Link> and the <Link href="/blog/best-outfit-planner-apps-2026" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">best outfit planner apps in 2026</Link>.</p>
+              <p className="mb-6">For specific apps with these features, see our guide to the <Link href="/blog/best-ai-stylist-apps" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">best AI stylist apps in 2026</Link> and the <Link href="/blog/best-outfit-planner-apps" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">best outfit planner apps in 2026</Link>.</p>
             </div>
 
             {/* Benefits */}
