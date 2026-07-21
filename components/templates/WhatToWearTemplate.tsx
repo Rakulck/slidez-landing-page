@@ -175,12 +175,12 @@ function GlowOrb() {
 export default function WhatToWearTemplate() {
   const [externalPrompt, setExternalPrompt] = useState("");
   const [externalPromptKey, setExternalPromptKey] = useState(0);
-  const heroRef = useRef<HTMLHeadingElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const fillPrompt = (prompt: string) => {
     setExternalPrompt(prompt);
     setExternalPromptKey((k) => k + 1);
-    heroRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -195,7 +195,7 @@ export default function WhatToWearTemplate() {
         eyebrow="AI Stylist · Virtual Try-On"
         title="What should I wear today?"
         subtitle="Describe the moment. Your stylist pulls a look and tries it on your model — instantly."
-        titleRef={heroRef}
+        sectionRef={sectionRef}
         externalPrompt={externalPrompt}
         externalPromptKey={externalPromptKey}
         submitLabel="Style me"

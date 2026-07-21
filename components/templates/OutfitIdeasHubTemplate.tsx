@@ -200,12 +200,12 @@ export default function OutfitIdeasHubTemplate({
 }: OutfitIdeasHubTemplateProps = {}) {
   const [externalPrompt, setExternalPrompt]     = useState("");
   const [externalPromptKey, setExternalPromptKey] = useState(0);
-  const heroRef = useRef<HTMLHeadingElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const fillPrompt = (prompt: string) => {
     setExternalPrompt(prompt);
     setExternalPromptKey((k) => k + 1);
-    heroRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -220,7 +220,7 @@ export default function OutfitIdeasHubTemplate({
         eyebrow={heroEyebrow}
         title={heroH1}
         subtitle={heroSubtext}
-        titleRef={heroRef}
+        sectionRef={sectionRef}
         externalPrompt={externalPrompt}
         externalPromptKey={externalPromptKey}
         submitLabel="Style me"

@@ -92,7 +92,7 @@ const jsonLd = {
         height: 512,
       },
       sameAs: [
-        "https://www.instagram.com/slidez_ai_shopping/",
+        "https://www.instagram.com/slidez_ai_stylist/",
         "https://www.tiktok.com/@slidez._",
         "https://x.com/slidez_social",
         "https://www.linkedin.com/company/slidez-social/",

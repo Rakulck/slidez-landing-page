@@ -16,6 +16,7 @@ export type StylistToolHeroSectionProps = {
   externalPrompt?: string;
   externalPromptKey?: number;
   titleRef?: RefObject<HTMLHeadingElement | null>;
+  sectionRef?: RefObject<HTMLElement | null>;
   maxWidthClassName?: string;
 };
 
@@ -31,12 +32,14 @@ export default function StylistToolHeroSection({
   externalPrompt,
   externalPromptKey,
   titleRef,
+  sectionRef,
   maxWidthClassName = "max-w-[800px]",
 }: StylistToolHeroSectionProps) {
   const [flowScreen, setFlowScreen] = useState<WtwFlowScreen>("input");
 
   return (
     <section
+      ref={sectionRef}
       data-nav-theme="light-bg"
       aria-label={ariaLabel}
       className={`relative flex flex-col items-center text-center px-6 bg-white ${

@@ -102,6 +102,8 @@ export default function Navbar() {
   const [hash, setHash] = useState("");
   const [open, setOpen]           = useState(false);
   const [scrolled, setScrolled]   = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
+  const lastScrollY = useRef(0);
   const [aiOpen, setAiOpen]       = useState(false);
   const [mobileAiOpen, setMobileAiOpen] = useState(false);
   const aiRef = useRef<HTMLDivElement>(null);
@@ -122,9 +124,27 @@ export default function Navbar() {
   }, [pathname]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 20);
+
+      if (currentScrollY <= 40) {
+        setNavVisible(true);
+      } else {
+        const delta = currentScrollY - lastScrollY.current;
+        if (Math.abs(delta) > 6) {
+          if (delta > 0) {
+            setNavVisible(false);
+          } else {
+            setNavVisible(true);
+          }
+        }
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -139,7 +159,13 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[100] flex justify-center pt-4 px-4 pointer-events-none">
+    <header
+      className={`fixed inset-x-0 top-0 z-[100] flex justify-center pt-4 px-4 transition-all duration-300 ease-in-out ${
+        navVisible || open
+          ? "translate-y-0 opacity-100 pointer-events-none"
+          : "-translate-y-full opacity-0 pointer-events-none"
+      }`}
+    >
       <svg
         aria-hidden="true"
         width="0"

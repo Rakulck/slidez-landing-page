@@ -809,6 +809,7 @@ export default function StylistTool({
       setTryOnFinalImageUrl(finalImageUrl);
       setTryOnItems(cards);
       setTryOnStage(null);
+      setWtwCinematicActive(false);
       setResults(true);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to generate your try-on. Please try again.";
@@ -829,6 +830,7 @@ export default function StylistTool({
     setPickerGender(null);
     const prompt = (query || input).trim();
     setLoading(true);
+    setWtwCinematicActive(true);
     setTryOnStage("Setting up model...");
     try {
       setSelectedModelSrc(modelSrc);

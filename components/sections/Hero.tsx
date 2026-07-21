@@ -287,6 +287,19 @@ export default function Hero() {
     },
   });
 
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (carouselRef.current && window.innerWidth < 768) {
+      const el = carouselRef.current;
+      const centerCard = el.children[2] as HTMLElement;
+      if (centerCard) {
+        const scrollPos = centerCard.offsetLeft - el.clientWidth / 2 + centerCard.clientWidth / 2;
+        el.scrollTo({ left: scrollPos, behavior: "smooth" });
+      }
+    }
+  }, []);
+
   const handleSubmit = () => {
     if (!inputValue.trim() || loading) return;
     startTryOn(inputValue);
@@ -294,6 +307,7 @@ export default function Hero() {
 
   const handleCardClick = (prompt: string) => {
     startTryOn(prompt);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleReset = () => {
@@ -513,15 +527,20 @@ export default function Hero() {
         <p className="mb-5 text-center text-xs font-medium uppercase tracking-widest text-[#888]">
           Tap any style below to try it on you
         </p>
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#e8e9ec] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#e8e9ec] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-3 sm:w-12 md:w-20 bg-gradient-to-r from-[#e8e9ec] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-3 sm:w-12 md:w-20 bg-gradient-to-l from-[#e8e9ec] to-transparent" />
 
-        <div className="flex items-end justify-center gap-3 overflow-visible px-4">
+        <div
+          ref={carouselRef}
+          className="flex items-end justify-center gap-1 overflow-x-auto pb-16 pt-4 px-1 sm:gap-2.5 sm:px-6 md:gap-3 md:px-4 no-scrollbar snap-x snap-mandatory touch-pan-x"
+        >
           {CAROUSEL_CARDS.map((card, i) => {
             const isCenter = i === 2;
             const isAdjacent = Math.abs(i - 2) === 1;
             const isHovered = !reduceMotion && hoveredIdx === i;
             const otherHovered = hoveredIdx !== null && !isHovered;
+            const targetY = isHovered ? card.yOffset - 16 : card.yOffset;
+
             return (
               <motion.div
                 key={card.label}
@@ -531,8 +550,8 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 80 }}
                 animate={{
                   opacity: 1,
-                  y: isHovered ? card.yOffset - 16 : card.yOffset,
-                  scale: isHovered ? 1.18 : otherHovered ? 0.92 : 1,
+                  y: targetY,
+                  scale: isHovered ? 1.15 : otherHovered ? 0.94 : 1,
                 }}
                 transition={{
                   opacity: { duration: 0.9, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] },
@@ -555,11 +574,11 @@ export default function Hero() {
                       ? "0 24px 48px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08)"
                       : "0 16px 36px rgba(0,0,0,0.14)",
                 }}
-                className={`relative shrink-0 overflow-hidden ${isCenter
-                  ? "h-[460px] w-56 rounded-[40px] border-2 border-black/10"
+                className={`relative shrink-0 snap-center overflow-hidden transition-all duration-300 ${isCenter
+                  ? "h-[270px] w-[116px] rounded-[22px] border-2 border-black/10 sm:h-[360px] sm:w-48 sm:rounded-[32px] md:h-[460px] md:w-56 md:rounded-[40px]"
                   : isAdjacent
-                    ? "h-[380px] w-44 rounded-[36px] border border-black/[0.08]"
-                    : "h-[310px] w-36 rounded-[32px] border border-black/[0.06]"
+                    ? "h-[230px] w-[96px] rounded-[18px] border border-black/[0.08] sm:h-[300px] sm:w-38 sm:rounded-[28px] md:h-[380px] md:w-44 md:rounded-[36px]"
+                    : "h-[195px] w-[80px] rounded-[16px] border border-black/[0.06] sm:h-[250px] sm:w-30 sm:rounded-[24px] md:h-[310px] md:w-36 md:rounded-[32px]"
                   }`}
               >
                 <img
@@ -593,13 +612,13 @@ export default function Hero() {
                   )}
                 </AnimatePresence>
 
-                <div className="absolute bottom-4 left-0 right-0 z-10 flex justify-center">
-                  <span className={`rounded-full border border-white/20 bg-black/50 px-3 py-1 font-medium text-white/90 backdrop-blur-md ${isCenter ? "text-xs" : "text-[10px]"}`}>
+                <div className="absolute bottom-2.5 left-0 right-0 z-10 flex justify-center sm:bottom-4">
+                  <span className={`rounded-full border border-white/20 bg-black/50 px-2 py-0.5 font-medium text-white/90 backdrop-blur-md sm:px-3 sm:py-1 ${isCenter ? "text-[10px] sm:text-xs" : "text-[8px] sm:text-[10px]"}`}>
                     {card.label}
                   </span>
                 </div>
 
-                <div className={`absolute left-1/2 top-0 z-20 -translate-x-1/2 rounded-b-2xl bg-[#e8e9ec] ${isCenter ? "h-5 w-16" : "h-4 w-12"}`} />
+                <div className={`absolute left-1/2 top-0 z-20 -translate-x-1/2 rounded-b-2xl bg-[#e8e9ec] ${isCenter ? "h-4 w-12 sm:h-5 sm:w-16" : "h-3 w-10 sm:h-4 sm:w-12"}`} />
               </motion.div>
             );
           })}
