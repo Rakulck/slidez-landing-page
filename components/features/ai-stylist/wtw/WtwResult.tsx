@@ -28,8 +28,8 @@ function WtwPieceRow({ item }: { item: WtwProductItem }) {
   const brand = item.brand ?? inferBrandFromLink(item.productLink);
 
   return (
-    <div className="flex items-center gap-3 py-2.5 border-b border-[#ececec] last:border-b-0">
-      <div className="relative w-[46px] h-[58px] rounded-lg overflow-hidden shrink-0 shadow-[inset_0_0_0_1px_#ececec] bg-[#fafaf9]">
+    <div className="flex items-center gap-3 py-2.5 border-b border-white/10 last:border-b-0">
+      <div className="relative w-[46px] h-[58px] rounded-lg overflow-hidden shrink-0 border border-white/10 bg-white/5">
         {item.imageUrl ? (
           <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
         ) : (
@@ -37,7 +37,7 @@ function WtwPieceRow({ item }: { item: WtwProductItem }) {
             className="absolute inset-0 opacity-100"
             style={{
               backgroundImage:
-                "repeating-linear-gradient(135deg, #efe9e1 0 11px, #e7e0d6 11px 22px)",
+                "repeating-linear-gradient(135deg, rgba(255,255,255,0.06) 0 11px, rgba(255,255,255,0.03) 11px 22px)",
             }}
           />
         )}
@@ -51,15 +51,15 @@ function WtwPieceRow({ item }: { item: WtwProductItem }) {
               className="w-5 h-5 rounded-sm object-contain shrink-0 bg-white"
             />
           ) : brand ? (
-            <span className="text-[10px] font-semibold uppercase tracking-[0.06em] text-[#6b6b6b] shrink-0 max-w-[72px] truncate">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.06em] text-white/70 shrink-0 max-w-[72px] truncate">
               {brand}
             </span>
           ) : null}
-          <span className="text-[14.5px] font-medium text-[#0a0a0a] tracking-[-0.01em] truncate">
+          <span className="text-[14.5px] font-medium text-white tracking-[-0.01em] truncate">
             {item.name}
           </span>
         </div>
-        <p className="text-[9.5px] font-mono uppercase tracking-[0.04em] text-[#6b6b6b] mt-0.5 truncate">
+        <p className="text-[9.5px] font-mono uppercase tracking-[0.04em] text-white/40 mt-0.5 truncate">
           {tag}
         </p>
       </div>
@@ -68,7 +68,7 @@ function WtwPieceRow({ item }: { item: WtwProductItem }) {
           href={item.productLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 text-[#0a0a0a] hover:opacity-60 transition-opacity"
+          className="shrink-0 text-white/80 hover:text-white transition-opacity"
           aria-label={`Shop ${item.name}`}
         >
           <ArrowRight className="w-3.5 h-3.5" />
@@ -101,7 +101,7 @@ export default function WtwResult({
   return (
     <div className="w-full flex flex-col md:flex-row gap-6 md:gap-9 px-1 md:px-2 pt-2 md:pt-4 items-stretch">
       {/* Your look — left */}
-      <div className="relative order-1 md:order-1 md:flex-[0_0_42%] min-h-[280px] md:min-h-[420px] rounded-3xl overflow-hidden shadow-[0_34px_60px_-34px_rgba(20,20,20,0.45)] bg-[#fafaf9]">
+      <div className="relative order-1 md:order-1 md:flex-[0_0_42%] min-h-[280px] md:min-h-[420px] rounded-3xl overflow-hidden shadow-[0_34px_60px_-34px_rgba(0,0,0,0.65)] border border-white/10 bg-[#0d0d0d]">
         {tryOnFinalImageUrl ? (
           <img
             src={tryOnFinalImageUrl}
@@ -113,19 +113,12 @@ export default function WtwResult({
             className="absolute inset-0"
             style={{
               backgroundImage:
-                "repeating-linear-gradient(135deg, #f3e9e6 0 11px, #ecdfdb 11px 22px)",
+                "repeating-linear-gradient(135deg, rgba(255,255,255,0.06) 0 11px, rgba(255,255,255,0.03) 11px 22px)",
             }}
           />
         )}
 
-        <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-white/92 backdrop-blur-sm rounded-full px-3 py-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#4caf50]" />
-          <span className="text-[9.5px] font-mono uppercase tracking-[0.12em] text-[#0a0a0a]">
-            Tried on you
-          </span>
-        </div>
-
-        <span className="absolute bottom-3.5 left-1/2 -translate-x-1/2 z-10 text-[9px] font-mono uppercase tracking-[0.14em] text-[#6b6b6b] bg-white/82 backdrop-blur-sm px-2 py-1 rounded-full whitespace-nowrap">
+        <span className="absolute bottom-3.5 left-1/2 -translate-x-1/2 z-10 text-[9px] font-mono uppercase tracking-[0.14em] text-white/80 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/15 whitespace-nowrap">
           Try-on render · {modelName}
         </span>
       </div>
@@ -133,7 +126,7 @@ export default function WtwResult({
       {/* Details + CTAs — right */}
       <div className="order-2 md:order-2 flex-1 min-w-0 flex flex-col text-left">
         <div className="flex items-center justify-between gap-4">
-          <p className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#6b6b6b]">
+          <p className="text-[10px] font-mono uppercase tracking-[0.14em] text-white/60">
             Your look · {occasion}
           </p>
           <button
@@ -144,49 +137,50 @@ export default function WtwResult({
             <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
               <path
                 d="M13 8 L3 8 M7 4 L3 8 L7 12"
-                stroke="#0a0a0a"
+                stroke="currentColor"
                 strokeWidth="1.6"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className="text-white"
               />
             </svg>
-            <span className="text-[9.5px] font-mono uppercase tracking-[0.12em] text-[#0a0a0a]">
+            <span className="text-[9.5px] font-mono uppercase tracking-[0.12em] text-white">
               New look
             </span>
           </button>
         </div>
 
-        <h2 className="mt-3.5 mb-0 font-semibold text-[#0a0a0a] text-2xl md:text-4xl leading-[1.02] tracking-[-0.04em] text-pretty">
+        <h2 className="mt-3.5 mb-0 font-semibold text-white text-2xl md:text-4xl leading-[1.02] tracking-[-0.04em] text-pretty">
           {title}
         </h2>
 
         {query && (
           <div className="flex gap-2.5 mt-3.5 items-start">
             <div
-              className="w-[34px] h-[34px] rounded-full shrink-0 shadow-[inset_0_0_0_1px_#ececec]"
+              className="w-[34px] h-[34px] rounded-full shrink-0 border border-white/15 bg-white/10"
               style={{
                 backgroundImage:
-                  "repeating-linear-gradient(135deg, #ededeb 0 11px, #e3e3e0 11px 22px)",
+                  "repeating-linear-gradient(135deg, rgba(255,255,255,0.08) 0 11px, rgba(255,255,255,0.04) 11px 22px)",
               }}
             />
-            <p className="m-0 text-[15.5px] italic text-[#1a1a1a]/90 leading-snug tracking-[-0.01em] max-w-[460px]">
+            <p className="m-0 text-[15.5px] italic text-white/90 leading-snug tracking-[-0.01em] max-w-[460px]">
               &ldquo;{query}&rdquo;
             </p>
           </div>
         )}
 
         {tryOnError && (
-          <p className="mt-4 text-sm text-red-600/90">{tryOnError}</p>
+          <p className="mt-4 text-sm text-red-400">{tryOnError}</p>
         )}
 
         <div className="h-5 md:h-6" />
 
         <div className="flex items-baseline justify-between mb-1">
-          <p className="text-[10px] font-mono uppercase tracking-[0.14em] text-[#6b6b6b]">
+          <p className="text-[10px] font-mono uppercase tracking-[0.14em] text-white/60">
             The pieces
           </p>
-          <p className="text-[10px] font-mono uppercase tracking-[0.1em] text-[#9a9a9a]">
+          <p className="text-[10px] font-mono uppercase tracking-[0.1em] text-white/40">
             {productItems.length} piece{productItems.length !== 1 ? "s" : ""} · {gender}
           </p>
         </div>
@@ -195,7 +189,7 @@ export default function WtwResult({
           {productItems.length > 0 ? (
             productItems.map((item, i) => <WtwPieceRow key={`${item.category}-${i}`} item={item} />)
           ) : (
-            <p className="text-sm text-[#9a9a9a] py-4">No product details available for this look.</p>
+            <p className="text-sm text-white/40 py-4">No product details available for this look.</p>
           )}
         </div>
 
@@ -206,8 +200,8 @@ export default function WtwResult({
             disabled={shopLinks.length === 0}
             className={`h-[54px] flex-1 rounded-full border text-base font-medium tracking-[-0.01em] inline-flex items-center justify-center gap-2.5 transition-all cursor-pointer ${
               shopLinks.length > 0
-                ? "border-[#e3e3e3] bg-white text-[#0a0a0a] hover:bg-[#fafaf9]"
-                : "border-[#e3e3e3] bg-[#fafaf9] text-[#c4c2bd] cursor-not-allowed"
+                ? "border-white/20 bg-white text-black hover:bg-white/90"
+                : "border-white/10 bg-white/5 text-white/30 cursor-not-allowed"
             }`}
           >
             <span>Shop the look</span>
@@ -217,7 +211,7 @@ export default function WtwResult({
             href={APP_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="h-[54px] flex-1 rounded-full bg-[#0a0a0a] text-white text-base font-medium tracking-[-0.01em] inline-flex items-center justify-center gap-2.5 shadow-[0_14px_30px_-12px_rgba(10,10,10,0.5)] hover:bg-[#222] transition-colors"
+            className="h-[54px] flex-1 rounded-full border border-white/25 bg-white/10 text-white text-base font-medium tracking-[-0.01em] inline-flex items-center justify-center gap-2.5 hover:bg-white/20 hover:border-white/40 transition-all"
           >
             <AppleIcon className="w-4 h-4 shrink-0" />
             <span>Download Slidez</span>
