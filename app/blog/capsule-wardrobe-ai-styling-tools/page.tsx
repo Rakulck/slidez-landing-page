@@ -162,7 +162,7 @@ export default function BlogPost() {
 <p className="mb-6"><strong>It styles for occasions.</strong> Tell Slidez the occasion and it builds a look from your style, factoring in your body automatically from your photo.</p>
 <p className="mb-6"><strong>It refreshes daily.</strong> Daily outfit ideas keep a small wardrobe feeling varied.</p>
 <p className="mb-6"><strong>It tests new additions.</strong> Before adding a piece to your capsule, try it on virtually. The Slidez Chrome extension works across any online store, so you can check a candidate before it reaches your cart.</p>
-<p className="mb-6"><em>For more on the mechanics, see our guide on <a href="/blog/ai-fashion-stylist-benefits" className="text-black underline decoration-black/20 hover:decoration-black transition-all">the benefits of using an AI fashion stylist</a>.</em></p>
+<p className="mb-6"><em>For more on the mechanics, see our guide on <a href="/blog/ai-fashion-stylist-benefits" className="text-black underline decoration-black/20 hover:decoration-black transition-all">the benefits of using an AI fashion stylist</a>, or explore <a href="/blog/ai-outfit-ideas-every-occasion" className="text-black underline decoration-black/20 hover:decoration-black transition-all">the best AI outfit ideas for every occasion</a>.</em></p>
 <hr className="my-12 border-black/10" />
 <h2 id="common-mistakes-to-avoid-when-building-a-capsule-wardrobe" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Common Mistakes to Avoid When Building a Capsule Wardrobe</h2>
 <p className="mb-6">Most capsule attempts fail for predictable reasons.</p>
