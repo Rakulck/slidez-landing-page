@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/blog/how-to-stop-buying-clothes-you-never-wear", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/blog/how-to-choose-clothes-personal-style", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/blog/ai-outfit-ideas-every-occasion", priority: 0.7, changeFrequency: "monthly" as const },
+    { path: "/blog/digital-wardrobe-vs-traditional-closet", priority: 0.7, changeFrequency: "monthly" as const },
   ];
 
   return blogRoutes.map((route) => ({
