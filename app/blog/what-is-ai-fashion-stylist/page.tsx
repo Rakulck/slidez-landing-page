@@ -142,6 +142,7 @@ export default function BlogPost() {
                 <li><strong className="text-black">Contextual awareness:</strong> Weather, calendar, location, and occasion all feed into smarter recommendations.</li>
               </ul>
               <p className="mb-6">Put together, the result is fashion advice tailored to you, refreshed in real time, available 24/7.</p>
+              <p className="mb-6"><em>For a full guide on matching body shape, color, and fit algorithms, read <Link href="/blog/how-ai-helps-find-clothes-that-suit-you" className="text-black underline decoration-black/20 hover:decoration-black transition-all">how AI helps you find clothes that suit you</Link>.</em></p>
             </div>
 
             <div id="key-features" className="mb-16 scroll-mt-32">
