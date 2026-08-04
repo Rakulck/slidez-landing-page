@@ -102,7 +102,7 @@ export default function BlogPost() {
                 <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-black/40"></span>Help you spot gaps in your wardrobe before you shop</li>
                 <li className="flex items-center gap-3"><span className="w-1.5 h-1.5 rounded-full bg-black/40"></span>Show you what works together so you stop buying clutter</li>
               </ul>
-              <p className="mb-6 font-medium text-black text-xl">Think of it as a closet organizer app, wardrobe management app, and personal stylist rolled into one. <em>For an in-depth look at how digital organization compares to physical closets, read our guide on <Link href="/blog/digital-wardrobe-vs-traditional-closet" className="text-black underline decoration-black/20 hover:decoration-black transition-all">digital wardrobe vs traditional closet</Link>.</em></p>
+              <p className="mb-6 font-medium text-black text-xl">Think of it as a closet organizer app, wardrobe management app, and personal stylist rolled into one. <em>For a step-by-step setup walkthrough, check out <Link href="/blog/complete-guide-smart-digital-wardrobe" className="text-black underline decoration-black/20 hover:decoration-black transition-all">The Complete Guide to Creating a Smart Digital Wardrobe</Link>, or read our guide on <Link href="/blog/digital-wardrobe-vs-traditional-closet" className="text-black underline decoration-black/20 hover:decoration-black transition-all">digital wardrobe vs traditional closet</Link>.</em></p>
             </div>
 
             <div id="approaches" className="mb-16 scroll-mt-32">
