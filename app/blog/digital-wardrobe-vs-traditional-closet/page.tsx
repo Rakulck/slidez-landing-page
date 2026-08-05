@@ -95,7 +95,7 @@ export default function BlogPost() {
             <p className="mb-6">Most digital wardrobes work by cataloging your garments, either through photos you take or items you save while shopping. Once cataloged, you can browse, filter, and combine pieces the same way you would browse a store.</p>
             <p className="mb-6">The value is not the storage. It is the visibility. A digital wardrobe surfaces the clothes your physical closet hides.</p>
             <p className="mb-6">Some tools focus on digitizing what you already own. Others focus on what you are about to buy. Both are digital wardrobes; they just solve different halves of the problem.</p>
-            <p className="mb-6"><em>Looking to build one yourself? Read our 7-step <Link href="/blog/complete-guide-smart-digital-wardrobe" className="text-black underline decoration-black/20 hover:decoration-black transition-all">complete guide to creating a smart digital wardrobe</Link>.</em></p>
+            <p className="mb-6"><em>Looking to build one yourself? Read our 7-step <Link href="/blog/complete-guide-smart-digital-wardrobe" className="text-black underline decoration-black/20 hover:decoration-black transition-all">complete guide to creating a smart digital wardrobe</Link> or learn <Link href="/blog/how-ai-personalizes-online-fashion-shopping" className="text-black underline decoration-black/20 hover:decoration-black transition-all">how AI is personalizing online fashion shopping</Link>.</em></p>
 
             <hr className="my-12 border-black/10" />
 

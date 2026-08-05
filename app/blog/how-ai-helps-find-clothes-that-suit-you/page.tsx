@@ -168,6 +168,7 @@ export default function BlogPost() {
             <p className="mb-6"><strong>You stop second-guessing.</strong> Deciding once, with visual confirmation, beats deliberating repeatedly.</p>
             <p className="mb-6">That confidence carries past the purchase.</p>
             <p className="mb-6"><a href="https://www.emerald.com/insight/content/doi/10.1108/IJPDLM-03-2025-0115/full/html" className="text-black underline decoration-black/20 hover:decoration-black transition-all">Research in the International Journal of Physical Distribution &amp; Logistics Management</a> confirms that digital tools reducing uncertainty before a transaction enhance purchase confidence, which in turn reduces post-purchase regret and the likelihood of returns.</p>
+<p className="mb-6"><em>For a deeper look into the algorithms and fit engines behind this, see our guide on <Link href="/blog/how-ai-personalizes-online-fashion-shopping" className="text-black underline decoration-black/20 hover:decoration-black transition-all">how AI is personalizing online fashion shopping</Link>.</em></p>
 
             <hr className="my-12 border-black/10" />
 

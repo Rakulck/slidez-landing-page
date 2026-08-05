@@ -134,6 +134,7 @@ export default function BlogPost() {
                   <p><strong className="text-black">AI got smarter.</strong> The current generation of styling apps actually understands fit, occasion, color theory, and personal taste, not just generic Pinterest boards.</p>
                 </div>
               </div>
+              <p className="mt-6 text-black/60 italic">For a complete deep dive into recommendation algorithms, fit technology, and virtual try-on, check out our guide on <Link href="/blog/how-ai-personalizes-online-fashion-shopping" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">how AI is personalizing online fashion shopping</Link>.</p>
             </div>
 
             <div id="key-features" className="mb-16 scroll-mt-32">

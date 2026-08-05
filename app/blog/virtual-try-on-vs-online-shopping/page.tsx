@@ -141,6 +141,7 @@ export default function BlogPost() {
                 <li><strong className="text-black">Decision fatigue is real.</strong> Browsing 50 product pages, comparing options, and weighing reviews takes mental energy. Most people give up and either buy too fast or not at all.</li>
               </ul>
               <p className="mb-6">Each of these is a problem virtual try-on directly addresses.</p>
+              <p className="mb-6 text-black/60 italic">To understand how personalization algorithms learn your taste and sizing, see our detailed guide on <Link href="/blog/how-ai-personalizes-online-fashion-shopping" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">how AI is personalizing online fashion shopping</Link>.</p>
             </div>
 
             {/* Key Differences Comparison Table */}

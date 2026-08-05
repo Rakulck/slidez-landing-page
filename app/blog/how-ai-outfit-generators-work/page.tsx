@@ -122,6 +122,7 @@ export default function BlogPost() {
                 <li><strong className="text-black">Privacy is appealing.</strong> You can experiment with bold styles privately, no fitting room judgment, no awkward consultation.</li>
               </ul>
               <p className="mb-6">The combined effect is a category that has moved from niche to mainstream in under three years.</p>
+              <p className="mb-6 text-black/60 italic">For a comprehensive look at recommendation algorithms and fit estimation, read our guide on <Link href="/blog/how-ai-personalizes-online-fashion-shopping" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">how AI is personalizing online fashion shopping</Link>.</p>
             </div>
 
             {/* How They Work */}
