@@ -114,6 +114,7 @@ export default function BlogPost() {
 <p className="mb-6"><strong>Structured shoulders balance.</strong> Shoulder pads or structured shoulder seams add width at the top, which balances wider hips.</p>
 <p className="mb-6"><strong>Volume draws attention.</strong> Ruffles, embellishments, and bold prints pull the eye to wherever they are placed.</p>
 <p className="mb-6">Knowing these principles, you can apply them regardless of your specific shape. The body shape guides below are built on exactly these mechanics.</p>
+<p className="mb-6"><em>To discover how AI styling algorithms model anthropometric ratios, visual segmentation, and proportion math, read our deep dive on <Link href="/blog/algorithmic-fashion-recommendation-systems" className="text-black underline decoration-black/20 hover:decoration-black transition-all">algorithmic fashion recommendation systems</Link>.</em></p>
 <hr className="my-12 border-black/10" />
 <h2 id="best-clothing-styles-for-rectangle-body-shapes" className="text-[2rem] font-bold text-black mb-6 mt-16 tracking-tight scroll-mt-32">Best Clothing Styles for Rectangle Body Shapes</h2>
 <p className="mb-6">A rectangle silhouette is straight and even. The goal for most rectangle dressers is to add visual definition or create the impression of a waist.</p>

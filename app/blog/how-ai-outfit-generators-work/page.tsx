@@ -143,7 +143,7 @@ export default function BlogPost() {
                   <p><strong className="text-black">It produces a complete outfit.</strong> Usually with a visual preview, often with a virtual try-on, sometimes with shopping links if you do not own the items yet.</p>
                 </div>
               </div>
-              <p className="mb-6">The whole process takes seconds. Behind the scenes, it draws on years of fashion data, computer vision, and machine learning.</p>
+              <p className="mb-6">The whole process takes seconds. Behind the scenes, it draws on years of fashion data, computer vision, and machine learning. To understand the underlying Graph Attention Networks and mathematical models, read our deep dive into the <Link href="/blog/algorithmic-fashion-recommendation-systems" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">algorithmic architectures of next-generation fashion recommendation systems</Link>.</p>
             </div>
 
             {/* What Data */}
