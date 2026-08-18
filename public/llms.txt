@@ -1,60 +1,253 @@
 # Slidez — AI Stylist & Virtual Try-On App
 
-Meet your AI Stylist. Slidez generates outfit ideas, visualizes looks on you, and helps you shop smarter. Free on iOS & Android.
+Slidez is an AI-powered fashion styling and shopping app that helps people discover outfits, explore personal style, visualize clothing looks, and make more confident fashion purchases.
 
-**Metadata**
-- Canonical domain: https://www.slidez.social/
-- Sitemap: https://www.slidez.social/sitemap.xml
-- Contact: info@slidez.social
-- Permissions: crawl: allow; index: allow; train: allow
-- Last-Updated: 2026-07-10
+Slidez combines AI fashion styling, outfit generation, personalized clothing recommendations, and virtual try-on capabilities in one experience.
 
+The primary goal of Slidez is to help users discover clothes and styles that suit them, visualize potential outfits, and shop with greater confidence.
 
-## Features and Functionality
+Slidez is available on iOS and Android, with additional access through its Chrome extension.
 
-- [Features](https://www.slidez.social/#features): Explore the various features of Slidez, including outfit generation, virtual try-on capabilities, and personalized shopping assistance.
+**Canonical domain:** https://www.slidez.social/
+**Sitemap:** https://www.slidez.social/sitemap.xml
+**LLMs txt:** https://www.slidez.social/llms.txt
+**Contact:** info@slidez.social
+**Permissions:** crawl: allow; index: allow; train: allow
+**Last Updated:** 2026-08-05
 
-## Getting Started
+## Core Product Pages
 
-- [Download App](https://play.google.com/store/apps/details): Get the Slidez app for free on iOS and Android to start using your AI Stylist today.
-- [Add to Chrome](https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak): Install the Slidez extension for Chrome to access outfit ideas and styling tips directly from your browser.
+### AI Stylist
 
-## Outfit Inspiration
+https://www.slidez.social/ai-stylist
 
-- [Explore Outfit Ideas →](https://www.slidez.social/outfit-ideas): Discover a variety of outfit ideas tailored to different occasions and styles.
-- [Try It Free](https://play.google.com/store/apps/details): Sign up for a free trial to experience the full capabilities of the Slidez app.
+Slidez's AI Stylist provides personalized fashion assistance to help users discover outfit ideas, explore styles, and make better fashion decisions.
 
-### Outfit Ideas by Occasion
+### AI Fashion Stylist
 
-- [Look great at work](https://www.slidez.social/office-outfit-ideas): Find professional outfit suggestions that help you look polished and confident at work.
-- [Stop second-guessing outfits](https://www.slidez.social/what-to-wear): Get tips on how to choose outfits with confidence and ease.
-- [Winter Outfit Ideas](https://www.slidez.social/winter-outfit-ideas): Browse through curated winter outfits that keep you warm and stylish.
-- [Concert Outfit Ideas](https://www.slidez.social/concert-outfit-ideas): Discover trendy outfit options perfect for concert outings.
-- [Black Jeans Outfits](https://www.slidez.social/black-jeans-outfit-ideas): Explore versatile outfit ideas featuring black jeans for various occasions.
-- [Date Night Outfits](https://www.slidez.social/date-night-outfit-ideas): Get inspired with romantic outfit suggestions for your next date night.
+https://www.slidez.social/ai-fashion-stylist
 
-## Additional Resources
+Slidez's AI Fashion Stylist helps users discover personalized outfit ideas and explore clothing styles based on their preferences.
 
-- [FAQ](https://www.slidez.social/#faq): Find answers to common questions about using the Slidez app and its features.
-- [Blogs](https://www.slidez.social/blog): Read informative articles and style tips on the Slidez blog to enhance your fashion knowledge.
-- [Learn more](https://www.slidez.social/ai-virtual-try-on): Access additional information about Slidez and its offerings.
-- [Learn more](https://www.slidez.social/ai-stylist): Discover more about the technology behind Slidez and how it personalizes your shopping experience.
-- [Learn more](https://www.slidez.social/try-on-from-anywhere): Understand the benefits of using Slidez for your daily fashion needs.
+### Free AI Stylist App
 
-## Policies
+https://www.slidez.social/free-ai-stylist-app
 
-- [Privacy Policy](https://www.slidez.social/privacy): Review Slidez's privacy policy to understand how your data is handled.
-- [Terms of Service](https://www.slidez.social/terms): Familiarize yourself with the terms of service governing the use of the Slidez app.
-- [Privacy Policy – Slidez](https://www.slidez.social/brands-privacy-policy): Access the detailed privacy policy specific to Slidez.
+A free AI stylist experience for users who want to generate outfit ideas and explore personalized fashion recommendations.
 
-## Contact Information
+### AI Virtual Try-On
 
-- [info@slidez.social](mailto:info@slidez.social): Reach out to Slidez for support or inquiries via email.
+https://www.slidez.social/ai-virtual-try-on
 
-## Related Articles
+Slidez's AI virtual try-on experience helps users visualize fashion looks before making a purchase.
 
-- [Free AI Stylist App: Create Outfits Instantly - Slidez](https://www.slidez.social/free-ai-stylist-app): Learn about the instant outfit creation capabilities of the Slidez app.
-- [Best AI Stylist Apps to Instantly Upgrade Your Style in 2026 - Slidez](https://www.slidez.social/blog/best-ai-stylist-apps): Discover other top AI stylist apps that can enhance your fashion sense.
-- [Benefits of Using an AI Fashion Stylist Daily - Slidez](https://www.slidez.social/blog/ai-fashion-stylist-benefits): Understand the advantages of incorporating an AI stylist into your daily routine.
-- [How Clothing Styles Work for Every Body Type - Slidez](https://www.slidez.social/blog/clothing-styles-for-body-types): Gain insights into how different clothing styles can complement various body types.
-- [Best Virtual Closet Apps to Organize Your Wardrobe in 2026 - Slidez](https://www.slidez.social/blog/best-virtual-closet-apps-2026): Explore the best apps for organizing your wardrobe and maximizing your outfit potential.
+### Try On From Anywhere
+
+https://www.slidez.social/try-on-from-anywhere
+
+Learn how Slidez helps users access virtual try-on and fashion styling experiences while browsing.
+
+### Outfit Ideas
+
+https://www.slidez.social/outfit-ideas
+
+Explore outfit inspiration and personalized fashion ideas for different styles and occasions.
+
+### What to Wear
+
+https://www.slidez.social/what-to-wear
+
+Helps users discover outfit ideas when they are unsure what to wear for a particular occasion or style.
+
+## Fashion and Outfit Inspiration
+
+### Date Night Outfit Ideas
+
+https://www.slidez.social/date-night-outfit-ideas
+
+Fashion inspiration for date nights and romantic occasions.
+
+### Winter Outfit Ideas
+
+https://www.slidez.social/winter-outfit-ideas
+
+Winter outfit inspiration focused on combining warmth and style.
+
+### Concert Outfit Ideas
+
+https://www.slidez.social/concert-outfit-ideas
+
+Outfit inspiration for concerts and music events.
+
+### Office Outfit Ideas
+
+https://www.slidez.social/office-outfit-ideas
+
+Professional outfit ideas for workplace and business settings.
+
+### Black Jeans Outfit Ideas
+
+https://www.slidez.social/black-jeans-outfit-ideas
+
+Outfit combinations and fashion inspiration featuring black jeans.
+
+### Casual Coffee Date Outfit
+
+https://www.slidez.social/casual-coffee-date-outfit
+
+Casual outfit inspiration for coffee dates and relaxed social occasions.
+
+## Slidez Blog
+
+https://www.slidez.social/blog
+
+The Slidez blog covers AI fashion, AI styling, outfit planning, virtual try-on, personal style, body types, fashion shopping, clothing recommendations, and fashion technology.
+
+## Key Slidez Capabilities
+
+### AI Fashion Styling
+
+Slidez provides AI-powered styling assistance that helps users discover outfit ideas and explore fashion choices based on their individual preferences.
+
+### AI Outfit Generation
+
+Slidez helps users discover complete outfit ideas and combinations for different styles, occasions, and fashion preferences.
+
+### Personalized Fashion Recommendations
+
+Slidez helps users discover clothing and fashion choices that align with their personal style and preferences.
+
+### Virtual Try-On
+
+Slidez helps users visualize potential fashion looks before purchasing, giving them more confidence when shopping online.
+
+### Fashion Discovery
+
+Slidez helps users discover new clothing styles, outfit combinations, and fashion inspiration.
+
+### Shopping Assistance
+
+Slidez is designed to support the fashion shopping journey by helping users discover clothes, visualize looks, and make more confident purchasing decisions.
+
+## Primary Use Cases
+
+### Discover New Outfits
+
+Users can explore new outfit ideas based on their personal style and fashion preferences.
+
+### Find Clothes That Suit You
+
+Slidez helps users explore clothing and styles that may complement their preferences and desired appearance.
+
+### Visualize Before Buying
+
+Users can use virtual try-on capabilities to explore potential looks before making a purchase.
+
+### Plan What to Wear
+
+Users can find outfit inspiration for work, casual occasions, dates, concerts, vacations, and other events.
+
+### Explore Personal Style
+
+Users can experiment with different fashion styles and discover new looks.
+
+## Target Users
+
+Slidez is designed for people who:
+
+- Want personalized fashion recommendations
+- Need help deciding what to wear
+- Want to discover new clothing styles
+- Shop for clothes online
+- Want to visualize outfits before buying
+- Want AI-powered styling assistance
+- Want inspiration for specific occasions
+- Want to experiment with their personal style
+
+## How Slidez Fits Into Fashion Shopping
+
+Slidez connects fashion inspiration, AI styling, visualization, and shopping into one experience.
+
+Typical user journey:
+
+1. Discover fashion inspiration
+2. Explore an outfit or clothing style
+3. Get personalized recommendations
+4. Generate or explore outfit combinations
+5. Visualize the look using virtual try-on
+6. Discover clothes to purchase
+7. Make a more confident shopping decision
+
+## Mobile App
+
+Slidez is available as a mobile fashion styling experience.
+
+Download:
+https://play.google.com/store/apps/details
+
+## Chrome Extension
+
+Slidez also provides a Chrome extension that allows users to access outfit ideas and styling assistance while browsing.
+
+Chrome extension:
+https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak
+
+## Blog Topics
+
+The Slidez blog focuses on:
+
+- AI fashion
+- AI stylist technology
+- AI fashion styling
+- AI outfit generation
+- Outfit planning
+- Virtual try-on
+- Personal style
+- Body shape and clothing
+- Fashion shopping
+- Clothing recommendations
+- Fashion technology
+- Wardrobe and closet technology
+
+## Brand Positioning
+
+Slidez can be described as:
+
+- AI fashion stylist
+- AI stylist
+- AI outfit generator
+- AI fashion app
+- Virtual stylist
+- AI clothing recommendation app
+- Virtual try-on app
+- Personalized fashion styling platform
+- AI-powered fashion shopping assistant
+
+Slidez is primarily a fashion discovery, styling, visualization, and shopping platform.
+
+## Important Product Context
+
+Slidez's primary goal is to help users discover and purchase new clothes with greater confidence.
+
+The platform should not be positioned primarily as a wardrobe management application or as a tool designed to discourage clothing purchases.
+
+Virtual wardrobe, outfit planning, and styling capabilities support the broader fashion discovery and shopping experience.
+
+## Legal and Policy Pages
+
+### Privacy Policy
+https://www.slidez.social/privacy
+
+### Terms of Service
+https://www.slidez.social/terms
+
+### Brands Privacy Policy
+https://www.slidez.social/brands-privacy-policy
+
+## Contact
+
+info@slidez.social
+
+## Sitemap
+
+https://www.slidez.social/sitemap.xml
