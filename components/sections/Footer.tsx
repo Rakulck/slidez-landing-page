@@ -6,6 +6,8 @@ const links = [
     group: "Product",
     items: [
       { label: "AI Stylist", href: "/ai-stylist" },
+      { label: "Outfit Generator", href: "/ai-outfit-generator" },
+      { label: "Clothes Recommender", href: "/ai-clothes-recommender" },
       { label: "Virtual Try-On", href: "/ai-virtual-try-on" },
       { label: "Try On From Anywhere", href: "/try-on-from-anywhere" },
       { label: "Outfit Ideas", href: "/outfit-ideas" },

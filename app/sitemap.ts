@@ -11,6 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Core feature pages
     { path: "/ai-stylist", priority: 0.9, changeFrequency: "weekly" as const },
     { path: "/ai-fashion-stylist", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/ai-outfit-generator", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/ai-clothes-recommender", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/free-ai-stylist-app", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/ai-virtual-try-on", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/try-on-from-anywhere", priority: 0.8, changeFrequency: "monthly" as const },
