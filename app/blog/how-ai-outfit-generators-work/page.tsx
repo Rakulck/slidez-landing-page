@@ -107,7 +107,7 @@ export default function BlogPost() {
               </ul>
               <p className="mb-6">The output is a styled look, ready to wear or buy.</p>
               <p className="mb-6">The best AI outfit generators in 2026 also pair every recommendation with a virtual try-on, so you can see exactly how the outfit will look on you before committing.</p>
-              <p className="mb-6 text-black/60 italic">If you are new to the broader category, our explainer on <Link href="/blog/what-is-ai-fashion-stylist" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">what an AI fashion stylist is</Link> is a good place to start.</p>
+              <p className="mb-6 text-black/60 italic">If you are new to the broader category, our explainer on <Link href="/blog/what-is-ai-fashion-stylist" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">what an AI fashion stylist is</Link> is a good place to start. For a deep dive into how algorithms coordinate complete looks, see our guide on <Link href="/blog/ai-outfit-recommendations" className="text-black font-medium underline underline-offset-4 hover:text-black/60 transition-colors">how AI outfit recommendations work</Link>.</p>
             </div>
 
             {/* Why Popular */}
