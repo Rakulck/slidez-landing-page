@@ -30,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/blog/best-outfit-planner-apps-2026", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/blog/ai-outfit-recommendations", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/blog/what-to-wear-every-occasion-ai-guide", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/blog/how-to-dress-better-without-trends", priority: 0.8, changeFrequency: "monthly" as const },
   ];
 
   return blogRoutes.map((route) => ({
