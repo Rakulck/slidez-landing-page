@@ -159,7 +159,7 @@ export default function WtwResult({
 
         {query && (
           <p
-            className="mt-2.5 mb-1 font-sacramento text-2xl sm:text-3xl md:text-[2.2rem] font-normal tracking-normal text-black leading-tight"
+            className="mt-2 mb-1 font-sacramento text-[22px] sm:text-[28px] md:text-[33px] font-normal tracking-normal text-black leading-tight"
             style={{ fontFamily: "var(--font-sacramento), cursive" }}
           >
             &ldquo;{query}&rdquo;
