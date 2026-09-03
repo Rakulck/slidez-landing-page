@@ -53,12 +53,18 @@ export default function HeroModelStage({
   const displaySrc = idleImageSrc ?? active.src;
   const showResult = Boolean(resultImageUrl);
   const showLoading = tryOnLoading && !showResult;
+  const validProductItems = productItems.filter(
+    (item) =>
+      Boolean(item.imageUrl) ||
+      Boolean(item.productLink) ||
+      (Boolean(item.name) && item.name.trim().toLowerCase() !== item.category.trim().toLowerCase())
+  );
 
   return (
     <div className="relative mx-auto w-full max-w-[420px] overflow-hidden md:max-w-none md:overflow-visible">
       <div className="relative h-[420px] w-full md:h-[580px]">
         {/* Panel */}
-        <div className="absolute bottom-0 left-0 right-0 h-[340px] overflow-hidden rounded-[28px] border border-white/60 bg-gradient-to-b from-[#f4f5f7] to-[#dddee3] shadow-[0_8px_40px_rgba(0,0,0,0.06)] md:h-[470px]">
+        <div className="absolute bottom-0 left-0 right-0 h-[340px] overflow-hidden rounded-[28px] border border-black/[0.08] bg-[#ffffff] shadow-[0_12px_44px_rgba(0,0,0,0.06)] md:h-[470px]">
           <AnimatePresence initial={false}>
             <motion.div
               key={active.glow}
@@ -125,14 +131,14 @@ export default function HeroModelStage({
                   </div>
                 </div>
 
-                {productItems.length > 0 && (
+                {validProductItems.length > 0 && (
                   <motion.div
                     className="absolute inset-x-2 bottom-2 z-20 flex flex-col gap-1"
                     variants={OVERLAY_CONTAINER_VARIANTS}
                     initial="hidden"
                     animate="show"
                   >
-                    {productItems.map((item, i) => (
+                    {validProductItems.map((item, i) => (
                       <motion.div key={i} variants={OVERLAY_CARD_VARIANTS(i)}>
                         {item.productLink ? (
                           <a

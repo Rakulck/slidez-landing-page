@@ -497,25 +497,25 @@ function extractProductFields(obj: Record<string, unknown>, category: string) {
   } satisfies ProductInfo;
 }
 
-function ProductCard({ item, onClick }: { item: ProductInfo; onClick?: () => void }) {
+function ProductCard({ item, onClick, lightTheme = false }: { item: ProductInfo; onClick?: () => void; lightTheme?: boolean }) {
   const CardContent = (
     <>
       {item.imageUrl ? (
         <img
           src={item.imageUrl}
           alt={item.name}
-          className="w-11 h-11 rounded-lg object-cover shrink-0 border border-white/[0.06]"
+          className={`w-12 h-12 rounded-xl object-cover shrink-0 ${lightTheme ? "border border-black/[0.06] shadow-xs" : "border border-white/[0.06]"}`}
         />
       ) : (
-        <div className="w-11 h-11 rounded-lg bg-[rgba(192,192,192,0.08)] shrink-0 flex items-center justify-center">
-          <span className="text-[9px] font-bold text-white/20 uppercase">{item.category.slice(0, 1)}</span>
+        <div className={`w-12 h-12 rounded-xl shrink-0 flex items-center justify-center ${lightTheme ? "bg-black/[0.04] text-black/40" : "bg-[rgba(192,192,192,0.08)] text-white/20"}`}>
+          <span className="text-[10px] font-bold uppercase">{item.category.slice(0, 1)}</span>
         </div>
       )}
       <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-semibold text-white/80 leading-tight line-clamp-2">{item.name}</p>
-        <p className="text-[9px] text-white/30 mt-0.5 uppercase tracking-wide truncate">{item.category}</p>
+        <p className={`text-[12.5px] font-semibold leading-tight line-clamp-2 ${lightTheme ? "text-[#1a1a1e]" : "text-white/80"}`}>{item.name}</p>
+        <p className={`text-[10px] mt-0.5 uppercase tracking-wide truncate ${lightTheme ? "text-black/40" : "text-white/30"}`}>{item.category}</p>
       </div>
-      <ArrowRight className="w-3 h-3 text-white/25 shrink-0" />
+      <ArrowRight className={`w-3.5 h-3.5 shrink-0 ${lightTheme ? "text-black/40" : "text-white/25"}`} />
     </>
   );
 
@@ -532,7 +532,11 @@ function ProductCard({ item, onClick }: { item: ProductInfo; onClick?: () => voi
           }
         }}
         whileTap={{ scale: 0.97 }}
-        className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)] transition-colors text-left cursor-pointer"
+        className={`flex items-center gap-3 w-full p-3 rounded-2xl transition-all text-left cursor-pointer ${
+          lightTheme
+            ? "border border-black/[0.08] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-black/20 hover:-translate-y-0.5"
+            : "border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] hover:border-[rgba(192,192,192,0.28)] hover:bg-[rgba(255,255,255,0.06)]"
+        }`}
       >
         {CardContent}
       </motion.a>
@@ -543,7 +547,11 @@ function ProductCard({ item, onClick }: { item: ProductInfo; onClick?: () => voi
     <motion.div
       onClick={onClick}
       whileTap={{ scale: 0.97 }}
-      className="flex items-center gap-2.5 w-full p-2.5 rounded-xl border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)] text-left"
+      className={`flex items-center gap-3 w-full p-3 rounded-2xl text-left ${
+        lightTheme
+          ? "border border-black/[0.08] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.04)]"
+          : "border border-[rgba(192,192,192,0.12)] bg-[rgba(255,255,255,0.03)]"
+      }`}
     >
       {CardContent}
     </motion.div>
@@ -762,19 +770,26 @@ export default function StylistTool({
         console.log("🔍 DEBUG: first rec products", first["products"]);
       }
 
-      const productInfos: ProductInfo[] = recommendations.flatMap((rec) => {
-        const r = rec as Record<string, unknown>;
-        const category = (typeof r["category"] === "string" ? r["category"] : null) ?? "Product";
-        const nested = Array.isArray(r["products"]) ? r["products"] : [];
-        if (nested.length === 0) {
-          return [extractProductFields(r, category)];
-        }
-        return nested.slice(0, 1).map((prod) => {
-          const p = prod as Record<string, unknown>;
-          console.log("🔍 DEBUG: Raw product from backend in StylistTool:", p);
-          return extractProductFields(p, category);
-        });
-      });
+      const productInfos: ProductInfo[] = recommendations
+        .flatMap((rec) => {
+          const r = rec as Record<string, unknown>;
+          const category = (typeof r["category"] === "string" ? r["category"] : null) ?? "Product";
+          const nested = Array.isArray(r["products"]) ? r["products"] : [];
+          if (nested.length === 0) {
+            return [];
+          }
+          return nested.slice(0, 1).map((prod) => {
+            const p = prod as Record<string, unknown>;
+            console.log("🔍 DEBUG: Raw product from backend in StylistTool:", p);
+            return extractProductFields(p, category);
+          });
+        })
+        .filter(
+          (item) =>
+            Boolean(item.imageUrl) ||
+            Boolean(item.productLink) ||
+            (Boolean(item.name) && item.name.trim().toLowerCase() !== item.category.trim().toLowerCase())
+        );
       console.log("🔍 DEBUG: productInfos extracted", productInfos);
       setProductItems(productInfos);
 
@@ -1812,6 +1827,7 @@ export default function StylistTool({
                       >
                         <ProductCard
                           item={item}
+                          lightTheme={lightTheme}
                           onClick={() => {
                             console.log("Product card clicked:", JSON.stringify(item, null, 2));
                             if (item.productLink) {

@@ -341,7 +341,7 @@ export default function Hero() {
     <section
       data-nav-theme="light-bg"
       aria-label="Slidez AI Stylist hero"
-      className="relative min-h-screen overflow-hidden bg-[#e8e9ec] px-6 pb-0 pt-28 font-sans lg:px-[52px] lg:pb-[68px] lg:pt-14"
+      className="relative min-h-screen overflow-hidden bg-[#ffffff] px-6 pb-0 pt-28 font-sans lg:px-[52px] lg:pb-[68px] lg:pt-14"
     >
       <HeroCloudBackground />
 
@@ -527,8 +527,8 @@ export default function Hero() {
         <p className="mb-5 text-center text-xs font-medium uppercase tracking-widest text-[#888]">
           Tap any style below to try it on you
         </p>
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-3 sm:w-12 md:w-20 bg-gradient-to-r from-[#e8e9ec] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-3 sm:w-12 md:w-20 bg-gradient-to-l from-[#e8e9ec] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-3 sm:w-12 md:w-20 bg-gradient-to-r from-[#ffffff] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-3 sm:w-12 md:w-20 bg-gradient-to-l from-[#ffffff] to-transparent" />
 
         <div
           ref={carouselRef}
@@ -618,7 +618,7 @@ export default function Hero() {
                   </span>
                 </div>
 
-                <div className={`absolute left-1/2 top-0 z-20 -translate-x-1/2 rounded-b-2xl bg-[#e8e9ec] ${isCenter ? "h-4 w-12 sm:h-5 sm:w-16" : "h-3 w-10 sm:h-4 sm:w-12"}`} />
+                <div className={`absolute left-1/2 top-0 z-20 -translate-x-1/2 rounded-b-2xl bg-[#ffffff] ${isCenter ? "h-4 w-12 sm:h-5 sm:w-16" : "h-3 w-10 sm:h-4 sm:w-12"}`} />
               </motion.div>
             );
           })}

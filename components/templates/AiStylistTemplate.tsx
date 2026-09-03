@@ -72,7 +72,7 @@ export default function AiStylistTemplate() {
       />
 
       {/* ── Context ────────────────────────────────────────── */}
-      <section data-nav-theme="light-bg" className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+      <section data-nav-theme="light-bg" className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
         <div className="max-w-2xl mx-auto text-center space-y-5 text-black/55 text-lg leading-relaxed">
           <p>
             Traditional styling advice costs money and time. A personal stylist charges hundreds per session and isn&apos;t available when you&apos;re standing in front of your wardrobe at 7am wondering what to wear. An AI stylist removes that friction entirely.
@@ -87,7 +87,7 @@ export default function AiStylistTemplate() {
       </section>
 
       {/* ── How It Works ──────────────────────────────────── */}
-      <section data-nav-theme="light-bg" className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+      <section data-nav-theme="light-bg" className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
         <div className="max-w-3xl mx-auto">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Step by Step</p>
           <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">How AI Styling Works</h2>
@@ -106,7 +106,7 @@ export default function AiStylistTemplate() {
       </section>
 
       {/* ── Comparison ────────────────────────────────────── */}
-      <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+      <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
         <div className="max-w-3xl mx-auto">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Comparison</p>
           <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-5 text-center">AI Stylist vs. Personal Stylist</h2>
@@ -149,7 +149,7 @@ export default function AiStylistTemplate() {
       </section>
 
       {/* ── FAQ ───────────────────────────────────────────── */}
-      <section data-nav-theme="light-bg" className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+      <section data-nav-theme="light-bg" className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
         <div className="max-w-2xl mx-auto">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">FAQ</p>
           <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">AI Stylist — Frequently Asked Questions</h2>

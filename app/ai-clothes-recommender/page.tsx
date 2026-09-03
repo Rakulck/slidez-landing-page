@@ -371,7 +371,7 @@ export default function Page() {
         />
 
         {/* ── Fold 2: Stop Guessing Which Clothes Will Suit You ── */}
-        <section data-nav-theme="light-bg" className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-5xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">
               Personalized Fashion Intelligence
@@ -502,7 +502,7 @@ export default function Page() {
         </section>
 
         {/* ── Fold 4: How Slidez's AI Clothes Recommender Works ── */}
-        <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-4xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">
               Step by Step
@@ -534,7 +534,7 @@ export default function Page() {
         </section>
 
         {/* ── Fold 5: See How Your Choices Look Before You Buy ── */}
-        <section data-nav-theme="light-bg" className="relative z-[45] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6 border-b border-black/[0.05]">
+        <section data-nav-theme="light-bg" className="relative z-[45] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6 border-b border-black/[0.05]">
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -600,7 +600,7 @@ export default function Page() {
         </section>
 
         {/* ── Fold 6: Everything You Need to Plan Better Outfits ── */}
-        <section data-nav-theme="light-bg" className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#fafafa] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-5xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">
               All-In-One Styling Toolkit
@@ -655,7 +655,7 @@ export default function Page() {
         </section>
 
         {/* ── Fold 7: Frequently Asked Questions ────────────────── */}
-        <section data-nav-theme="light-bg" className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">
               Questions & Answers

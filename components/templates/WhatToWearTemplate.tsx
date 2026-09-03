@@ -209,7 +209,7 @@ export default function WhatToWearTemplate() {
       <section
         data-nav-theme="light-bg"
         aria-label="Outfit ideas you can try"
-        className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
+        className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-20 px-6"
       >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -262,7 +262,7 @@ export default function WhatToWearTemplate() {
       <section
         data-nav-theme="light-bg"
         aria-label="How Slidez helps you decide"
-        className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-20 px-6"
+        className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-20 px-6"
       >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
@@ -302,7 +302,7 @@ export default function WhatToWearTemplate() {
       <section
         data-nav-theme="light-bg"
         aria-label="Brands you can style with"
-        className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-6"
+        className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-6"
       >
         <BrandsStrip
           title="Styles from brands you love"
@@ -318,7 +318,7 @@ export default function WhatToWearTemplate() {
       <section
         data-nav-theme="light-bg"
         aria-label="What to wear for every occasion"
-        className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-20 px-6"
+        className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-20 px-6"
       >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -397,7 +397,7 @@ export default function WhatToWearTemplate() {
       <section
         data-nav-theme="light-bg"
         aria-label="Try with Slidez"
-        className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6"
+        className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6"
       >
         <div className="max-w-xl mx-auto text-center">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-black/30 mb-6">
@@ -445,7 +445,7 @@ export default function WhatToWearTemplate() {
       <section
         data-nav-theme="light-bg"
         aria-label="What to wear FAQ"
-        className="relative z-[65] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
+        className="relative z-[65] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-20 px-6"
       >
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-12">

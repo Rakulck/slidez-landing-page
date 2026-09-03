@@ -42,7 +42,7 @@ export default function StylistToolHeroSection({
       ref={sectionRef}
       data-nav-theme="light-bg"
       aria-label={ariaLabel}
-      className={`relative flex flex-col items-center text-center px-6 bg-white ${
+      className={`relative flex flex-col items-center text-center px-6 bg-[#ffffff] ${
         flowScreen === "loading"
           ? "min-h-[calc(100vh-72px)] justify-center py-20 pb-16"
           : flowScreen === "input"

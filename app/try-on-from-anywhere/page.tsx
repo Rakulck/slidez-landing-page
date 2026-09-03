@@ -183,7 +183,7 @@ export default function Page() {
         </section>
 
         {/* ── How It Works ──────────────────────────────────── */}
-        <section data-nav-theme="light-bg" className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Step by Step</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">How to Try On from Any Source</h2>
@@ -202,7 +202,7 @@ export default function Page() {
         </section>
 
         {/* ── Works With ────────────────────────────────────── */}
-        <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Sources</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-5 text-center">Works with Any Source</h2>
@@ -235,7 +235,7 @@ export default function Page() {
         </section>
 
         {/* ── FAQ ───────────────────────────────────────────── */}
-        <section data-nav-theme="light-bg" className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-2xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">FAQ</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">Frequently Asked Questions</h2>

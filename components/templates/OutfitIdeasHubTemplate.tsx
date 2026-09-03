@@ -233,7 +233,7 @@ export default function OutfitIdeasHubTemplate({
       <section
         data-nav-theme="light-bg"
         aria-label="Example AI-generated outfits"
-        className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
+        className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-20 px-6"
       >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-4">
@@ -294,7 +294,7 @@ export default function OutfitIdeasHubTemplate({
       <section
         data-nav-theme="light-bg"
         aria-label="Outfit idea library"
-        className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-20 px-6"
+        className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-20 px-6"
       >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -389,7 +389,7 @@ export default function OutfitIdeasHubTemplate({
       <section
         data-nav-theme="light-bg"
         aria-label="How Slidez helps"
-        className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
+        className="relative z-50 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-20 px-6"
       >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
@@ -473,7 +473,7 @@ export default function OutfitIdeasHubTemplate({
       <section
         data-nav-theme="light-bg"
         aria-label="AI outfit generator FAQ"
-        className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-20 px-6"
+        className="relative z-[60] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-20 px-6"
       >
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-12">
@@ -508,7 +508,7 @@ export default function OutfitIdeasHubTemplate({
       <section
         data-nav-theme="light-bg"
         aria-label="Popular outfit ideas"
-        className="relative z-[65] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-20 px-6"
+        className="relative z-[65] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-20 px-6"
       >
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">

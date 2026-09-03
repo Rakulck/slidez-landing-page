@@ -268,7 +268,7 @@ export default function Page() {
         </section>
 
         {/* ── Context ────────────────────────────────────────── */}
-        <section data-nav-theme="light-bg" className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-2xl mx-auto text-center space-y-5 text-black/55 text-lg leading-relaxed">
             <p>
               Traditional online shopping forces you to guess. You see a model wearing a garment, hope it looks the same on you, buy it, and often return it. AI virtual try-on removes the guesswork. Upload your own photo, select any item from a dress to a pair of sneakers, and the AI shows you exactly how it looks on your body.
@@ -283,7 +283,7 @@ export default function Page() {
         </section>
 
         {/* ── How It Works ──────────────────────────────────── */}
-        <section data-nav-theme="light-bg" className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Step by Step</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">
@@ -305,7 +305,7 @@ export default function Page() {
         </section>
 
         {/* ── Comparison Table ──────────────────────────────── */}
-        <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-3xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">Comparison</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-5 text-center">
@@ -376,7 +376,7 @@ export default function Page() {
         </section>
 
         {/* ── FAQ ───────────────────────────────────────────── */}
-        <section data-nav-theme="light-bg" className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6">
+        <section data-nav-theme="light-bg" className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6">
           <div className="max-w-2xl mx-auto">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/35 mb-4 text-center">FAQ</p>
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-tight mb-14 text-center">

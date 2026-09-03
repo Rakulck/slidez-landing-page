@@ -70,7 +70,7 @@ export default function FAQ() {
       id="faq"
       data-nav-theme="light-bg"
       aria-label="AI Stylist and Virtual Try-On FAQs"
-      className="bg-[#f5f4f2] py-24 px-6 border-t border-black/[0.06]"
+      className="bg-[#ffffff] py-24 px-6 border-t border-black/[0.06]"
     >
       <div className="max-w-2xl mx-auto">
         {/* Header */}

@@ -73,7 +73,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
           id="ways-to-style"
           data-nav-theme="light-bg"
           aria-label="Ways to style your outfit"
-          className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6"
+          className="relative z-20 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6"
         >
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-14">
@@ -118,7 +118,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
           id="what-goes-with"
           data-nav-theme="light-bg"
           aria-label="What goes with your outfit"
-          className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6"
+          className="relative z-30 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6"
         >
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-14">
@@ -154,7 +154,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
           id="why-ai-stylist"
           data-nav-theme="light-bg"
           aria-label="Why use an AI stylist"
-          className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6"
+          className="relative z-40 -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6"
         >
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-14">
@@ -227,7 +227,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
           id="faq"
           data-nav-theme="light-bg"
           aria-label={`${config.heroH1} FAQs`}
-          className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#f5f5f5] py-24 px-6"
+          className="relative z-[55] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6"
         >
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-14">
@@ -266,7 +266,7 @@ export default function OutfitIdeasTemplate({ config }: { config: OutfitPageConf
           id="popular-outfit-ideas"
           data-nav-theme="light-bg"
           aria-label="Popular outfit ideas"
-          className="relative z-[58] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-white py-24 px-6"
+          className="relative z-[58] -mt-10 rounded-t-[2.5rem] overflow-hidden bg-[#ffffff] py-24 px-6"
         >
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
