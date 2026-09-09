@@ -61,53 +61,33 @@ export default function HeroModelStage({
   );
 
   return (
-    <div className="relative mx-auto w-full max-w-[420px] overflow-hidden md:max-w-none md:overflow-visible">
-      <div className="relative h-[420px] w-full md:h-[580px]">
-        {/* Panel */}
-        <div className="absolute bottom-0 left-0 right-0 h-[340px] overflow-hidden rounded-[28px] border border-black/[0.08] bg-[#ffffff] shadow-[0_12px_44px_rgba(0,0,0,0.06)] md:h-[470px]">
-          <AnimatePresence initial={false}>
-            <motion.div
-              key={active.glow}
-              className="pointer-events-none absolute left-1/2 top-[-40px] h-[440px] w-[440px] -translate-x-1/2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.75 }}
-              exit={{ opacity: 0 }}
-              transition={IMAGE_CROSSFADE}
-              style={{
-                background: `radial-gradient(circle at center, ${active.glow} 0%, transparent 62%)`,
-              }}
-            />
-          </AnimatePresence>
-          <div className="pointer-events-none absolute bottom-[60px] left-1/2 h-14 w-[280px] -translate-x-1/2 rounded-full bg-white/55 blur-[2px]" />
-          <div className="pointer-events-none absolute bottom-[66px] left-1/2 h-7 w-[200px] -translate-x-1/2 rounded-full bg-[rgba(40,30,24,0.14)] blur-[10px]" />
-
-          {/* Base model photo — always visible unless result covers it */}
-          {!showResult && (
-            <div className="absolute inset-x-0 bottom-0 top-0 z-[1] flex items-end justify-center pb-2">
-              <div className="relative h-[94%] w-[72%] max-w-[300px]">
-                <AnimatePresence initial={false}>
-                  <motion.div
-                    key={displaySrc}
-                    initial={{ opacity: 0, scale: 1.015 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.985 }}
-                    transition={IMAGE_CROSSFADE}
-                    className="absolute inset-0"
-                  >
-                    <Image
-                      src={displaySrc}
-                      alt="Slidez stylist model preview"
-                      fill
-                      unoptimized
-                      priority
-                      sizes="(max-width: 1024px) 260px, 300px"
-                      className="object-cover object-top"
-                    />
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-          )}
+    <div className="relative mx-auto w-full max-w-[380px] md:max-w-none">
+      <div className="relative mx-auto h-[380px] w-full max-w-[280px] sm:h-[440px] sm:max-w-[320px] md:h-[500px] md:max-w-[360px] flex items-end justify-center">
+        {/* Base model photo — completely free without any box, card, border, or shadow */}
+        {!showResult && (
+          <div className="relative h-full w-full flex items-end justify-center">
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={displaySrc}
+                initial={{ opacity: 0, scale: 1.015 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.985 }}
+                transition={IMAGE_CROSSFADE}
+                className="absolute inset-0 flex items-end justify-center"
+              >
+                <Image
+                  src={displaySrc}
+                  alt="Slidez stylist model preview"
+                  fill
+                  unoptimized
+                  priority
+                  sizes="(max-width: 768px) 280px, (max-width: 1024px) 320px, 360px"
+                  className="object-contain object-bottom mix-blend-multiply"
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        )}
 
           {/* Loading overlay — model stays visible underneath */}
           <AnimatePresence>
@@ -205,7 +185,6 @@ export default function HeroModelStage({
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
       </div>
 
       {tryOnError && (

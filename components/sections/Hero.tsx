@@ -346,7 +346,7 @@ export default function Hero() {
     <section
       data-nav-theme="light-bg"
       aria-label="Slidez AI Stylist hero"
-      className="relative min-h-screen overflow-hidden bg-[#ffffff] px-6 pb-0 pt-28 font-sans lg:px-[52px] lg:pb-[68px] lg:pt-14"
+      className="relative min-h-screen overflow-hidden bg-[#ffffff] px-6 pb-0 pt-32 font-sans sm:pt-36 lg:px-[52px] lg:pb-[68px] lg:pt-32"
     >
       <HeroCloudBackground />
 
@@ -364,7 +364,7 @@ export default function Hero() {
 
             {/* Headline */}
             <h1
-              className="mt-8 text-[3.5rem] font-semibold leading-[0.9] tracking-[-3px] text-[#1a1a1e] sm:text-[4rem] md:mt-16 md:text-[4.75rem] md:tracking-[-5px] lg:text-[5.8rem]"
+              className="mt-6 text-[3.5rem] font-semibold leading-[0.9] tracking-[-3px] text-[#1a1a1e] sm:text-[4rem] md:mt-10 md:text-[4.75rem] md:tracking-[-5px] lg:text-[5.8rem]"
               suppressHydrationWarning
             >
               Dress
