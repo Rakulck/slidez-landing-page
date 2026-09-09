@@ -46,8 +46,8 @@ export default function StylistToolHeroSection({
         flowScreen === "loading"
           ? "min-h-[calc(100vh-72px)] justify-center py-20 pb-16"
           : flowScreen === "input"
-            ? "pt-14 sm:pt-16 md:pt-18 pb-4 sm:pb-6 min-h-0"
-            : "pt-24 pb-16 min-h-[920px]"
+            ? "pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-6 min-h-0"
+            : "pt-28 pb-16 min-h-[920px]"
       }`}
     >
       <div
