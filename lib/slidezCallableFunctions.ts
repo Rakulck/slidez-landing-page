@@ -120,6 +120,9 @@ export async function executeMultiItemTryOnCallable(args: {
   userProvidedItems?: Array<{ category: string; imageBase64: string; mimeType?: string }>;
   feetVisible?: boolean;
   handsVisible?: boolean;
+  userImageBase64?: string;
+  userImageUrl?: string;
+  userMimeType?: string;
 }): Promise<unknown> {
   const callable = httpsCallable(functions, "executeMultiItemTryOn", { timeout: 300_000 });
   const res = await callable(args);
@@ -149,25 +152,33 @@ export async function fetchImageBase64(src: string): Promise<{ imageBase64: stri
 
 /**
  * Uploads a person photo (base64) to Firebase Storage and saves the public URL
- * to Firestore under users/{userId}.stylePersonalityPicture so that
- * executeMultiItemTryOn can find it via getUserImageUrl().
+ * to Firestore under users/{userId}.stylePersonalityPicture.
+ * Note: executeMultiItemTryOn also accepts userImageBase64 directly for guest users.
  */
 export async function setupPersonPhoto(userId: string, imageBase64: string, mimeType: string): Promise<void> {
-  const ext = mimeType.split("/")[1]?.split(";")[0] ?? "jpg";
-  const storageRef = ref(storage, `tryon_stylist/${userId}/person_photo.${ext}`);
+  try {
+    const ext = mimeType.split("/")[1]?.split(";")[0] ?? "jpg";
+    const storageRef = ref(storage, `tryon_stylist/${userId}/person_photo.${ext}`);
 
-  // Convert base64 → Blob for upload
-  const dataUrl = `data:${mimeType};base64,${imageBase64}`;
-  const blobRes = await fetch(dataUrl);
-  const blob = await blobRes.blob();
+    const binaryString = atob(imageBase64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    const blob = new Blob([bytes], { type: mimeType });
 
-  await uploadBytes(storageRef, blob, { contentType: mimeType });
-  const url = await getDownloadURL(storageRef);
+    await uploadBytes(storageRef, blob, { contentType: mimeType });
+    const url = await getDownloadURL(storageRef);
 
-  await setDoc(
-    doc(firestoreDb, "users", userId),
-    { stylePersonalityPicture: url },
-    { merge: true }
-  );
+    await setDoc(
+      doc(firestoreDb, "users", userId),
+      { stylePersonalityPicture: url },
+      { merge: true }
+    );
+  } catch (err) {
+    // Non-blocking warning: backend now directly handles userImageBase64
+    console.warn("setupPersonPhoto warning:", err);
+  }
 }
 

@@ -218,7 +218,12 @@ export default function Hero() {
       if (runSeq !== tryOnRunSeqRef.current) return;
       setProductItems(productInfos);
 
-      const tryOn = (await executeMultiItemTryOnCallable({ recommendations, userId })) as { itemResults?: unknown[] };
+      const tryOn = (await executeMultiItemTryOnCallable({
+        recommendations,
+        userId,
+        userImageBase64: personImageBase64,
+        userMimeType: personMimeType,
+      })) as { itemResults?: unknown[] };
       const itemResults = Array.isArray(tryOn.itemResults) ? tryOn.itemResults : [];
 
       const cards = itemResults

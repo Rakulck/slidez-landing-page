@@ -27,7 +27,11 @@ import {
   WTW_SCREEN_TRANSITION,
   WTW_SCREEN_VARIANTS,
 } from "@/components/features/ai-stylist/wtw/wtw-motion";
-import { WTW_PICKER_MODELS } from "@/lib/preset-models";
+import {
+  WTW_PICKER_MODELS,
+  DEFAULT_WTW_MAN_SRC,
+  DEFAULT_WTW_WOMAN_SRC,
+} from "@/lib/preset-models";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
 
@@ -693,7 +697,13 @@ export default function StylistTool({
     handleModelPick(gender, pickerSelectedSrc);
   };
 
-  async function generateTryOn(args: { prompt: string; selectedGender: Gender; userProvidedItems?: Array<{ category: string; imageBase64: string; mimeType?: string }> }) {
+  async function generateTryOn(args: {
+    prompt: string;
+    selectedGender: Gender;
+    userProvidedItems?: Array<{ category: string; imageBase64: string; mimeType?: string }>;
+    userImageBase64?: string;
+    userMimeType?: string;
+  }) {
     const runSeq = ++tryOnRunSeqRef.current;
     setResults(false);
     setTryOnItems([]);
@@ -795,11 +805,48 @@ export default function StylistTool({
 
       if (runSeq !== tryOnRunSeqRef.current) return;
 
+      // Resolve person image base64
+      let personBase64 = args.userImageBase64;
+      let personMime = args.userMimeType || "image/jpeg";
+
+      if (!personBase64 && selectedModelSrc) {
+        try {
+          const { imageBase64, mimeType } = selectedModelSrc.startsWith("data:")
+            ? (() => {
+                const commaIdx = selectedModelSrc.indexOf(",");
+                const mimeMatch = selectedModelSrc.slice(0, commaIdx).match(/^data:([^;]+)/);
+                return {
+                  imageBase64: commaIdx >= 0 ? selectedModelSrc.slice(commaIdx + 1) : selectedModelSrc,
+                  mimeType: mimeMatch?.[1] || "image/jpeg",
+                };
+              })()
+            : await fetchImageBase64(selectedModelSrc);
+          personBase64 = imageBase64;
+          personMime = mimeType;
+        } catch (e) {
+          console.warn("Could not load model image base64:", e);
+        }
+      }
+
+      if (!personBase64) {
+        try {
+          const fallbackSrc =
+            args.selectedGender === "Men" ? DEFAULT_WTW_MAN_SRC : DEFAULT_WTW_WOMAN_SRC;
+          const { imageBase64, mimeType } = await fetchImageBase64(fallbackSrc);
+          personBase64 = imageBase64;
+          personMime = mimeType;
+        } catch (e) {
+          console.warn("Could not load default model image base64:", e);
+        }
+      }
+
       setTryOnStage("Generating your try-on images...");
       const tryOn = (await executeMultiItemTryOnCallable({
         recommendations,
         userId,
         userProvidedItems: args.userProvidedItems,
+        userImageBase64: personBase64,
+        userMimeType: personMime,
       })) as { finalImageUrl?: unknown; itemResults?: unknown[] };
 
       if (runSeq !== tryOnRunSeqRef.current) return;
@@ -847,6 +894,8 @@ export default function StylistTool({
     setLoading(true);
     setWtwCinematicActive(true);
     setTryOnStage("Setting up model...");
+    let personImageBase64: string | undefined;
+    let personMimeType: string | undefined;
     try {
       setSelectedModelSrc(modelSrc);
       const { imageBase64, mimeType } = modelSrc.startsWith("data:")
@@ -859,12 +908,19 @@ export default function StylistTool({
             };
           })()
         : await fetchImageBase64(modelSrc);
+      personImageBase64 = imageBase64;
+      personMimeType = mimeType;
       const userId = await ensureAnonymousUserId();
       await setupPersonPhoto(userId, imageBase64, mimeType);
     } catch {
-      // If setup fails, continue anyway — backend may still have a photo
+      // If setup fails, continue anyway — backend now receives userImageBase64 directly
     }
-    await generateTryOn({ prompt, selectedGender: g });
+    await generateTryOn({
+      prompt,
+      selectedGender: g,
+      userImageBase64: personImageBase64,
+      userMimeType: personMimeType,
+    });
   };
 
   const handlePhotoUpload = () => {
@@ -933,7 +989,12 @@ export default function StylistTool({
       const userId = await ensureAnonymousUserId();
       await setupPersonPhoto(userId, imageBase64, mimeType);
 
-      await generateTryOn({ prompt, selectedGender: mappedGender });
+      await generateTryOn({
+        prompt,
+        selectedGender: mappedGender,
+        userImageBase64: imageBase64,
+        userMimeType: mimeType,
+      });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to process your photo. Please try again.";
       setTryOnError(message);
