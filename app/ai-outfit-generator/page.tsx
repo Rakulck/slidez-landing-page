@@ -366,7 +366,6 @@ export default function Page() {
             "What should I wear to an outdoor summer wedding?",
             "Style a cozy minimalist winter outfit with a trench coat",
           ]}
-          maxWidthClassName="max-w-3xl"
         />
 
         {/* ── Fold 2: Create Your Perfect Outfit With AI ── */}

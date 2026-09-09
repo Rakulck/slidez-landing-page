@@ -189,7 +189,6 @@ export default function Page() {
           subtitle="Your free AI outfit generator and virtual stylist app — plan outfits, discover looks, and style your wardrobe with a free personal stylist powered by AI."
           submitLabel="Style me"
           chips={["Casual", "Office", "Date Night", "Winter", "Party", "Vacation"]}
-          maxWidthClassName="max-w-3xl"
         />
 
         {/* ── What You Can Do ───────────────────────────────── */}

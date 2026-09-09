@@ -201,7 +201,6 @@ export default function Page() {
           }
           submitLabel="Style me"
           chips={["Casual", "Office", "Date Night", "Winter", "Party", "Vacation"]}
-          maxWidthClassName="max-w-3xl"
         />
 
         {/* ── Tired of Guessing ─────────────────────────────── */}

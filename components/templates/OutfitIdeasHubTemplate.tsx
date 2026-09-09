@@ -224,7 +224,6 @@ export default function OutfitIdeasHubTemplate({
         externalPrompt={externalPrompt}
         externalPromptKey={externalPromptKey}
         submitLabel="Style me"
-        maxWidthClassName="max-w-3xl"
       />
 
       {/* ─────────────────────────────────────────────────────────

@@ -33,7 +33,7 @@ export default function StylistToolHeroSection({
   externalPromptKey,
   titleRef,
   sectionRef,
-  maxWidthClassName = "max-w-[800px]",
+  maxWidthClassName = "max-w-[720px]",
 }: StylistToolHeroSectionProps) {
   const [flowScreen, setFlowScreen] = useState<WtwFlowScreen>("input");
 
@@ -42,12 +42,12 @@ export default function StylistToolHeroSection({
       ref={sectionRef}
       data-nav-theme="light-bg"
       aria-label={ariaLabel}
-      className={`relative flex flex-col items-center text-center px-6 bg-[#ffffff] ${
+      className={`relative flex flex-col items-center text-center px-4 sm:px-6 bg-[#ffffff] ${
         flowScreen === "loading"
           ? "min-h-[calc(100vh-72px)] justify-center py-20 pb-16"
           : flowScreen === "input"
-            ? "pt-20 sm:pt-24 md:pt-28 pb-6 sm:pb-8 min-h-0"
-            : "pt-28 pb-16 min-h-[920px]"
+            ? "pt-14 sm:pt-16 md:pt-18 pb-4 sm:pb-6 min-h-0"
+            : "pt-24 pb-16 min-h-[920px]"
       }`}
     >
       <div
@@ -55,7 +55,7 @@ export default function StylistToolHeroSection({
           flowScreen === "loading"
             ? "h-0 overflow-hidden"
             : flowScreen === "input"
-              ? "w-full mb-6 sm:mb-7"
+              ? "w-full mb-4 sm:mb-5"
               : "h-0 overflow-hidden"
         }
       >
@@ -68,23 +68,23 @@ export default function StylistToolHeroSection({
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-black/30 mb-3 sm:mb-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2 sm:mb-2.5">
                 {eyebrow}
               </p>
 
               <h1
                 ref={titleRef}
                 style={{
-                  fontSize: "clamp(2.2rem, 5.5vw, 4.2rem)",
-                  lineHeight: "0.98",
+                  fontSize: "clamp(2.25rem, 5.2vw, 3.75rem)",
+                  lineHeight: "1.06",
                   letterSpacing: "-0.03em",
                 }}
-                className="font-bold text-[#0d0d0d] mb-3 sm:mb-4"
+                className="font-bold text-[#0d0d0d] mb-2.5 sm:mb-3 max-w-2xl mx-auto"
               >
                 {title}
               </h1>
 
-              <div className="text-sm sm:text-base text-black/40 max-w-md mx-auto leading-relaxed">
+              <div className="text-base sm:text-lg text-neutral-500 max-w-lg mx-auto leading-relaxed font-normal">
                 {subtitle}
               </div>
             </motion.div>
@@ -115,7 +115,7 @@ export function StylistToolSection({
   prompts,
   externalPrompt,
   externalPromptKey,
-  className = "w-full max-w-[800px] mx-auto",
+  className = "w-full max-w-[720px] mx-auto",
 }: Pick<
   StylistToolHeroSectionProps,
   "submitLabel" | "chips" | "prompts" | "externalPrompt" | "externalPromptKey"

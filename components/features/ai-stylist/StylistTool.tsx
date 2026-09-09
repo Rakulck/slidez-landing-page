@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Sparkles, ArrowRight, X, Upload } from "lucide-react";
+import { Sparkles, ArrowRight, ArrowUpRight, Check, X, Upload } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import {
@@ -36,6 +36,7 @@ import {
 /* ── Typewriter ───────────────────────────────────────────────── */
 
 const DEFAULT_PROMPTS = [
+  "Dinner in SoHo, smart casual...",
   "Black dress for dinner date...",
   "Casual office look for Friday...",
   "Beach vacation, keep it chic...",
@@ -86,7 +87,7 @@ function useTypewriter(active: boolean, prompts: string[]) {
 
 /* ── Data ─────────────────────────────────────────────────────── */
 
-const DEFAULT_CHIPS = ["Casual", "Office", "Date Night", "Winter", "Party", "Vacation"];
+const DEFAULT_CHIPS = ["Everyday", "Work", "Date night", "Wedding", "Vacation"];
 
 type ChipOutfit = {
   name: string;
@@ -439,12 +440,16 @@ const CHIP_EMOJI: Record<string, string> = {
 
 /* ── Readymade prompts for chips ──────────────────────────────── */
 const CHIP_PROMPTS: Record<string, string> = {
+  Everyday:     "Effortless everyday casual look",
+  Work:         "Going to work, sharp business casual look",
+  "Date night": "Going on a date night, stylish and romantic",
+  Wedding:      "Wedding guest attire, polished and tasteful",
+  Vacation:     "Going on a vacation, resort chic and relaxed",
   Casual:       "Going out for a casual day with friends",
   Office:       "Going to the office, business casual look",
   "Date Night": "Going on a date night, make it stylish and special",
   Winter:       "Winter outfit, cosy and warm but still stylish",
   Party:        "Going to a party, make it fun and bold",
-  Vacation:     "Going on a vacation, resort chic and relaxed",
   Beach:        "Going to the beach, light and breezy",
 };
 
@@ -629,8 +634,12 @@ export default function StylistTool({
   const photoFileRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const tryOnRunSeqRef = useRef(0);
-  const [pickerSelectedId, setPickerSelectedId] = useState<string | null>(null);
-  const [pickerSelectedSrc, setPickerSelectedSrc] = useState<string | null>(null);
+  const [pickerSelectedId, setPickerSelectedId] = useState<string | null>(
+    alwaysShowPicker ? "onboarding-woman-1" : null
+  );
+  const [pickerSelectedSrc, setPickerSelectedSrc] = useState<string | null>(
+    alwaysShowPicker ? DEFAULT_WTW_WOMAN_SRC : null
+  );
 
   // Auto-show tooltip on mount, dismiss after 4s
   useEffect(() => {
@@ -692,9 +701,16 @@ export default function StylistTool({
   };
 
   const handleLightCTA = () => {
-    if (!input.trim() || !pickerSelectedSrc || loading) return;
-    setQuery(input.trim());
-    handleModelPick(gender, pickerSelectedSrc);
+    if (loading) return;
+    const promptToUse = input.trim() || (activeChip ? (CHIP_PROMPTS[activeChip] ?? activeChip) : "");
+    if (!promptToUse) {
+      inputRef.current?.focus();
+      return;
+    }
+    const modelSrcToUse = pickerSelectedSrc || WTW_PICKER_MODELS[gender][0]?.src || DEFAULT_WTW_WOMAN_SRC;
+    setQuery(promptToUse);
+    setInput(promptToUse);
+    handleModelPick(gender, modelSrcToUse);
   };
 
   async function generateTryOn(args: {
@@ -1079,32 +1095,46 @@ export default function StylistTool({
       {/* ── Input box ────────────────────────────────────────────── */}
       <div className="relative" style={{ isolation: "isolate" }}>
         {lightTheme ? (
-          /* ── Light-theme input ── */
-          <div className="flex items-center gap-1.5 sm:gap-2 rounded-2xl bg-white border border-black/25 pl-3 sm:pl-4 pr-0.5 sm:pr-1 py-0.5 sm:py-1 shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)]">
+          /* ── Light-theme input (capsule with ↗ button) ── */
+          <div className="flex items-center gap-2 sm:gap-3 rounded-full bg-white border border-neutral-200/90 pl-5 sm:pl-7 pr-1.5 sm:pr-2 py-1.5 sm:py-2 shadow-[0_2px_16px_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.02)] transition-shadow duration-200 focus-within:shadow-[0_4px_24px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] focus-within:border-neutral-300">
             <input
               ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => { setInput(e.target.value); if (results) setResults(false); }}
-              onKeyDown={(e) => e.key === "Enter" && handleLightCTA()}
-              placeholder={placeholder || "What should I wear on a date..."}
-              className="flex-1 bg-transparent text-[#0d0d0d] text-sm sm:text-[15px] outline-none placeholder:text-[#c0c0c0] min-w-0 py-1.5 sm:py-2"
+              onKeyDown={(e) => e.key === "Enter" && (alwaysShowPicker ? handleLightCTA() : handleSubmit())}
+              placeholder={placeholder || "Dinner in SoHo, smart casual..."}
+              className="flex-1 bg-transparent text-[#0d0d0d] text-base sm:text-[17px] outline-none placeholder:text-neutral-400 min-w-0 py-1.5 sm:py-2 font-normal"
               suppressHydrationWarning
             />
+            <AnimatePresence>
+              {input && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  onClick={() => { setInput(""); setActiveChip(null); }}
+                  className="text-neutral-300 hover:text-neutral-600 transition-colors shrink-0 p-1"
+                  aria-label="Clear input"
+                >
+                  <X className="w-4 h-4" />
+                </motion.button>
+              )}
+            </AnimatePresence>
             <button
               onClick={alwaysShowPicker ? handleLightCTA : handleSubmit}
-              disabled={alwaysShowPicker ? (!lightReady || loading) : (!input.trim() || loading)}
+              disabled={loading}
               aria-label={submitLabel}
-              className="shrink-0 w-9 h-9 sm:w-[47px] sm:h-[47px] rounded-lg sm:rounded-xl bg-[#0d0d0d] flex items-center justify-center hover:bg-[#222] disabled:bg-[#ccc] transition-colors"
+              className="shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#0d0d0d] flex items-center justify-center text-white hover:bg-neutral-800 active:scale-95 disabled:opacity-40 transition-all cursor-pointer shadow-sm"
             >
               {loading ? (
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border-2 border-white border-t-transparent"
+                  className="w-4 h-4 rounded-full border-2 border-white border-t-transparent"
                 />
               ) : (
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                <ArrowUpRight className="w-5 h-5 sm:w-5 sm:h-5 text-white stroke-[2.4]" />
               )}
             </button>
           </div>
@@ -1264,163 +1294,196 @@ export default function StylistTool({
       </div>
 
       {/* ── Suggestion chips ─────────────────────────────────────── */}
-      <div className="flex flex-wrap justify-center gap-2.5 mt-4">
-        {chips.map((chip) => (
-          <button
-            key={chip}
-            onClick={() => handleChip(chip)}
-            className={lightTheme
-              ? `px-4 py-2 rounded-2xl border text-sm font-medium transition-all duration-200 ${
-                  activeChip === chip
-                    ? "border-[#0d0d0d] bg-[#0d0d0d] text-white"
-                    : "bg-white border border-black/25 text-[#555] shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)] hover:border-black/40 hover:text-[#111]"
-                }`
-              : `px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 ${
-                  activeChip === chip
-                    ? "border-[rgba(192,192,192,0.5)] bg-[rgba(192,192,192,0.12)] text-white"
-                    : "border-[rgba(192,192,192,0.15)] text-white/40 hover:border-[rgba(192,192,192,0.3)] hover:text-white/70"
-                }`
-            }
-          >
-            {!lightTheme && CHIP_EMOJI[chip] && (
-              <span className="text-base leading-none">{CHIP_EMOJI[chip]}</span>
-            )}
-            {chip}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mt-3.5 sm:mt-4">
+        {chips.map((chip) => {
+          const isSelected = activeChip === chip;
+          return (
+            <button
+              key={chip}
+              type="button"
+              onClick={() => handleChip(chip)}
+              className={
+                lightTheme
+                  ? `px-4 py-1.5 rounded-full text-sm transition-all duration-200 cursor-pointer ${
+                      isSelected
+                        ? "bg-[#f0f0f2] text-neutral-900 font-medium shadow-none"
+                        : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100/70 font-normal"
+                    }`
+                  : `px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 ${
+                      isSelected
+                        ? "border-[rgba(192,192,192,0.5)] bg-[rgba(192,192,192,0.12)] text-white"
+                        : "border-[rgba(192,192,192,0.15)] text-white/40 hover:border-[rgba(192,192,192,0.3)] hover:text-white/70"
+                    }`
+              }
+            >
+              {!lightTheme && CHIP_EMOJI[chip] && (
+                <span className="text-base leading-none">{CHIP_EMOJI[chip]}</span>
+              )}
+              {chip}
+            </button>
+          );
+        })}
       </div>
 
-      {/* ── Light model picker (always visible in light/alwaysShowPicker mode) ── */}
+      {/* ── Light model picker (unboxed modern layout) ── */}
       {alwaysShowPicker && !loading && !results && tryOnItems.length === 0 && (
-        <div className="mt-5 sm:mt-6 bg-white border border-black/25 rounded-2xl p-5 sm:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)]">
+        <div className="mt-4 sm:mt-5 md:mt-5.5 w-full max-w-[650px] mx-auto text-left">
           <input ref={photoFileRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoFileChange} />
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4 sm:mb-5">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#aaa]">Choose your model</p>
-            <div className="flex items-center bg-[#f0f0f0] rounded-full p-1 gap-0.5">
-              {(["Women", "Men"] as const).map((g) => (
-                <button
-                  key={g}
-                  onClick={() => { setGender(g); setPickerSelectedId(null); setPickerSelectedSrc(null); }}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                    gender === g ? "bg-[#0d0d0d] text-white shadow-sm" : "text-[#888] hover:text-[#444]"
-                  }`}
-                >
-                  {g}
-                </button>
-              ))}
+
+          {/* Header Row: Title on left, Gender Toggle Pill on right */}
+          <div className="flex items-end justify-between mb-2.5 sm:mb-3">
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-neutral-900 tracking-tight leading-tight">
+                Choose a model
+              </h3>
+              <p className="text-xs sm:text-sm text-neutral-400 font-normal mt-0.5">
+                Or upload your own photo
+              </p>
+            </div>
+
+            <div className="flex items-center p-0.5 sm:p-1 rounded-full border border-neutral-200/90 bg-white">
+              {(["Women", "Men"] as const).map((g) => {
+                const isActive = gender === g;
+                return (
+                  <button
+                    key={g}
+                    type="button"
+                    onClick={() => {
+                      setGender(g);
+                      const defaultModel = WTW_PICKER_MODELS[g][0];
+                      setPickerSelectedId(defaultModel?.id ?? null);
+                      setPickerSelectedSrc(defaultModel?.src ?? null);
+                    }}
+                    className={`px-4 sm:px-5 py-1 sm:py-1.5 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                      isActive
+                        ? "bg-[#0d0d0d] text-white shadow-sm"
+                        : "text-neutral-500 hover:text-neutral-900 bg-transparent"
+                    }`}
+                  >
+                    {g}
+                  </button>
+                );
+              })}
             </div>
           </div>
-          {/* 3-col model grid */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-3.5">
-            {/* Upload card */}
-            <div
-              className={`relative h-[112px] sm:h-[128px] md:h-[142px] rounded-2xl border-[1.5px] overflow-hidden transition-all duration-200 ${
-                pickerSelectedId === "upload" && pickerSelectedSrc
-                  ? "border-[#0d0d0d] shadow-[0_0_0_2.5px_#0d0d0d,0_14px_26px_-16px_rgba(20,20,20,0.35)]"
-                  : pickerSelectedId === "upload"
-                    ? "border-[#0d0d0d] border-dashed bg-white"
-                    : "border-dashed border-black/25 bg-white hover:border-black/40"
-              }`}
-            >
-              {pickerSelectedId === "upload" && pickerSelectedSrc ? (
-                <>
+
+          {/* 3-col model cards grid */}
+          <div className="grid grid-cols-3 gap-3 sm:gap-3.5 md:gap-4 w-full">
+            {/* Card 1: Upload Card */}
+            <div className="flex flex-col">
+              <div
+                className={`relative aspect-[3/3.8] w-full rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-200 bg-[#f4f4f6] ${
+                  pickerSelectedId === "upload" && pickerSelectedSrc
+                    ? "ring-2 ring-black"
+                    : "ring-1 ring-black/5 hover:bg-[#ededf0]"
+                }`}
+              >
+                {pickerSelectedId === "upload" && pickerSelectedSrc ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => { setPickerSelectedId("upload"); handlePhotoUpload(); }}
+                      className="absolute inset-0 w-full h-full cursor-pointer"
+                      aria-label="Replace uploaded photo"
+                    >
+                      <img
+                        src={pickerSelectedSrc}
+                        alt="Your uploaded photo"
+                        className="absolute inset-0 w-full h-full object-cover object-top"
+                      />
+                    </button>
+                    {/* Checkmark badge */}
+                    <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black text-white flex items-center justify-center shadow-sm z-10 pointer-events-none">
+                      <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.8]" />
+                    </div>
+                    {/* Remove photo button */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleClearUploadedPhoto();
+                        const defaultModel = WTW_PICKER_MODELS[gender][0];
+                        setPickerSelectedId(defaultModel?.id ?? null);
+                        setPickerSelectedSrc(defaultModel?.src ?? null);
+                      }}
+                      aria-label="Remove uploaded photo"
+                      className="absolute top-2.5 left-2.5 z-20 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-colors cursor-pointer"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </>
+                ) : (
                   <button
                     type="button"
                     onClick={() => { setPickerSelectedId("upload"); handlePhotoUpload(); }}
-                    className="absolute inset-0 w-full h-full cursor-pointer"
-                    aria-label="Replace uploaded photo"
+                    className="w-full h-full flex flex-col items-center justify-center p-2.5 sm:p-3.5 cursor-pointer"
                   >
-                    <img
-                      src={pickerSelectedSrc}
-                      alt="Your uploaded photo"
-                      className="absolute inset-0 w-full h-full object-cover object-top"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 px-2.5 sm:px-3 pb-2 sm:pb-2.5 pt-5 sm:pt-6 bg-gradient-to-t from-white/95 to-transparent">
-                      <p className="text-[12px] sm:text-[13px] font-semibold text-[#0d0d0d] leading-tight">Your photo</p>
-                    </div>
-                    <div className="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-[#0d0d0d] flex items-center justify-center z-10">
-                      <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                        <path d="M1.5 4.2L3.3 6L6.7 2.2" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-white shadow-sm border border-neutral-200/70 flex items-center justify-center mb-2 sm:mb-2.5 text-neutral-800 shrink-0">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="w-4.5 h-4.5 sm:w-5 sm:h-5 md:w-5.5 md:h-5.5"
+                      >
+                        <path d="M12 19V5M5 12l7-7 7 7" />
                       </svg>
                     </div>
+                    <span className="text-xs sm:text-[13px] md:text-sm font-semibold text-neutral-900 text-center leading-tight">
+                      Use your photo
+                    </span>
                   </button>
+                )}
+              </div>
+              {/* Spacer matching card 2 and 3 labels */}
+              <div className="mt-1.5 sm:mt-2 text-center">
+                <p className="text-xs sm:text-sm font-semibold leading-tight opacity-0 select-none">&nbsp;</p>
+              </div>
+            </div>
+
+            {/* AI model cards: Ava, Mia (or Leo, Max for Men) */}
+            {WTW_PICKER_MODELS[gender].map((model) => {
+              const isSelected = pickerSelectedId === model.id;
+              return (
+                <div key={model.id} className="flex flex-col">
                   <button
                     type="button"
-                    onClick={handleClearUploadedPhoto}
-                    aria-label="Remove uploaded photo"
-                    className="absolute top-2 right-2 z-20 w-6 h-6 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center transition-colors"
+                    onClick={() => { setPickerSelectedId(model.id); setPickerSelectedSrc(model.src); }}
+                    className={`relative aspect-[3/3.8] w-full rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-200 bg-[#f4f4f6] cursor-pointer ${
+                      isSelected
+                        ? "ring-2 ring-black"
+                        : "ring-1 ring-black/5 hover:ring-black/20"
+                    }`}
                   >
-                    <X className="w-3.5 h-3.5" />
+                    <Image
+                      src={model.src}
+                      alt={model.name}
+                      fill
+                      unoptimized
+                      className="object-cover object-top"
+                      sizes="(max-width: 768px) 33vw, 240px"
+                    />
+                    {isSelected && (
+                      <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black text-white flex items-center justify-center shadow-sm z-10 pointer-events-none">
+                        <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.8]" />
+                      </div>
+                    )}
                   </button>
-                </>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => { setPickerSelectedId("upload"); handlePhotoUpload(); }}
-                  className="w-full h-full flex flex-col items-center justify-center gap-2 sm:gap-2.5"
-                >
-                  <div className={`w-10 h-10 rounded-full border flex items-center justify-center ${
-                    pickerSelectedId === "upload" ? "border-[#0d0d0d]" : "border-[#ccc]"
-                  }`}>
-                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-                      <path d="M8 11V3M5 6L8 3L11 6M3 12.5H13" stroke={pickerSelectedId === "upload" ? "#0d0d0d" : "#999"} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                  {/* Label underneath the card: Model name */}
+                  <div className="mt-1.5 sm:mt-2 text-center">
+                    <p className="text-xs sm:text-sm font-semibold text-neutral-900 leading-tight">
+                      {model.name}
+                    </p>
                   </div>
-                  <span className={`text-[12px] sm:text-[13px] font-medium ${pickerSelectedId === "upload" ? "text-[#0d0d0d]" : "text-[#888]"}`}>
-                    Upload your photo
-                  </span>
-                </button>
-              )}
-            </div>
-            {/* AI model cards */}
-            {WTW_PICKER_MODELS[gender].map((model) => (
-              <button
-                key={model.id}
-                onClick={() => { setPickerSelectedId(model.id); setPickerSelectedSrc(model.src); }}
-                className={`relative h-[112px] sm:h-[128px] md:h-[142px] rounded-2xl overflow-hidden transition-all duration-200 ${
-                  pickerSelectedId === model.id
-                    ? "shadow-[0_0_0_2.5px_#0d0d0d,0_14px_26px_-16px_rgba(20,20,20,0.35)]"
-                    : "border border-black/25 shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)] hover:border-black/40"
-                }`}
-              >
-                <Image src={model.src} alt={model.name} fill unoptimized className="object-cover object-top" sizes="200px" />
-                <div className="absolute bottom-0 left-0 right-0 px-2.5 sm:px-3 pb-2 sm:pb-2.5 pt-5 sm:pt-6 bg-gradient-to-t from-white/95 to-transparent">
-                  <p className="text-[12px] sm:text-[13px] font-semibold text-[#0d0d0d] leading-tight">{model.name}</p>
                 </div>
-                {pickerSelectedId === model.id && (
-                  <div className="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-[#0d0d0d] flex items-center justify-center z-10">
-                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                      <path d="M1.5 4.2L3.3 6L6.7 2.2" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                )}
-              </button>
-            ))}
+              );
+            })}
           </div>
         </div>
-      )}
-
-      {/* ── CTA + footer (light mode, before generation) ─────────── */}
-      {alwaysShowPicker && !loading && !results && tryOnItems.length === 0 && (
-        <>
-          <div className="flex justify-center mt-5 sm:mt-6">
-            <button
-              onClick={handleLightCTA}
-              disabled={!lightReady}
-              className={`px-10 py-3.5 sm:py-4 rounded-2xl text-sm font-semibold transition-all duration-300 min-w-[260px] ${
-                lightReady
-                  ? "bg-[#0d0d0d] text-white hover:bg-[#333] hover:shadow-lg border border-transparent"
-                  : "bg-white border border-black/25 text-[#aaa] cursor-not-allowed shadow-[0_8px_30px_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.04)]"
-              }`}
-            >
-              {submitLabel}
-            </button>
-          </div>
-          <p className="text-center text-[9.5px] uppercase tracking-widest text-[#ccc] mt-3 sm:mt-4">
-            Powered by Slidez AI &middot; Free to use
-          </p>
-        </>
       )}
 
     </>

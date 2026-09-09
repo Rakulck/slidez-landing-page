@@ -367,7 +367,6 @@ export default function Page() {
             "What should I wear to a creative office job interview?",
             "Style a monochrome minimalist outfit for autumn",
           ]}
-          maxWidthClassName="max-w-3xl"
         />
 
         {/* ── Fold 2: Stop Guessing Which Clothes Will Suit You ── */}
