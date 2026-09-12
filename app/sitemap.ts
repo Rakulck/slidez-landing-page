@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Core feature pages
     { path: "/ai-stylist", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/ai-personal-shopper", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/ai-fashion-stylist", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/ai-outfit-generator", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/ai-clothes-recommender", priority: 0.9, changeFrequency: "monthly" as const },
