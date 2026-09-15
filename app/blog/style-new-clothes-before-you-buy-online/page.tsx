@@ -881,6 +881,12 @@ export default function BlogPost() {
             <div className="mt-16 pt-12 border-t border-black/10">
               <h2 className="text-2xl font-bold text-black mb-8 tracking-tight">Recommended Readings</h2>
               <div className="grid sm:grid-cols-2 gap-6">
+                <Link href="/blog/how-to-read-a-clothing-size-chart" className="group block">
+                  <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
+                    <h3 className="font-bold text-black mb-2 group-hover:underline">How to Read a Clothing Size Chart Before Buying Online</h3>
+                    <p className="text-sm text-black/60 line-clamp-2">Learn how to accurately measure yourself, match sizing charts, and prevent the #1 cause of clothing returns.</p>
+                  </div>
+                </Link>
                 <Link href="/blog/virtual-try-on-vs-online-shopping" className="group block">
                   <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
                     <h3 className="font-bold text-black mb-2 group-hover:underline">Virtual Try-On vs Online Shopping: What&apos;s Better?</h3>
