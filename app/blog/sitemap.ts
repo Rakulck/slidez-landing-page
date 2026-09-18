@@ -35,6 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/blog/clothes-that-match-your-skin-tone", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/blog/style-new-clothes-before-you-buy-online", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/blog/how-to-read-a-clothing-size-chart", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/blog/what-is-personal-style", priority: 0.8, changeFrequency: "monthly" as const },
   ];
 
   return blogRoutes.map((route) => ({

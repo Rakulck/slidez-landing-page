@@ -839,10 +839,10 @@ export default function BlogPost() {
                     <p className="text-sm text-black/60 line-clamp-2">Discover how AI algorithms analyze cuts, silhouettes, and personal taste to match clothes to your body.</p>
                   </div>
                 </Link>
-                <Link href="/blog/how-to-stop-buying-clothes-you-never-wear" className="group block">
+                <Link href="/blog/what-is-personal-style" className="group block">
                   <div className="p-6 rounded-2xl bg-[#fafafa] border border-black/5 group-hover:border-black/20 group-hover:bg-white transition-all duration-300">
-                    <h3 className="font-bold text-black mb-2 group-hover:underline">How to Stop Buying Clothes You Never Wear</h3>
-                    <p className="text-sm text-black/60 line-clamp-2">Break the impulse buy cycle and build a wardrobe full of pieces you actually wear every single week.</p>
+                    <h3 className="font-bold text-black mb-2 group-hover:underline">What Is Personal Style? A Beginner&apos;s Guide</h3>
+                    <p className="text-sm text-black/60 line-clamp-2">A beginner&apos;s guide to discovering your style, identifying what you like, and building outfits around it.</p>
                   </div>
                 </Link>
               </div>
