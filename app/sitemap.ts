@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/free-ai-stylist-app", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/ai-virtual-try-on", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/try-on-from-anywhere", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/virtual-fitting-room", priority: 0.9, changeFrequency: "monthly" as const },
 
     // Outfit hub pages
     { path: "/outfit-ideas", priority: 0.9, changeFrequency: "weekly" as const },

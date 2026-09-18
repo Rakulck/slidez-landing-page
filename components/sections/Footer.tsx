@@ -10,6 +10,7 @@ const links = [
       { label: "Outfit Generator", href: "/ai-outfit-generator" },
       { label: "Clothes Recommender", href: "/ai-clothes-recommender" },
       { label: "Virtual Try-On", href: "/ai-virtual-try-on" },
+      { label: "Virtual Fitting Room", href: "/virtual-fitting-room" },
       { label: "Try On From Anywhere", href: "/try-on-from-anywhere" },
       { label: "Outfit Ideas", href: "/outfit-ideas" },
       { label: "What to Wear", href: "/what-to-wear" },
