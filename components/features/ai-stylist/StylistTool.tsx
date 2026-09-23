@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Sparkles, ArrowRight, ArrowUpRight, Check, X, Upload } from "lucide-react";
+import { Sparkles, ArrowRight, ArrowUp, ArrowUpRight, Check, X, Upload } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import ModelSwiper from "./ModelSwiper";
 import {
   analyzeClothingImageCallable,
   analyzeOutfitIntentCallable,
@@ -87,7 +88,7 @@ function useTypewriter(active: boolean, prompts: string[]) {
 
 /* ── Data ─────────────────────────────────────────────────────── */
 
-const DEFAULT_CHIPS = ["Everyday", "Work", "Date night", "Wedding", "Vacation"];
+const DEFAULT_CHIPS = ["Office", "Travel", "Night Out", "Weekend", "Casual", "Party"];
 
 type ChipOutfit = {
   name: string;
@@ -440,13 +441,16 @@ const CHIP_EMOJI: Record<string, string> = {
 
 /* ── Readymade prompts for chips ──────────────────────────────── */
 const CHIP_PROMPTS: Record<string, string> = {
+  Office:       "Going to the office, modern business casual look",
+  Travel:       "Comfortable and stylish travel outfit",
+  "Night Out":  "Going on a night out, stylish and confident",
+  Weekend:      "Relaxed weekend outfit, effortless and chic",
   Everyday:     "Effortless everyday casual look",
   Work:         "Going to work, sharp business casual look",
   "Date night": "Going on a date night, stylish and romantic",
   Wedding:      "Wedding guest attire, polished and tasteful",
   Vacation:     "Going on a vacation, resort chic and relaxed",
   Casual:       "Going out for a casual day with friends",
-  Office:       "Going to the office, business casual look",
   "Date Night": "Going on a date night, make it stylish and special",
   Winter:       "Winter outfit, cosy and warm but still stylish",
   Party:        "Going to a party, make it fun and bold",
@@ -635,7 +639,7 @@ export default function StylistTool({
   const inputRef = useRef<HTMLInputElement>(null);
   const tryOnRunSeqRef = useRef(0);
   const [pickerSelectedId, setPickerSelectedId] = useState<string | null>(
-    alwaysShowPicker ? "onboarding-woman-1" : null
+    alwaysShowPicker ? "model-brown-w" : null
   );
   const [pickerSelectedSrc, setPickerSelectedSrc] = useState<string | null>(
     alwaysShowPicker ? DEFAULT_WTW_WOMAN_SRC : null
@@ -1114,7 +1118,7 @@ export default function StylistTool({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   onClick={() => { setInput(""); setActiveChip(null); }}
-                  className="text-neutral-300 hover:text-neutral-600 transition-colors shrink-0 p-1"
+                  className="text-neutral-300 hover:text-neutral-600 transition-colors shrink-0 p-1 cursor-pointer"
                   aria-label="Clear input"
                 >
                   <X className="w-4 h-4" />
@@ -1167,7 +1171,7 @@ export default function StylistTool({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   onClick={handleReset}
-                  className="text-white/25 hover:text-white/50 transition-colors shrink-0"
+                  className="text-white/25 hover:text-white/50 transition-colors shrink-0 cursor-pointer"
                   aria-label="Clear input"
                 >
                   <X className="w-3.5 h-3.5" />
@@ -1178,7 +1182,7 @@ export default function StylistTool({
               onClick={handleSubmit}
               disabled={!input.trim() || loading}
               aria-label={submitLabel}
-              className="shrink-0 w-8 h-8 rounded-full gradient-silver flex items-center justify-center disabled:opacity-25 hover:opacity-85 transition-opacity"
+              className="shrink-0 w-8 h-8 rounded-full gradient-silver flex items-center justify-center disabled:opacity-25 hover:opacity-85 transition-opacity cursor-pointer"
             >
               {loading ? (
                 <motion.div
@@ -1192,6 +1196,7 @@ export default function StylistTool({
             </button>
           </div>
         )}
+
         {/* Blinking cursor on typewriter (dark theme only) */}
         {!lightTheme && !input && !results && !chipResults && (
           <span
@@ -1238,7 +1243,7 @@ export default function StylistTool({
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setShowOutfitDialog(false)}
-                      className="w-5 h-5 rounded-md flex items-center justify-center text-white/20 hover:text-white/50 hover:bg-white/[0.06] transition-all"
+                      className="w-5 h-5 rounded-md flex items-center justify-center text-white/20 hover:text-white/50 hover:bg-white/[0.06] transition-all cursor-pointer"
                     >
                       <X className="w-3 h-3" />
                     </motion.button>
@@ -1259,7 +1264,7 @@ export default function StylistTool({
                       </div>
                       <button
                         onClick={() => { setOutfitImageBase64(null); setOutfitImagePreview(null); }}
-                        className="shrink-0 text-white/20 hover:text-white/50 transition-colors"
+                        className="shrink-0 text-white/20 hover:text-white/50 transition-colors cursor-pointer"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -1272,7 +1277,7 @@ export default function StylistTool({
                       whileHover={{ scale: 1.01, borderColor: "rgba(192,192,192,0.3)" }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => outfitFileRef.current?.click()}
-                      className="flex flex-col items-center gap-1.5 w-full rounded-xl border border-dashed border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)] px-3 py-3 transition-colors duration-200"
+                      className="flex flex-col items-center gap-1.5 w-full rounded-xl border border-dashed border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)] px-3 py-3 transition-colors duration-200 cursor-pointer"
                     >
                       <div className="w-6 h-6 rounded-lg bg-[rgba(192,192,192,0.07)] flex items-center justify-center">
                         <svg className="w-3 h-3 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -1309,7 +1314,7 @@ export default function StylistTool({
                         ? "bg-[#f0f0f2] text-neutral-900 font-medium shadow-none"
                         : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100/70 font-normal"
                     }`
-                  : `px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 ${
+                  : `px-4 py-2 rounded-full border text-sm transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                       isSelected
                         ? "border-[rgba(192,192,192,0.5)] bg-[rgba(192,192,192,0.12)] text-white"
                         : "border-[rgba(192,192,192,0.15)] text-white/40 hover:border-[rgba(192,192,192,0.3)] hover:text-white/70"
@@ -1325,13 +1330,13 @@ export default function StylistTool({
         })}
       </div>
 
-      {/* ── Light model picker (unboxed modern layout) ── */}
+      {/* ── Light model picker (swipable carousel) ── */}
       {alwaysShowPicker && !loading && !results && tryOnItems.length === 0 && (
-        <div className="mt-4 sm:mt-5 md:mt-5.5 w-full max-w-[650px] mx-auto text-left">
+        <div className="mt-5 sm:mt-6 w-full max-w-[620px] mx-auto text-left">
           <input ref={photoFileRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoFileChange} />
 
           {/* Header Row: Title on left, Gender Toggle Pill on right */}
-          <div className="flex items-end justify-between mb-2.5 sm:mb-3">
+          <div className="flex items-end justify-between mb-3 sm:mb-4 px-1">
             <div>
               <h3 className="text-lg sm:text-xl font-bold text-neutral-900 tracking-tight leading-tight">
                 Choose a model
@@ -1356,7 +1361,7 @@ export default function StylistTool({
                     }}
                     className={`px-4 sm:px-5 py-1 sm:py-1.5 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
                       isActive
-                        ? "bg-[#0d0d0d] text-white shadow-sm"
+                        ? "bg-[#0d0d0d] text-white shadow-xs"
                         : "text-neutral-500 hover:text-neutral-900 bg-transparent"
                     }`}
                   >
@@ -1367,125 +1372,26 @@ export default function StylistTool({
             </div>
           </div>
 
-          {/* 3-col model cards grid */}
-          <div className="grid grid-cols-3 gap-3 sm:gap-3.5 md:gap-4 w-full">
-            {/* Card 1: Upload Card */}
-            <div className="flex flex-col">
-              <div
-                className={`relative aspect-[3/3.8] w-full rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-200 bg-[#f4f4f6] ${
-                  pickerSelectedId === "upload" && pickerSelectedSrc
-                    ? "ring-2 ring-black"
-                    : "ring-1 ring-black/5 hover:bg-[#ededf0]"
-                }`}
-              >
-                {pickerSelectedId === "upload" && pickerSelectedSrc ? (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => { setPickerSelectedId("upload"); handlePhotoUpload(); }}
-                      className="absolute inset-0 w-full h-full cursor-pointer"
-                      aria-label="Replace uploaded photo"
-                    >
-                      <img
-                        src={pickerSelectedSrc}
-                        alt="Your uploaded photo"
-                        className="absolute inset-0 w-full h-full object-cover object-top"
-                      />
-                    </button>
-                    {/* Checkmark badge */}
-                    <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black text-white flex items-center justify-center shadow-sm z-10 pointer-events-none">
-                      <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.8]" />
-                    </div>
-                    {/* Remove photo button */}
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleClearUploadedPhoto();
-                        const defaultModel = WTW_PICKER_MODELS[gender][0];
-                        setPickerSelectedId(defaultModel?.id ?? null);
-                        setPickerSelectedSrc(defaultModel?.src ?? null);
-                      }}
-                      aria-label="Remove uploaded photo"
-                      className="absolute top-2.5 left-2.5 z-20 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-colors cursor-pointer"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => { setPickerSelectedId("upload"); handlePhotoUpload(); }}
-                    className="w-full h-full flex flex-col items-center justify-center p-2.5 sm:p-3.5 cursor-pointer"
-                  >
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-white shadow-sm border border-neutral-200/70 flex items-center justify-center mb-2 sm:mb-2.5 text-neutral-800 shrink-0">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-4.5 h-4.5 sm:w-5 sm:h-5 md:w-5.5 md:h-5.5"
-                      >
-                        <path d="M12 19V5M5 12l7-7 7 7" />
-                      </svg>
-                    </div>
-                    <span className="text-xs sm:text-[13px] md:text-sm font-semibold text-neutral-900 text-center leading-tight">
-                      Use your photo
-                    </span>
-                  </button>
-                )}
-              </div>
-              {/* Spacer matching card 2 and 3 labels */}
-              <div className="mt-1.5 sm:mt-2 text-center">
-                <p className="text-xs sm:text-sm font-semibold leading-tight opacity-0 select-none">&nbsp;</p>
-              </div>
-            </div>
-
-            {/* AI model cards: Ava, Mia (or Leo, Max for Men) */}
-            {WTW_PICKER_MODELS[gender].map((model) => {
-              const isSelected = pickerSelectedId === model.id;
-              return (
-                <div key={model.id} className="flex flex-col">
-                  <button
-                    type="button"
-                    onClick={() => { setPickerSelectedId(model.id); setPickerSelectedSrc(model.src); }}
-                    className={`relative aspect-[3/3.8] w-full rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-200 bg-[#f4f4f6] cursor-pointer ${
-                      isSelected
-                        ? "ring-2 ring-black"
-                        : "ring-1 ring-black/5 hover:ring-black/20"
-                    }`}
-                  >
-                    <Image
-                      src={model.src}
-                      alt={model.name}
-                      fill
-                      unoptimized
-                      className="object-cover object-top"
-                      sizes="(max-width: 768px) 33vw, 240px"
-                    />
-                    {isSelected && (
-                      <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black text-white flex items-center justify-center shadow-sm z-10 pointer-events-none">
-                        <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.8]" />
-                      </div>
-                    )}
-                  </button>
-                  {/* Label underneath the card: Model name */}
-                  <div className="mt-1.5 sm:mt-2 text-center">
-                    <p className="text-xs sm:text-sm font-semibold text-neutral-900 leading-tight">
-                      {model.name}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {/* Swipable model carousel (clean images without extra wrapping) */}
+          <ModelSwiper
+            gender={gender}
+            selectedId={pickerSelectedId}
+            selectedSrc={pickerSelectedSrc}
+            onSelectModel={(id, src) => {
+              setPickerSelectedId(id);
+              setPickerSelectedSrc(src);
+            }}
+            onUploadClick={handlePhotoUpload}
+            uploadedPhotoSrc={pickerSelectedId === "upload" ? pickerSelectedSrc : null}
+            onClearUploadedPhoto={() => {
+              handleClearUploadedPhoto();
+              const defaultModel = WTW_PICKER_MODELS[gender][0];
+              setPickerSelectedId(defaultModel?.id ?? null);
+              setPickerSelectedSrc(defaultModel?.src ?? null);
+            }}
+          />
         </div>
       )}
-
     </>
   );
 
