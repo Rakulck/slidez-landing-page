@@ -42,6 +42,38 @@ export default function BlogListingPage() {
       <section data-nav-theme="light-bg" className="relative z-20 -mt-10 bg-[#fafafa] rounded-t-[2.5rem] px-6 py-16 md:py-24 shadow-sm border-t border-black/5">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Blog Post Card - What Colors Go Together in an Outfit? Color Guide */}
+            <Link href="/blog/what-colors-go-together-outfit" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
+                <Image 
+                  src="/what-colors-go-together-outfit.jpg" 
+                  alt="What Colors Go Together in an Outfit? Color Guide preview image" 
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-8 flex flex-col flex-1">
+                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
+                  <span>Color Guide</span>
+                  <span>·</span>
+                  <span>September 2026</span>
+                </div>
+                <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
+                  What Colors Go Together in an Outfit? Color Guide
+                </h3>
+                <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
+                  What colors go together in an outfit? A practical color guide covering the color wheel, neutral pairing, occasion-based color choices, and common mistakes.
+                </p>
+                <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
+                  Read Article
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+
             {/* Blog Post Card - Fashion Aesthetics Explained: Find Your Style */}
             <Link href="/blog/fashion-aesthetics-explained" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
