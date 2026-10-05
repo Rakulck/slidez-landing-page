@@ -33,6 +33,11 @@ import {
   DEFAULT_WTW_MAN_SRC,
   DEFAULT_WTW_WOMAN_SRC,
 } from "@/lib/preset-models";
+import { useAuth } from "@/hooks/useAuth";
+import { linkAnonymousWithGoogle } from "@/lib/auth";
+import { auth, firestoreDb } from "@/lib/firebaseClient";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import AuthGate from "./AuthGate";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
 
@@ -645,6 +650,74 @@ export default function StylistTool({
     alwaysShowPicker ? DEFAULT_WTW_WOMAN_SRC : null
   );
 
+  const { user } = useAuth();
+  const [pendingResults, setPendingResults] = useState<{
+    finalImageUrl: string | null;
+    items: TryOnCard[];
+  } | null>(null);
+  const [showAuthGate, setShowAuthGate] = useState(false);
+  const [gateBusy, setGateBusy] = useState(false);
+  const [gateError, setGateError] = useState<string | null>(null);
+
+  // When user signs in or links with Google while results are gated, reveal them immediately
+  useEffect(() => {
+    if (user && !user.isAnonymous && pendingResults) {
+      setTryOnFinalImageUrl(pendingResults.finalImageUrl);
+      setTryOnItems(pendingResults.items);
+      setResults(true);
+      setShowAuthGate(false);
+      setPendingResults(null);
+    }
+  }, [user, pendingResults]);
+
+  const handleGateSignIn = async () => {
+    setGateBusy(true);
+    setGateError(null);
+    try {
+      await linkAnonymousWithGoogle();
+      const currentUser = auth.currentUser;
+      if (currentUser && !currentUser.isAnonymous) {
+        if (pendingResults) {
+          setTryOnFinalImageUrl(pendingResults.finalImageUrl);
+          setTryOnItems(pendingResults.items);
+          setResults(true);
+          setShowAuthGate(false);
+          setPendingResults(null);
+        }
+      }
+    } catch (err) {
+      console.error("Auth gate sign-in failed:", err);
+      setGateError("Sign-in failed. Please try again.");
+    } finally {
+      setGateBusy(false);
+    }
+  };
+
+  const logTryOnAnalytics = async (userId: string, itemCount: number) => {
+    try {
+      const isMobile =
+        typeof navigator !== "undefined" &&
+        /Mobi|Android/i.test(navigator.userAgent);
+      await addDoc(collection(firestoreDb, "analytics_tryons"), {
+        userId,
+        ownerUid: userId,
+        surface: "web",
+        platform: "web",
+        device: isMobile ? "mobile" : "desktop",
+        itemCount,
+        status: "completed",
+        inputType: "web_stylist",
+        isSaved: false,
+        plan: "free",
+        createdAt: serverTimestamp(),
+        completedAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    } catch (err) {
+      console.warn("Failed to log try-on analytics:", err);
+    }
+  };
+
   // Auto-show tooltip on mount, dismiss after 4s
   useEffect(() => {
     const show = setTimeout(() => setShowIconTooltip(true), 1200);
@@ -729,6 +802,9 @@ export default function StylistTool({
     setTryOnItems([]);
     setTryOnFinalImageUrl(null);
     setTryOnError(null);
+    setShowAuthGate(false);
+    setPendingResults(null);
+    setGateError(null);
 
     if (!args.prompt.trim()) {
       setTryOnError("Please enter an occasion prompt first.");
@@ -888,13 +964,38 @@ export default function StylistTool({
         })
         .filter(Boolean) as TryOnCard[];
 
-      setTryOnFinalImageUrl(finalImageUrl);
-      setTryOnItems(cards);
+      // Log every web run to analytics_tryons (gated or not — the run happened)
+      void logTryOnAnalytics(userId, cards.length);
+
       setTryOnStage(null);
       setWtwCinematicActive(false);
-      setResults(true);
+
+      const currentUser = auth.currentUser;
+      const isRealUser = Boolean(currentUser && !currentUser.isAnonymous);
+
+      if (isRealUser) {
+        setTryOnFinalImageUrl(finalImageUrl);
+        setTryOnItems(cards);
+        setShowAuthGate(false);
+        setPendingResults(null);
+        setResults(true);
+      } else {
+        setPendingResults({ finalImageUrl, items: cards });
+        setShowAuthGate(true);
+        // Do not reveal results until user signs in / links with Google
+      }
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to generate your try-on. Please try again.";
+      const rawMessage = err instanceof Error ? err.message : "";
+      const isRateLimit =
+        rawMessage.toLowerCase().includes("limit") ||
+        rawMessage.toLowerCase().includes("quota") ||
+        rawMessage.toLowerCase().includes("resource-exhausted") ||
+        (err as { code?: string })?.code === "functions/resource-exhausted";
+
+      const message = isRateLimit
+        ? "You've hit today's free try-on limit. Sign in to continue styling your outfits!"
+        : (err instanceof Error ? err.message : "Failed to generate your try-on. Please try again.");
+
       setTryOnError(message);
       setTryOnStage(null);
       setTryOnItems([]);
@@ -1069,16 +1170,19 @@ export default function StylistTool({
     setProductItems([]);
     setPickerSelectedId(null);
     setPickerSelectedSrc(null);
+    setShowAuthGate(false);
+    setPendingResults(null);
+    setGateError(null);
     inputRef.current?.focus();
   };
 
-  const hasAnyResults = results || tryOnItems.length > 0 || chipResults !== null || (!alwaysShowPicker && showModelPicker);
+  const hasAnyResults = results || tryOnItems.length > 0 || chipResults !== null || (!alwaysShowPicker && showModelPicker) || showAuthGate;
   const lightReady = alwaysShowPicker && !!input.trim() && !!pickerSelectedSrc;
 
   const wtwLightFlow = lightTheme && alwaysShowPicker;
   const wtwShowLoading = wtwLightFlow && wtwCinematicActive;
   const wtwShowResult = wtwLightFlow && results && !wtwCinematicActive;
-  const wtwShowInput = !wtwShowLoading && !wtwShowResult;
+  const wtwShowInput = !wtwShowLoading && !wtwShowResult && !showAuthGate;
 
   const wtwModelName =
     pickerSelectedId === "upload" || (selectedModelSrc?.startsWith("data:") ?? false)
@@ -1089,10 +1193,10 @@ export default function StylistTool({
 
   useEffect(() => {
     if (!wtwLightFlow || !onFlowScreenChange) return;
-    if (wtwShowResult) onFlowScreenChange("result");
+    if (wtwShowResult || showAuthGate) onFlowScreenChange("result");
     else if (wtwShowLoading) onFlowScreenChange("loading");
     else onFlowScreenChange("input");
-  }, [wtwLightFlow, wtwShowResult, wtwShowLoading, onFlowScreenChange]);
+  }, [wtwLightFlow, wtwShowResult, wtwShowLoading, showAuthGate, onFlowScreenChange]);
 
   const renderInputSection = () => (
     <>
@@ -1911,6 +2015,22 @@ export default function StylistTool({
           Powered by Slidez AI &middot; Free to use
         </p>
       )}
+
+      {/* ── Auth Gate Modal ────────────────────────────────────────── */}
+      <AnimatePresence>
+        {showAuthGate && (
+          <AuthGate
+            previewUrl={
+              pendingResults?.finalImageUrl ||
+              pendingResults?.items[0]?.resultImageUrl ||
+              null
+            }
+            onSignIn={handleGateSignIn}
+            busy={gateBusy}
+            error={gateError}
+          />
+        )}
+      </AnimatePresence>
 
     </div>
   );
