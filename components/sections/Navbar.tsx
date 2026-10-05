@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { trackDownloadClick } from "@/lib/gtag";
 import { useNavbarTheme, type NavBgTheme } from "@/hooks/useNavbarTheme";
+import UserMenu from "@/components/sections/UserMenu";
 
 type NavItemId = "features" | "extension" | "faq" | "blogs";
 
@@ -284,6 +285,7 @@ export default function Navbar() {
             >
               Download App
             </a>
+            <UserMenu />
           </div>
 
           <div className="md:hidden flex items-center gap-2">
@@ -357,6 +359,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex flex-col gap-3 pt-2">
+              <UserMenu mobile />
               <a
                 href="https://linkly.link/2FWYm"
                 className="px-5 py-2.5 bg-white text-black text-sm font-semibold rounded-full text-center
