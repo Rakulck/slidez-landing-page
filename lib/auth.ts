@@ -1,4 +1,9 @@
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithCredential,
+  signOut,
+} from "firebase/auth";
 import { auth } from "@/lib/firebaseClient";
 
 const googleProvider = new GoogleAuthProvider();
@@ -18,7 +23,23 @@ export async function signInWithGoogle(): Promise<void> {
   }
 }
 
-/** Signs the current user out. */
-export function signOutUser(): Promise<void> {
+/**
+ * Signs in using a Google ID token from Google One Tap / Google Identity Services (GIS).
+ */
+export async function signInWithGoogleIdToken(idToken: string): Promise<void> {
+  const credential = GoogleAuthProvider.credential(idToken);
+  await signInWithCredential(auth, credential);
+}
+
+/** Signs the current user out and disables Google One Tap auto-selection. */
+export async function signOutUser(): Promise<void> {
+  if (typeof window !== "undefined") {
+    try {
+      window.google?.accounts?.id?.disableAutoSelect?.();
+    } catch {
+      // Ignore GIS cleanup error
+    }
+  }
   return signOut(auth);
 }
+

@@ -3,6 +3,7 @@ import { Geist, Sacramento } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
+import GoogleOneTap from "@/components/auth/GoogleOneTap";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -183,6 +184,11 @@ export default function RootLayout({
             `,
           }}
         />
+        <Script
+          strategy="afterInteractive"
+          src="https://accounts.google.com/gsi/client"
+        />
+        <GoogleOneTap />
         {children}
         <Analytics />
       </body>

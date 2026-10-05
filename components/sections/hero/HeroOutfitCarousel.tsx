@@ -140,7 +140,7 @@ const SLIDE_VARIANTS = {
     x: 0,
     opacity: 1,
     transition: {
-      x: { type: "spring", stiffness: 280, damping: 28 },
+      x: { type: "spring" as const, stiffness: 280, damping: 28 },
       opacity: { duration: 0.35 },
     },
   },
@@ -148,7 +148,7 @@ const SLIDE_VARIANTS = {
     x: direction < 0 ? "100%" : "-100%",
     opacity: 0,
     transition: {
-      x: { type: "spring", stiffness: 280, damping: 28 },
+      x: { type: "spring" as const, stiffness: 280, damping: 28 },
       opacity: { duration: 0.28 },
     },
   }),
