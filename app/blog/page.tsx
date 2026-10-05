@@ -42,6 +42,37 @@ export default function BlogListingPage() {
       <section data-nav-theme="light-bg" className="relative z-20 -mt-10 bg-[#fafafa] rounded-t-[2.5rem] px-6 py-16 md:py-24 shadow-sm border-t border-black/5">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Blog Post Card - How to Choose Clothes: Fit, Fabric, Silhouette */}
+            <Link href="/blog/how-to-choose-clothes-fit-fabric-silhouette" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
+                <Image 
+                  src="/how-to-choose-clothes-fit-fabric-silhouette.jpg" 
+                  alt="How to Choose Clothes: Fit, Fabric, Silhouette preview image" 
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-8 flex flex-col flex-1">
+                <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-black/40 mb-4">
+                  <span>Clothing Guide</span>
+                  <span>·</span>
+                  <span>October 2026</span>
+                </div>
+                <h3 className="text-xl font-bold text-black mb-4 leading-snug group-hover:text-black/70 transition-colors">
+                  How to Choose Clothes: Fit, Fabric, Silhouette
+                </h3>
+                <p className="text-black/60 text-sm leading-relaxed mb-6 flex-1">
+                  A practical guide to choosing clothes based on fit, fabric, and silhouette. Understand how garments should fit, which fabrics work best, and common shapes.
+                </p>
+                <div className="flex items-center gap-2 text-sm font-bold text-black group-hover:gap-3 transition-all">
+                  Read Article
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
             {/* Blog Post Card - How to Build a Wardrobe Around Your Lifestyle */}
             <Link href="/blog/build-a-wardrobe-around-your-lifestyle" className="group flex flex-col bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full aspect-4/3 bg-[#f5f5f5] overflow-hidden">
