@@ -33,6 +33,11 @@ import {
   DEFAULT_WTW_MAN_SRC,
   DEFAULT_WTW_WOMAN_SRC,
 } from "@/lib/preset-models";
+import { useAuth } from "@/hooks/useAuth";
+import { linkAnonymousWithGoogle } from "@/lib/auth";
+import { auth, firestoreDb } from "@/lib/firebaseClient";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import AuthGate from "@/components/features/ai-stylist/AuthGate";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
 
@@ -628,6 +633,16 @@ export default function StylistTool({
   const [tryOnFinalImageUrl, setTryOnFinalImageUrl] = useState<string | null>(null);
   const [tryOnStage, setTryOnStage] = useState<string | null>(null);
   const [tryOnError, setTryOnError] = useState<string | null>(null);
+  // Auth gate: when an anonymous user completes a try-on, results are stashed here
+  // and revealed only after Google sign-in (which links, preserving the UID).
+  const [pendingResults, setPendingResults] = useState<{
+    finalImageUrl: string | null;
+    items: TryOnCard[];
+  } | null>(null);
+  const [showAuthGate, setShowAuthGate] = useState(false);
+  const [gateBusy, setGateBusy] = useState(false);
+  const [gateError, setGateError] = useState<string | null>(null);
+  const { user: authUser } = useAuth();
   const [selectedModelSrc, setSelectedModelSrc] = useState<string | null>(null);
   const [productItems, setProductItems] = useState<ProductInfo[]>([]);
   const [stylistCompliment, setStylistCompliment] = useState(FALLBACK_COMPLIMENT);
@@ -652,6 +667,81 @@ export default function StylistTool({
     return () => { clearTimeout(show); clearTimeout(hide); };
   }, []);
   const placeholder = useTypewriter(!input && !results && tryOnItems.length === 0 && !showModelPicker, prompts);
+
+  /* ── Auth gate + analytics helpers ─────────────────────────────── */
+
+  /**
+   * Logs one web try-on run for analytics. Fire-and-forget: never blocks the UI.
+   * Field names mirror the existing analytics_tryons docs so dashboard queries keep working.
+   */
+  function logWebTryOn(userId: string, itemCount: number) {
+    try {
+      void addDoc(collection(firestoreDb, "analytics_tryons"), {
+        userId,
+        surface: "web",
+        platform: "web",
+        device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop",
+        itemCount,
+        createdAt: serverTimestamp(),
+      });
+    } catch (err) {
+      console.warn("analytics_tryons write failed:", err);
+    }
+  }
+
+  /**
+   * Reveals try-on results, gating anonymous users behind Google sign-in.
+   * Signed-in users see results immediately; anonymous users get the gate and
+   * their results are stashed in pendingResults until they link.
+   */
+  function revealTryOnResults(finalImageUrl: string | null, cards: TryOnCard[]) {
+    const currentUser = auth.currentUser;
+    if (currentUser && !currentUser.isAnonymous) {
+      setTryOnFinalImageUrl(finalImageUrl);
+      setTryOnItems(cards);
+      setTryOnStage(null);
+      setWtwCinematicActive(false);
+      setResults(true);
+      return;
+    }
+    setPendingResults({ finalImageUrl, items: cards });
+    setTryOnStage(null);
+    setWtwCinematicActive(false);
+    setShowAuthGate(true);
+  }
+
+  /** Flushes stashed results into the normal result UI. */
+  function flushPendingResults() {
+    const pending = pendingResults;
+    if (!pending) return;
+    setTryOnFinalImageUrl(pending.finalImageUrl);
+    setTryOnItems(pending.items);
+    setPendingResults(null);
+    setResults(true);
+  }
+
+  async function handleGateSignIn() {
+    setGateBusy(true);
+    setGateError(null);
+    try {
+      await linkAnonymousWithGoogle();
+      setShowAuthGate(false);
+      flushPendingResults();
+    } catch {
+      setGateError("Sign-in failed. Please try again.");
+    } finally {
+      setGateBusy(false);
+    }
+  }
+
+  // If the user signs in via the navbar while the gate is open, reveal results.
+  useEffect(() => {
+    if (showAuthGate && authUser && !authUser.isAnonymous) {
+      setShowAuthGate(false);
+      flushPendingResults();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showAuthGate, authUser]);
 
 
   // Inject external prompt whenever the key increments
@@ -861,6 +951,10 @@ export default function StylistTool({
       }
 
       setTryOnStage("Generating your try-on images...");
+      // TODO(rate-limit): enforce a server-side per-UID daily cap for anonymous users
+      // in the executeMultiItemTryOn callable (each run burns Vertex AI spend; client-side
+      // counters are bypassable). When the cap is hit, surface a friendly
+      // "daily free limit reached — sign in for more" message here instead of calling.
       const tryOn = (await executeMultiItemTryOnCallable({
         recommendations,
         userId,
@@ -890,9 +984,10 @@ export default function StylistTool({
 
       setTryOnFinalImageUrl(finalImageUrl);
       setTryOnItems(cards);
-      setTryOnStage(null);
-      setWtwCinematicActive(false);
-      setResults(true);
+      // Log the run (the run happened regardless of gating).
+      logWebTryOn(userId, cards.length);
+      // Gate anonymous users behind Google sign-in before revealing.
+      revealTryOnResults(finalImageUrl, cards);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to generate your try-on. Please try again.";
       setTryOnError(message);
@@ -1911,6 +2006,19 @@ export default function StylistTool({
           Powered by Slidez AI &middot; Free to use
         </p>
       )}
+
+      <AnimatePresence>
+        {showAuthGate && (
+          <AuthGate
+            previewUrl={
+              pendingResults?.finalImageUrl ?? pendingResults?.items[0]?.resultImageUrl ?? null
+            }
+            onSignIn={handleGateSignIn}
+            busy={gateBusy}
+            error={gateError}
+          />
+        )}
+      </AnimatePresence>
 
     </div>
   );
