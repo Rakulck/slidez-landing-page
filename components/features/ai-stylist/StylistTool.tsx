@@ -36,7 +36,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { linkAnonymousWithGoogle } from "@/lib/auth";
 import { auth, firestoreDb } from "@/lib/firebaseClient";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, increment, serverTimestamp, setDoc } from "firebase/firestore";
 import AuthGate from "@/components/features/ai-stylist/AuthGate";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
@@ -774,21 +774,66 @@ export default function StylistTool({
   /* ── Auth gate + analytics helpers ─────────────────────────────── */
 
   /**
-   * Logs one web try-on run for analytics. Fire-and-forget: never blocks the UI.
-   * Field names mirror the existing analytics_tryons docs so dashboard queries keep working.
+   * Tracks one web try-on run across the analytics collections, mirroring how the
+   * other platforms (ext / Shopify / app) record themselves — so web shows up in the
+   * dashboard with platform 'web'.
+   *
+   * All writes are fire-and-forget and additive-only:
+   * - try_on_events / analytics_tryons use addDoc (new docs, never overwrites).
+   * - analytics_users uses setDoc with { merge: true } + increment/arrayUnion
+   *   (only touches web's own fields; other platforms' data is untouched).
+   * Each write is isolated in its own try/catch and never awaited, so a web
+   * analytics failure can never block the try-on flow or affect other platforms.
+   *
+   * Field names mirror the exact shapes the dashboard queries:
+   * - try_on_events: created_at is snake_case, like the other platforms' docs.
+   * - analytics_tryons: ownerUid / startedAt (what the dashboard's profile lookup reads).
+   * - analytics_users: userId / eventCount / lastSeenAt (the per-user rollup shape).
    */
-  function logWebTryOn(userId: string, itemCount: number) {
+  function trackWebTryOn(userId: string, itemCount: number) {
+    const device = /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop";
+
+    // 1) try_on_events — the source-of-truth collection behind the try-ons/day chart.
+    try {
+      void addDoc(collection(firestoreDb, "try_on_events"), {
+        userId,
+        platform: "web",
+        device,
+        created_at: serverTimestamp(),
+      });
+    } catch (err) {
+      console.warn("try_on_events write failed:", err);
+    }
+
+    // 2) analytics_tryons — aligned to the real doc shape the dashboard reads.
     try {
       void addDoc(collection(firestoreDb, "analytics_tryons"), {
-        userId,
-        surface: "web",
+        ownerUid: userId,
         platform: "web",
-        device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop",
+        device,
         itemCount,
-        createdAt: serverTimestamp(),
+        status: "completed",
+        startedAt: serverTimestamp(),
       });
     } catch (err) {
       console.warn("analytics_tryons write failed:", err);
+    }
+
+    // 3) analytics_users — per-user rollup. Doc ID is the Firebase UID, which stays
+    // stable across the auth gate (linkWithPopup preserves the UID).
+    try {
+      void setDoc(
+        doc(firestoreDb, "analytics_users", userId),
+        {
+          userId,
+          eventCount: increment(1),
+          lastSeenAt: serverTimestamp(),
+          platforms: arrayUnion("web"),
+        },
+        { merge: true }
+      );
+    } catch (err) {
+      console.warn("analytics_users write failed:", err);
     }
   }
 
@@ -1109,7 +1154,7 @@ export default function StylistTool({
       setTryOnFinalImageUrl(finalImageUrl);
       setTryOnItems(cards);
       // Log the run (the run happened regardless of gating).
-      logWebTryOn(userId, cards.length);
+      trackWebTryOn(userId, cards.length);
       // Gate anonymous users behind Google sign-in before revealing.
       revealTryOnResults(finalImageUrl, cards, productInfos);
     } catch (err) {
