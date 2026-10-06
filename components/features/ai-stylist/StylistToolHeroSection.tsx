@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode, type RefObject } from "react";
+import { useState, useEffect, type ReactNode, type RefObject } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import StylistTool from "@/components/features/ai-stylist/StylistTool";
 import type { WtwFlowScreen } from "@/components/features/ai-stylist/wtw";
@@ -36,6 +36,25 @@ export default function StylistToolHeroSection({
   maxWidthClassName = "max-w-[720px]",
 }: StylistToolHeroSectionProps) {
   const [flowScreen, setFlowScreen] = useState<WtwFlowScreen>("input");
+
+  // If a try-on result was active before reload, immediately stay on the result screen
+  useEffect(() => {
+    try {
+      const raw =
+        sessionStorage.getItem("slidez_active_tryon_result") ||
+        localStorage.getItem("slidez_active_tryon_result");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (
+          parsed &&
+          (parsed.tryOnFinalImageUrl ||
+            (parsed.tryOnItems && parsed.tryOnItems.length > 0))
+        ) {
+          setFlowScreen("result");
+        }
+      }
+    } catch {}
+  }, []);
 
   return (
     <section

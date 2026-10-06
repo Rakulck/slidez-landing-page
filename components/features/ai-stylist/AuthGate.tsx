@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { Lock } from "lucide-react";
 
-function GoogleLogo({ className = "w-4 h-4" }: { className?: string }) {
+function GoogleLogo({ className = "w-4 h-4 shrink-0" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
@@ -25,94 +26,71 @@ function GoogleLogo({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-type AuthGateProps = {
-  /** First result image URL, rendered blurred behind the gate card. */
-  previewUrl: string | null;
-  onSignIn: () => Promise<void>;
-  busy: boolean;
-  error: string | null;
+export type AuthGateProps = {
+  previewUrl?: string | null;
+  onSignIn: () => Promise<void> | void;
+  busy?: boolean;
+  error?: string | null;
+  className?: string;
 };
 
 /**
- * Blocks the try-on result reveal behind Google sign-in. The generated image is
- * shown blurred as a teaser; signing in (linking the anonymous session) reveals it.
+ * Overlay placed directly on top of the result image alone.
+ * Features a white transparent glossy backdrop with blur and a Google sign-in button.
  */
-export default function AuthGate({ previewUrl, onSignIn, busy, error }: AuthGateProps) {
+export default function AuthGate({
+  onSignIn,
+  busy = false,
+  error = null,
+  className = "",
+}: AuthGateProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[90] flex items-end sm:items-center justify-center"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Sign in to see your try-on"
+      transition={{ duration: 0.28, ease: "easeOut" }}
+      className={`absolute inset-0 z-20 flex flex-col items-center justify-center p-5 sm:p-6 text-center select-none backdrop-blur-xl bg-white/40 border border-white/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.7),0_12px_36px_rgba(0,0,0,0.15)] ${className}`}
     >
-      {/* Backdrop: blurred teaser of the result */}
-      <div className="absolute inset-0 overflow-hidden bg-black/80">
-        {previewUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={previewUrl}
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover blur-2xl scale-110 opacity-60 select-none pointer-events-none"
-          />
-        ) : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30" />
+      {/* Top glossy shimmer highlight */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-white/40 via-white/10 to-transparent pointer-events-none rounded-t-[inherit]"
+      />
+
+      {/* Glossy badge with lock icon */}
+      <div className="relative mb-3 flex items-center justify-center w-11 h-11 rounded-full bg-white/85 backdrop-blur-md border border-white shadow-md text-neutral-800">
+        <Lock className="w-5 h-5" />
       </div>
 
-      {/* Card: bottom sheet on mobile, centered modal on desktop */}
-      <motion.div
-        initial={{ y: 48, opacity: 0, scale: 0.98 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        exit={{ y: 32, opacity: 0, scale: 0.98 }}
-        transition={{ type: "spring", stiffness: 320, damping: 30 }}
-        className="relative w-full sm:max-w-md sm:mx-4 mb-0 sm:mb-0 rounded-t-[28px] sm:rounded-[28px] border border-white/12 bg-[#101014]/95 backdrop-blur-2xl px-7 pt-8 pb-8 sm:p-8 shadow-[0_24px_80px_rgba(0,0,0,0.6)]"
+      {/* Header and copy */}
+      <h3 className="relative text-base sm:text-lg font-bold text-neutral-900 tracking-tight leading-snug">
+        Sign in to reveal look
+      </h3>
+      <p className="relative mt-1 mb-5 text-[11px] sm:text-xs text-neutral-700 font-medium max-w-[210px] leading-relaxed">
+        Google sign-in unlocks your try-on render and saves it to your account
+      </p>
+
+      {/* Prominent Google Sign-in button */}
+      <button
+        type="button"
+        onClick={onSignIn}
+        disabled={busy}
+        className="relative w-full max-w-[220px] h-11 flex items-center justify-center gap-2.5 px-4 rounded-full bg-white text-neutral-900 text-xs sm:text-sm font-semibold shadow-[0_4px_16px_rgba(0,0,0,0.12),0_1px_2px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-neutral-50 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer disabled:opacity-60 border border-neutral-200/80"
       >
-        <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-white/20 sm:hidden" aria-hidden="true" />
-        <p className="text-center text-2xl mb-2" aria-hidden="true">
-          🎉
-        </p>
-        <h2 className="text-center text-xl sm:text-2xl font-semibold text-white tracking-tight">
-          Your try-on is ready
-        </h2>
-        <p className="mt-2 text-center text-sm text-white/60 leading-relaxed">
-          Sign in with Google to see it and save it to your account.
-        </p>
+        {busy ? (
+          <span className="w-4 h-4 border-2 border-neutral-300 border-t-neutral-800 rounded-full animate-spin" />
+        ) : (
+          <GoogleLogo />
+        )}
+        <span>{busy ? "Signing in…" : "Sign in with Google"}</span>
+      </button>
 
-        <button
-          type="button"
-          onClick={onSignIn}
-          disabled={busy}
-          className="mt-6 w-full h-[50px] flex items-center justify-center gap-2.5 rounded-full bg-white text-black text-[15px] font-semibold hover:bg-white/90 active:scale-[0.98] transition-all duration-200 cursor-pointer disabled:opacity-60"
-        >
-          {busy ? (
-            <span className="w-4 h-4 border-2 border-black/20 border-t-black/70 rounded-full animate-spin" />
-          ) : (
-            <GoogleLogo />
-          )}
-          {busy ? "Signing in…" : "Sign in with Google"}
-        </button>
-
-        <AnimatePresence>
-          {error ? (
-            <motion.p
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="mt-3 text-center text-xs text-red-400/90"
-            >
-              {error}
-            </motion.p>
-          ) : null}
-        </AnimatePresence>
-
-        <p className="mt-4 text-center text-[11px] text-white/35">
-          Your try-on is saved — it will appear right after you sign in.
+      {error && (
+        <p className="relative mt-2 text-[11px] font-semibold text-red-600 bg-red-50/90 px-2.5 py-0.5 rounded-full border border-red-200/60 shadow-xs">
+          {error}
         </p>
-      </motion.div>
+      )}
     </motion.div>
   );
 }

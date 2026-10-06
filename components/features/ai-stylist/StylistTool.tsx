@@ -604,6 +604,66 @@ type StylistToolProps = {
   onFlowScreenChange?: (screen: WtwFlowScreen) => void;
 };
 
+/* ── Page Reload Persistence ────────────────────────────────────── */
+
+const SAVED_TRYON_STORAGE_KEY = "slidez_active_tryon_result";
+
+interface SavedTryOnPayload {
+  query: string;
+  gender: Gender;
+  tryOnFinalImageUrl: string | null;
+  tryOnItems: TryOnCard[];
+  productItems: ProductInfo[];
+  pickerSelectedId: string | null;
+  pickerSelectedSrc: string | null;
+  selectedModelSrc: string | null;
+  stylistCompliment: string;
+  stylistMega: string;
+  stylistClosing: string;
+  timestamp: number;
+}
+
+function saveTryOnToStorage(data: SavedTryOnPayload) {
+  if (typeof window === "undefined") return;
+  try {
+    const serialized = JSON.stringify(data);
+    sessionStorage.setItem(SAVED_TRYON_STORAGE_KEY, serialized);
+    localStorage.setItem(SAVED_TRYON_STORAGE_KEY, serialized);
+  } catch (e) {
+    console.warn("Could not save try-on result to storage:", e);
+  }
+}
+
+function clearTryOnFromStorage() {
+  if (typeof window === "undefined") return;
+  try {
+    sessionStorage.removeItem(SAVED_TRYON_STORAGE_KEY);
+    localStorage.removeItem(SAVED_TRYON_STORAGE_KEY);
+  } catch {}
+}
+
+function loadTryOnFromStorage(): SavedTryOnPayload | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw =
+      sessionStorage.getItem(SAVED_TRYON_STORAGE_KEY) ||
+      localStorage.getItem(SAVED_TRYON_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as SavedTryOnPayload;
+    if (
+      !parsed ||
+      typeof parsed !== "object" ||
+      Date.now() - (parsed.timestamp || 0) > 24 * 60 * 60 * 1000
+    ) {
+      clearTryOnFromStorage();
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
 export default function StylistTool({
   externalPrompt,
   externalPromptKey,
@@ -666,6 +726,49 @@ export default function StylistTool({
     const hide = setTimeout(() => setShowIconTooltip(false), 5000);
     return () => { clearTimeout(show); clearTimeout(hide); };
   }, []);
+
+  // Restore active try-on result across page reloads
+  useEffect(() => {
+    const saved = loadTryOnFromStorage();
+    if (
+      !saved ||
+      (!saved.tryOnFinalImageUrl &&
+        (!saved.tryOnItems || saved.tryOnItems.length === 0))
+    ) {
+      return;
+    }
+
+    if (saved.query) {
+      setQuery(saved.query);
+      setInput(saved.query);
+    }
+    if (saved.gender) setGender(saved.gender);
+    if (saved.tryOnFinalImageUrl) setTryOnFinalImageUrl(saved.tryOnFinalImageUrl);
+    if (Array.isArray(saved.tryOnItems)) setTryOnItems(saved.tryOnItems);
+    if (Array.isArray(saved.productItems)) setProductItems(saved.productItems);
+    if (saved.pickerSelectedId) setPickerSelectedId(saved.pickerSelectedId);
+    if (saved.pickerSelectedSrc) setPickerSelectedSrc(saved.pickerSelectedSrc);
+    if (saved.selectedModelSrc) setSelectedModelSrc(saved.selectedModelSrc);
+    if (saved.stylistCompliment) setStylistCompliment(saved.stylistCompliment);
+    if (saved.stylistMega) setStylistMega(saved.stylistMega);
+    if (saved.stylistClosing) setStylistClosing(saved.stylistClosing);
+
+    setResults(true);
+    setLoading(false);
+    setWtwCinematicActive(false);
+
+    const currentUser = auth.currentUser;
+    if (!currentUser || currentUser.isAnonymous) {
+      setShowAuthGate(true);
+      setPendingResults({
+        finalImageUrl: saved.tryOnFinalImageUrl,
+        items: saved.tryOnItems,
+      });
+    } else {
+      setShowAuthGate(false);
+      setPendingResults(null);
+    }
+  }, []);
   const placeholder = useTypewriter(!input && !results && tryOnItems.length === 0 && !showModelPicker, prompts);
 
   /* ── Auth gate + analytics helpers ─────────────────────────────── */
@@ -690,34 +793,44 @@ export default function StylistTool({
   }
 
   /**
-   * Reveals try-on results, gating anonymous users behind Google sign-in.
-   * Signed-in users see results immediately; anonymous users get the gate and
-   * their results are stashed in pendingResults until they link.
+   * Reveals try-on results. For anonymous users, the result image alone is gated
+   * behind a glossy blur overlay while the rest of the results screen remains visible.
    */
-  function revealTryOnResults(finalImageUrl: string | null, cards: TryOnCard[]) {
+  function revealTryOnResults(
+    finalImageUrl: string | null,
+    cards: TryOnCard[],
+    productsToSave?: ProductInfo[]
+  ) {
     const currentUser = auth.currentUser;
-    if (currentUser && !currentUser.isAnonymous) {
-      setTryOnFinalImageUrl(finalImageUrl);
-      setTryOnItems(cards);
-      setTryOnStage(null);
-      setWtwCinematicActive(false);
-      setResults(true);
-      return;
-    }
-    setPendingResults({ finalImageUrl, items: cards });
+    setTryOnFinalImageUrl(finalImageUrl);
+    setTryOnItems(cards);
     setTryOnStage(null);
     setWtwCinematicActive(false);
-    setShowAuthGate(true);
-  }
-
-  /** Flushes stashed results into the normal result UI. */
-  function flushPendingResults() {
-    const pending = pendingResults;
-    if (!pending) return;
-    setTryOnFinalImageUrl(pending.finalImageUrl);
-    setTryOnItems(pending.items);
-    setPendingResults(null);
     setResults(true);
+
+    if (!currentUser || currentUser.isAnonymous) {
+      setPendingResults({ finalImageUrl, items: cards });
+      setShowAuthGate(true);
+    } else {
+      setShowAuthGate(false);
+      setPendingResults(null);
+    }
+
+    const itemsToPersist = productsToSave ?? productItems;
+    saveTryOnToStorage({
+      query: (query || input).trim(),
+      gender,
+      tryOnFinalImageUrl: finalImageUrl,
+      tryOnItems: cards,
+      productItems: itemsToPersist,
+      pickerSelectedId,
+      pickerSelectedSrc,
+      selectedModelSrc,
+      stylistCompliment,
+      stylistMega,
+      stylistClosing,
+      timestamp: Date.now(),
+    });
   }
 
   async function handleGateSignIn() {
@@ -725,8 +838,15 @@ export default function StylistTool({
     setGateError(null);
     try {
       await linkAnonymousWithGoogle();
-      setShowAuthGate(false);
-      flushPendingResults();
+      const currentUser = auth.currentUser;
+      if (currentUser && !currentUser.isAnonymous) {
+        setShowAuthGate(false);
+        setPendingResults(null);
+        const saved = loadTryOnFromStorage();
+        if (saved) {
+          saveTryOnToStorage({ ...saved, timestamp: Date.now() });
+        }
+      }
     } catch {
       setGateError("Sign-in failed. Please try again.");
     } finally {
@@ -738,7 +858,7 @@ export default function StylistTool({
   useEffect(() => {
     if (showAuthGate && authUser && !authUser.isAnonymous) {
       setShowAuthGate(false);
-      flushPendingResults();
+      setPendingResults(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAuthGate, authUser]);
@@ -815,10 +935,14 @@ export default function StylistTool({
     userMimeType?: string;
   }) {
     const runSeq = ++tryOnRunSeqRef.current;
+    clearTryOnFromStorage();
     setResults(false);
     setTryOnItems([]);
     setTryOnFinalImageUrl(null);
     setTryOnError(null);
+    setShowAuthGate(false);
+    setPendingResults(null);
+    setGateError(null);
 
     if (!args.prompt.trim()) {
       setTryOnError("Please enter an occasion prompt first.");
@@ -987,7 +1111,7 @@ export default function StylistTool({
       // Log the run (the run happened regardless of gating).
       logWebTryOn(userId, cards.length);
       // Gate anonymous users behind Google sign-in before revealing.
-      revealTryOnResults(finalImageUrl, cards);
+      revealTryOnResults(finalImageUrl, cards, productInfos);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to generate your try-on. Please try again.";
       setTryOnError(message);
@@ -1145,6 +1269,7 @@ export default function StylistTool({
   }, []);
 
   const handleReset = () => {
+    clearTryOnFromStorage();
     setInput("");
     setResults(false);
     setLoading(false);
@@ -1164,6 +1289,9 @@ export default function StylistTool({
     setProductItems([]);
     setPickerSelectedId(null);
     setPickerSelectedSrc(null);
+    setShowAuthGate(false);
+    setPendingResults(null);
+    setGateError(null);
     inputRef.current?.focus();
   };
 
@@ -1557,6 +1685,10 @@ export default function StylistTool({
                   productItems={productItems}
                   tryOnError={tryOnError}
                   onRestart={handleReset}
+                  isGated={showAuthGate}
+                  onSignIn={handleGateSignIn}
+                  gateBusy={gateBusy}
+                  gateError={gateError}
                 />
               </motion.div>
             )}
@@ -1926,15 +2058,30 @@ export default function StylistTool({
                     <img
                       src={tryOnFinalImageUrl}
                       alt="Generated try-on preview"
-                      className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
+                      className={`w-full h-auto block transition-all duration-700 ${
+                        showAuthGate ? "filter blur-md md:blur-lg scale-105" : "group-hover:scale-[1.02]"
+                      }`}
                       loading="lazy"
                     />
 
                     {/* Bottom glass overlay */}
-                    <div className="absolute bottom-0 inset-x-0 px-4 pt-10 pb-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
-                      <p className="text-[9px] text-white/40 uppercase tracking-[0.14em] mb-0.5">AI Try-On</p>
-                      <p className="text-[11px] font-medium text-white/80 truncate">{query}</p>
-                    </div>
+                    {!showAuthGate && (
+                      <div className="absolute bottom-0 inset-x-0 px-4 pt-10 pb-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
+                        <p className="text-[9px] text-white/40 uppercase tracking-[0.14em] mb-0.5">AI Try-On</p>
+                        <p className="text-[11px] font-medium text-white/80 truncate">{query}</p>
+                      </div>
+                    )}
+
+                    {/* Google sign-in overlay directly on top of result image alone */}
+                    <AnimatePresence>
+                      {showAuthGate && (
+                        <AuthGate
+                          onSignIn={handleGateSignIn}
+                          busy={gateBusy}
+                          error={gateError}
+                        />
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
 
@@ -2006,19 +2153,6 @@ export default function StylistTool({
           Powered by Slidez AI &middot; Free to use
         </p>
       )}
-
-      <AnimatePresence>
-        {showAuthGate && (
-          <AuthGate
-            previewUrl={
-              pendingResults?.finalImageUrl ?? pendingResults?.items[0]?.resultImageUrl ?? null
-            }
-            onSignIn={handleGateSignIn}
-            busy={gateBusy}
-            error={gateError}
-          />
-        )}
-      </AnimatePresence>
 
     </div>
   );

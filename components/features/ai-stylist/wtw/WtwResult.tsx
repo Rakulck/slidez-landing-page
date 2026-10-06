@@ -1,6 +1,8 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
+import AuthGate from "@/components/features/ai-stylist/AuthGate";
 import { occasionFromPrompt, inferBrandFromLink, openExternalLinksInNewTabs, type WtwProductItem } from "./wtw-utils";
 
 const APP_STORE_URL = "https://linkly.link/2FWYm";
@@ -21,6 +23,10 @@ type WtwResultProps = {
   productItems: WtwProductItem[];
   tryOnError: string | null;
   onRestart: () => void;
+  isGated?: boolean;
+  onSignIn?: () => Promise<void> | void;
+  gateBusy?: boolean;
+  gateError?: string | null;
 };
 
 function WtwPieceRow({ item }: { item: WtwProductItem }) {
@@ -84,6 +90,10 @@ export default function WtwResult({
   productItems,
   tryOnError,
   onRestart,
+  isGated = false,
+  onSignIn,
+  gateBusy = false,
+  gateError = null,
 }: WtwResultProps) {
   const occasion = occasionFromPrompt(query);
   const title = `Your ${occasion.toLowerCase()} look`;
@@ -110,7 +120,9 @@ export default function WtwResult({
           <img
             src={tryOnFinalImageUrl}
             alt="Generated try-on preview"
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            className={`absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ${
+              isGated ? "filter blur-md md:blur-lg scale-105" : ""
+            }`}
           />
         ) : (
           <div
@@ -122,9 +134,22 @@ export default function WtwResult({
           />
         )}
 
-        <span className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 text-[10px] font-mono font-semibold uppercase tracking-[0.14em] text-white bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 shadow-lg whitespace-nowrap">
-          Try-on render · {modelName}
-        </span>
+        {!isGated && (
+          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 text-[10px] font-mono font-semibold uppercase tracking-[0.14em] text-white bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 shadow-lg whitespace-nowrap">
+            Try-on render · {modelName}
+          </span>
+        )}
+
+        {/* Google sign-in overlay directly on top of result image alone */}
+        <AnimatePresence>
+          {isGated && onSignIn && (
+            <AuthGate
+              onSignIn={onSignIn}
+              busy={gateBusy}
+              error={gateError}
+            />
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Details + CTAs — right */}
