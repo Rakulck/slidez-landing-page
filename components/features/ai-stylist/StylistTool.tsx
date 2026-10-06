@@ -35,6 +35,7 @@ import {
 } from "@/lib/preset-models";
 import { useAuth } from "@/hooks/useAuth";
 import { linkAnonymousWithGoogle } from "@/lib/auth";
+import { trackWebEvent, webDevice } from "@/lib/webAnalytics";
 import { auth, firestoreDb } from "@/lib/firebaseClient";
 import { addDoc, arrayUnion, collection, doc, increment, serverTimestamp, setDoc } from "firebase/firestore";
 import AuthGate from "@/components/features/ai-stylist/AuthGate";
@@ -760,6 +761,7 @@ export default function StylistTool({
     const currentUser = auth.currentUser;
     if (!currentUser || currentUser.isAnonymous) {
       setShowAuthGate(true);
+      trackWebEvent("gate_shown", { source: "reload_restore" });
       setPendingResults({
         finalImageUrl: saved.tryOnFinalImageUrl,
         items: saved.tryOnItems,
@@ -773,10 +775,29 @@ export default function StylistTool({
 
   /* ── Auth gate + analytics helpers ─────────────────────────────── */
 
+  type WebTryOnDetails = {
+    itemCount: number;
+    /** Occasion text the user typed. */
+    prompt: string;
+    /**
+     * Uploaded photo or selected model src. Only http(s) URLs are stored —
+     * uploads are data URLs (megabytes) and are skipped; the source type is
+     * recorded instead so we still know which avatar was used.
+     */
+    userImageSrc?: string | null;
+    resultImageUrl?: string | null;
+    products?: ProductInfo[];
+  };
+
+  /** Firestore-safe URL: http(s) only, otherwise null. */
+  const asHttpUrl = (u?: string | null): string | null =>
+    u && /^https?:\/\//i.test(u) ? u : null;
+
   /**
    * Tracks one web try-on run across the analytics collections, mirroring how the
    * other platforms (ext / Shopify / app) record themselves — so web shows up in the
-   * dashboard with platform 'web'.
+   * dashboard with platform 'web'. Also stores the enriched run payload
+   * (prompt, avatar, result image, products).
    *
    * All writes are fire-and-forget and additive-only:
    * - try_on_events / analytics_tryons use addDoc (new docs, never overwrites).
@@ -790,10 +811,11 @@ export default function StylistTool({
    * - analytics_tryons: ownerUid / startedAt (what the dashboard's profile lookup reads).
    * - analytics_users: userId / eventCount / lastSeenAt (the per-user rollup shape).
    */
-  function trackWebTryOn(userId: string, itemCount: number) {
-    const device = /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop";
+  function trackWebTryOn(userId: string, details: WebTryOnDetails) {
+    const device = webDevice();
 
     // 1) try_on_events — the source-of-truth collection behind the try-ons/day chart.
+    //    Kept lean: high-volume chart queries only need platform/device/created_at.
     try {
       void addDoc(collection(firestoreDb, "try_on_events"), {
         userId,
@@ -805,14 +827,29 @@ export default function StylistTool({
       console.warn("try_on_events write failed:", err);
     }
 
-    // 2) analytics_tryons — aligned to the real doc shape the dashboard reads.
+    // 2) analytics_tryons — enriched per-run record (prompt, avatar, result, products).
     try {
       void addDoc(collection(firestoreDb, "analytics_tryons"), {
         ownerUid: userId,
         platform: "web",
         device,
-        itemCount,
+        itemCount: details.itemCount,
         status: "completed",
+        prompt: details.prompt,
+        userImageUrl: asHttpUrl(details.userImageSrc),
+        userImageSource: details.userImageSrc
+          ? details.userImageSrc.startsWith("data:")
+            ? "upload"
+            : "model"
+          : null,
+        resultImageUrl: asHttpUrl(details.resultImageUrl),
+        products: (details.products ?? []).slice(0, 20).map((p) => ({
+          name: p.name ?? null,
+          brand: p.brand ?? null,
+          category: p.category ?? null,
+          productLink: asHttpUrl(p.productLink),
+          imageUrl: asHttpUrl(p.imageUrl),
+        })),
         startedAt: serverTimestamp(),
       });
     } catch (err) {
@@ -856,6 +893,7 @@ export default function StylistTool({
     if (!currentUser || currentUser.isAnonymous) {
       setPendingResults({ finalImageUrl, items: cards });
       setShowAuthGate(true);
+      trackWebEvent("gate_shown", { source: "try_on_result" });
     } else {
       setShowAuthGate(false);
       setPendingResults(null);
@@ -881,10 +919,12 @@ export default function StylistTool({
   async function handleGateSignIn() {
     setGateBusy(true);
     setGateError(null);
+    trackWebEvent("gate_sign_in_clicked");
     try {
       await linkAnonymousWithGoogle();
       const currentUser = auth.currentUser;
       if (currentUser && !currentUser.isAnonymous) {
+        trackWebEvent("gate_sign_in_success");
         setShowAuthGate(false);
         setPendingResults(null);
         const saved = loadTryOnFromStorage();
@@ -893,6 +933,7 @@ export default function StylistTool({
         }
       }
     } catch {
+      trackWebEvent("gate_sign_in_failed");
       setGateError("Sign-in failed. Please try again.");
     } finally {
       setGateBusy(false);
@@ -994,6 +1035,8 @@ export default function StylistTool({
       setResults(true);
       return;
     }
+
+    trackWebEvent("try_on_started", { prompt: args.prompt.trim() });
 
     setLoading(true);
     setWtwCinematicActive(true);
@@ -1154,7 +1197,13 @@ export default function StylistTool({
       setTryOnFinalImageUrl(finalImageUrl);
       setTryOnItems(cards);
       // Log the run (the run happened regardless of gating).
-      trackWebTryOn(userId, cards.length);
+      trackWebTryOn(userId, {
+        itemCount: cards.length,
+        prompt: (query || input).trim(),
+        userImageSrc: pickerSelectedSrc ?? selectedModelSrc,
+        resultImageUrl: finalImageUrl,
+        products: productInfos,
+      });
       // Gate anonymous users behind Google sign-in before revealing.
       revealTryOnResults(finalImageUrl, cards, productInfos);
     } catch (err) {
@@ -1182,6 +1231,7 @@ export default function StylistTool({
     let personMimeType: string | undefined;
     try {
       setSelectedModelSrc(modelSrc);
+      trackWebEvent("model_selected");
       const { imageBase64, mimeType } = modelSrc.startsWith("data:")
         ? (() => {
             const commaIdx = modelSrc.indexOf(",");
@@ -1238,6 +1288,7 @@ export default function StylistTool({
         setPickerSelectedSrc(dataUrl);
         setSelectedModelSrc(dataUrl);
         setTryOnError(null);
+        trackWebEvent("photo_uploaded");
 
         void detectPersonGenderCallable({ imageBase64, mimeType })
           .then((detected) => {
@@ -1257,6 +1308,7 @@ export default function StylistTool({
       setTryOnFinalImageUrl(null);
       setTryOnStage(null);
       setTryOnError(null);
+      trackWebEvent("photo_uploaded");
 
       const prompt = (query || input).trim();
       setLoading(true);
@@ -1315,6 +1367,7 @@ export default function StylistTool({
 
   const handleReset = () => {
     clearTryOnFromStorage();
+    trackWebEvent("try_on_restarted");
     setInput("");
     setResults(false);
     setLoading(false);

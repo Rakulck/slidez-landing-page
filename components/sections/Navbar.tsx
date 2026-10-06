@@ -276,6 +276,7 @@ export default function Navbar() {
             <a
               href="https://linkly.link/2FWYm"
               onClick={trackDownloadClick}
+              data-track="nav_download_app_clicked"
               className="px-5 py-2.5 bg-white text-black text-sm font-semibold rounded-full
                 shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
                 hover:shadow-[0_4px_24px_rgba(255,255,255,0.45),0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.95)]
@@ -292,6 +293,7 @@ export default function Navbar() {
             <a
               href="https://linkly.link/2FWYm"
               onClick={trackDownloadClick}
+              data-track="nav_download_app_clicked"
               className="px-4 py-2 bg-white text-black text-xs font-semibold rounded-full
                 shadow-[0_2px_12px_rgba(255,255,255,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
                 active:scale-[0.97] transition-all duration-200"
