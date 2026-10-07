@@ -87,7 +87,7 @@ export default function UserMenu({ mobile = false }: { mobile?: boolean }) {
 
   const dropdownSurface = `rounded-2xl border shadow-[0_8px_32px_rgba(0,0,0,0.36)] backdrop-blur-xl overflow-hidden ${LIQUID_GLASS} ${SHELL[navTheme]}`;
 
-  if (loading || !user) {
+  if (loading || !user || user.isAnonymous) {
     return null;
   }
 
