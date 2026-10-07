@@ -72,7 +72,7 @@ function navLinkClass(active: boolean) {
 }
 
 const SHELL_LAYOUT =
-  "w-full max-w-4xl pointer-events-auto transition-all duration-500 rounded-2xl border";
+  "w-full max-w-4xl md:max-w-xl lg:max-w-3xl xl:max-w-4xl pointer-events-auto transition-all duration-500 rounded-2xl border";
 
 const SHELL: Record<NavBgTheme, { base: string; scrolled: string }> = {
   "dark-bg": {
@@ -160,13 +160,25 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-[100] flex justify-center pt-4 px-4 transition-all duration-300 ease-in-out ${
-        navVisible || open
-          ? "translate-y-0 opacity-100 pointer-events-none"
-          : "-translate-y-full opacity-0 pointer-events-none"
-      }`}
-    >
+    <>
+      {/* Top-right Google Sign-In / Account widget (outside navbar) */}
+      <div
+        className={`hidden md:block fixed top-4 right-4 sm:top-5 sm:right-6 z-[101] transition-all duration-300 ease-in-out ${
+          navVisible || open
+            ? "translate-y-0 opacity-100 pointer-events-auto"
+            : "-translate-y-full opacity-0 pointer-events-none"
+        }`}
+      >
+        <UserMenu />
+      </div>
+
+      <header
+        className={`fixed inset-x-0 top-0 z-[100] flex justify-center pt-4 px-4 transition-all duration-300 ease-in-out ${
+          navVisible || open
+            ? "translate-y-0 opacity-100 pointer-events-none"
+            : "-translate-y-full opacity-0 pointer-events-none"
+        }`}
+      >
       <svg
         aria-hidden="true"
         width="0"
@@ -209,7 +221,7 @@ export default function Navbar() {
             />
           </Link>
 
-          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-7">
+          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-5 xl:gap-7">
             {navLinks.map((l) => {
               const active = isNavItemActive(l.id, pathname, hash);
               return (
@@ -286,7 +298,6 @@ export default function Navbar() {
             >
               Download App
             </a>
-            <UserMenu />
           </div>
 
           <div className="md:hidden flex items-center gap-2">
@@ -382,5 +393,6 @@ export default function Navbar() {
         )}
       </div>
     </header>
+    </>
   );
 }

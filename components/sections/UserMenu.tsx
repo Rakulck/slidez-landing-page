@@ -85,63 +85,26 @@ export default function UserMenu({ mobile = false }: { mobile?: boolean }) {
     }
   }
 
-  const dropdownSurface = `rounded-xl border overflow-hidden ${LIQUID_GLASS} ${SHELL[navTheme]}`;
+  const dropdownSurface = `rounded-2xl border shadow-[0_8px_32px_rgba(0,0,0,0.36)] backdrop-blur-xl overflow-hidden ${LIQUID_GLASS} ${SHELL[navTheme]}`;
 
-  if (loading) {
-    return (
-      <div
-        aria-hidden="true"
-        className={
-          mobile
-            ? "h-[46px] w-full rounded-full bg-white/[0.06] animate-pulse"
-            : "h-10 w-10 rounded-full bg-white/[0.06] animate-pulse"
-        }
-      />
-    );
+  if (loading || !user) {
+    return null;
   }
 
-  // ---- Signed out: "Sign in" button that opens the Google account chooser ----
-  if (!user) {
-    return (
-      <div className={mobile ? "w-full" : ""}>
-        <button
-          type="button"
-          onClick={handleSignIn}
-          disabled={busy}
-          className={
-            mobile
-              ? "w-full h-[46px] flex items-center justify-center gap-2.5 rounded-full border border-white/12 bg-white/[0.05] text-white/80 text-sm font-medium hover:bg-white/[0.09] hover:text-white active:scale-[0.98] transition-all duration-200 cursor-pointer disabled:opacity-60"
-              : "inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-full border border-white/30 text-white/90 hover:border-white/45 hover:text-white hover:bg-white/[0.08] active:scale-[0.97] transition-all duration-500 cursor-pointer disabled:opacity-60"
-          }
-        >
-          {busy ? (
-            <span className="w-4 h-4 border-2 border-white/30 border-t-white/80 rounded-full animate-spin" />
-          ) : (
-            <GoogleLogo />
-          )}
-          Sign in
-        </button>
-        {error && (
-          <p className="mt-2 text-[11px] text-red-400/90 text-center">
-            Sign-in failed. Please try again.
-          </p>
-        )}
-      </div>
-    );
-  }
-
-  // ---- Signed in: avatar button with account dropdown ----
+  // ---- Signed in: DP + name side-by-side with account dropdown ----
   const initial = userInitial(user.displayName, user.email);
+  const displayName =
+    user.displayName?.trim() || user.email?.split("@")[0] || "Slidez user";
 
   if (mobile) {
     return (
-      <div className={`rounded-2xl border border-white/10 bg-white/[0.04] p-4 ${mobile ? "w-full" : ""}`}>
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 w-full">
         <div className="flex items-center gap-3">
           {user.photoURL ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={user.photoURL}
-              alt={user.displayName ?? "Account"}
+              alt={displayName}
               className="h-10 w-10 rounded-full object-cover border border-white/20"
               referrerPolicy="no-referrer"
             />
@@ -152,7 +115,7 @@ export default function UserMenu({ mobile = false }: { mobile?: boolean }) {
           )}
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-white truncate">
-              {user.displayName ?? "Slidez user"}
+              {displayName}
             </p>
             {user.email && (
               <p className="text-xs text-white/50 truncate">{user.email}</p>
@@ -179,23 +142,26 @@ export default function UserMenu({ mobile = false }: { mobile?: boolean }) {
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label="Account menu"
-        className="inline-flex items-center gap-1 rounded-full border border-white/25 bg-white/[0.06] p-1 pr-1.5 hover:border-white/45 hover:bg-white/[0.1] active:scale-[0.97] transition-all duration-300 cursor-pointer"
+        className={`inline-flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-full border text-sm font-medium text-white/90 shadow-[0_4px_20px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.15)] hover:scale-105 active:scale-95 transition-transform duration-300 cursor-pointer ${LIQUID_GLASS} ${SHELL[navTheme]}`}
       >
         {user.photoURL ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={user.photoURL}
-            alt={user.displayName ?? "Account"}
-            className="h-8 w-8 rounded-full object-cover"
+            alt={displayName}
+            className="h-7 w-7 rounded-full object-cover ring-1 ring-white/25 shrink-0"
             referrerPolicy="no-referrer"
           />
         ) : (
-          <span className="h-8 w-8 rounded-full bg-white/15 flex items-center justify-center text-sm font-semibold text-white">
+          <span className="h-7 w-7 rounded-full bg-white/20 ring-1 ring-white/25 flex items-center justify-center text-xs font-semibold text-white shrink-0">
             {initial}
           </span>
         )}
+        <span className="text-sm font-medium text-white/90 max-w-[110px] xl:max-w-[140px] truncate">
+          {displayName}
+        </span>
         <ChevronDown
-          className={`w-3.5 h-3.5 text-white/70 transition-transform duration-200 ${
+          className={`w-3.5 h-3.5 text-white/60 transition-transform duration-200 shrink-0 ${
             open ? "rotate-180" : ""
           }`}
         />
@@ -206,7 +172,7 @@ export default function UserMenu({ mobile = false }: { mobile?: boolean }) {
           role="menu"
           aria-label="Account"
           className={`z-[110] w-64 ${dropdownSurface}`}
-          style={{ position: "absolute", top: "calc(100% + 0.75rem)", right: 0 }}
+          style={{ position: "absolute", top: "calc(100% + 0.6rem)", right: 0 }}
         >
           <div className="flex items-center gap-3 px-4 py-3.5">
             {user.photoURL ? (
@@ -214,17 +180,17 @@ export default function UserMenu({ mobile = false }: { mobile?: boolean }) {
               <img
                 src={user.photoURL}
                 alt=""
-                className="h-10 w-10 rounded-full object-cover border border-white/20"
+                className="h-10 w-10 rounded-full object-cover border border-white/20 shrink-0"
                 referrerPolicy="no-referrer"
               />
             ) : (
-              <span className="h-10 w-10 rounded-full bg-white/15 border border-white/20 flex items-center justify-center text-sm font-semibold text-white">
+              <span className="h-10 w-10 rounded-full bg-white/15 border border-white/20 flex items-center justify-center text-sm font-semibold text-white shrink-0">
                 {initial}
               </span>
             )}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-white truncate">
-                {user.displayName ?? "Slidez user"}
+                {displayName}
               </p>
               {user.email && (
                 <p className="text-xs text-white/50 truncate">{user.email}</p>
@@ -238,7 +204,7 @@ export default function UserMenu({ mobile = false }: { mobile?: boolean }) {
               onClick={handleSignOut}
               className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-white/85 hover:text-white hover:bg-white/[0.08] transition-colors duration-150 cursor-pointer"
             >
-              <LogOut className="w-4 h-4" />
+              <LogOut className="w-4 h-4 text-white/70" />
               Sign out
             </button>
           </div>

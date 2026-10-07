@@ -758,18 +758,8 @@ export default function StylistTool({
     setLoading(false);
     setWtwCinematicActive(false);
 
-    const currentUser = auth.currentUser;
-    if (!currentUser || currentUser.isAnonymous) {
-      setShowAuthGate(true);
-      trackWebEvent("gate_shown", { source: "reload_restore" });
-      setPendingResults({
-        finalImageUrl: saved.tryOnFinalImageUrl,
-        items: saved.tryOnItems,
-      });
-    } else {
-      setShowAuthGate(false);
-      setPendingResults(null);
-    }
+    setShowAuthGate(false);
+    setPendingResults(null);
   }, []);
   const placeholder = useTypewriter(!input && !results && tryOnItems.length === 0 && !showModelPicker, prompts);
 
@@ -890,14 +880,8 @@ export default function StylistTool({
     setWtwCinematicActive(false);
     setResults(true);
 
-    if (!currentUser || currentUser.isAnonymous) {
-      setPendingResults({ finalImageUrl, items: cards });
-      setShowAuthGate(true);
-      trackWebEvent("gate_shown", { source: "try_on_result" });
-    } else {
-      setShowAuthGate(false);
-      setPendingResults(null);
-    }
+    setShowAuthGate(false);
+    setPendingResults(null);
 
     const itemsToPersist = productsToSave ?? productItems;
     saveTryOnToStorage({
