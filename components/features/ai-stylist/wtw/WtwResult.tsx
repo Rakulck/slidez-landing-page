@@ -1,6 +1,9 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
+import AuthGate from "@/components/features/ai-stylist/AuthGate";
+import { trackWebEvent } from "@/lib/webAnalytics";
 import { occasionFromPrompt, inferBrandFromLink, openExternalLinksInNewTabs, type WtwProductItem } from "./wtw-utils";
 
 const APP_STORE_URL = "https://linkly.link/2FWYm";
@@ -21,6 +24,10 @@ type WtwResultProps = {
   productItems: WtwProductItem[];
   tryOnError: string | null;
   onRestart: () => void;
+  isGated?: boolean;
+  onSignIn?: () => Promise<void> | void;
+  gateBusy?: boolean;
+  gateError?: string | null;
 };
 
 function WtwPieceRow({ item }: { item: WtwProductItem }) {
@@ -66,6 +73,14 @@ function WtwPieceRow({ item }: { item: WtwProductItem }) {
           href={item.productLink}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            trackWebEvent("product_clicked", {
+              name: item.name,
+              brand: brand ?? null,
+              category: item.category,
+              productLink: item.productLink,
+            })
+          }
           className="shrink-0 w-8 h-8 rounded-full border border-black/10 bg-black/[0.02] flex items-center justify-center text-black/50 group-hover:text-black group-hover:border-black/30 group-hover:bg-black/[0.06] group-hover:scale-105 active:scale-95 transition-all shadow-xs"
           aria-label={`Shop ${item.name}`}
         >
@@ -84,6 +99,10 @@ export default function WtwResult({
   productItems,
   tryOnError,
   onRestart,
+  isGated = false,
+  onSignIn,
+  gateBusy = false,
+  gateError = null,
 }: WtwResultProps) {
   const occasion = occasionFromPrompt(query);
   const title = `Your ${occasion.toLowerCase()} look`;
@@ -99,6 +118,7 @@ export default function WtwResult({
 
   const handleShopLook = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    trackWebEvent("shop_the_look_clicked", { productCount: shopLinks.length });
     openExternalLinksInNewTabs(shopLinks);
   };
 
@@ -110,7 +130,9 @@ export default function WtwResult({
           <img
             src={tryOnFinalImageUrl}
             alt="Generated try-on preview"
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            className={`absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ${
+              isGated ? "filter blur-md md:blur-lg scale-105" : ""
+            }`}
           />
         ) : (
           <div
@@ -122,9 +144,22 @@ export default function WtwResult({
           />
         )}
 
-        <span className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 text-[10px] font-mono font-semibold uppercase tracking-[0.14em] text-white bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 shadow-lg whitespace-nowrap">
-          Try-on render · {modelName}
-        </span>
+        {!isGated && (
+          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 text-[10px] font-mono font-semibold uppercase tracking-[0.14em] text-white bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 shadow-lg whitespace-nowrap">
+            Try-on render · {modelName}
+          </span>
+        )}
+
+        {/* Google sign-in overlay directly on top of result image alone */}
+        <AnimatePresence>
+          {isGated && onSignIn && (
+            <AuthGate
+              onSignIn={onSignIn}
+              busy={gateBusy}
+              error={gateError}
+            />
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Details + CTAs — right */}
@@ -198,6 +233,7 @@ export default function WtwResult({
             href={APP_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackWebEvent("download_app_clicked")}
             className="h-[52px] flex-1 rounded-full bg-[#1a1a1e] text-white text-sm font-semibold tracking-[-0.01em] inline-flex items-center justify-center gap-2 shadow-[0_4px_18px_rgba(0,0,0,0.14)] hover:shadow-[0_6px_24px_rgba(0,0,0,0.2)] hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <AppleIcon className="w-4 h-4 shrink-0" />

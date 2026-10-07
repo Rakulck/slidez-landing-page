@@ -3,6 +3,7 @@ import { Geist, Sacramento } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
+import WebEventTracker from "@/components/WebEventTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -185,6 +186,7 @@ export default function RootLayout({
         />
         {children}
         <Analytics />
+        <WebEventTracker />
       </body>
     </html>
   );

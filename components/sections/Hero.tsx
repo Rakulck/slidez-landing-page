@@ -85,6 +85,7 @@ export default function Hero() {
               <a
                 href="https://linkly.link/2FWYm"
                 onClick={trackDownloadClick}
+                data-track="hero_download_app_clicked"
                 className="flex items-center gap-2 rounded-full bg-[#1a1a1e] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-200 hover:-translate-y-px hover:scale-[1.03] active:scale-[0.97]"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -95,6 +96,7 @@ export default function Hero() {
               <a
                 href="https://chromewebstore.google.com/detail/kdcmgmfnnheiegkakcbkdolehlgdlaak?utm_source=item-share-cb"
                 onClick={trackExtensionClick}
+                data-track="hero_extension_clicked"
                 className="flex items-center gap-2 rounded-full border border-black/15 px-7 py-3.5 text-sm font-medium text-[#555] transition-all duration-200 hover:-translate-y-px hover:border-black/30 hover:text-[#1a1a1e] active:scale-[0.97]"
               >
                 <Puzzle className="h-4 w-4" />

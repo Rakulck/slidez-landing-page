@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { trackDownloadClick } from "@/lib/gtag";
 import { useNavbarTheme, type NavBgTheme } from "@/hooks/useNavbarTheme";
+import UserMenu from "@/components/sections/UserMenu";
 
 type NavItemId = "features" | "extension" | "faq" | "blogs";
 
@@ -71,7 +72,7 @@ function navLinkClass(active: boolean) {
 }
 
 const SHELL_LAYOUT =
-  "w-full max-w-4xl pointer-events-auto transition-all duration-500 rounded-2xl border";
+  "w-full max-w-4xl md:max-w-xl lg:max-w-3xl xl:max-w-4xl pointer-events-auto transition-all duration-500 rounded-2xl border";
 
 const SHELL: Record<NavBgTheme, { base: string; scrolled: string }> = {
   "dark-bg": {
@@ -159,13 +160,25 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-[100] flex justify-center pt-4 px-4 transition-all duration-300 ease-in-out ${
-        navVisible || open
-          ? "translate-y-0 opacity-100 pointer-events-none"
-          : "-translate-y-full opacity-0 pointer-events-none"
-      }`}
-    >
+    <>
+      {/* Top-right Google Sign-In / Account widget (outside navbar) */}
+      <div
+        className={`hidden md:block fixed top-4 right-4 sm:top-5 sm:right-6 z-[101] transition-all duration-300 ease-in-out ${
+          navVisible || open
+            ? "translate-y-0 opacity-100 pointer-events-auto"
+            : "-translate-y-full opacity-0 pointer-events-none"
+        }`}
+      >
+        <UserMenu />
+      </div>
+
+      <header
+        className={`fixed inset-x-0 top-0 z-[100] flex justify-center pt-4 px-4 transition-all duration-300 ease-in-out ${
+          navVisible || open
+            ? "translate-y-0 opacity-100 pointer-events-none"
+            : "-translate-y-full opacity-0 pointer-events-none"
+        }`}
+      >
       <svg
         aria-hidden="true"
         width="0"
@@ -208,7 +221,7 @@ export default function Navbar() {
             />
           </Link>
 
-          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-7">
+          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-5 xl:gap-7">
             {navLinks.map((l) => {
               const active = isNavItemActive(l.id, pathname, hash);
               return (
@@ -275,6 +288,7 @@ export default function Navbar() {
             <a
               href="https://linkly.link/2FWYm"
               onClick={trackDownloadClick}
+              data-track="nav_download_app_clicked"
               className="px-5 py-2.5 bg-white text-black text-sm font-semibold rounded-full
                 shadow-[0_2px_16px_rgba(255,255,255,0.28),0_1px_4px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
                 hover:shadow-[0_4px_24px_rgba(255,255,255,0.45),0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.95)]
@@ -290,6 +304,7 @@ export default function Navbar() {
             <a
               href="https://linkly.link/2FWYm"
               onClick={trackDownloadClick}
+              data-track="nav_download_app_clicked"
               className="px-4 py-2 bg-white text-black text-xs font-semibold rounded-full
                 shadow-[0_2px_12px_rgba(255,255,255,0.25),inset_0_1px_0_rgba(255,255,255,0.9)]
                 active:scale-[0.97] transition-all duration-200"
@@ -357,6 +372,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex flex-col gap-3 pt-2">
+              <UserMenu mobile />
               <a
                 href="https://linkly.link/2FWYm"
                 className="px-5 py-2.5 bg-white text-black text-sm font-semibold rounded-full text-center
@@ -377,5 +393,6 @@ export default function Navbar() {
         )}
       </div>
     </header>
+    </>
   );
 }

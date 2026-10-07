@@ -33,6 +33,12 @@ import {
   DEFAULT_WTW_MAN_SRC,
   DEFAULT_WTW_WOMAN_SRC,
 } from "@/lib/preset-models";
+import { useAuth } from "@/hooks/useAuth";
+import { linkAnonymousWithGoogle } from "@/lib/auth";
+import { trackWebEvent, webDevice } from "@/lib/webAnalytics";
+import { auth, firestoreDb } from "@/lib/firebaseClient";
+import { addDoc, arrayUnion, collection, doc, increment, serverTimestamp, setDoc } from "firebase/firestore";
+import AuthGate from "@/components/features/ai-stylist/AuthGate";
 
 /* ── Typewriter ───────────────────────────────────────────────── */
 
@@ -599,6 +605,66 @@ type StylistToolProps = {
   onFlowScreenChange?: (screen: WtwFlowScreen) => void;
 };
 
+/* ── Page Reload Persistence ────────────────────────────────────── */
+
+const SAVED_TRYON_STORAGE_KEY = "slidez_active_tryon_result";
+
+interface SavedTryOnPayload {
+  query: string;
+  gender: Gender;
+  tryOnFinalImageUrl: string | null;
+  tryOnItems: TryOnCard[];
+  productItems: ProductInfo[];
+  pickerSelectedId: string | null;
+  pickerSelectedSrc: string | null;
+  selectedModelSrc: string | null;
+  stylistCompliment: string;
+  stylistMega: string;
+  stylistClosing: string;
+  timestamp: number;
+}
+
+function saveTryOnToStorage(data: SavedTryOnPayload) {
+  if (typeof window === "undefined") return;
+  try {
+    const serialized = JSON.stringify(data);
+    sessionStorage.setItem(SAVED_TRYON_STORAGE_KEY, serialized);
+    localStorage.setItem(SAVED_TRYON_STORAGE_KEY, serialized);
+  } catch (e) {
+    console.warn("Could not save try-on result to storage:", e);
+  }
+}
+
+function clearTryOnFromStorage() {
+  if (typeof window === "undefined") return;
+  try {
+    sessionStorage.removeItem(SAVED_TRYON_STORAGE_KEY);
+    localStorage.removeItem(SAVED_TRYON_STORAGE_KEY);
+  } catch {}
+}
+
+function loadTryOnFromStorage(): SavedTryOnPayload | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw =
+      sessionStorage.getItem(SAVED_TRYON_STORAGE_KEY) ||
+      localStorage.getItem(SAVED_TRYON_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as SavedTryOnPayload;
+    if (
+      !parsed ||
+      typeof parsed !== "object" ||
+      Date.now() - (parsed.timestamp || 0) > 24 * 60 * 60 * 1000
+    ) {
+      clearTryOnFromStorage();
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
 export default function StylistTool({
   externalPrompt,
   externalPromptKey,
@@ -628,6 +694,16 @@ export default function StylistTool({
   const [tryOnFinalImageUrl, setTryOnFinalImageUrl] = useState<string | null>(null);
   const [tryOnStage, setTryOnStage] = useState<string | null>(null);
   const [tryOnError, setTryOnError] = useState<string | null>(null);
+  // Auth gate: when an anonymous user completes a try-on, results are stashed here
+  // and revealed only after Google sign-in (which links, preserving the UID).
+  const [pendingResults, setPendingResults] = useState<{
+    finalImageUrl: string | null;
+    items: TryOnCard[];
+  } | null>(null);
+  const [showAuthGate, setShowAuthGate] = useState(false);
+  const [gateBusy, setGateBusy] = useState(false);
+  const [gateError, setGateError] = useState<string | null>(null);
+  const { user: authUser } = useAuth();
   const [selectedModelSrc, setSelectedModelSrc] = useState<string | null>(null);
   const [productItems, setProductItems] = useState<ProductInfo[]>([]);
   const [stylistCompliment, setStylistCompliment] = useState(FALLBACK_COMPLIMENT);
@@ -651,7 +727,211 @@ export default function StylistTool({
     const hide = setTimeout(() => setShowIconTooltip(false), 5000);
     return () => { clearTimeout(show); clearTimeout(hide); };
   }, []);
+
+  // Restore active try-on result across page reloads
+  useEffect(() => {
+    const saved = loadTryOnFromStorage();
+    if (
+      !saved ||
+      (!saved.tryOnFinalImageUrl &&
+        (!saved.tryOnItems || saved.tryOnItems.length === 0))
+    ) {
+      return;
+    }
+
+    if (saved.query) {
+      setQuery(saved.query);
+      setInput(saved.query);
+    }
+    if (saved.gender) setGender(saved.gender);
+    if (saved.tryOnFinalImageUrl) setTryOnFinalImageUrl(saved.tryOnFinalImageUrl);
+    if (Array.isArray(saved.tryOnItems)) setTryOnItems(saved.tryOnItems);
+    if (Array.isArray(saved.productItems)) setProductItems(saved.productItems);
+    if (saved.pickerSelectedId) setPickerSelectedId(saved.pickerSelectedId);
+    if (saved.pickerSelectedSrc) setPickerSelectedSrc(saved.pickerSelectedSrc);
+    if (saved.selectedModelSrc) setSelectedModelSrc(saved.selectedModelSrc);
+    if (saved.stylistCompliment) setStylistCompliment(saved.stylistCompliment);
+    if (saved.stylistMega) setStylistMega(saved.stylistMega);
+    if (saved.stylistClosing) setStylistClosing(saved.stylistClosing);
+
+    setResults(true);
+    setLoading(false);
+    setWtwCinematicActive(false);
+
+    setShowAuthGate(false);
+    setPendingResults(null);
+  }, []);
   const placeholder = useTypewriter(!input && !results && tryOnItems.length === 0 && !showModelPicker, prompts);
+
+  /* ── Auth gate + analytics helpers ─────────────────────────────── */
+
+  type WebTryOnDetails = {
+    itemCount: number;
+    /** Occasion text the user typed. */
+    prompt: string;
+    /**
+     * Uploaded photo or selected model src. Only http(s) URLs are stored —
+     * uploads are data URLs (megabytes) and are skipped; the source type is
+     * recorded instead so we still know which avatar was used.
+     */
+    userImageSrc?: string | null;
+    resultImageUrl?: string | null;
+    products?: ProductInfo[];
+  };
+
+  /** Firestore-safe URL: http(s) only, otherwise null. */
+  const asHttpUrl = (u?: string | null): string | null =>
+    u && /^https?:\/\//i.test(u) ? u : null;
+
+  /**
+   * Tracks one web try-on run across the analytics collections, mirroring how the
+   * other platforms (ext / Shopify / app) record themselves — so web shows up in the
+   * dashboard with platform 'web'. Also stores the enriched run payload
+   * (prompt, avatar, result image, products).
+   *
+   * All writes are fire-and-forget and additive-only:
+   * - try_on_events / analytics_tryons use addDoc (new docs, never overwrites).
+   * - analytics_users uses setDoc with { merge: true } + increment/arrayUnion
+   *   (only touches web's own fields; other platforms' data is untouched).
+   * Each write is isolated in its own try/catch and never awaited, so a web
+   * analytics failure can never block the try-on flow or affect other platforms.
+   *
+   * Field names mirror the exact shapes the dashboard queries:
+   * - try_on_events: created_at is snake_case, like the other platforms' docs.
+   * - analytics_tryons: ownerUid / startedAt (what the dashboard's profile lookup reads).
+   * - analytics_users: userId / eventCount / lastSeenAt (the per-user rollup shape).
+   */
+  function trackWebTryOn(userId: string, details: WebTryOnDetails) {
+    const device = webDevice();
+
+    // 1) try_on_events — the source-of-truth collection behind the try-ons/day chart.
+    //    Kept lean: high-volume chart queries only need platform/device/created_at.
+    try {
+      void addDoc(collection(firestoreDb, "try_on_events"), {
+        userId,
+        platform: "web",
+        device,
+        created_at: serverTimestamp(),
+      });
+    } catch (err) {
+      console.warn("try_on_events write failed:", err);
+    }
+
+    // 2) analytics_tryons — enriched per-run record (prompt, avatar, result, products).
+    try {
+      void addDoc(collection(firestoreDb, "analytics_tryons"), {
+        ownerUid: userId,
+        platform: "web",
+        device,
+        itemCount: details.itemCount,
+        status: "completed",
+        prompt: details.prompt,
+        userImageUrl: asHttpUrl(details.userImageSrc),
+        userImageSource: details.userImageSrc
+          ? details.userImageSrc.startsWith("data:")
+            ? "upload"
+            : "model"
+          : null,
+        resultImageUrl: asHttpUrl(details.resultImageUrl),
+        products: (details.products ?? []).slice(0, 20).map((p) => ({
+          name: p.name ?? null,
+          brand: p.brand ?? null,
+          category: p.category ?? null,
+          productLink: asHttpUrl(p.productLink),
+          imageUrl: asHttpUrl(p.imageUrl),
+        })),
+        startedAt: serverTimestamp(),
+      });
+    } catch (err) {
+      console.warn("analytics_tryons write failed:", err);
+    }
+
+    // 3) analytics_users — per-user rollup. Doc ID is the Firebase UID, which stays
+    // stable across the auth gate (linkWithPopup preserves the UID).
+    try {
+      void setDoc(
+        doc(firestoreDb, "analytics_users", userId),
+        {
+          userId,
+          eventCount: increment(1),
+          lastSeenAt: serverTimestamp(),
+          platforms: arrayUnion("web"),
+        },
+        { merge: true }
+      );
+    } catch (err) {
+      console.warn("analytics_users write failed:", err);
+    }
+  }
+
+  /**
+   * Reveals try-on results. For anonymous users, the result image alone is gated
+   * behind a glossy blur overlay while the rest of the results screen remains visible.
+   */
+  function revealTryOnResults(
+    finalImageUrl: string | null,
+    cards: TryOnCard[],
+    productsToSave?: ProductInfo[]
+  ) {
+    const currentUser = auth.currentUser;
+    setTryOnFinalImageUrl(finalImageUrl);
+    setTryOnItems(cards);
+    setTryOnStage(null);
+    setWtwCinematicActive(false);
+    setResults(true);
+
+    setShowAuthGate(false);
+    setPendingResults(null);
+
+    const itemsToPersist = productsToSave ?? productItems;
+    saveTryOnToStorage({
+      query: (query || input).trim(),
+      gender,
+      tryOnFinalImageUrl: finalImageUrl,
+      tryOnItems: cards,
+      productItems: itemsToPersist,
+      pickerSelectedId,
+      pickerSelectedSrc,
+      selectedModelSrc,
+      stylistCompliment,
+      stylistMega,
+      stylistClosing,
+      timestamp: Date.now(),
+    });
+  }
+
+  async function handleGateSignIn() {
+    setGateBusy(true);
+    setGateError(null);
+    trackWebEvent("gate_sign_in_clicked");
+    try {
+      await linkAnonymousWithGoogle();
+      const currentUser = auth.currentUser;
+      if (currentUser && !currentUser.isAnonymous) {
+        trackWebEvent("gate_sign_in_success");
+        setShowAuthGate(false);
+        setPendingResults(null);
+        const saved = loadTryOnFromStorage();
+        if (saved) {
+          saveTryOnToStorage({ ...saved, timestamp: Date.now() });
+        }
+      }
+    } catch {
+      trackWebEvent("gate_sign_in_failed");
+      setGateError("Sign-in failed. Please try again.");
+    } finally {
+      setGateBusy(false);
+    }
+  }
+
+  // If the user signs in via the navbar while the gate is open, reveal results.
+  useEffect(() => {
+    if (showAuthGate && authUser && !authUser.isAnonymous) {
+      setShowAuthGate(false);
+      setPendingResults(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showAuthGate, authUser]);
 
 
   // Inject external prompt whenever the key increments
@@ -725,16 +1005,22 @@ export default function StylistTool({
     userMimeType?: string;
   }) {
     const runSeq = ++tryOnRunSeqRef.current;
+    clearTryOnFromStorage();
     setResults(false);
     setTryOnItems([]);
     setTryOnFinalImageUrl(null);
     setTryOnError(null);
+    setShowAuthGate(false);
+    setPendingResults(null);
+    setGateError(null);
 
     if (!args.prompt.trim()) {
       setTryOnError("Please enter an occasion prompt first.");
       setResults(true);
       return;
     }
+
+    trackWebEvent("try_on_started", { prompt: args.prompt.trim() });
 
     setLoading(true);
     setWtwCinematicActive(true);
@@ -861,6 +1147,10 @@ export default function StylistTool({
       }
 
       setTryOnStage("Generating your try-on images...");
+      // TODO(rate-limit): enforce a server-side per-UID daily cap for anonymous users
+      // in the executeMultiItemTryOn callable (each run burns Vertex AI spend; client-side
+      // counters are bypassable). When the cap is hit, surface a friendly
+      // "daily free limit reached — sign in for more" message here instead of calling.
       const tryOn = (await executeMultiItemTryOnCallable({
         recommendations,
         userId,
@@ -890,9 +1180,16 @@ export default function StylistTool({
 
       setTryOnFinalImageUrl(finalImageUrl);
       setTryOnItems(cards);
-      setTryOnStage(null);
-      setWtwCinematicActive(false);
-      setResults(true);
+      // Log the run (the run happened regardless of gating).
+      trackWebTryOn(userId, {
+        itemCount: cards.length,
+        prompt: (query || input).trim(),
+        userImageSrc: pickerSelectedSrc ?? selectedModelSrc,
+        resultImageUrl: finalImageUrl,
+        products: productInfos,
+      });
+      // Gate anonymous users behind Google sign-in before revealing.
+      revealTryOnResults(finalImageUrl, cards, productInfos);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to generate your try-on. Please try again.";
       setTryOnError(message);
@@ -918,6 +1215,7 @@ export default function StylistTool({
     let personMimeType: string | undefined;
     try {
       setSelectedModelSrc(modelSrc);
+      trackWebEvent("model_selected");
       const { imageBase64, mimeType } = modelSrc.startsWith("data:")
         ? (() => {
             const commaIdx = modelSrc.indexOf(",");
@@ -974,6 +1272,7 @@ export default function StylistTool({
         setPickerSelectedSrc(dataUrl);
         setSelectedModelSrc(dataUrl);
         setTryOnError(null);
+        trackWebEvent("photo_uploaded");
 
         void detectPersonGenderCallable({ imageBase64, mimeType })
           .then((detected) => {
@@ -993,6 +1292,7 @@ export default function StylistTool({
       setTryOnFinalImageUrl(null);
       setTryOnStage(null);
       setTryOnError(null);
+      trackWebEvent("photo_uploaded");
 
       const prompt = (query || input).trim();
       setLoading(true);
@@ -1050,6 +1350,8 @@ export default function StylistTool({
   }, []);
 
   const handleReset = () => {
+    clearTryOnFromStorage();
+    trackWebEvent("try_on_restarted");
     setInput("");
     setResults(false);
     setLoading(false);
@@ -1069,6 +1371,9 @@ export default function StylistTool({
     setProductItems([]);
     setPickerSelectedId(null);
     setPickerSelectedSrc(null);
+    setShowAuthGate(false);
+    setPendingResults(null);
+    setGateError(null);
     inputRef.current?.focus();
   };
 
@@ -1462,6 +1767,10 @@ export default function StylistTool({
                   productItems={productItems}
                   tryOnError={tryOnError}
                   onRestart={handleReset}
+                  isGated={showAuthGate}
+                  onSignIn={handleGateSignIn}
+                  gateBusy={gateBusy}
+                  gateError={gateError}
                 />
               </motion.div>
             )}
@@ -1831,15 +2140,30 @@ export default function StylistTool({
                     <img
                       src={tryOnFinalImageUrl}
                       alt="Generated try-on preview"
-                      className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
+                      className={`w-full h-auto block transition-all duration-700 ${
+                        showAuthGate ? "filter blur-md md:blur-lg scale-105" : "group-hover:scale-[1.02]"
+                      }`}
                       loading="lazy"
                     />
 
                     {/* Bottom glass overlay */}
-                    <div className="absolute bottom-0 inset-x-0 px-4 pt-10 pb-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
-                      <p className="text-[9px] text-white/40 uppercase tracking-[0.14em] mb-0.5">AI Try-On</p>
-                      <p className="text-[11px] font-medium text-white/80 truncate">{query}</p>
-                    </div>
+                    {!showAuthGate && (
+                      <div className="absolute bottom-0 inset-x-0 px-4 pt-10 pb-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
+                        <p className="text-[9px] text-white/40 uppercase tracking-[0.14em] mb-0.5">AI Try-On</p>
+                        <p className="text-[11px] font-medium text-white/80 truncate">{query}</p>
+                      </div>
+                    )}
+
+                    {/* Google sign-in overlay directly on top of result image alone */}
+                    <AnimatePresence>
+                      {showAuthGate && (
+                        <AuthGate
+                          onSignIn={handleGateSignIn}
+                          busy={gateBusy}
+                          error={gateError}
+                        />
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
 
