@@ -47,7 +47,7 @@ function BrowserMockup() {
       />
       <img
         src="/screenshots/extension-mockup.png"
-        alt="Slidez Chrome Extension"
+        alt="Slidez Chrome Extension interface preview showing virtual try-on on online shopping sites"
         className="relative w-full drop-shadow-2xl rounded-2xl"
       />
     </div>

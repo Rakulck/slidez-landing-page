@@ -60,7 +60,7 @@ export default function BrandsStrip({
   const brandTextColor = isDark ? "text-white/30" : "text-black/25";
 
   return (
-    <div className={`w-full ${sectionPy} overflow-hidden`}>
+    <section aria-label="Brands featured on Slidez" className={`w-full ${sectionPy} overflow-hidden`}>
       {/* Header */}
       {(title || subtitle) && (
         <div className="text-center mb-7 px-6">
@@ -75,9 +75,15 @@ export default function BrandsStrip({
         </div>
       )}
 
-      {/* Scrolling strip */}
+      {/* Semantic brand list for search crawlers & screen readers */}
+      <ul className="sr-only">
+        {BRANDS.map((brand) => (
+          <li key={brand}>{brand}</li>
+        ))}
+      </ul>
+
+      {/* Visual scrolling strip */}
       <div
-        aria-hidden="true"
         className="overflow-hidden"
         style={{
           maskImage:
@@ -86,24 +92,26 @@ export default function BrandsStrip({
             "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
         }}
       >
-        <div
+        <ul
           ref={trackRef}
-          className="flex items-center whitespace-nowrap will-change-transform"
+          role="list"
+          className="flex items-center whitespace-nowrap will-change-transform list-none p-0 m-0"
         >
           {BRANDS_LOOP.map((brand, i) => (
-            <span key={i} className="flex items-center shrink-0 px-10">
+            <li key={i} className="flex items-center shrink-0 px-10">
               <span className={`${brandTextColor} ${titleSize} font-semibold uppercase tracking-widest`}>
                 {brand}
               </span>
               {/* dot separator */}
               <span
+                aria-hidden="true"
                 className="w-1 h-1 rounded-full shrink-0 ml-10"
                 style={{ background: dotColor }}
               />
-            </span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
-    </div>
+    </section>
   );
 }

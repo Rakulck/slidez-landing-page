@@ -292,7 +292,7 @@ export default function HeroOutfitCarousel() {
                         <div className="relative h-[85px] w-[85px] sm:h-[100px] sm:w-[100px] md:h-[115px] md:w-[115px]">
                           <Image
                             src={pod.src}
-                            alt=""
+                            alt={`${pod.label} item from ${activeSlide.brand} outfit collection`}
                             fill
                             unoptimized
                             sizes="115px"

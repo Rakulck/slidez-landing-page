@@ -18,8 +18,12 @@ function TryOnPhone() {
         loop
         muted
         playsInline
+        title="Slidez AI virtual try-on demonstration"
+        aria-label="Demonstration video of Slidez AI virtual try-on on a mobile model"
         className="absolute inset-0 w-full h-full object-cover"
-      />
+      >
+        <p className="sr-only">Demonstration of Slidez AI virtual try-on on a user model.</p>
+      </video>
       {/* Subtle gradient overlay at top/bottom for depth */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/20 pointer-events-none" />
       {/* Notch */}
@@ -90,6 +94,7 @@ const blocks = [
     body: "Upload your photo once. Slidez builds your AI body model, precise to your shape and proportions. Browse any outfit and see it placed on your body, realistically. Lighting, fit, proportion: all accurate.",
     cta: "Try It Free",
     learnMore: "/ai-virtual-try-on",
+    learnMoreLabel: "Learn more about AI virtual try-on",
     phone: TryOnPhone,
     reverse: false,
     white: false,
@@ -111,6 +116,7 @@ const blocks = [
     body: "Tell Slidez your plans. 'Style me for a job interview.' 'Black tie, but edgy.' Your AI Stylist assembles a complete look, head to toe, in seconds. Adjust until it's exactly right.",
     cta: "Meet Your Stylist",
     learnMore: "/ai-stylist",
+    learnMoreLabel: "Learn more about AI fashion stylist",
     phone: StylistPhone,
     reverse: true,
     white: false,
@@ -132,6 +138,7 @@ const blocks = [
     body: "See something you love on Instagram, Pinterest, or any shopping site. Share it to Slidez. See it on your body before you buy, from any brand, any store, anywhere on the web.",
     cta: "See How It Works",
     learnMore: "/try-on-from-anywhere",
+    learnMoreLabel: "Learn more about importing outfits",
     phone: ImportPhone,
     reverse: false,
     white: false,
@@ -219,7 +226,7 @@ export default function HowItWorks() {
                             : "border-white/15 text-white/45 hover:border-white/30 hover:text-white"
                         }`}
                       >
-                        Learn more
+                        {("learnMoreLabel" in block && block.learnMoreLabel) ? block.learnMoreLabel : "Learn more"}
                       </a>
                     )}
                   </div>

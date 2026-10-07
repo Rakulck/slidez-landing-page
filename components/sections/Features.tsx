@@ -49,7 +49,7 @@ function TryOnVisual() {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="w-20 h-[88px] overflow-hidden">
-                <img src="/model-woman.jpg" alt="You" className="w-full h-full object-cover object-top" />
+                <img src="/model-woman.jpg" alt="User photo model input for AI virtual try-on" className="w-full h-full object-cover object-top" />
               </div>
               <div className="px-2 py-1.5 bg-[#111] border-t border-[rgba(192,192,192,0.1)]">
                 <p className="text-[8px] text-white/50 text-center">You</p>
@@ -74,7 +74,7 @@ function TryOnVisual() {
               transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="w-20 h-[88px] overflow-hidden">
-                <img src="/outfit-vacation.jpg" alt="Outfit" className="w-full h-full object-cover" />
+                <img src="/outfit-vacation.jpg" alt="Selected vacation outfit sample for virtual try-on" className="w-full h-full object-cover" />
               </div>
               <div className="px-2 py-1.5 bg-[#111] border-t border-[rgba(192,192,192,0.1)]">
                 <p className="text-[8px] text-white/50 text-center">Outfit</p>
@@ -114,7 +114,7 @@ function TryOnVisual() {
           >
             <img
               src="/screenshots/import-outfit-mockup.png"
-              alt="Try-on result"
+              alt="Slidez AI virtual try-on result preview on model"
               className="h-full w-auto object-contain object-bottom"
             />
             {/* Success badge */}
