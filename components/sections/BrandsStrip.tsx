@@ -25,7 +25,7 @@ export default function BrandsStrip({
   const isCompact = variant === "compact";
   const isDark    = theme === "dark";
 
-  const trackRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLUListElement>(null);
   const speed    = isCompact ? 0.4 : 0.35;
 
   useEffect(() => {
