@@ -26,9 +26,15 @@ export async function GET() {
     code_challenge_methods_supported: ["S256"],
     bearer_methods_supported: ["header"],
     agent_auth: {
-      skill: "https://isitagentready.com/.well-known/agent-skills/auth-md/SKILL.md",
+      skill: "https://www.slidez.social/auth.md",
       register_uri: "https://www.slidez.social/api/auth/register",
-      identity_types_supported: ["identity_assertion", "verified_email", "anonymous"],
+      identity_endpoint: "https://www.slidez.social/api/auth/register",
+      claim_endpoint: "https://www.slidez.social/api/auth/claim",
+      claim_uri: "https://www.slidez.social/api/auth/claim",
+      revocation_endpoint: "https://www.slidez.social/api/auth/revoke",
+      revocation_uri: "https://www.slidez.social/api/auth/revoke",
+      events_endpoint: "https://www.slidez.social/api/auth/events",
+      identity_types_supported: ["anonymous", "identity_assertion", "verified_email"],
       identity_assertion: {
         assertion_types_supported: [
           "urn:ietf:params:oauth:token-type:id-jag",
@@ -36,16 +42,22 @@ export async function GET() {
         ],
         credential_types_supported: ["bearer_token"],
         claim_uri: "https://www.slidez.social/api/auth/claim",
+        claim_endpoint: "https://www.slidez.social/api/auth/claim",
         revocation_uri: "https://www.slidez.social/api/auth/revoke",
       },
       verified_email: {
         credential_types_supported: ["bearer_token"],
         claim_uri: "https://www.slidez.social/api/auth/claim",
+        claim_endpoint: "https://www.slidez.social/api/auth/claim",
       },
       anonymous: {
         credential_types_supported: ["bearer_token"],
         claim_uri: "https://www.slidez.social/api/auth/claim",
+        claim_endpoint: "https://www.slidez.social/api/auth/claim",
       },
+      events_supported: [
+        "https://schemas.workos.com/events/agent/auth/identity/assertion/revoked",
+      ],
     },
   };
 
