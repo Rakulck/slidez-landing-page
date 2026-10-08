@@ -24,9 +24,12 @@ This specification is intended for autonomous AI agents, multi-agent orchestrati
 ## Registration & Authorization Flow
 
 ### 1. Agent Registration
-- **Endpoint:** `https://www.slidez.social/api/auth/register`
-- **Supported Identity Types:** `anonymous`, `verified_email`
+- **Registration Endpoint:** `https://www.slidez.social/api/auth/register`
+- **Claim Endpoint:** `https://www.slidez.social/api/auth/claim`
+- **Revocation Endpoint:** `https://www.slidez.social/api/auth/revoke`
+- **Supported Identity Types:** `identity_assertion`, `verified_email`, `anonymous`
 - **Supported Credential Types:** `bearer_token`
+- **Supported Assertion Types:** `urn:ietf:params:oauth:token-type:id-jag`, `verified_email`
 
 ### 2. Token Usage
 Include access tokens in the `Authorization` HTTP header for API requests:
@@ -39,3 +42,6 @@ Authorization: Bearer <access_token>
 - `openid`: Basic OpenID Connect identity.
 - `profile`: User styling preferences and profile metadata.
 - `email`: Email verification identity.
+- `agent:read`: Read access to agent capabilities.
+- `agent:write`: Execute agent actions on behalf of registered users.
+
