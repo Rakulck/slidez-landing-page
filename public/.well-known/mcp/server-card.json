@@ -1,0 +1,35 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/server-card.json",
+  "serverInfo": {
+    "name": "Slidez AI Fashion & Stylist MCP Server",
+    "version": "1.0.0"
+  },
+  "description": "Model Context Protocol server for Slidez AI fashion styling, outfit recommendations, and virtual try-on capabilities.",
+  "protocolVersion": "2024-11-05",
+  "transport": {
+    "type": "http",
+    "endpoint": "https://www.slidez.social/api/mcp"
+  },
+  "capabilities": {
+    "tools": {
+      "listChanged": true
+    },
+    "resources": {
+      "subscribe": false,
+      "listChanged": true
+    },
+    "prompts": {
+      "listChanged": true
+    }
+  },
+  "tools": [
+    {
+      "name": "get_outfit_recommendations",
+      "description": "Get AI fashion styling and outfit recommendations for a specific occasion or personal style."
+    },
+    {
+      "name": "virtual_try_on",
+      "description": "Visualize clothing and outfit looks."
+    }
+  ]
+}

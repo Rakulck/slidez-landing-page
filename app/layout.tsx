@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
 import WebEventTracker from "@/components/WebEventTracker";
+import WebMcpProvider from "@/components/WebMcpProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -158,6 +159,7 @@ export default function RootLayout({
           href="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&q=85&fit=crop&crop=top"
           crossOrigin="anonymous"
         />
+        <link rel="ai-catalog" href="/.well-known/ai-catalog.json" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -187,6 +189,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <WebEventTracker />
+        <WebMcpProvider />
       </body>
     </html>
   );

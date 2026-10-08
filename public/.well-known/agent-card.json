@@ -1,0 +1,38 @@
+{
+  "name": "Slidez AI Stylist & Fashion Assistant",
+  "description": "Slidez is an AI-powered fashion styling and shopping app that helps users discover outfit ideas, explore personal style, visualize clothing looks, and make confident fashion purchases.",
+  "url": "https://www.slidez.social/",
+  "provider": {
+    "name": "Slidez",
+    "url": "https://www.slidez.social"
+  },
+  "version": "1.0.0",
+  "documentationUrl": "https://www.slidez.social/llms.txt",
+  "capabilities": {
+    "outfitGeneration": true,
+    "virtualTryOn": true,
+    "styleRecommendations": true,
+    "fashionDiscovery": true
+  },
+  "skills": [
+    {
+      "id": "ai-stylist",
+      "name": "AI Stylist",
+      "description": "Personalized fashion assistance and outfit recommendation generation based on user preferences, style, and occasion.",
+      "tags": ["fashion", "styling", "outfits", "ai-stylist"],
+      "examples": [
+        "What should I wear to a casual coffee date?",
+        "Suggest a winter outfit with black jeans."
+      ]
+    },
+    {
+      "id": "virtual-try-on",
+      "name": "Virtual Try-On",
+      "description": "Visualize fashion items and complete outfit looks.",
+      "tags": ["fashion", "try-on", "visualization"]
+    }
+  ],
+  "authentication": {
+    "schemes": ["none"]
+  }
+}

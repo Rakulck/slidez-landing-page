@@ -38,6 +38,11 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          {
+            key: "Link",
+            value:
+              '</.well-known/ai-catalog.json>; rel="ai-catalog", </.well-known/api-catalog>; rel="api-catalog", </.well-known/agent-card.json>; rel="service-desc", </llms.txt>; rel="describedby"',
+          },
           ...(!isProduction
             ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }]
             : []),

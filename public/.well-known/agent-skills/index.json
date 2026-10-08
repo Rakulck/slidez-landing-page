@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "ai-stylist",
+      "type": "skill-md",
+      "description": "Provide personalized fashion styling recommendations, outfit planning, and clothing suggestions for any occasion.",
+      "url": "https://www.slidez.social/.well-known/agent-skills/ai-stylist/SKILL.md",
+      "digest": "sha256:d268fc8513b59b1499a62852f2e79d75cda5f3f54c5fe02a0c120ad80a276f53"
+    },
+    {
+      "name": "virtual-try-on",
+      "type": "skill-md",
+      "description": "Visualize clothing items, garments, and complete outfits on user models.",
+      "url": "https://www.slidez.social/.well-known/agent-skills/virtual-try-on/SKILL.md",
+      "digest": "sha256:317a6e338f5bb133c610dbf20270ec368dde753f4e2e319352b482b2b5f99d29"
+    }
+  ]
+}

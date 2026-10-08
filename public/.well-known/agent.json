@@ -1,0 +1,13 @@
+{
+  "name": "Slidez AI Stylist & Fashion Assistant",
+  "description": "Slidez is an AI-powered fashion styling and shopping app that helps users discover outfit ideas, explore personal style, visualize clothing looks, and make confident fashion purchases.",
+  "url": "https://www.slidez.social/",
+  "provider": {
+    "name": "Slidez",
+    "url": "https://www.slidez.social"
+  },
+  "version": "1.0.0",
+  "documentationUrl": "https://www.slidez.social/llms.txt",
+  "agentCardUrl": "https://www.slidez.social/.well-known/agent-card.json",
+  "apiCatalogUrl": "https://www.slidez.social/.well-known/api-catalog"
+}

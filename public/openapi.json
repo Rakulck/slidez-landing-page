@@ -1,0 +1,59 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Slidez AI Fashion & Stylist API",
+    "description": "API for Slidez AI fashion recommendations, outfit generation, and agent discovery.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://www.slidez.social"
+    }
+  ],
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health Check Endpoint",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "timestamp": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/agent-card.json": {
+      "get": {
+        "summary": "A2A Agent Card Metadata",
+        "operationId": "getAgentCard",
+        "responses": {
+          "200": {
+            "description": "Agent Card metadata"
+          }
+        }
+      }
+    },
+    "/.well-known/api-catalog": {
+      "get": {
+        "summary": "RFC 9727 API Catalog",
+        "operationId": "getApiCatalog",
+        "responses": {
+          "200": {
+            "description": "RFC 9727 API Catalog linkset document"
+          }
+        }
+      }
+    }
+  }
+}

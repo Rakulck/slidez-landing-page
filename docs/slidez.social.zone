@@ -1,0 +1,11 @@
+; DNS for AI Discovery (DNS-AID) Zone snippet for slidez.social
+; Reference: draft-mozleywilliams-dnsop-dnsaid, RFC 9460
+
+$ORIGIN slidez.social.
+$TTL 3600
+
+; Agent-to-Agent (A2A) Discovery Entrypoint
+_a2a._agents.slidez.social.     3600 IN SVCB  1 www.slidez.social. alpn="a2a" port=443 mandatory=alpn,port
+
+; Agent Index Discovery Entrypoint
+_index._agents.slidez.social.   3600 IN HTTPS 1 www.slidez.social. alpn="h2,h3" port=443 mandatory=alpn,port
