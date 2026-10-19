@@ -16,6 +16,20 @@ export const metadata: Metadata = {
     url: "https://www.slidez.social/blog/build-outfits-around-statement-piece",
     type: "article",
     siteName: "Slidez",
+    images: [
+      {
+        url: "https://www.slidez.social/build-outfits-around-statement-piece.jpg",
+        width: 1200,
+        height: 675,
+        alt: "How to Build Outfits Around One Statement Piece",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "How to Build Outfits Around One Statement Piece",
+    description: "Learn how to build outfits around one statement piece. How to choose a statement item, balance it with basics, and style bold pieces for any occasion.",
+    images: ["https://www.slidez.social/build-outfits-around-statement-piece.jpg"],
   },
 };
 
@@ -65,6 +79,18 @@ export default function BlogPost() {
 
           {/* Main Content */}
           <article className="flex-1 max-w-3xl text-black/75 text-lg leading-[1.85]">
+            {/* Featured Image */}
+            <div className="relative w-full aspect-16/9 rounded-3xl overflow-hidden mb-12 shadow-sm border border-black/5 bg-[#f5f5f5]">
+              <Image
+                src="/build-outfits-around-statement-piece.jpg"
+                alt="How to Build Outfits Around One Statement Piece preview"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 768px"
+              />
+            </div>
+
             <p className="mb-6">A single bold piece can carry an entire outfit, a bright coat, a graphic print, a dramatic shoe, but only if everything around it knows to get out of the way.</p>
 <p className="mb-6">The failure mode is familiar: the statement piece is genuinely great, and the outfit around it still does not work, because nothing was built to support it.</p>
 <p className="mb-6">This guide covers how to choose a statement piece, how to build around it correctly, and the balance that keeps it from fighting itself.</p>
