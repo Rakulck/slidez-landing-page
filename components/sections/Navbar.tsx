@@ -31,6 +31,7 @@ const AI_STYLIST_EXTRA_ROUTES = [
   "/free-ai-stylist-app",
   "/ai-virtual-try-on",
   "/try-on-from-anywhere",
+  "/autumn-outfit-generator",
 ];
 
 function isAiStylistRoute(pathname: string): boolean {
