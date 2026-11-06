@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import SummarizePageWithAI from "@/components/sections/SummarizePageWithAI";
 
 const links = [
   {
@@ -60,9 +61,9 @@ export default function Footer() {
       </div>
 
       <div className="relative max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-10 mb-14">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-12 gap-8 lg:gap-12 mb-14">
+          {/* Brand column on the left */}
+          <div className="col-span-2 sm:col-span-4 md:col-span-4 flex flex-col justify-start">
             <Link href="/" className="flex items-center mb-4">
               <Image
                 src="/logo.png"
@@ -72,31 +73,34 @@ export default function Footer() {
                 className="h-12 w-12 mix-blend-screen"
               />
             </Link>
-            <p className="text-white/30 text-sm leading-relaxed max-w-[180px]">
+            <p className="text-white/30 text-sm leading-relaxed max-w-[260px] mb-6">
               Find outfit combinations for any occasion, styled from real brands.
             </p>
+            <SummarizePageWithAI />
           </div>
 
-          {/* Link columns */}
-          {links.map(({ group, items }) => (
-            <div key={group}>
-              <p className="text-white text-xs font-semibold uppercase tracking-widest mb-5">
-                {group}
-              </p>
-              <ul className="flex flex-col gap-3.5">
-                {items.map((item) => (
-                  <li key={item.label}>
-                    <a
-                      href={item.href}
-                      className="text-white/35 text-sm hover:text-white transition-colors duration-200"
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Link columns on the right */}
+          <div className="col-span-2 sm:col-span-4 md:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+            {links.map(({ group, items }) => (
+              <div key={group}>
+                <p className="text-white text-xs font-semibold uppercase tracking-widest mb-5">
+                  {group}
+                </p>
+                <ul className="flex flex-col gap-3.5">
+                  {items.map((item) => (
+                    <li key={item.label}>
+                      <a
+                        href={item.href}
+                        className="text-white/35 text-sm hover:text-white transition-colors duration-200"
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Bottom */}

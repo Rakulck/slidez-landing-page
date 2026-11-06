@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/sections/Navbar";
+import Footer from "@/components/sections/Footer";
 
 export const metadata: Metadata = {
   title: "Privacy Policy – Slidez",
@@ -251,6 +252,7 @@ export default function PrivacyPage() {
 
         </div>
       </main>
+      <Footer />
     </>
   );
 }
