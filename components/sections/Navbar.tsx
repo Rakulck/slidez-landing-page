@@ -32,6 +32,7 @@ const AI_STYLIST_EXTRA_ROUTES = [
   "/ai-virtual-try-on",
   "/try-on-from-anywhere",
   "/autumn-outfit-generator",
+  "/travel-outfit-generator",
 ];
 
 function isAiStylistRoute(pathname: string): boolean {
